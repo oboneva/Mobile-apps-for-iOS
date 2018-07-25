@@ -1,0 +1,5 @@
+IDEWorkspaceChecks.plist
+*.xcuserstate
+*.xcbkptlist
+Tic-Tac-Toe/.DS_Store
+.DS-Store

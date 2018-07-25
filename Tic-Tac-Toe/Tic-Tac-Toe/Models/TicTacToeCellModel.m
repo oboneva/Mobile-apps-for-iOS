@@ -1,0 +1,14 @@
+//
+//  TicTacToeCellModel.m
+//  Tic-Tac-Toe
+//
+//  Created by Ognyanka Boneva on 24.07.18.
+//  Copyright © 2018 Ognyanka Boneva. All rights reserved.
+//
+
+#import "TicTacToeCellModel.h"
+
+@implementation TicTacToeCellModel
+
+
+@end
