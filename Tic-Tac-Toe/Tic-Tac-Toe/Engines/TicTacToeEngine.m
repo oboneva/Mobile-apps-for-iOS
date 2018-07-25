@@ -13,6 +13,15 @@
 #import "BotModel.h"
 #import "HumanModel.h"
 
+@interface GameEngine ()
+
+- (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath;
+- (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
++ (Class)cellType;
+- (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
+
+@end
+
 @interface TicTacToeEngine () <BoardStateDelegate>
 
 @property (strong, nonatomic) NSArray<NSArray<TicTacToeCellModel *> *> *gameMatrix;
@@ -21,41 +30,9 @@
 
 @implementation TicTacToeEngine
 
-+ (instancetype)newEngineWithEmptyCells {
-    TicTacToeEngine* engine = [[TicTacToeEngine alloc] init];
-    if (engine) {
-        NSMutableArray *rows = [[NSMutableArray alloc] init];
-        for (int i = 0; i < ROWS_COUNT; i++) {
-            NSMutableArray *columns = [[NSMutableArray alloc] init];
-            for (int j = 0; j < ITEMS_COUNT; j++) {
-                [columns addObject:[TicTacToeCellModel emptyCell]];
-            }
-            [rows addObject:[[NSArray alloc] initWithArray:columns]];
-        }
-        engine.gameMatrix  = [[NSArray alloc] initWithArray:rows];
-    }
-    
-    return engine;
-}
-
-- (void)newGame {
-    for (int i = 0; i < ROWS_COUNT; i++) {
-        for (int j = 0; j < ITEMS_COUNT; j++) {
-            [self.gameMatrix[i][j] clearCell];
-        }
-    }
-    
-    self.filled_cells = 0;
-    [self setUpPlayers];
-    if ([self.player2 isMemberOfClass:BotModel.class]) {
-        BotModel *temp = (BotModel *)self.player2;
-        temp.boardStateDelegate = self;
-    }
-    
-    [self.endGameDelegate forceRefresh];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
-        [self notifyTheNextPlayer];
-    });
++(Class)cellType
+{
+    return TicTacToeCellModel.class;
 }
 
 - (NSArray<NSIndexPath *> *)availableCells {
@@ -70,71 +47,25 @@
     return accumulated.copy;
 }
 
-- (TicTacToeCellModel *)getCellAtIndex:(NSIndexPath *)indexPath {
-    return self.gameMatrix[indexPath.section][indexPath.item];
-}
-
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath {
     return [super isCellAtIndexPathSelectable:indexPath] && [self.gameMatrix[indexPath.section][indexPath.item] isSelectable];
 }
 
 - (void)setNewContent:(EnumPlayerSymbol)symbol forCellAtIndexPath:(NSIndexPath *)indexPath {
-    self.gameMatrix[indexPath.section][indexPath.item].content = (EnumCell)symbol;
+    TicTacToeCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
+    cell.content = (EnumCell)symbol;
     self.filled_cells++;
 }
 
-- (void)updateRankingForPlayer:(PlayerModel *)player {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableDictionary *scores = [defaults dictionaryForKey:SCORES_KEY].mutableCopy;
-    int currentScores;
-    if (!scores) {
-        scores = [[NSMutableDictionary alloc] init];
-    }
-    if (scores[player.name]) {
-        currentScores = [scores[player.name] intValue];
-    }
-    else {
-        currentScores = 0;
-    }
-
-    if (self.player1.class == self.player2.class) {
-        [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_H_GAME)] forKey:player.name];
-    }
-    else {
-        BotModel *tempBot = (BotModel *)self.player2;
-        if (tempBot.difficulty == EnumDifficultyEasy) {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_EASY_GAME)] forKey:player.name];
-        }
-        else if (tempBot.difficulty == EnumDifficultyMedium) {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_MEDIUM_GAME)] forKey:player.name];
-        }
-        else {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_HARD_GAME)] forKey:player.name];
-        }
-    }
-    [defaults setObject:scores forKey:SCORES_KEY];
-}
-
-- (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath
+{
     [self setNewContent:self.currentPlayer.symbol forCellAtIndexPath:indexPath];
-    if ([self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath])
-    {
-        [self updateRankingForPlayer:self.currentPlayer];
-        NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-        [self.endGameDelegate didEndGameWithWinner:self.currentPlayer];
-        [self.endGameDelegate forceRefresh];
-    }
-    else
-    {
-        [self.endGameDelegate forceRefresh];
-        self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
-            [self notifyTheNextPlayer];
-        });
-    }
 }
 
-
+- (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath
+{
+    return [self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath];
+}
 
 - (BOOL)isWinnerPlayerWithSymbol:(EnumPlayerSymbol)playerSymbol atIndex:(NSIndexPath *)indexPath {
     TicTacToeCellModel *winCell = [TicTacToeCellModel customCellWithContent:(EnumCell)playerSymbol];

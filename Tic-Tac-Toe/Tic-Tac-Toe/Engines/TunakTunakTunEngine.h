@@ -12,6 +12,4 @@
 @class TunakTunakTunCellModel;
 @interface TunakTunakTunEngine : GameEngine
 
-- (TunakTunakTunCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
-
 @end

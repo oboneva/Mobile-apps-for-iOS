@@ -12,6 +12,4 @@
 @class TicTacToeCellModel;
 @interface TicTacToeEngine : GameEngine
 
-- (TicTacToeCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
-
 @end

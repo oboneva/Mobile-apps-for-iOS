@@ -17,7 +17,7 @@
 @property (strong, nonatomic) PlayerModel *player2;
 @property (strong, nonatomic) PlayerModel *currentPlayer;
 
-+ (instancetype) newEngineWithEmptyCells;
+- (instancetype)initWithEmptyCells;
 
 - (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath;

@@ -55,10 +55,10 @@
     return idents;
 }
 
-+ (id)gameEngineFromType:(EnumGame)type {
++ (GameEngine *)gameEngineFromType:(EnumGame)type {
     NSString *identifier = Utilities.gameIdentifiers[[NSNumber numberWithInt:type]];
     
-    return [NSClassFromString(identifier) newEngineWithEmptyCells];
+    return [[NSClassFromString(identifier) alloc] initWithEmptyCells];;
     
     
 }
