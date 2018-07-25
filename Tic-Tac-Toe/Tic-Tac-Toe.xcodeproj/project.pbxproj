@@ -30,9 +30,9 @@
 		FA4C887E2107142500C351DF /* TicTacToeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887D2107142500C351DF /* TicTacToeEngine.m */; };
 		FA4C88812107144900C351DF /* TunakTunakTunEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88802107144900C351DF /* TunakTunakTunEngine.m */; };
 		FA4C8884210715AF00C351DF /* GameEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C8882210715AE00C351DF /* GameEngine.m */; };
-		FA4C88872108605600C351DF /* tunak_yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C88862108605600C351DF /* tunak_yellow.jpg */; };
-		FA4C88892108605E00C351DF /* tunak_red.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C88882108605E00C351DF /* tunak_red.png */; };
-		FA4C888B2108606400C351DF /* tunak_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888A2108606400C351DF /* tunak_green.jpg */; };
+		FA4C888F2108705600C351DF /* tunak_red.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888C2108705400C351DF /* tunak_red.png */; };
+		FA4C88902108705600C351DF /* tunak_yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888D2108705500C351DF /* tunak_yellow.jpg */; };
+		FA4C88912108705600C351DF /* tunak_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888E2108705500C351DF /* tunak_green.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,9 +101,9 @@
 		FA4C88802107144900C351DF /* TunakTunakTunEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TunakTunakTunEngine.m; sourceTree = "<group>"; };
 		FA4C8882210715AE00C351DF /* GameEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEngine.m; path = "Tic-Tac-Toe/Engines/GameEngine.m"; sourceTree = SOURCE_ROOT; };
 		FA4C8883210715AE00C351DF /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEngine.h; path = "Tic-Tac-Toe/Engines/GameEngine.h"; sourceTree = SOURCE_ROOT; };
-		FA4C88862108605600C351DF /* tunak_yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tunak_yellow.jpg; path = ../../../../../Downloads/tunak_yellow.jpg; sourceTree = "<group>"; };
-		FA4C88882108605E00C351DF /* tunak_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tunak_red.png; path = ../../../../../Downloads/tunak_red.png; sourceTree = "<group>"; };
-		FA4C888A2108606400C351DF /* tunak_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tunak_green.jpg; path = ../../../../../Downloads/tunak_green.jpg; sourceTree = "<group>"; };
+		FA4C888C2108705400C351DF /* tunak_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tunak_red.png; sourceTree = "<group>"; };
+		FA4C888D2108705500C351DF /* tunak_yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tunak_yellow.jpg; sourceTree = "<group>"; };
+		FA4C888E2108705500C351DF /* tunak_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tunak_green.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,9 +261,9 @@
 		FA4C88852108602800C351DF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FA4C88862108605600C351DF /* tunak_yellow.jpg */,
-				FA4C888A2108606400C351DF /* tunak_green.jpg */,
-				FA4C88882108605E00C351DF /* tunak_red.png */,
+				FA4C888E2108705500C351DF /* tunak_green.jpg */,
+				FA4C888C2108705400C351DF /* tunak_red.png */,
+				FA4C888D2108705500C351DF /* tunak_yellow.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -372,11 +372,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA4C881E20FC87E400C351DF /* LaunchScreen.storyboard in Resources */,
-				FA4C88872108605600C351DF /* tunak_yellow.jpg in Resources */,
-				FA4C88892108605E00C351DF /* tunak_red.png in Resources */,
+				FA4C888F2108705600C351DF /* tunak_red.png in Resources */,
 				FA4C881B20FC87E400C351DF /* Assets.xcassets in Resources */,
+				FA4C88902108705600C351DF /* tunak_yellow.jpg in Resources */,
 				FA4C881920FC87E200C351DF /* Main.storyboard in Resources */,
-				FA4C888B2108606400C351DF /* tunak_green.jpg in Resources */,
+				FA4C88912108705600C351DF /* tunak_green.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
