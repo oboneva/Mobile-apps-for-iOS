@@ -35,7 +35,6 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
-    
     self.engine.notifyPlayerToPlayDelegate = self.notifyPlayerToPlayDelegate;
     self.engine.endGameDelegate = self.endGameDelegate;
     [self.engine setUpPlayers];
@@ -80,9 +79,12 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
         if (tempCell.colour > EnumColourClear) {
             [cell.backgroundView setHidden:NO];
             cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.colourImageNames[(int)tempCell.colour - 1]]];
+            cell.contentView.layer.borderColor = [UIColor grayColor].CGColor;
+            cell.contentView.layer.borderWidth = 1.0;
         }
         else {
             [cell.backgroundView setHidden:YES];
+            cell.contentView.layer.borderWidth = 0.0;
         }
     }
 }

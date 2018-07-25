@@ -11,6 +11,7 @@
 #import "MultiplePlayersViewController.h"
 #import "GameViewController.h"
 #import "MatrixCollectionViewController.h"
+#import "ScoreboardTableViewController.h"
 
 #import "Utilities.h"
 #import "Constants.h"
@@ -46,7 +47,8 @@
                     GameViewController.class : IDENTIFIER_GAME_VIEW_CONTROLLER,
                     SinglePlayerViewController.class : IDENTIFIER_SINGLE_PLAYER_VIEW_CONTROLLER,
                     MultiplePlayersViewController.class : IDENTIFIER_MULTIPLE_PLAYERS_VIEW_CONTROLLER,
-                    GameViewController.class : IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER
+                    GameViewController.class : IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER,
+                    ScoreboardTableViewController.class : IDENTIFIER_SCOREBOARD_VIEW_CONTROLLER
                   };
     }
     

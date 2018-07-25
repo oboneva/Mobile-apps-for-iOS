@@ -10,16 +10,19 @@
 #define Constants_h
 
 #define IDENTIFIER_GAME_CELL                        @"GameCellIdentifier"
+#define IDENTIFIER_SCOREBOARD_CELL                  @"ScoreboardCellIdentifier"
 
 #define IDENTIFIER_MAIN_VIEW_CONTROLLER             @"MainViewControllerID"
 #define IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER       @"GameTableViewControllerID"
 #define IDENTIFIER_GAME_VIEW_CONTROLLER             @"GameViewControllerID"
 #define IDENTIFIER_MULTIPLE_PLAYERS_VIEW_CONTROLLER @"MultiplePlayersViewControllerID"
 #define IDENTIFIER_SINGLE_PLAYER_VIEW_CONTROLLER    @"SinglePlayerViewControllerID"
+#define IDENTIFIER_SCOREBOARD_VIEW_CONTROLLER       @"ScoreboardTableViewControllerID"
 
 #define ROWS_COUNT                                  3
 #define ITEMS_COUNT                                 3
 #define DIRECTIONS                                  8
+#define SCOREBOARD_SECTIONS                         1
 
 #define EMPTY_CELL                                  @""
 
@@ -28,6 +31,12 @@
 #define TUNAK_TUNAK_TUN_SYMBOL                      EnumCellEmpty
 
 #define LAST_COLOUR                                 EnumColourRed
+
+#define SCORES_KEY                                  @"scores"
+#define SCORES_H_H_GAME                             2
+#define SCORES_H_B_EASY_GAME                        1
+#define SCORES_H_B_MEDIUM_GAME                      2
+#define SCORES_H_B_HARD_GAME                        4
 
 typedef enum : NSUInteger {
     EnumDifficultyEasy = 0,

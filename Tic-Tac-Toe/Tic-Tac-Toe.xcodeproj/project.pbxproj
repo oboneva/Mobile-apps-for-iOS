@@ -33,6 +33,8 @@
 		FA4C888F2108705600C351DF /* tunak_red.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888C2108705400C351DF /* tunak_red.png */; };
 		FA4C88902108705600C351DF /* tunak_yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888D2108705500C351DF /* tunak_yellow.jpg */; };
 		FA4C88912108705600C351DF /* tunak_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888E2108705500C351DF /* tunak_green.jpg */; };
+		FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */; };
+		FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +106,10 @@
 		FA4C888C2108705400C351DF /* tunak_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tunak_red.png; sourceTree = "<group>"; };
 		FA4C888D2108705500C351DF /* tunak_yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tunak_yellow.jpg; sourceTree = "<group>"; };
 		FA4C888E2108705500C351DF /* tunak_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tunak_green.jpg; sourceTree = "<group>"; };
+		FA4C8892210883BB00C351DF /* ScoreboardTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScoreboardTableViewController.h; sourceTree = "<group>"; };
+		FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScoreboardTableViewController.m; sourceTree = "<group>"; };
+		FA4C889521089D6300C351DF /* ScoreboardTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScoreboardTableViewCell.h; sourceTree = "<group>"; };
+		FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScoreboardTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +204,8 @@
 				FA4C886E20FF77A900C351DF /* SinglePlayerViewController.m */,
 				FA4C886A20FF764C00C351DF /* MultiplePlayersViewController.h */,
 				FA4C886B20FF764C00C351DF /* MultiplePlayersViewController.m */,
+				FA4C8892210883BB00C351DF /* ScoreboardTableViewController.h */,
+				FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */,
 				FA4C886620FF723A00C351DF /* GameViewController.h */,
 				FA4C886720FF723A00C351DF /* GameViewController.m */,
 				FA4C884320FC895600C351DF /* MatrixCollectionViewController.h */,
@@ -239,6 +247,8 @@
 		FA4C885620FCB05B00C351DF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FA4C889521089D6300C351DF /* ScoreboardTableViewCell.h */,
+				FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */,
 				FA4C885C20FCDC0800C351DF /* GameCell.h */,
 				FA4C885D20FCDC0800C351DF /* GameCell.m */,
 			);
@@ -412,6 +422,7 @@
 				FA4C886120FE201600C351DF /* PlayerModel.m in Sources */,
 				FA4C884520FC895600C351DF /* MatrixCollectionViewController.m in Sources */,
 				FA4C881320FC87E200C351DF /* AppDelegate.m in Sources */,
+				FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */,
 				FA4C886C20FF764C00C351DF /* MultiplePlayersViewController.m in Sources */,
 				FA4C88812107144900C351DF /* TunakTunakTunEngine.m in Sources */,
 				FA4C887220FF811B00C351DF /* HumanModel.m in Sources */,
@@ -419,6 +430,7 @@
 				FA4C884E20FC8FAE00C351DF /* GameCellModel.m in Sources */,
 				FA4C885E20FCDC0800C351DF /* GameCell.m in Sources */,
 				FA4C8884210715AF00C351DF /* GameEngine.m in Sources */,
+				FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

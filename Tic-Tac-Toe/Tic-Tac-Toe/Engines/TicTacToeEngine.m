@@ -11,6 +11,7 @@
 #import "TicTacToeCellModel.h"
 #import "PlayerModel.h"
 #import "BotModel.h"
+#import "HumanModel.h"
 
 @interface TicTacToeEngine () <BoardStateDelegate>
 
@@ -82,10 +83,44 @@
     self.filled_cells++;
 }
 
+- (void)updateRankingForPlayer:(PlayerModel *)player {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *scores = [defaults dictionaryForKey:SCORES_KEY].mutableCopy;
+    int currentScores;
+    if (!scores) {
+        scores = [[NSMutableDictionary alloc] init];
+    }
+    if (scores[player.name]) {
+        currentScores = [scores[player.name] intValue];
+    }
+    else {
+        currentScores = 0;
+    }
+
+    if (self.player1.class == self.player2.class) {
+        [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_H_GAME)] forKey:player.name];
+    }
+    else {
+        BotModel *tempBot = (BotModel *)self.player2;
+        if (tempBot.difficulty == EnumDifficultyEasy) {
+            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_EASY_GAME)] forKey:player.name];
+        }
+        else if (tempBot.difficulty == EnumDifficultyMedium) {
+            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_MEDIUM_GAME)] forKey:player.name];
+        }
+        else {
+            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_HARD_GAME)] forKey:player.name];
+        }
+    }
+    [defaults setObject:scores forKey:SCORES_KEY];
+}
+
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
     [self setNewContent:self.currentPlayer.symbol forCellAtIndexPath:indexPath];
     if ([self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath])
     {
+        [self updateRankingForPlayer:self.currentPlayer];
+        NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
         [self.endGameDelegate didEndGameWithWinner:self.currentPlayer];
         [self.endGameDelegate forceRefresh];
     }
@@ -98,6 +133,8 @@
         });
     }
 }
+
+
 
 - (BOOL)isWinnerPlayerWithSymbol:(EnumPlayerSymbol)playerSymbol atIndex:(NSIndexPath *)indexPath {
     TicTacToeCellModel *winCell = [TicTacToeCellModel customCellWithContent:(EnumCell)playerSymbol];

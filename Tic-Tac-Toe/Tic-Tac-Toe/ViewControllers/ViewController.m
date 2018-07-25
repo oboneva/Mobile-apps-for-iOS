@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "SinglePlayerViewController.h"
 #import "MultiplePlayersViewController.h"
+#import "ScoreboardTableViewController.h"
 
 #import "Utilities.h"
 
@@ -37,6 +38,11 @@
 - (IBAction)onMultiplePlayers:(id)sender {
     MultiplePlayersViewController *playersViewController = (MultiplePlayersViewController *)[Utilities viewControllerWithClass:MultiplePlayersViewController.class];
     [self.navigationController pushViewController:playersViewController animated:YES];
+}
+
+- (IBAction)onScoreboardTap:(id)sender {
+    ScoreboardTableViewController *scoreboardViewController = (ScoreboardTableViewController *)[Utilities viewControllerWithClass:ScoreboardTableViewController.class];
+    [self.navigationController pushViewController:scoreboardViewController animated:YES];
 }
 
 @end
