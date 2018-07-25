@@ -39,7 +39,7 @@
 }
 
 - (BOOL)isSelectable {
-    return self.colour != EnumColourBlue;
+    return self.colour != LAST_COLOUR;
 }
 
 @end

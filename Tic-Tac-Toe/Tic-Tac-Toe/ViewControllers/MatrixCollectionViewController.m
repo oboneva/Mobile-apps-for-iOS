@@ -24,7 +24,7 @@
 
 @property (strong, nonatomic) PlayerModel *player1;
 @property (strong, nonatomic) PlayerModel *player2;
-@property (strong, nonatomic) NSArray<UIColor *> *colours;
+@property (strong, nonatomic) NSArray<NSString *> *colourImageNames;
 
 @end
 
@@ -40,13 +40,7 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
     self.engine.endGameDelegate = self.endGameDelegate;
     [self.engine setUpPlayers];
     
-    UIColor *clear = [UIColor clearColor];
-    UIColor *black = [UIColor blackColor];
-    UIColor *green = [[UIColor alloc] initWithRed:0/255 green:1.0 blue:128/255 alpha:1.0];
-    UIColor *blue = [[UIColor alloc] initWithRed:102/255 green:255/255 blue:255/255 alpha:1.0];
-    UIColor *yellow = [[UIColor alloc] initWithRed:255/255 green:255/255 blue:102/255 alpha:1.0];
-    
-    self.colours = @[clear, black, yellow, green, blue];
+    self.colourImageNames = @[@"tunak_yellow.jpg", @"tunak_green.jpg", @"tunak_red.png"];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -83,7 +77,13 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
 - (void)setTextColourFromModel:(GameCellModel *)model toCell:(GameCell *)cell {
     if ([self.engine isMemberOfClass:TunakTunakTunEngine.class]) {
         TunakTunakTunCellModel *tempCell = (TunakTunakTunCellModel *)model;
-        cell.contentLabel.textColor = self.colours[tempCell.colour];
+        if (tempCell.colour > EnumColourClear) {
+            [cell.backgroundView setHidden:NO];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.colourImageNames[(int)tempCell.colour - 1]]];
+        }
+        else {
+            [cell.backgroundView setHidden:YES];
+        }
     }
 }
 

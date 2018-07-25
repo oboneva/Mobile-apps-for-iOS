@@ -25,7 +25,9 @@
 
 #define FIRST_PLAYER_SYMBOL                         EnumCellWithX
 #define SECOND_PLAYER_SYMBOL                        EnumCellWithO
-#define TUNAK_TUNAK_TUN_SYMBOL                      EnumCellWithO
+#define TUNAK_TUNAK_TUN_SYMBOL                      EnumCellEmpty
+
+#define LAST_COLOUR                                 EnumColourRed
 
 typedef enum : NSUInteger {
     EnumDifficultyEasy = 0,
@@ -41,10 +43,9 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     EnumColourClear = 0,
-    EnumColourBlack,
     EnumColourYellow,
     EnumColourGreen,
-    EnumColourBlue,
+    EnumColourRed,
 } EnumColour;
 
 typedef enum : NSInteger {

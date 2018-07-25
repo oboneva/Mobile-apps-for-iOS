@@ -75,7 +75,7 @@
 
 - (void)setNewColourForCellAtIndexPath:(NSIndexPath *)indexPath {
     self.gameMatrix[indexPath.section][indexPath.item].colour++;
-    if (self.gameMatrix[indexPath.section][indexPath.item].colour == EnumColourBlue) {
+    if (self.gameMatrix[indexPath.section][indexPath.item].colour == LAST_COLOUR) {
         self.filled_cells++;
     }
 }
