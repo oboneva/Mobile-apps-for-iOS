@@ -16,7 +16,7 @@
 
 #import "Utilities.h"
 
-@interface MultiplePlayersViewController ()
+@interface MultiplePlayersViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *firstPlayerName;
 @property (weak, nonatomic) IBOutlet UITextField *secondPlayerName;
 @property (assign) EnumGame gameType;
@@ -33,6 +33,8 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    self.firstPlayerName.delegate = self;
+    self.secondPlayerName.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,6 +45,12 @@
 -(void)dismissKeyboard {
     [self.view endEditing:YES];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 - (IBAction)onPlayTap:(id)sender {
     GameViewController *gameController = (GameViewController *)[Utilities viewControllerWithClass:GameViewController.class];

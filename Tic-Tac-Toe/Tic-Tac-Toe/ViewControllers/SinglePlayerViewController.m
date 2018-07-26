@@ -16,7 +16,7 @@
 #import "Utilities.h"
 
 
-@interface SinglePlayerViewController ()
+@interface SinglePlayerViewController () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *playerName;
 @property (weak, nonatomic) IBOutlet UIPickerView *difficultyPicker;
@@ -40,11 +40,17 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    self.playerName.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 -(void)dismissKeyboard {

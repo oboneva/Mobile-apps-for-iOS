@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SinglePlayerViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SinglePlayerViewController : UIViewController
 
 @end

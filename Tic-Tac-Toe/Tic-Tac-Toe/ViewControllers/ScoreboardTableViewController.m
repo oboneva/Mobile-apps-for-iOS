@@ -21,6 +21,8 @@
 @property (strong, nonatomic) NSDictionary *scoreboardData;
 @property (strong, nonatomic) NSArray *lostGamesData;
 @property (strong, nonatomic) NSArray *playersNamesFromScoreboard;
+@property (strong, nonatomic) IBOutlet UIView *loserSectionHeader;
+@property (strong, nonatomic) IBOutlet UIView *winnerSectionHeader;
 
 @end
 
@@ -53,26 +55,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return self.playersNamesFromScoreboard.count + 1;
+        return self.playersNamesFromScoreboard.count;
     }
     else {
-        return self.lostGamesData.count + 1;
+        return self.lostGamesData.count;
     }
 }
 
 - (UITableViewCell *)customizeCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
-        scoreboardCell.rankLabel.text = [NSString stringWithFormat:@"%d.", indexPath.row];
-        scoreboardCell.nameLabel.text = self.playersNamesFromScoreboard[indexPath.row - 1];
+        scoreboardCell.rankLabel.text = [NSString stringWithFormat:@"%d.", indexPath.row + 1];
+        scoreboardCell.nameLabel.text = self.playersNamesFromScoreboard[indexPath.row];
         [scoreboardCell.nameLabel sizeToFit];
-        scoreboardCell.pointsLabel.text = [self.scoreboardData[self.playersNamesFromScoreboard[indexPath.row - 1]] stringValue];
+        scoreboardCell.pointsLabel.text = [self.scoreboardData[self.playersNamesFromScoreboard[indexPath.row]] stringValue];
         
         cell = scoreboardCell;
     }
     else {
         LostGamesTableViewCell *lostGameCell = (LostGamesTableViewCell *)cell;
-        LostGamesDataModel *model = self.lostGamesData[indexPath.row - 1];
+        LostGamesDataModel *model = self.lostGamesData[indexPath.row];
         lostGameCell.playerName.text = model.playerName;
         lostGameCell.BotName.text = model.botName;
         lostGameCell.numberOfLostGames.text = [NSString stringWithFormat:@"%d", model.countOfGamesLost ];
@@ -87,41 +89,41 @@
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_SCOREBOARD_CELL forIndexPath:indexPath];
         ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
-        if (indexPath.row == 0) {
-            scoreboardCell.rankLabel.text = @"Rank";
-            scoreboardCell.pointsLabel.text = @"Score";
-            scoreboardCell.nameLabel.text = @"Name";
-        }
-        else {
-            [self customizeCell:scoreboardCell atIndexPath:indexPath];
-        }
+        [self customizeCell:scoreboardCell atIndexPath:indexPath];
+        
         cell = scoreboardCell;
     }
     else {
         cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_LOST_GAMES_CELL forIndexPath:indexPath];
         LostGamesTableViewCell *lostGameCell = (LostGamesTableViewCell *)cell;
-        if (indexPath.row == 0) {
-            lostGameCell.playerName.text = @"Player";
-            lostGameCell.BotName.text = @"Lost from";
-            lostGameCell.numberOfLostGames.text = @"Lost games";
-            [lostGameCell.numberOfLostGames sizeToFit];
-        }
-        else {
-            [self customizeCell:lostGameCell atIndexPath:indexPath];
-        }
+        [self customizeCell:lostGameCell atIndexPath:indexPath];
         cell = lostGameCell;
     }
     
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return @"Ranking";
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return self.winnerSectionHeader;
     }
-    else {
-        return @"Wall of Shame";
-    }
+    return self.loserSectionHeader;
 }
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return self.sectionHeader.frame.size.height;
+//}
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        return @"Ranking";
+//    }
+//    else {
+//        return @"Wall of Shame";
+//    }
+//}
 
 @end
