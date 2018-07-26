@@ -16,6 +16,10 @@
 #import "Utilities.h"
 #import "Constants.h"
 
+#import "BotMediumModel.h"
+#import "BotEasyModel.h"
+#import "BotHardModel.h"
+
 #import "TicTacToeEngine.h"
 #import "TunakTunakTunEngine.h"
 
@@ -57,10 +61,7 @@
 
 + (GameEngine *)gameEngineFromType:(EnumGame)type {
     NSString *identifier = Utilities.gameIdentifiers[[NSNumber numberWithInt:type]];
-    
-    return [[NSClassFromString(identifier) alloc] initWithEmptyCells];;
-    
-    
+    return [[NSClassFromString(identifier) alloc] initWithEmptyCells];
 }
 
 + (NSDictionary<NSNumber *, NSString *> *) gameIdentifiers {
@@ -68,6 +69,22 @@
     if (!idents) {
         idents = @{ [NSNumber numberWithInt:EnumGameTicTacToe] : NSStringFromClass(TicTacToeEngine.class),
                     [NSNumber numberWithInt:EnumGameTunakTunakTun] : NSStringFromClass(TunakTunakTunEngine.class)
+                    };
+    }
+    return idents;
+}
+
++ (id) botWithDifficulty:(EnumDifficulty)difficulty {
+    NSString *identifier = Utilities.botIdentifiers[[NSNumber numberWithInt:difficulty]];
+    return [[NSClassFromString(identifier) alloc] initWithName];
+}
+
++ (NSDictionary<NSNumber *, NSString *> *) botIdentifiers {
+    static NSDictionary<NSNumber *, NSString *> *idents = nil;
+    if (!idents) {
+        idents = @{ [NSNumber numberWithInt:EnumDifficultyEasy] : NSStringFromClass(BotEasyModel.class),
+                    [NSNumber numberWithInt:EnumDifficultyMedium] : NSStringFromClass(BotMediumModel.class),
+                    [NSNumber numberWithInt:EnumDifficultyHard] : NSStringFromClass(BotHardModel.class)
                     };
     }
     return idents;

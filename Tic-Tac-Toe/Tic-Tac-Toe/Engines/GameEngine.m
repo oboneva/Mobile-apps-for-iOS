@@ -11,10 +11,16 @@
 #import "Constants.h"
 #import "Utilities.h"
 #import "Protocols.h"
+#import "UserDefaultsManager.h"
 
 #import "GameCellModel.h"
 #import "PlayerModel.h"
+#import "HumanModel.h"
 #import "BotModel.h"
+#import "BotMediumModel.h"
+#import "BotEasyModel.h"
+#import "BotHardModel.h"
+#import "LostGamesDataModel.h"
 
 #import <UIKit/UIKit.h>
 
@@ -23,7 +29,7 @@
 @property (strong, nonatomic) NSArray<NSArray<GameCellModel *> *> *gameMatrix;
 - (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath;
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
--(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
+- (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -47,8 +53,7 @@
     return self;
 }
 
-+(Class)cellType
-{
++(Class)cellType {
     return GameCellModel.class;
 }
 
@@ -63,15 +68,17 @@
 
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
     [self markCellSelectedAtIndexPath:indexPath];
-    if ([self isWinnerPlayerAtIndex:indexPath])
-    {
-        [self updateRankingForPlayer:self.currentPlayer];
-        NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+    if ([self isWinnerPlayerAtIndex:indexPath]) {
+        if ([self.currentPlayer isMemberOfClass:HumanModel.class]) {
+            [self updateRankingForHumanPlayer:self.currentPlayer];
+        }
+        else {
+            [self updateLostGames];
+        }
         [self.endGameDelegate didEndGameWithWinner:self.currentPlayer];
         [self.endGameDelegate forceRefresh];
     }
-    else
-    {
+    else {
         [self.endGameDelegate forceRefresh];
         self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
@@ -80,9 +87,13 @@
     }
 }
 
-- (void)updateRankingForPlayer:(PlayerModel *)player {
+- (BOOL)isHumanAgainstHumanGame {
+    return [self.player1.class isEqual:self.player2.class];
+}
+
+- (void)updateRankingForHumanPlayer:(PlayerModel *)player {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableDictionary *scores = [defaults dictionaryForKey:SCORES_KEY].mutableCopy;
+    NSMutableDictionary *scores = [defaults dictionaryForKey:HUMAN_SCORES_KEY].mutableCopy;
     int currentScores;
     if (!scores) {
         scores = [[NSMutableDictionary alloc] init];
@@ -94,22 +105,37 @@
         currentScores = 0;
     }
     
-    if ([self.player1.class isEqual:self.player2.class]) {
+    if ([self isHumanAgainstHumanGame]) {
         [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_H_GAME)] forKey:player.name];
     }
     else {
-        BotModel *tempBot = (BotModel *)self.player2;
-        if (tempBot.difficulty == EnumDifficultyEasy) {
+        if ([self.player2 isMemberOfClass:BotEasyModel.class]) {
             [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_EASY_GAME)] forKey:player.name];
         }
-        else if (tempBot.difficulty == EnumDifficultyMedium) {
+        else if ([self.player2 isMemberOfClass:BotMediumModel.class]) {
             [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_MEDIUM_GAME)] forKey:player.name];
         }
         else {
             [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_HARD_GAME)] forKey:player.name];
         }
     }
-    [defaults setObject:scores forKey:SCORES_KEY];
+    [defaults setObject:scores forKey:HUMAN_SCORES_KEY];
+}
+
+- (void)updateLostGames {
+    NSMutableArray<LostGamesDataModel *> *lostGames = [UserDefaultsManager loadCustomObject].mutableCopy;
+    BOOL flag = false;
+    for (LostGamesDataModel *data in lostGames) {
+        if ([data.playerName isEqualToString:self.player1.name] && [data.botName isEqualToString:self.currentPlayer.name]) {
+            flag = true;
+            data.countOfGamesLost++;
+        }
+    }
+    if(!flag) {
+        [lostGames addObject:[[LostGamesDataModel alloc] initWithPlayerName:self.player1.name andBotname:self.currentPlayer.name]];
+    }
+    
+    [UserDefaultsManager saveCustomObject:lostGames.copy];
 }
 
 - (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath {
@@ -153,7 +179,7 @@
     
     self.filled_cells = 0;
     [self setUpPlayers];
-    if ([self.player2 isMemberOfClass:BotModel.class]) {
+    if ([self.player2 isKindOfClass:BotModel.class]) {
         BotModel *temp = (BotModel *)self.player2;
         temp.boardStateDelegate = self;
     }

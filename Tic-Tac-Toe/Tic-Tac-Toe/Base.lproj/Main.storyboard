@@ -179,13 +179,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1s-VX-HQS">
-                                            <rect key="frame" x="273" y="12" width="42" height="21"/>
+                                            <rect key="frame" x="293" y="12" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDB-5a-7lI">
-                                            <rect key="frame" x="90" y="12" width="61.5" height="21"/>
+                                            <rect key="frame" x="50" y="12" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -199,11 +199,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="u62-K0-SQ1" firstAttribute="centerX" secondItem="LLx-5V-Ab9" secondAttribute="centerX" id="2dD-DY-zre"/>
-                                        <constraint firstItem="IDB-5a-7lI" firstAttribute="leading" secondItem="LLx-5V-Ab9" secondAttribute="leading" constant="90" id="J4Z-3v-jJ9"/>
-                                        <constraint firstItem="e1s-VX-HQS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="u62-K0-SQ1" secondAttribute="trailing" constant="64.5" id="USo-AO-sH4"/>
-                                        <constraint firstItem="u62-K0-SQ1" firstAttribute="leading" secondItem="IDB-5a-7lI" secondAttribute="trailing" constant="15" id="eda-VW-gce"/>
+                                        <constraint firstItem="IDB-5a-7lI" firstAttribute="leading" secondItem="LLx-5V-Ab9" secondAttribute="leading" constant="50" id="J4Z-3v-jJ9"/>
                                         <constraint firstItem="e1s-VX-HQS" firstAttribute="centerY" secondItem="LLx-5V-Ab9" secondAttribute="centerY" id="sYq-fT-LrI"/>
-                                        <constraint firstAttribute="trailing" secondItem="e1s-VX-HQS" secondAttribute="trailing" constant="60" id="tgp-fb-Wv5"/>
+                                        <constraint firstAttribute="trailing" secondItem="e1s-VX-HQS" secondAttribute="trailing" constant="40" id="tgp-fb-Wv5"/>
                                         <constraint firstItem="IDB-5a-7lI" firstAttribute="centerY" secondItem="LLx-5V-Ab9" secondAttribute="centerY" id="uLG-bD-d23"/>
                                         <constraint firstItem="u62-K0-SQ1" firstAttribute="centerY" secondItem="LLx-5V-Ab9" secondAttribute="centerY" id="zyx-bk-nzQ"/>
                                     </constraints>
@@ -212,6 +210,47 @@
                                     <outlet property="nameLabel" destination="u62-K0-SQ1" id="KY7-90-UPJ"/>
                                     <outlet property="pointsLabel" destination="e1s-VX-HQS" id="qS8-vm-5V7"/>
                                     <outlet property="rankLabel" destination="IDB-5a-7lI" id="Ezg-mh-xLP"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LostGamesTableViewCellIdentifier" id="ad1-w4-zvn" customClass="LostGamesTableViewCell">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ad1-w4-zvn" id="1hy-kz-dub">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TOm-b1-ewl">
+                                            <rect key="frame" x="50" y="11.5" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soA-Wq-7TL">
+                                            <rect key="frame" x="293" y="11.5" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53h-aE-fcU">
+                                            <rect key="frame" x="166" y="11.5" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="TOm-b1-ewl" firstAttribute="centerY" secondItem="1hy-kz-dub" secondAttribute="centerY" id="4yf-r2-ukf"/>
+                                        <constraint firstItem="53h-aE-fcU" firstAttribute="centerY" secondItem="1hy-kz-dub" secondAttribute="centerY" id="5ud-Qk-R87"/>
+                                        <constraint firstItem="soA-Wq-7TL" firstAttribute="centerY" secondItem="1hy-kz-dub" secondAttribute="centerY" id="G2z-IY-GMU"/>
+                                        <constraint firstItem="53h-aE-fcU" firstAttribute="centerX" secondItem="1hy-kz-dub" secondAttribute="centerX" id="LM7-CJ-OUI"/>
+                                        <constraint firstAttribute="trailing" secondItem="soA-Wq-7TL" secondAttribute="trailing" constant="40" id="UOv-TM-qDQ"/>
+                                        <constraint firstItem="TOm-b1-ewl" firstAttribute="leading" secondItem="1hy-kz-dub" secondAttribute="leading" constant="50" id="eqN-Zy-hQ1"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="BotName" destination="53h-aE-fcU" id="WnW-k0-bs0"/>
+                                    <outlet property="numberOfLostGames" destination="soA-Wq-7TL" id="OPm-fi-set"/>
+                                    <outlet property="playerName" destination="TOm-b1-ewl" id="Q3b-yc-3DN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

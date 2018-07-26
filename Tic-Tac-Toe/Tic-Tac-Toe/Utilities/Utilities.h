@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 
+@class GameEngine;
+@class BotModel;
+
 @interface Utilities : NSObject
 
 + (int)randomNumberWithUpperBound:(int)upperBound;
 + (UIViewController *) viewControllerWithClass:(Class)class;
-+ (id)gameEngineFromType:(EnumGame)type;
++ (GameEngine *)gameEngineFromType:(EnumGame)type;
++ (BotModel *) botWithDifficulty:(EnumDifficulty)difficulty;
 
 @end

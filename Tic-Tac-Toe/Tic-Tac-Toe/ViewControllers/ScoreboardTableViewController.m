@@ -9,13 +9,18 @@
 #import "ScoreboardTableViewController.h"
 
 #import "ScoreboardTableViewCell.h"
+#import "LostGamesTableViewCell.h"
+
+#import "LostGamesDataModel.h"
 
 #import "Constants.h"
+#import "UserDefaultsManager.h"
 
 @interface ScoreboardTableViewController ()
 
 @property (strong, nonatomic) NSDictionary *scoreboardData;
-@property (strong, nonatomic) NSArray *playersNames;
+@property (strong, nonatomic) NSArray *lostGamesData;
+@property (strong, nonatomic) NSArray *playersNamesFromScoreboard;
 
 @end
 
@@ -26,10 +31,13 @@
     [self.view setUserInteractionEnabled:NO];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.scoreboardData = [defaults dictionaryForKey:SCORES_KEY];
-    self.playersNames = [self.scoreboardData keysSortedByValueUsingComparator:^NSComparisonResult(NSNumber *a, NSNumber *b) {
+    
+    self.scoreboardData = [defaults dictionaryForKey:HUMAN_SCORES_KEY];
+    self.playersNamesFromScoreboard = [self.scoreboardData keysSortedByValueUsingComparator:^NSComparisonResult(NSNumber *a, NSNumber *b) {
         return [b compare:a];
     }];
+    
+    self.lostGamesData = [UserDefaultsManager loadCustomObject];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,23 +52,76 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.playersNames.count;
+    if (section == 0) {
+        return self.playersNamesFromScoreboard.count + 1;
+    }
+    else {
+        return self.lostGamesData.count + 1;
+    }
+}
+
+- (UITableViewCell *)customizeCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
+        scoreboardCell.rankLabel.text = [NSString stringWithFormat:@"%d.", indexPath.row];
+        scoreboardCell.nameLabel.text = self.playersNamesFromScoreboard[indexPath.row - 1];
+        [scoreboardCell.nameLabel sizeToFit];
+        scoreboardCell.pointsLabel.text = [self.scoreboardData[self.playersNamesFromScoreboard[indexPath.row - 1]] stringValue];
+        
+        cell = scoreboardCell;
+    }
+    else {
+        LostGamesTableViewCell *lostGameCell = (LostGamesTableViewCell *)cell;
+        LostGamesDataModel *model = self.lostGamesData[indexPath.row - 1];
+        lostGameCell.playerName.text = model.playerName;
+        lostGameCell.BotName.text = model.botName;
+        lostGameCell.numberOfLostGames.text = [NSString stringWithFormat:@"%d", model.countOfGamesLost ];
+        cell = lostGameCell;
+    }
+    
+    return cell;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ScoreboardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_SCOREBOARD_CELL forIndexPath:indexPath];
-    
-    cell.rankLabel.text = [NSString stringWithFormat:@"%d.", indexPath.row + 1];
-    cell.nameLabel.text = self.playersNames[indexPath.row];
-    [cell.nameLabel sizeToFit];
-    cell.pointsLabel.text = [self.scoreboardData[self.playersNames[indexPath.row]] stringValue];
+    UITableViewCell *cell;
+    if (indexPath.section == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_SCOREBOARD_CELL forIndexPath:indexPath];
+        ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
+        if (indexPath.row == 0) {
+            scoreboardCell.rankLabel.text = @"Rank";
+            scoreboardCell.pointsLabel.text = @"Score";
+            scoreboardCell.nameLabel.text = @"Name";
+        }
+        else {
+            [self customizeCell:scoreboardCell atIndexPath:indexPath];
+        }
+        cell = scoreboardCell;
+    }
+    else {
+        cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_LOST_GAMES_CELL forIndexPath:indexPath];
+        LostGamesTableViewCell *lostGameCell = (LostGamesTableViewCell *)cell;
+        if (indexPath.row == 0) {
+            lostGameCell.playerName.text = @"Player";
+            lostGameCell.BotName.text = @"Lost from";
+            lostGameCell.numberOfLostGames.text = @"Lost games";
+            [lostGameCell.numberOfLostGames sizeToFit];
+        }
+        else {
+            [self customizeCell:lostGameCell atIndexPath:indexPath];
+        }
+        cell = lostGameCell;
+    }
     
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Ranking";
+    if (section == 0) {
+        return @"Ranking";
+    }
+    else {
+        return @"Wall of Shame";
+    }
 }
-
 
 @end

@@ -10,7 +10,6 @@
 
 #import "TicTacToeCellModel.h"
 #import "PlayerModel.h"
-#import "BotModel.h"
 #import "HumanModel.h"
 
 @interface GameEngine ()

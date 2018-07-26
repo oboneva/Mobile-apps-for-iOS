@@ -10,7 +10,6 @@
 
 #import "TunakTunakTunCellModel.h"
 #import "PlayerModel.h"
-#import "BotModel.h"
 
 @interface GameEngine ()
 

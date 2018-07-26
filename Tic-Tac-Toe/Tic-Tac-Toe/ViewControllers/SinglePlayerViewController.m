@@ -10,7 +10,6 @@
 #import "GameViewController.h"
 
 #import "HumanModel.h"
-#import "BotModel.h"
 
 #import "GameEngine.h"
 
@@ -78,7 +77,7 @@
 - (IBAction)onPlayTap:(id)sender {
     GameViewController *gameController = (GameViewController *)[Utilities viewControllerWithClass:GameViewController.class];
     HumanModel *player1 = [[HumanModel alloc] initWithName:self.playerName.text];
-    BotModel *player2 = [[BotModel alloc] initWithName:@"G-Eazy" andDifficulty:self.difficulty];
+    BotModel *player2 = [Utilities botWithDifficulty:self.difficulty];
 
     GameEngine *engine = [Utilities gameEngineFromType:self.gameType];
     engine.player1 = player1;

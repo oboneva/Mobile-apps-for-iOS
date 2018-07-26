@@ -12,8 +12,6 @@
 
 @implementation PlayerModel
 
-- (void)makeMove {};
-
 - (instancetype) initWithName:(NSString *)name {
     self = [super init];
     if (self) {

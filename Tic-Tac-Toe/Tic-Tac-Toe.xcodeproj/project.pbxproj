@@ -24,7 +24,7 @@
 		FA4C886C20FF764C00C351DF /* MultiplePlayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C886B20FF764C00C351DF /* MultiplePlayersViewController.m */; };
 		FA4C886F20FF77A900C351DF /* SinglePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C886E20FF77A900C351DF /* SinglePlayerViewController.m */; };
 		FA4C887220FF811B00C351DF /* HumanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887120FF811B00C351DF /* HumanModel.m */; };
-		FA4C887520FF813200C351DF /* BotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887420FF813200C351DF /* BotModel.m */; };
+		FA4C887520FF813200C351DF /* BotMediumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887420FF813200C351DF /* BotMediumModel.m */; };
 		FA4C887821070D1400C351DF /* TicTacToeCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887721070D1400C351DF /* TicTacToeCellModel.m */; };
 		FA4C887B21070D3000C351DF /* TunakTunakTunCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887A21070D3000C351DF /* TunakTunakTunCellModel.m */; };
 		FA4C887E2107142500C351DF /* TicTacToeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C887D2107142500C351DF /* TicTacToeEngine.m */; };
@@ -35,6 +35,12 @@
 		FA4C88912108705600C351DF /* tunak_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA4C888E2108705500C351DF /* tunak_green.jpg */; };
 		FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */; };
 		FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */; };
+		FA4C889A2109ACA500C351DF /* BotEasyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88992109ACA500C351DF /* BotEasyModel.m */; };
+		FA4C889D2109AD3500C351DF /* BotHardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C889C2109AD3500C351DF /* BotHardModel.m */; };
+		FA4C88A02109DEA700C351DF /* BotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C889F2109DEA700C351DF /* BotModel.m */; };
+		FA4C88A32109F6DC00C351DF /* LostGamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A22109F6DC00C351DF /* LostGamesTableViewCell.m */; };
+		FA4C88A6210A015C00C351DF /* LostGamesDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A5210A015C00C351DF /* LostGamesDataModel.m */; };
+		FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A8210A085300C351DF /* UserDefaultsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,8 +97,8 @@
 		FA4C886E20FF77A900C351DF /* SinglePlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinglePlayerViewController.m; sourceTree = "<group>"; };
 		FA4C887020FF811B00C351DF /* HumanModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HumanModel.h; sourceTree = "<group>"; };
 		FA4C887120FF811B00C351DF /* HumanModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HumanModel.m; sourceTree = "<group>"; };
-		FA4C887320FF813200C351DF /* BotModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BotModel.h; sourceTree = "<group>"; };
-		FA4C887420FF813200C351DF /* BotModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BotModel.m; sourceTree = "<group>"; };
+		FA4C887320FF813200C351DF /* BotMediumModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BotMediumModel.h; sourceTree = "<group>"; };
+		FA4C887420FF813200C351DF /* BotMediumModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BotMediumModel.m; sourceTree = "<group>"; };
 		FA4C887621070D1400C351DF /* TicTacToeCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TicTacToeCellModel.h; sourceTree = "<group>"; };
 		FA4C887721070D1400C351DF /* TicTacToeCellModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicTacToeCellModel.m; sourceTree = "<group>"; };
 		FA4C887921070D3000C351DF /* TunakTunakTunCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunakTunakTunCellModel.h; sourceTree = "<group>"; };
@@ -110,6 +116,18 @@
 		FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScoreboardTableViewController.m; sourceTree = "<group>"; };
 		FA4C889521089D6300C351DF /* ScoreboardTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScoreboardTableViewCell.h; sourceTree = "<group>"; };
 		FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScoreboardTableViewCell.m; sourceTree = "<group>"; };
+		FA4C88982109ACA500C351DF /* BotEasyModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BotEasyModel.h; sourceTree = "<group>"; };
+		FA4C88992109ACA500C351DF /* BotEasyModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BotEasyModel.m; sourceTree = "<group>"; };
+		FA4C889B2109AD3500C351DF /* BotHardModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BotHardModel.h; sourceTree = "<group>"; };
+		FA4C889C2109AD3500C351DF /* BotHardModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BotHardModel.m; sourceTree = "<group>"; };
+		FA4C889E2109DEA700C351DF /* BotModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BotModel.h; sourceTree = "<group>"; };
+		FA4C889F2109DEA700C351DF /* BotModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BotModel.m; sourceTree = "<group>"; };
+		FA4C88A12109F6DC00C351DF /* LostGamesTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LostGamesTableViewCell.h; sourceTree = "<group>"; };
+		FA4C88A22109F6DC00C351DF /* LostGamesTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LostGamesTableViewCell.m; sourceTree = "<group>"; };
+		FA4C88A4210A015C00C351DF /* LostGamesDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LostGamesDataModel.h; sourceTree = "<group>"; };
+		FA4C88A5210A015C00C351DF /* LostGamesDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LostGamesDataModel.m; sourceTree = "<group>"; };
+		FA4C88A7210A085300C351DF /* UserDefaultsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsManager.h; sourceTree = "<group>"; };
+		FA4C88A8210A085300C351DF /* UserDefaultsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +239,8 @@
 				FA4C885920FCC43300C351DF /* Utilities.h */,
 				FA4C885A20FCC43300C351DF /* Utilities.m */,
 				FA4C886520FF5DB300C351DF /* Protocols.h */,
+				FA4C88A7210A085300C351DF /* UserDefaultsManager.h */,
+				FA4C88A8210A085300C351DF /* UserDefaultsManager.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -238,8 +258,16 @@
 				FA4C886020FE201600C351DF /* PlayerModel.m */,
 				FA4C887020FF811B00C351DF /* HumanModel.h */,
 				FA4C887120FF811B00C351DF /* HumanModel.m */,
-				FA4C887320FF813200C351DF /* BotModel.h */,
-				FA4C887420FF813200C351DF /* BotModel.m */,
+				FA4C889E2109DEA700C351DF /* BotModel.h */,
+				FA4C889F2109DEA700C351DF /* BotModel.m */,
+				FA4C88982109ACA500C351DF /* BotEasyModel.h */,
+				FA4C88992109ACA500C351DF /* BotEasyModel.m */,
+				FA4C887320FF813200C351DF /* BotMediumModel.h */,
+				FA4C887420FF813200C351DF /* BotMediumModel.m */,
+				FA4C889B2109AD3500C351DF /* BotHardModel.h */,
+				FA4C889C2109AD3500C351DF /* BotHardModel.m */,
+				FA4C88A4210A015C00C351DF /* LostGamesDataModel.h */,
+				FA4C88A5210A015C00C351DF /* LostGamesDataModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -247,6 +275,8 @@
 		FA4C885620FCB05B00C351DF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FA4C88A12109F6DC00C351DF /* LostGamesTableViewCell.h */,
+				FA4C88A22109F6DC00C351DF /* LostGamesTableViewCell.m */,
 				FA4C889521089D6300C351DF /* ScoreboardTableViewCell.h */,
 				FA4C889621089D6300C351DF /* ScoreboardTableViewCell.m */,
 				FA4C885C20FCDC0800C351DF /* GameCell.h */,
@@ -413,14 +443,18 @@
 			files = (
 				FA4C881620FC87E200C351DF /* ViewController.m in Sources */,
 				FA4C887B21070D3000C351DF /* TunakTunakTunCellModel.m in Sources */,
+				FA4C88A6210A015C00C351DF /* LostGamesDataModel.m in Sources */,
 				FA4C886820FF723A00C351DF /* GameViewController.m in Sources */,
+				FA4C88A02109DEA700C351DF /* BotModel.m in Sources */,
 				FA4C887E2107142500C351DF /* TicTacToeEngine.m in Sources */,
+				FA4C88A32109F6DC00C351DF /* LostGamesTableViewCell.m in Sources */,
 				FA4C882120FC87E400C351DF /* main.m in Sources */,
-				FA4C887520FF813200C351DF /* BotModel.m in Sources */,
+				FA4C887520FF813200C351DF /* BotMediumModel.m in Sources */,
 				FA4C886F20FF77A900C351DF /* SinglePlayerViewController.m in Sources */,
 				FA4C885B20FCC43300C351DF /* Utilities.m in Sources */,
 				FA4C886120FE201600C351DF /* PlayerModel.m in Sources */,
 				FA4C884520FC895600C351DF /* MatrixCollectionViewController.m in Sources */,
+				FA4C889D2109AD3500C351DF /* BotHardModel.m in Sources */,
 				FA4C881320FC87E200C351DF /* AppDelegate.m in Sources */,
 				FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */,
 				FA4C886C20FF764C00C351DF /* MultiplePlayersViewController.m in Sources */,
@@ -429,8 +463,10 @@
 				FA4C887821070D1400C351DF /* TicTacToeCellModel.m in Sources */,
 				FA4C884E20FC8FAE00C351DF /* GameCellModel.m in Sources */,
 				FA4C885E20FCDC0800C351DF /* GameCell.m in Sources */,
+				FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */,
 				FA4C8884210715AF00C351DF /* GameEngine.m in Sources */,
 				FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */,
+				FA4C889A2109ACA500C351DF /* BotEasyModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

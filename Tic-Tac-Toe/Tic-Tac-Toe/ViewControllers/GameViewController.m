@@ -12,8 +12,6 @@
 #import "MatrixCollectionViewController.h"
 
 #import "PlayerModel.h"
-#import "HumanModel.h"
-#import "BotModel.h"
 
 #import "Utilities.h"
 #import "Protocols.h"
