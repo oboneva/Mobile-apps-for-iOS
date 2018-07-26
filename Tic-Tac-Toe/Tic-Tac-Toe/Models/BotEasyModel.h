@@ -11,7 +11,4 @@
 
 @interface BotEasyModel : BotModel
 
-- (void)makeTheMoveSpecific;
-- (instancetype)initWithName;
-
 @end

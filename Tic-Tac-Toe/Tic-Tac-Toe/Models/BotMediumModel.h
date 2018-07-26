@@ -12,7 +12,4 @@
 
 @interface BotMediumModel : BotModel
 
-- (void)makeTheMoveSpecific;
-- (instancetype)initWithName;
-
 @end

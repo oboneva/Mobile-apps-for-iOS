@@ -10,6 +10,12 @@
 #import "Utilities.h"
 #import "Constants.h"
 
+@interface PlayerModel ()
+
+@property (strong, nonatomic) NSString *name;
+
+@end
+
 @implementation PlayerModel
 
 - (instancetype) initWithName:(NSString *)name {
@@ -18,6 +24,11 @@
         self.name = name;
     }
     return self;
+}
+
+- (void)makeMove
+{
+    NSLog(@"Blank move.");
 }
 
 @end

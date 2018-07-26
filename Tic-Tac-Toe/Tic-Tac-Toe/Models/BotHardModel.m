@@ -10,15 +10,7 @@
 
 @implementation BotHardModel
 
-- (void)makeTheMoveSpecific {
-    [NSThread sleepForTimeInterval:5];
-}
-
-- (instancetype)initWithName {
-    return [super initWithName:[self.class getDefaultName]];
-}
-
-+ (NSString *)getDefaultName {
+- (NSString *)name {
     return @"Bot-Hard";
 }
 

@@ -76,7 +76,7 @@
 
 + (id) botWithDifficulty:(EnumDifficulty)difficulty {
     NSString *identifier = Utilities.botIdentifiers[[NSNumber numberWithInt:difficulty]];
-    return [[NSClassFromString(identifier) alloc] initWithName];
+    return [[NSClassFromString(identifier) alloc] init];
 }
 
 + (NSDictionary<NSNumber *, NSString *> *) botIdentifiers {

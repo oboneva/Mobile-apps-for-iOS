@@ -12,11 +12,7 @@
 
 - (void)makeTheMoveSpecific {};
 
-- (instancetype)initWithName {
-    return [super initWithName:[self.class getDefaultName]];
-}
-
-+ (NSString *)getDefaultName {
+-(NSString *)name {
     return @"G-Eazy";
 }
 

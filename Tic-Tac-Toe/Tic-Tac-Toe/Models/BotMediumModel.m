@@ -14,11 +14,7 @@
     [NSThread sleepForTimeInterval:2];
 }
 
-- (instancetype)initWithName {
-    return [super initWithName:[self.class getDefaultName]];
-}
-
-+ (NSString *)getDefaultName {
+- (NSString *)name {
     return @"Just Bot";
 }
 
