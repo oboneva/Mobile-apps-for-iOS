@@ -112,18 +112,10 @@
     return self.loserSectionHeader;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return self.sectionHeader.frame.size.height;
-//}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return self.winnerSectionHeader.frame.size.height;
+}
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//        return @"Ranking";
-//    }
-//    else {
-//        return @"Wall of Shame";
-//    }
-//}
 
 @end
