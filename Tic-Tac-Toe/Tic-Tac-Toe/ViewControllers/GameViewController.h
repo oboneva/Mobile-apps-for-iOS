@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import "Constants.h"
 
 @class GameEngine;
 @interface GameViewController : UIViewController
 
 @property (strong, nonatomic) GameEngine *engine;
+@property (assign) EnumGameMode gameMode;
+@property (strong, nonatomic) MCPeerID *peer;
 
 @end

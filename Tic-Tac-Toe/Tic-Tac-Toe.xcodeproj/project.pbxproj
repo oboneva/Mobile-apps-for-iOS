@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA21AE5F210B142D00494946 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA21AE5E210B142D00494946 /* ConnectionsViewController.m */; };
+		FA21AE62210B363B00494946 /* MultipeerConectivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA21AE61210B363B00494946 /* MultipeerConectivityManager.m */; };
 		FA4C881320FC87E200C351DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C881220FC87E200C351DF /* AppDelegate.m */; };
 		FA4C881620FC87E200C351DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C881520FC87E200C351DF /* ViewController.m */; };
 		FA4C881920FC87E200C351DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA4C881720FC87E200C351DF /* Main.storyboard */; };
@@ -61,6 +63,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA21AE5D210B142D00494946 /* ConnectionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
+		FA21AE5E210B142D00494946 /* ConnectionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionsViewController.m; sourceTree = "<group>"; };
+		FA21AE60210B363B00494946 /* MultipeerConectivityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultipeerConectivityManager.h; sourceTree = "<group>"; };
+		FA21AE61210B363B00494946 /* MultipeerConectivityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipeerConectivityManager.m; sourceTree = "<group>"; };
 		FA4C880E20FC87E200C351DF /* Tic-Tac-Toe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tic-Tac-Toe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA4C881120FC87E200C351DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA4C881220FC87E200C351DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -224,6 +230,8 @@
 				FA4C886B20FF764C00C351DF /* MultiplePlayersViewController.m */,
 				FA4C8892210883BB00C351DF /* ScoreboardTableViewController.h */,
 				FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */,
+				FA21AE5D210B142D00494946 /* ConnectionsViewController.h */,
+				FA21AE5E210B142D00494946 /* ConnectionsViewController.m */,
 				FA4C886620FF723A00C351DF /* GameViewController.h */,
 				FA4C886720FF723A00C351DF /* GameViewController.m */,
 				FA4C884320FC895600C351DF /* MatrixCollectionViewController.h */,
@@ -241,6 +249,8 @@
 				FA4C886520FF5DB300C351DF /* Protocols.h */,
 				FA4C88A7210A085300C351DF /* UserDefaultsManager.h */,
 				FA4C88A8210A085300C351DF /* UserDefaultsManager.m */,
+				FA21AE60210B363B00494946 /* MultipeerConectivityManager.h */,
+				FA21AE61210B363B00494946 /* MultipeerConectivityManager.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -454,6 +464,7 @@
 				FA4C885B20FCC43300C351DF /* Utilities.m in Sources */,
 				FA4C886120FE201600C351DF /* PlayerModel.m in Sources */,
 				FA4C884520FC895600C351DF /* MatrixCollectionViewController.m in Sources */,
+				FA21AE5F210B142D00494946 /* ConnectionsViewController.m in Sources */,
 				FA4C889D2109AD3500C351DF /* BotHardModel.m in Sources */,
 				FA4C881320FC87E200C351DF /* AppDelegate.m in Sources */,
 				FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */,
@@ -463,6 +474,7 @@
 				FA4C887821070D1400C351DF /* TicTacToeCellModel.m in Sources */,
 				FA4C884E20FC8FAE00C351DF /* GameCellModel.m in Sources */,
 				FA4C885E20FCDC0800C351DF /* GameCell.m in Sources */,
+				FA21AE62210B363B00494946 /* MultipeerConectivityManager.m in Sources */,
 				FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */,
 				FA4C8884210715AF00C351DF /* GameEngine.m in Sources */,
 				FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */,
@@ -636,7 +648,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3PTPHQFJV4;
 				INFOPLIST_FILE = "Tic-Tac-Toe/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -652,7 +666,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3PTPHQFJV4;
 				INFOPLIST_FILE = "Tic-Tac-Toe/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

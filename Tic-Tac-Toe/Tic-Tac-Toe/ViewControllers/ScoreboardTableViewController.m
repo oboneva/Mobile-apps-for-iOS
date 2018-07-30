@@ -65,7 +65,7 @@
 - (UITableViewCell *)customizeCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
-        scoreboardCell.rankLabel.text = [NSString stringWithFormat:@"%d.", indexPath.row + 1];
+        scoreboardCell.rankLabel.text = [NSString stringWithFormat:@"%d.", (int)indexPath.row + 1];
         scoreboardCell.nameLabel.text = self.playersNamesFromScoreboard[indexPath.row];
         [scoreboardCell.nameLabel sizeToFit];
         scoreboardCell.pointsLabel.text = [self.scoreboardData[self.playersNamesFromScoreboard[indexPath.row]] stringValue];

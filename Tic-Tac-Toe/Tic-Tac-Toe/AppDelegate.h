@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MultipeerConectivityManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 
 @end
 

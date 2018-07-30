@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import "Protocols.h"
 #import "Constants.h"
 
@@ -16,5 +17,7 @@
 @property (weak, nonatomic)id<NotifyPlayerToPlayDelegate>notifyPlayerToPlayDelegate;
 @property (weak, nonatomic)id<EndGameDelegate>endGameDelegate;
 @property (strong, nonatomic) GameEngine *engine;
+@property (readonly) EnumGameMode gameMode;
+@property (strong, nonatomic) MCPeerID *peer;
 
 @end

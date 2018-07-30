@@ -29,10 +29,13 @@
 
 - (void)notifyTheNextPlayer;
 - (void)setUpPlayers;
+- (void)customSetUpPlayersWithFirstPlayerOnTurn:(PlayerModel *)player;
 
 - (void)newGame;
+- (void)newMultipeerGame;
 
 @property (weak, nonatomic)id<EndGameDelegate>endGameDelegate;
 @property (weak, nonatomic)id<NotifyPlayerToPlayDelegate>notifyPlayerToPlayDelegate;
+
 
 @end

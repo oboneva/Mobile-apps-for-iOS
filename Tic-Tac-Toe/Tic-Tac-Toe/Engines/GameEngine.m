@@ -170,15 +170,29 @@
     return false;
 }
 
-- (void)newGame {
+- (void)clearTheCells {
     for (int i = 0; i < ROWS_COUNT; i++) {
         for (int j = 0; j < ITEMS_COUNT; j++) {
             [self.gameMatrix[i][j] clearCell];
         }
     }
-    
     self.filled_cells = 0;
+}
+
+- (void)newMultipeerGame {
+    //??
+    [self clearTheCells];
+    //??
+    [self.endGameDelegate forceRefresh];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
+        [self notifyTheNextPlayer];
+    });
+}
+
+- (void)newGame {
+    [self clearTheCells];
     [self setUpPlayers];
+    
     if ([self.player2 isKindOfClass:BotModel.class]) {
         BotModel *temp = (BotModel *)self.player2;
         temp.boardStateDelegate = self;
@@ -190,7 +204,7 @@
     });
 }
 
-- (void)setUpPlayers {
+- (void)setUpPlayers { //TODO
     int random = [Utilities randomNumberWithUpperBound:2];
     if (random == 0) {
         self.player1.symbol = FIRST_PLAYER_SYMBOL;
@@ -201,6 +215,18 @@
         self.player1.symbol = SECOND_PLAYER_SYMBOL;
         self.player2.symbol = FIRST_PLAYER_SYMBOL;
         self.currentPlayer = self.player2;
+    }
+}
+
+- (void)customSetUpPlayersWithFirstPlayerOnTurn:(PlayerModel *)player {
+    self.currentPlayer = player;
+    if ([self.player1 isEqual:player]) {
+        self.player1.symbol = FIRST_PLAYER_SYMBOL;
+        self.player2.symbol = SECOND_PLAYER_SYMBOL;
+    }
+    else {
+        self.player1.symbol = SECOND_PLAYER_SYMBOL;
+        self.player2.symbol = FIRST_PLAYER_SYMBOL;
     }
 }
 

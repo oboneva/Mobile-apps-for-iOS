@@ -31,4 +31,12 @@
 
 @end
 
+//
+@protocol MultipleDevicesGameMessagingDelegate
+
+- (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath;
+- (void)receiveCellMarkedAtIndexPath:(NSIndexPath *)indexPath;
+
+@end
+
 #endif /* Protocols_h */

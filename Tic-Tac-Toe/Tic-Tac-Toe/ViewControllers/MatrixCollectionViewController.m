@@ -7,6 +7,7 @@
 //
 
 #import "MatrixCollectionViewController.h"
+#import "AppDelegate.h"
 
 #import "GameEngine.h"
 #import "TunakTunakTunEngine.h"
@@ -20,11 +21,15 @@
 #import "Constants.h"
 #import "Protocols.h"
 
+#import "GameViewController.h"
+
 @interface MatrixCollectionViewController ()
 
 @property (strong, nonatomic) PlayerModel *player1;
 @property (strong, nonatomic) PlayerModel *player2;
 @property (strong, nonatomic) NSArray<NSString *> *colourImageNames;
+
+- (void)didReceiveDataWithNotification:(NSNotification *)notification;
 
 @end
 
@@ -37,9 +42,10 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
     [self.collectionView setAllowsMultipleSelection:NO];
     self.engine.notifyPlayerToPlayDelegate = self.notifyPlayerToPlayDelegate;
     self.engine.endGameDelegate = self.endGameDelegate;
-    [self.engine setUpPlayers];
+    //[self.engine setUpPlayers];
     
     self.colourImageNames = @[@"tunak_yellow.jpg", @"tunak_green.jpg", @"tunak_red.png"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveDataWithNotification:) name:NOTIFICATION_RECEIVE_DATA object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -114,12 +120,48 @@ static NSString * const reuseIdentifier = IDENTIFIER_GAME_CELL;
 #pragma mark <UICollectionViewDelegate>
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.engine isCellAtIndexPathSelectable:indexPath];
+    BOOL iAmOnTurn = true;
+    if (self.gameMode == EnumGameModeTwoDevices) {
+        iAmOnTurn = [self.engine.currentPlayer isEqual:self.engine.player1];  // the other player is always player2
+    }
+    return [self.engine isCellAtIndexPathSelectable:indexPath] && iAmOnTurn;
+}
+
+-(EnumGameMode) gameMode
+{
+    return ((GameViewController *)self.parentViewController).gameMode;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.gameMode == EnumGameModeTwoDevices) {
+            [self sendCellMarkedAtIndexPath:indexPath];
+    }
     [self.engine playerSelectedItemAtIndexPath:indexPath];
     [self.collectionView reloadData];
+}
+
+- (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *stringData = [NSString stringWithFormat:@"%d,%d", (int)indexPath.section, (int)indexPath.row];
+    NSData *data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *peers = @[self.peer];
+    NSError *error;
+    
+    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&
+     error];
+}
+
+- (void)didReceiveDataWithNotification:(NSNotification *)notification {
+    NSData *data = [[notification userInfo] objectForKey:@"data"];
+    NSString *cellCoordinates = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSInteger section = [[cellCoordinates substringFromIndex:0] intValue];
+    NSInteger row = [[cellCoordinates substringFromIndex:2] intValue];
+    NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:section];
+    
+    [self.engine playerSelectedItemAtIndexPath:index];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
+    
 }
 
 @end

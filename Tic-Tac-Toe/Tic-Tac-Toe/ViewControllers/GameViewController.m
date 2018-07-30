@@ -14,6 +14,7 @@
 #import "PlayerModel.h"
 
 #import "Utilities.h"
+#import "MultipeerConectivityManager.h"
 #import "Protocols.h"
 
 @interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate>
@@ -26,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *endOfGameLabel;
 @property (strong, nonatomic) UIColor *labelsColour;
 @property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
+
+@property (assign) BOOL isEngineSynchronized;
+@property (strong, nonatomic) NSString *playerOnTurn;
 
 @end
 
@@ -42,6 +46,9 @@
     
     self.labelsColour = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
     [self.startNewGameButton setHidden:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveDataWithNotification:) name:NOTIFICATION_RECEIVE_DATA object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didStateChange:) name:NOTIFICATION_CHANGED_STATE object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,6 +59,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     self.matrixViewController = (MatrixCollectionViewController *)[Utilities viewControllerWithClass:MatrixCollectionViewController.class];
     self.matrixViewController = segue.destinationViewController;
+    self.matrixViewController.peer = self.peer;
     self.matrixViewController.engine = self.engine;
     self.matrixViewController.notifyPlayerToPlayDelegate = self;
     self.matrixViewController.endGameDelegate = self;
@@ -95,10 +103,60 @@
     });
 }
 
+- (void)didStateChange:(NSNotification *)notif {
+    
+    NSNumber *stateWrapper = (NSNumber *)notif.userInfo[@"state"];
+    MCSessionState state = (MCSessionState)stateWrapper.intValue;
+    
+    if (state == MCSessionStateNotConnected) {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:quit];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)didReceiveDataWithNotification:(NSNotification *)notification {
+    NSData *data = [[notification userInfo] objectForKey:@"data"];
+    NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    self.playerOnTurn = stringData;
+}
+
+- (void)sendTheFirstPlayerOnTurn:(NSString *)playerName {
+    NSData *data = [playerName dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSArray *peers = @[self.peer];
+    NSError *error;
+    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&error];
+}
+
 - (IBAction)onNewGameTap:(id)sender {
     [self.startNewGameButton setHidden:YES];
     self.endOfGameLabel.text = @"";
-    [self.engine newGame];
+    if (self.gameMode == EnumGameModeOneDevice) {
+        [self.engine newGame];
+    }
+    else {
+        //
+        
+        if (!self.isEngineSynchronized) {
+            [self.engine setUpPlayers];
+            [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
+            self.isEngineSynchronized = true;
+        }
+        else if ([self.playerOnTurn isEqualToString:self.engine.player1.name]) {
+            [self.engine customSetUpPlayersWithFirstPlayerOnTurn:self.engine.player1];
+        }
+        else {
+            [self.engine customSetUpPlayersWithFirstPlayerOnTurn:self.engine.player2];
+        }
+        
+        //
+        [self.engine newMultipeerGame];
+    }
+    
     self.matrixView.userInteractionEnabled = YES;
 }
 

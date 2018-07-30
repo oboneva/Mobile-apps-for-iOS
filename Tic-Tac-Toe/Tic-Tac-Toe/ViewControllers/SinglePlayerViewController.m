@@ -14,6 +14,7 @@
 #import "GameEngine.h"
 
 #import "Utilities.h"
+#import "Constants.h"
 
 
 @interface SinglePlayerViewController () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
@@ -91,6 +92,7 @@
     [engine setUpPlayers];
 
     [gameController setEngine:engine];
+    gameController.gameMode = EnumGameModeOneDevice;
     [self.navigationController pushViewController:gameController animated:YES];
 }
 

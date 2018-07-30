@@ -12,6 +12,7 @@
 #define IDENTIFIER_GAME_CELL                        @"GameCellIdentifier"
 #define IDENTIFIER_SCOREBOARD_CELL                  @"ScoreboardCellIdentifier"
 #define IDENTIFIER_LOST_GAMES_CELL                  @"LostGamesTableViewCellIdentifier"
+#define IDENTIFIER_DEVICE_CELL                      @"DeviceCellIdentifier"
 
 #define IDENTIFIER_MAIN_VIEW_CONTROLLER             @"MainViewControllerID"
 #define IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER       @"GameTableViewControllerID"
@@ -19,6 +20,7 @@
 #define IDENTIFIER_MULTIPLE_PLAYERS_VIEW_CONTROLLER @"MultiplePlayersViewControllerID"
 #define IDENTIFIER_SINGLE_PLAYER_VIEW_CONTROLLER    @"SinglePlayerViewControllerID"
 #define IDENTIFIER_SCOREBOARD_VIEW_CONTROLLER       @"ScoreboardTableViewControllerID"
+#define IDENTIFIER_CONNECTIONS_VIEW_CONTROLLER      @"ConnectionsViewControllerID"
 
 #define ROWS_COUNT                                  3
 #define ITEMS_COUNT                                 3
@@ -40,6 +42,10 @@
 #define SCORES_H_B_EASY_GAME                        1
 #define SCORES_H_B_MEDIUM_GAME                      2
 #define SCORES_H_B_HARD_GAME                        4
+
+#define NOTIFICATION_CHANGED_STATE                  @"MCPeerDidChangeState"
+#define NOTIFICATION_RECEIVE_DATA                   @"MCPeerDidReceiveInformation"
+#define SERVICE_TYPE                                @"game"
 
 typedef enum : NSUInteger {
     EnumDifficultyEasy = 0,
@@ -69,5 +75,10 @@ typedef enum : NSInteger {
     EnumPlayerSymbolX = EnumCellWithX,
     EnumPlayerSymbolO = EnumCellWithO,
 } EnumPlayerSymbol;
+
+typedef enum : NSInteger {
+    EnumGameModeOneDevice = 0,
+    EnumGameModeTwoDevices,
+} EnumGameMode;
 
 #endif /* Constants_h */
