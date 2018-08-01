@@ -43,9 +43,9 @@
     self.browser = [[MCBrowserViewController alloc] initWithServiceType:SERVICE_TYPE session:self.session];
 }
 
--(void)advertiseSelf:(BOOL)shouldAdvertise {
+-(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo {
     if (shouldAdvertise) {
-        self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:nil session:self.session];
+        self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:discoveryInfo session:self.session];
         [self.advertiser start];
     }
     else {

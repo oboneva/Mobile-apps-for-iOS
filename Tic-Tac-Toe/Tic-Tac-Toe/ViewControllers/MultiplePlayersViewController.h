@@ -12,7 +12,4 @@
 
 @interface MultiplePlayersViewController : UIViewController
 
-@property (assign) EnumGameMode gameMode;
-@property (strong, nonatomic) MCPeerID *peer;
-
 @end

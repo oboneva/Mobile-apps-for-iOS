@@ -191,6 +191,10 @@
 
 - (void)newGame {
     [self clearTheCells];
+    [self startGame];
+}
+
+- (void)startGame {
     [self setUpPlayers];
     
     if ([self.player2 isKindOfClass:BotModel.class]) {
@@ -204,7 +208,7 @@
     });
 }
 
-- (void)setUpPlayers { //TODO
+- (void)setUpPlayers {
     int random = [Utilities randomNumberWithUpperBound:2];
     if (random == 0) {
         self.player1.symbol = FIRST_PLAYER_SYMBOL;

@@ -7,10 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "SinglePlayerViewController.h"
-#import "MultiplePlayersViewController.h"
+#import "GameTypeViewController.h"
 #import "ScoreboardTableViewController.h"
-#import "ConnectionsViewController.h"
 
 #import "Utilities.h"
 
@@ -31,37 +29,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)onSinglePlayerTap:(id)sender {
-    SinglePlayerViewController *playerViewController = (SinglePlayerViewController *)[Utilities viewControllerWithClass:SinglePlayerViewController.class];
-    [self.navigationController pushViewController:playerViewController animated:YES];
+
+- (IBAction)onNewGameTap:(id)sender {
+    GameTypeViewController *gameTypeController = (GameTypeViewController *)[Utilities viewControllerWithClass:GameTypeViewController.class];
+    [self. navigationController pushViewController:gameTypeController animated:YES];
 }
 
-- (IBAction)onMultiplePlayers:(id)sender {
-    UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:@"Choose to play locally or connect to the other player's device."
-                                 message:@""
-                                 preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* locally = [UIAlertAction
-                                actionWithTitle:@"Play on this device" style:UIAlertActionStyleDefault
-                                handler:^(UIAlertAction * action) {
-                                    MultiplePlayersViewController *playersViewController = (MultiplePlayersViewController *)[Utilities viewControllerWithClass:MultiplePlayersViewController.class];
-                                    playersViewController.gameMode = EnumGameModeOneDevice;
-                                    [self.navigationController pushViewController:playersViewController animated:YES];
-                                }];
-    
-    UIAlertAction* connect = [UIAlertAction
-                               actionWithTitle:@"Connect" style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   ConnectionsViewController *connectionsViewController = (ConnectionsViewController *)[Utilities viewControllerWithClass:ConnectionsViewController.class];
-                                   [self.navigationController pushViewController:connectionsViewController animated:YES];
-                               }];
-    
-    [alert addAction:locally];
-    [alert addAction:connect];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
 
 - (IBAction)onScoreboardTap:(id)sender {
     ScoreboardTableViewController *scoreboardViewController = (ScoreboardTableViewController *)[Utilities viewControllerWithClass:ScoreboardTableViewController.class];

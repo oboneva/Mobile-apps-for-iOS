@@ -20,7 +20,12 @@
 #define IDENTIFIER_MULTIPLE_PLAYERS_VIEW_CONTROLLER @"MultiplePlayersViewControllerID"
 #define IDENTIFIER_SINGLE_PLAYER_VIEW_CONTROLLER    @"SinglePlayerViewControllerID"
 #define IDENTIFIER_SCOREBOARD_VIEW_CONTROLLER       @"ScoreboardTableViewControllerID"
-#define IDENTIFIER_CONNECTIONS_VIEW_CONTROLLER      @"ConnectionsViewControllerID"
+#define IDENTIFIER_GAME_TYPE_VIEW_CONTROLLER        @"GameTypeViewControllerID"
+#define IDENTIFIER_GAME_MODE_VIEW_CONTROLLER        @"GameModeViewControllerID"
+#define IDENTIFIER_ENEMY_TYPE_VIEW_CONTROLLER       @"EnemyTypeViewControllerID"
+#define IDENTIFIER_NETWORK_GAME_VIEW_CONTROLLER     @"NetworkGameViewControllerID"
+#define IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER      @"CreateRoomViewControllerID"
+#define IDENTIFIER_JOIN_ROOM_VIEW_CONTROLLER        @"JoinRoomViewControllerID"
 
 #define ROWS_COUNT                                  3
 #define ITEMS_COUNT                                 3
@@ -46,6 +51,11 @@
 #define NOTIFICATION_CHANGED_STATE                  @"MCPeerDidChangeState"
 #define NOTIFICATION_RECEIVE_DATA                   @"MCPeerDidReceiveInformation"
 #define SERVICE_TYPE                                @"game"
+
+#define DATA_SEPARATOR                              @" "
+
+#define TIC_TAC_TOE                                 EnumGameTicTacToe
+#define TUNAK_TUNAK_TUN                             EnumGameTunakTunakTun
 
 typedef enum : NSUInteger {
     EnumDifficultyEasy = 0,
@@ -80,5 +90,19 @@ typedef enum : NSInteger {
     EnumGameModeOneDevice = 0,
     EnumGameModeTwoDevices,
 } EnumGameMode;
+
+typedef enum : NSInteger {
+    EnumSendDataTurn = 0,
+    EnumSendDataName,
+    EnumSendDataGame,
+    EnumSendDataCoordinates,
+    EnumSendDataState,
+    EnumSendDataReadyToPlay,
+} EnumSendData;
+
+typedef enum : NSInteger {
+    EnumReadyToListen = 0,
+    EnumReadyToPlay,
+} EnumReady;
 
 #endif /* Constants_h */

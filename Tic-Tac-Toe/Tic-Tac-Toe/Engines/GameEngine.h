@@ -31,6 +31,7 @@
 - (void)setUpPlayers;
 - (void)customSetUpPlayersWithFirstPlayerOnTurn:(PlayerModel *)player;
 
+- (void)startGame;
 - (void)newGame;
 - (void)newMultipeerGame;
 

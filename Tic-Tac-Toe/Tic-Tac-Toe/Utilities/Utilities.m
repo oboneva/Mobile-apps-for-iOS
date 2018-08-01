@@ -12,7 +12,12 @@
 #import "GameViewController.h"
 #import "MatrixCollectionViewController.h"
 #import "ScoreboardTableViewController.h"
-#import "ConnectionsViewController.h"
+#import "JoinRoomViewController.h"
+#import "GameTypeViewController.h"
+#import "GameModeViewController.h"
+#import "EnemyTypeViewController.h"
+#import "NetworkGameViewController.h"
+#import "CreateRoomViewController.h"
 
 #import "Utilities.h"
 #import "Constants.h"
@@ -54,7 +59,12 @@
                     MultiplePlayersViewController.class : IDENTIFIER_MULTIPLE_PLAYERS_VIEW_CONTROLLER,
                     GameViewController.class : IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER,
                     ScoreboardTableViewController.class : IDENTIFIER_SCOREBOARD_VIEW_CONTROLLER,
-                    ConnectionsViewController.class : IDENTIFIER_CONNECTIONS_VIEW_CONTROLLER
+                    JoinRoomViewController.class : IDENTIFIER_JOIN_ROOM_VIEW_CONTROLLER,
+                    GameTypeViewController.class : IDENTIFIER_GAME_TYPE_VIEW_CONTROLLER,
+                    GameModeViewController.class : IDENTIFIER_GAME_MODE_VIEW_CONTROLLER,
+                    EnemyTypeViewController.class : IDENTIFIER_ENEMY_TYPE_VIEW_CONTROLLER,
+                    NetworkGameViewController.class : IDENTIFIER_NETWORK_GAME_VIEW_CONTROLLER,
+                    CreateRoomViewController.class : IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER
                   };
     }
     

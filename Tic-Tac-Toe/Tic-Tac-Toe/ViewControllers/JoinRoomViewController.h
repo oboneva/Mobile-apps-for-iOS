@@ -1,5 +1,5 @@
 //
-//  ConnectionsViewController.h
+//  JoinRoomViewController.h
 //  Tic-Tac-Toe
 //
 //  Created by Ognyanka Boneva on 27.07.18.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
-@interface ConnectionsViewController : UIViewController <MCBrowserViewControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface JoinRoomViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) GameEngine *engine;
 @property (assign) EnumGameMode gameMode;
+@property (assign) EnumGame gameType;
 @property (strong, nonatomic) MCPeerID *peer;
 
 @end

@@ -18,7 +18,7 @@
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
 -(void)setupMCBrowser;
--(void)advertiseSelf:(BOOL)shouldAdvertise;
+-(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo;
 
 +(instancetype)sharedInstance;
 

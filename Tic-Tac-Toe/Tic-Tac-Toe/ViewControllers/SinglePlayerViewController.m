@@ -10,6 +10,7 @@
 #import "GameViewController.h"
 
 #import "HumanModel.h"
+#import "BotModel.h"
 
 #import "GameEngine.h"
 
@@ -36,8 +37,6 @@
     
     self.difficultyPicker.dataSource = self;
     self.difficultyPicker.delegate = self;
-    
-    self.gameType = EnumGameTicTacToe;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
@@ -89,20 +88,11 @@
     GameEngine *engine = [Utilities gameEngineFromType:self.gameType];
     engine.player1 = player1;
     engine.player2 = player2;
-    [engine setUpPlayers];
 
     [gameController setEngine:engine];
     gameController.gameMode = EnumGameModeOneDevice;
+    gameController.gameType = self.gameType;
     [self.navigationController pushViewController:gameController animated:YES];
-}
-
-- (IBAction)onGameSwitchTap:(id)sender {
-    if (self.gameType == EnumGameTicTacToe) {
-        self.gameType = EnumGameTunakTunakTun;
-    }
-    else {
-        self.gameType = EnumGameTicTacToe;
-    }
 }
 
 @end
