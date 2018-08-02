@@ -25,16 +25,13 @@
 @interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
-@property (strong, nonatomic) MatrixCollectionViewController *matrixViewController; // to set data source and delegate
+@property (strong, nonatomic) MatrixCollectionViewController *matrixViewController;
 
 @property (weak, nonatomic) IBOutlet UILabel *player1InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *player2InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endOfGameLabel;
 @property (strong, nonatomic) UIColor *labelsColour;
 @property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
-
-@property (assign) BOOL isEngineSynchronized;
-@property (strong, nonatomic) NSString *playerOnTurn;
 
 @end
 
@@ -52,10 +49,8 @@
     self.labelsColour = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
     [self.startNewGameButton setHidden:YES];
     
-    /*
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveDataWithNotification:) name:NOTIFICATION_RECEIVE_DATA object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didStateChange:) name:NOTIFICATION_CHANGED_STATE object:nil];
-    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,14 +61,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     self.matrixViewController = (MatrixCollectionViewController *)[Utilities viewControllerWithClass:MatrixCollectionViewController.class];
     self.matrixViewController = segue.destinationViewController;
-    
-    /*
-    self.matrixViewController.peer = self.peer;
-    self.matrixViewController.engine = self.engine;
-    self.matrixViewController.notifyPlayerToPlayDelegate = self;
-    self.matrixViewController.endGameDelegate = self;
-    */
-    
     self.matrixViewController.engineDelegate = self;
     self.engine.notifyPlayerToPlayDelegate = self;
     self.engine.endGameDelegate = self;
@@ -116,8 +103,7 @@
         [self.matrixViewController.collectionView reloadData];
     });
 }
-
-/*
+//two devices
 - (void)didStateChange:(NSNotification *)notif {
     NSNumber *stateWrapper = (NSNumber *)notif.userInfo[@"state"];
     MCSessionState state = (MCSessionState)stateWrapper.intValue;
@@ -136,48 +122,36 @@
     }
 }
 
-- (void)sendTheFirstPlayerOnTurn:(NSString *)playerName {
-    NSString *string = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, playerName];
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *peers = @[self.peer];
-    NSError *error;
-    
-    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&error];
-}
-*/
-
 - (IBAction)onNewGameTap:(id)sender {
     [self.startNewGameButton setHidden:YES];
     self.endOfGameLabel.text = @"";
     if (self.gameMode == EnumGameModeOneDevice) {
         [self.engine newGame];
     }
-    else {/*
-        if (!self.isEngineSynchronized) {
-            [self.engine setUpPlayers];
-            [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
-            self.isEngineSynchronized = true;
-        }
-        else if ([self.playerOnTurn isEqualToString:self.engine.player1.name]) {
-            [self.engine customSetUpPlayersWithFirstPlayerOnTurn:self.engine.player1];
-        }
-        else {
-            [self.engine customSetUpPlayersWithFirstPlayerOnTurn:self.engine.player2];
-        }
-        [self.engine newMultipeerGame];*/
-    }
-    
+    else if (self.roomBelongsToMe) { //two devices
+        [self.engine setUpPlayers];
+        [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
+        [self.engine newMultipeerGame];
+    }    
     self.matrixView.userInteractionEnabled = YES;
 }
-/*
+
+//two devices
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
     NSString *stringData = [NSString stringWithFormat:@"%ld - %d,%d", EnumSendDataCoordinates, (int)indexPath.section, (int)indexPath.row];
     NSData *data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
+    [self sendData:data];
+}
+
+- (void)sendTheFirstPlayerOnTurn:(NSString *)name {
+    NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
+    [self sendData:data];
+}
+
+- (void)sendData:(NSData *)data {
     NSArray *peers = @[self.peer];
     NSError *error;
-    
-    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&
-     error];
+    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&error];
 }
 
 - (void)didReceiveDataWithNotification:(NSNotification *)notification {
@@ -204,9 +178,15 @@
 }
 
 - (void)didReceivePlayerOnTurnWithString:(NSString *)string {
-    self.playerOnTurn = string;
+    if (!self.roomBelongsToMe && [string isEqualToString:self.engine.player1.name]) {
+        self.engine.currentPlayer = self.engine.player1;
+    }
+    else if (!self.roomBelongsToMe) {
+        self.engine.currentPlayer = self.engine.player2;
+    }
+    [self.engine startMultipeerGame];
 }
-*/
+
 
 // EngineDelegate methods
 
@@ -218,16 +198,12 @@
     return self.gameMode;
 }
 
-- (PlayerModel *)currentPlayer {
-    return self.currentPlayer;
+- (PlayerModel *)getCurrentPlayer {
+    return self.engine.currentPlayer;
 }
 
-- (PlayerModel *)player1 {
-    return self.player1;
-}
-
-- (PlayerModel *)player2 {
-    return self.player2;
+- (PlayerModel *)getPlayer1 {
+    return self.engine.player1;
 }
 
 - (int)rowsCount {
@@ -250,11 +226,22 @@
     [self.engine playerSelectedItemAtIndexPath:indexPath];
 }
 
-- (void)startGame {
-    [self.engine startGame];
+- (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath {
+    [self sendCellMarkedAtIndexPath:indexPath];
 }
 
+- (void)startGame {
+    if (self.gameMode == EnumGameModeOneDevice) {
+        [self.engine startGame];
+    }
+    else {
+        [self.engine startMultipeerGame];
+    }
+}
+
+/*
 - (void)newGame {
     [self.engine newGame];
-}
-@end
+}*/
+
+@end // newGame and startGame for multiple devices //JSON

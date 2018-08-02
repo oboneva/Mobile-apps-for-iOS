@@ -17,5 +17,6 @@
 @property (assign) EnumGameMode gameMode;
 @property (assign) EnumGame gameType;
 @property (strong, nonatomic) MCPeerID *peer;
+@property (assign) BOOL roomBelongsToMe;
 
 @end

@@ -14,15 +14,12 @@
 #import "Utilities.h"
 
 @interface SinglePlayerViewController ()
-
 @property (assign) EnumGame gameType;
 
 @end
 
 @interface MultiplePlayersViewController ()
-
 @property (assign) EnumGame gameType;
-@property (assign) EnumGameMode gameMode;
 
 @end
 
@@ -54,7 +51,6 @@
 - (IBAction)onEnemyHumanTap:(id)sender {
     MultiplePlayersViewController *multiplePlayersController  = (MultiplePlayersViewController *)[Utilities viewControllerWithClass:MultiplePlayersViewController.class];
     multiplePlayersController.gameType = self.gameType;
-    multiplePlayersController.gameMode = EnumGameModeOneDevice;
     [self.navigationController pushViewController:multiplePlayersController animated:YES];
 }
 

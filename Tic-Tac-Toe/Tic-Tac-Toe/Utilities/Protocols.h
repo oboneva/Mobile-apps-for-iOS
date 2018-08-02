@@ -46,17 +46,15 @@
 
 - (EnumGame)getGameType;
 - (EnumGameMode)getGameMode;
-@property (strong, nonatomic) PlayerModel *currentPlayer;
-@property (strong, nonatomic) PlayerModel *player1;
-@property (strong, nonatomic) PlayerModel *player2;
+- (PlayerModel *)getCurrentPlayer;
+- (PlayerModel *)getPlayer1;
 
 - (int)rowsCount;
 - (int)itemsCount;
 - (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath;
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)newGame;
+- (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)startGame;
 
 @end

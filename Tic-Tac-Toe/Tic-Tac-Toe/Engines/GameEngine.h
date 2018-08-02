@@ -33,6 +33,7 @@
 
 - (void)startGame;
 - (void)newGame;
+- (void)startMultipeerGame;
 - (void)newMultipeerGame;
 
 @property (weak, nonatomic)id<EndGameDelegate>endGameDelegate;

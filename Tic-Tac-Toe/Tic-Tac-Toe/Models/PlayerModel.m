@@ -12,7 +12,6 @@
 
 @interface PlayerModel ()
 
-@property (strong, nonatomic) NSString *name;
 
 @end
 

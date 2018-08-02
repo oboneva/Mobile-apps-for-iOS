@@ -262,11 +262,12 @@
                     <connections>
                         <outlet property="playerNameTextField" destination="VBg-qm-qYl" id="RXh-yl-FNM"/>
                         <outlet property="roomNameTextField" destination="e88-ET-XGX" id="0x3-8Y-60E"/>
+                        <segue destination="bch-rh-ylf" kind="push" id="XbU-hX-uGz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5wA-hr-0qR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1945" y="376"/>
+            <point key="canvasLocation" x="1999" y="376"/>
         </scene>
         <!--Enemy Type View Controller-->
         <scene sceneID="5Q6-cz-yEN">
@@ -384,11 +385,11 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oq8-Tc-vxS">
-                                <rect key="frame" x="138" y="595" width="99" height="42"/>
+                                <rect key="frame" x="164.5" y="595" width="46" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Continue"/>
+                                <state key="normal" title="Join"/>
                                 <connections>
-                                    <action selector="onContinueTap:" destination="TBK-9J-rwk" eventType="touchUpInside" id="yGV-hL-giw"/>
+                                    <action selector="onJoinTap:" destination="TBK-9J-rwk" eventType="touchUpInside" id="reu-qT-kjM"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Games found:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRR-00-BCc">
@@ -413,14 +414,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="f9s-3n-003"/>
                     <connections>
-                        <outlet property="continueButton" destination="Oq8-Tc-vxS" id="6JY-mf-FkQ"/>
-                        <outlet property="deviceNameTextField" destination="I1b-uh-Hyn" id="Bdb-zU-prV"/>
-                        <outlet property="devicesFoundTableView" destination="QLc-sT-aUe" id="ybN-5E-q1R"/>
+                        <outlet property="playerNameTextField" destination="I1b-uh-Hyn" id="ya5-7Q-dRF"/>
+                        <outlet property="rooms" destination="QLc-sT-aUe" id="hc1-II-XIR"/>
+                        <segue destination="bch-rh-ylf" kind="push" id="mpa-EE-dvl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dNH-7R-xwj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1944.8" y="1060.1199400299852"/>
+            <point key="canvasLocation" x="1998" y="1128"/>
         </scene>
         <!--Multiple Players View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -831,7 +832,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NMX-8z-ysV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3938" y="177"/>
+            <point key="canvasLocation" x="3941" y="-207"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="N2f-YY-lAn">
@@ -909,10 +910,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Gs-KV-9dQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3276" y="178"/>
+            <point key="canvasLocation" x="3265" y="-206"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="suu-fV-ScL"/>
+        <segue reference="mpa-EE-dvl"/>
     </inferredMetricsTieBreakers>
 </document>

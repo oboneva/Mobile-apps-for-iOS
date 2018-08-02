@@ -88,17 +88,17 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     BOOL iAmOnTurn = true;
     if ([self.engineDelegate getGameMode] == EnumGameModeTwoDevices) {
-        iAmOnTurn = [self.engineDelegate.currentPlayer isEqual:self.engineDelegate.player1];  // the other player is always player2
+        iAmOnTurn = [[self.engineDelegate getCurrentPlayer] isEqual:[self.engineDelegate getPlayer1] ];  // the other player is always player2
     }
     return [self.engineDelegate isCellAtIndexPathSelectable:indexPath] && iAmOnTurn;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-    if (self.engineDelegate.gameMode == EnumGameModeTwoDevices) {
-        [self.engineDelegate sendCellMarkedAtIndexPath:indexPath];// TODO: Transform to 'Mother, someone touched me at indexPath'
+    //two devices
+    if ([self.engineDelegate getGameMode] == EnumGameModeTwoDevices) {
+        [self.engineDelegate cellMarkedAtIndexPath:indexPath];
     }
-     */
+     
     [self.engineDelegate playerSelectedItemAtIndexPath:indexPath];
     [self.collectionView reloadData];
 }

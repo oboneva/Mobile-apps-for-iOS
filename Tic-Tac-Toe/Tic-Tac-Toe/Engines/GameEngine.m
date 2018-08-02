@@ -24,6 +24,11 @@
 
 #import <UIKit/UIKit.h>
 
+#define SCORES_H_H_GAME                             2
+#define SCORES_H_B_EASY_GAME                        1
+#define SCORES_H_B_MEDIUM_GAME                      2
+#define SCORES_H_B_HARD_GAME                        4
+
 @interface GameEngine ()
 
 @property (strong, nonatomic) NSArray<NSArray<GameCellModel *> *> *gameMatrix;
@@ -180,13 +185,12 @@
 }
 
 - (void)newMultipeerGame {
-    //??
     [self clearTheCells];
-    //??
-    [self.endGameDelegate forceRefresh];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
-        [self notifyTheNextPlayer];
-    });
+    [self startMultipeerGame];
+}
+
+- (void)startMultipeerGame {
+    [self notifyPlayer];
 }
 
 - (void)newGame {
@@ -202,6 +206,10 @@
         temp.boardStateDelegate = self;
     }
     
+    [self notifyPlayer];
+}
+
+- (void)notifyPlayer {
     [self.endGameDelegate forceRefresh];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
         [self notifyTheNextPlayer];

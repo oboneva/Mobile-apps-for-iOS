@@ -9,6 +9,12 @@
 #import "MultipeerConectivityManager.h"
 #import "Constants.h"
 
+@interface MultipeerConectivityManager () <MCNearbyServiceBrowserDelegate>
+
+@property(strong, nonatomic) NSDictionary *tempInfo;
+
+@end
+
 @implementation MultipeerConectivityManager
 
 + (instancetype)sharedInstance
@@ -40,42 +46,63 @@
 }
 
 -(void)setupMCBrowser {
-    self.browser = [[MCBrowserViewController alloc] initWithServiceType:SERVICE_TYPE session:self.session];
+    self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerID serviceType:SERVICE_TYPE];
+    self.browser.delegate = self;
+    [self.browser startBrowsingForPeers];
 }
 
--(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo {
+- (void)stopBrowsing {
+    [self.browser stopBrowsingForPeers];
+}
+
+-(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *, NSString *> *)discoveryInfo {
     if (shouldAdvertise) {
-        self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:discoveryInfo session:self.session];
-        [self.advertiser start];
+        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:discoveryInfo serviceType:SERVICE_TYPE];
+        self.advertiser.delegate = self;
+        [self.advertiser startAdvertisingPeer];
     }
     else {
-        [self.advertiser stop];
+        [self.advertiser stopAdvertisingPeer];
         self.advertiser = nil;
     }
 }
 
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
-    NSDictionary *userInfo = @{@"peerID" : peerID, @"state" : [NSNumber numberWithInt:state]};
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CHANGED_STATE object:nil userInfo:userInfo];
+    if (state == MCSessionStateConnected) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_WILL_JOIN object:nil userInfo:self.tempInfo];
+    }
 }
 
+//browser delegate
+- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)info {
+    NSDictionary *foundPeerInfo = @{@"peerID" : peerID, @"discoveryInfo" : info};
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_FOUND object:nil userInfo:foundPeerInfo];
+
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {
+    NSDictionary *lostPeer = @{@"peerID" : peerID};
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_LOST object:nil userInfo:lostPeer];
+}
+
+//accept
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL accept, MCSession *session))invitationHandler {
+    invitationHandler(YES, self.session);
+    self.tempInfo = @{@"peerID" : peerID, @"playerName" : context};
+}
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
     NSDictionary *message = @{@"peerID" : peerID, @"data" : data};
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_RECEIVE_DATA object:nil userInfo:message];
 }
-
 
 -(void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress{
     
 }
 
-
 -(void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error{
     
 }
-
 
 -(void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID{
     

@@ -24,9 +24,7 @@
 @end
 
 @interface NetworkGameViewController ()
-
 @property (assign) EnumGame gameType;
-@property (assign) EnumGameMode gameMode;
 
 @end
 
@@ -51,6 +49,7 @@
 - (IBAction)onJoinRoomTap:(id)sender {
     JoinRoomViewController *joinRoomController = (JoinRoomViewController *)[Utilities viewControllerWithClass:JoinRoomViewController.class];
     joinRoomController.gameType = self.gameType;
+    [self.navigationController pushViewController:joinRoomController animated:YES];
 }
 
 @end

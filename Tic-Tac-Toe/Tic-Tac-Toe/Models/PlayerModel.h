@@ -12,7 +12,7 @@
 @class GameCellModel;
 @interface PlayerModel : NSObject
 
-@property (strong, nonatomic, readonly) NSString *name;
+@property (strong, nonatomic) NSString *name;
 @property (assign) EnumPlayerSymbol symbol;
 
 - (instancetype) initWithName:(NSString *)name;

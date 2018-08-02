@@ -13,6 +13,7 @@
 #define IDENTIFIER_SCOREBOARD_CELL                  @"ScoreboardCellIdentifier"
 #define IDENTIFIER_LOST_GAMES_CELL                  @"LostGamesTableViewCellIdentifier"
 #define IDENTIFIER_DEVICE_CELL                      @"DeviceCellIdentifier"
+#define IDENTIFIER_FOUND_GAME_CELL                  @"FoundGameCellIdentifier"
 
 #define IDENTIFIER_MAIN_VIEW_CONTROLLER             @"MainViewControllerID"
 #define IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER       @"GameTableViewControllerID"
@@ -43,13 +44,11 @@
 #define HUMAN_SCORES_KEY                            @"scores"
 #define LOST_AGAINST_BOT_KEY                        @"lostGames"
 
-#define SCORES_H_H_GAME                             2
-#define SCORES_H_B_EASY_GAME                        1
-#define SCORES_H_B_MEDIUM_GAME                      2
-#define SCORES_H_B_HARD_GAME                        4
-
 #define NOTIFICATION_CHANGED_STATE                  @"MCPeerDidChangeState"
 #define NOTIFICATION_RECEIVE_DATA                   @"MCPeerDidReceiveInformation"
+#define NOTIFICATION_PEER_FOUND                     @"MCPeerFound"
+#define NOTIFICATION_PEER_LOST                      @"MCPeerLost"
+#define NOTIFICATION_PEER_WILL_JOIN                 @"MCPeerWillJoin"
 #define SERVICE_TYPE                                @"game"
 
 #define DATA_SEPARATOR                              @" "

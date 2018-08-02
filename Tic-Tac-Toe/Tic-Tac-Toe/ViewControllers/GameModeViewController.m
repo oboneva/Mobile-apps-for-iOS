@@ -53,4 +53,4 @@
     [self.navigationController pushViewController:networkGameController animated:YES];
 }
 
-@end //////////////////////////////ready
+@end
