@@ -8,17 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
+#import "Protocols.h"
 
 @interface MultipeerConectivityManager : NSObject <MCSessionDelegate, MCNearbyServiceAdvertiserDelegate>
 
-@property (nonatomic, strong) MCPeerID *peerID;
-@property (nonatomic, strong) MCSession *session;
-@property (nonatomic, strong) MCNearbyServiceBrowser *browser;
-@property (nonatomic, strong) MCNearbyServiceAdvertiser *advertiser;
+@property (weak, nonatomic)id<PeerSearchDelegate> peerSearchDelegate;
+@property (weak, nonatomic)id<PeerSessionDelegate> peerSessionDelegate;
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
--(void)setupMCBrowser;
--(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo;
+-(void)startBrowsing;
+-(void)stopBrowsing;
+-(void)startAdvertisingWithDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo;
+-(void)stopAdvertising;
+-(void)invitePeer:(MCPeerID *)peerID;
+-(void)sendData:(NSData *)data toPeer:(MCPeerID *)peerID;
 
 +(instancetype)sharedInstance;
 

@@ -20,12 +20,12 @@
 #define TIC_TAC      @"Tic-Tac-Toe"
 #define TUNAK_TUNAK  @"Tunak-Tunak-Tun"
 
-@interface CreateRoomViewController () <UITextFieldDelegate>
+@interface CreateRoomViewController () <UITextFieldDelegate, PeerSessionDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *roomNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *playerNameTextField;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) GameEngine *engine;
-@property(strong, nonatomic) NSNotification *notf;
-
 @property (assign) EnumGame gameType;
 
 @end
@@ -41,11 +41,11 @@
     [self.view addGestureRecognizer:tap];
     self.playerNameTextField.delegate = self;
     self.roomNameTextField.delegate = self;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:NOTIFICATION_CHANGED_STATE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerIsAboutToJoin:) name:NOTIFICATION_PEER_WILL_JOIN object:nil];
+    
+    MultipeerConectivityManager.sharedInstance.peerSessionDelegate = self;
+    
+    [self.activityIndicator hidesWhenStopped];
+    [self.activityIndicator setHidesWhenStopped:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,7 +62,7 @@
     return YES;
 }
 
-- (void)createEngine { /////////////////////////////////////////////////////////////////////////////////////
+- (void)createEngine {
     HumanModel *player1 = [[HumanModel alloc] initWithName:self.playerNameTextField.text];
     HumanModel *player2 = [[HumanModel alloc] initWithName:@""];
     
@@ -82,23 +82,28 @@
     gameController.peer = peerID;
     gameController.roomBelongsToMe = true;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    MultipeerConectivityManager.sharedInstance.peerSessionDelegate = nil;
+    [self.activityIndicator stopAnimating];
     [self.navigationController pushViewController:gameController animated:YES];
 }
 
 - (IBAction)onCreateTap:(id)sender {
+    [self.activityIndicator startAnimating];
+    
     NSString *gameName = TIC_TAC;
     if (self.gameType == EnumGameTunakTunakTun) {
         gameName = TUNAK_TUNAK;
     }
     NSDictionary *discoveryInfo = @{@"roomName" : self.roomNameTextField.text, @"gameName" : gameName, @"currentPlayers" : @"1", @"allPlayers" : @"2"};
-    [MultipeerConectivityManager.sharedInstance advertiseSelf:true withDiscoveryInfo:discoveryInfo];
+    [MultipeerConectivityManager.sharedInstance startAdvertisingWithDiscoveryInfo:discoveryInfo];
     [self createEngine];
 }
 
-- (void)peerIsAboutToJoin:(NSNotification *)notification {
-    MCPeerID *peer = [[notification userInfo] objectForKey:@"peerID"];
-    NSData *data  = [[notification userInfo] objectForKey:@"playerName"];
+- (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
+    //don't care
+}
+
+- (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
     NSString *otherPlayerName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     self.engine.player2.name = otherPlayerName;
     
@@ -107,14 +112,12 @@
         NSData *dataName = [myName dataUsingEncoding:NSUTF8StringEncoding];
         NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, self.engine.currentPlayer.name];
         NSData *dataTurn = [turn dataUsingEncoding:NSUTF8StringEncoding];
-        NSArray *peers = @[peer];
-        NSError *error;
         
-        [MultipeerConectivityManager.sharedInstance.session sendData:dataName toPeers:peers withMode:MCSessionSendDataReliable error:&error];
-        [MultipeerConectivityManager.sharedInstance.session sendData:dataTurn toPeers:peers withMode:MCSessionSendDataReliable error:&error];
-        [MultipeerConectivityManager.sharedInstance advertiseSelf:NO withDiscoveryInfo:nil];
+        [MultipeerConectivityManager.sharedInstance sendData:dataName toPeer:peerID];
+        [MultipeerConectivityManager.sharedInstance sendData:dataTurn toPeer:peerID];
+        [MultipeerConectivityManager.sharedInstance stopAdvertising];
         
-        [self startGameWithPeer:peer];
+        [self startGameWithPeer:peerID];
     });
 }
 

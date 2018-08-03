@@ -10,9 +10,11 @@
 #define Protocols_h
 
 #import "Constants.h"
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 @class PlayerModel;
 @class GameCellModel;
+
 @protocol EndGameDelegate
 
 - (void)didEndGameWithWinner:(PlayerModel *)winner;
@@ -56,6 +58,20 @@
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)startGame;
+
+@end
+
+@protocol PeerSearchDelegate
+
+- (void)didFoundPeer:(MCPeerID *)peerID withInfo:(NSDictionary *)info;
+- (void)didLostPeer:(MCPeerID *)peerID;
+
+@end
+
+@protocol PeerSessionDelegate
+
+- (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID;
+- (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state;
 
 @end
 

@@ -8,10 +8,16 @@
 
 #import "MultipeerConectivityManager.h"
 #import "Constants.h"
+#import "Protocols.h"
 
 @interface MultipeerConectivityManager () <MCNearbyServiceBrowserDelegate>
 
 @property(strong, nonatomic) NSDictionary *tempInfo;
+
+@property (nonatomic, strong) MCPeerID *peerID;
+@property (nonatomic, strong) MCSession *session;
+@property (nonatomic, strong) MCNearbyServiceBrowser *browser;
+@property (nonatomic, strong) MCNearbyServiceAdvertiser *advertiser;
 
 @end
 
@@ -45,7 +51,7 @@
     self.session.delegate = self;
 }
 
--(void)setupMCBrowser {
+-(void)startBrowsing {
     self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerID serviceType:SERVICE_TYPE];
     self.browser.delegate = self;
     [self.browser startBrowsingForPeers];
@@ -55,45 +61,47 @@
     [self.browser stopBrowsingForPeers];
 }
 
--(void)advertiseSelf:(BOOL)shouldAdvertise withDiscoveryInfo:(NSDictionary<NSString *, NSString *> *)discoveryInfo {
-    if (shouldAdvertise) {
-        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:discoveryInfo serviceType:SERVICE_TYPE];
-        self.advertiser.delegate = self;
-        [self.advertiser startAdvertisingPeer];
-    }
-    else {
-        [self.advertiser stopAdvertisingPeer];
-        self.advertiser = nil;
-    }
+- (void)stopAdvertising {
+    [self.advertiser stopAdvertisingPeer];
+    self.advertiser = nil;
+}
+
+-(void)startAdvertisingWithDiscoveryInfo:(NSDictionary<NSString *, NSString *> *)discoveryInfo {
+    self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:discoveryInfo serviceType:SERVICE_TYPE];
+    self.advertiser.delegate = self;
+    [self.advertiser startAdvertisingPeer];
+}
+
+-(void)invitePeer:(MCPeerID *)peerID {
+    [self.browser invitePeer:peerID toSession:self.session withContext:nil timeout:30];
+}
+
+- (void)sendData:(NSData *)data toPeer:(MCPeerID *)peerID {
+    NSError *error;
+    [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataReliable error:&error];
 }
 
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
-    if (state == MCSessionStateConnected) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_WILL_JOIN object:nil userInfo:self.tempInfo];
+    if (state != MCSessionStateConnecting) {
+            [self.peerSessionDelegate peer:(peerID) changedState:state];
     }
 }
 
-//browser delegate
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)info {
-    NSDictionary *foundPeerInfo = @{@"peerID" : peerID, @"discoveryInfo" : info};
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_FOUND object:nil userInfo:foundPeerInfo];
-
+    [self.peerSearchDelegate didFoundPeer:peerID withInfo:info];
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {
-    NSDictionary *lostPeer = @{@"peerID" : peerID};
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PEER_LOST object:nil userInfo:lostPeer];
+    [self.peerSearchDelegate didLostPeer:peerID];
 }
 
 //accept
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL accept, MCSession *session))invitationHandler {
     invitationHandler(YES, self.session);
-    self.tempInfo = @{@"peerID" : peerID, @"playerName" : context};
 }
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
-    NSDictionary *message = @{@"peerID" : peerID, @"data" : data};
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_RECEIVE_DATA object:nil userInfo:message];
+    [self.peerSessionDelegate didReceiveData:data fromPeer:peerID];
 }
 
 -(void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress{

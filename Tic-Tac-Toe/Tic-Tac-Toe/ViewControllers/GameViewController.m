@@ -22,10 +22,11 @@
 #import "MultipeerConectivityManager.h"
 #import "Protocols.h"
 
-@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate>
+@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
 @property (strong, nonatomic) MatrixCollectionViewController *matrixViewController;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (weak, nonatomic) IBOutlet UILabel *player1InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *player2InfoLabel;
@@ -48,9 +49,9 @@
     
     self.labelsColour = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
     [self.startNewGameButton setHidden:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveDataWithNotification:) name:NOTIFICATION_RECEIVE_DATA object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didStateChange:) name:NOTIFICATION_CHANGED_STATE object:nil];
+    MultipeerConectivityManager.sharedInstance.peerSessionDelegate = self;
+
+    [self.activityIndicator setHidesWhenStopped:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,24 +104,6 @@
         [self.matrixViewController.collectionView reloadData];
     });
 }
-//two devices
-- (void)didStateChange:(NSNotification *)notif {
-    NSNumber *stateWrapper = (NSNumber *)notif.userInfo[@"state"];
-    MCSessionState state = (MCSessionState)stateWrapper.intValue;
-    
-    if (state == MCSessionStateNotConnected) {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 3] animated:YES];
-            });
-        }];
-        
-        [alert addAction:quit];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
 
 - (IBAction)onNewGameTap:(id)sender {
     [self.startNewGameButton setHidden:YES];
@@ -132,7 +115,10 @@
         [self.engine setUpPlayers];
         [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
         [self.engine newMultipeerGame];
-    }    
+    }
+    else if(!self.roomBelongsToMe) {
+        [self.activityIndicator startAnimating];
+    }
     self.matrixView.userInteractionEnabled = YES;
 }
 
@@ -140,30 +126,13 @@
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
     NSString *stringData = [NSString stringWithFormat:@"%ld - %d,%d", EnumSendDataCoordinates, (int)indexPath.section, (int)indexPath.row];
     NSData *data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
-    [self sendData:data];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
 - (void)sendTheFirstPlayerOnTurn:(NSString *)name {
-    NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
-    [self sendData:data];
-}
-
-- (void)sendData:(NSData *)data {
-    NSArray *peers = @[self.peer];
-    NSError *error;
-    [MultipeerConectivityManager.sharedInstance.session sendData:data toPeers:peers withMode:MCSessionSendDataReliable error:&error];
-}
-
-- (void)didReceiveDataWithNotification:(NSNotification *)notification {
-    NSData *data = [[notification userInfo] objectForKey:@"data"];
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray *stringComponents = [dataString componentsSeparatedByString:DATA_SEPARATOR];
-    if ([stringComponents.firstObject intValue] == EnumSendDataCoordinates ) {
-        [self didReceiveCoordinatesWithString:stringComponents.lastObject];
-    }
-    else if ([stringComponents.firstObject intValue] == EnumSendDataTurn) {
-        [self didReceivePlayerOnTurnWithString:stringComponents.lastObject];
-    }
+    NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, name];
+    NSData *data = [turn dataUsingEncoding:NSUTF8StringEncoding];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
 - (void)didReceiveCoordinatesWithString:(NSString *)string {
@@ -184,7 +153,11 @@
     else if (!self.roomBelongsToMe) {
         self.engine.currentPlayer = self.engine.player2;
     }
-    [self.engine startMultipeerGame];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activityIndicator stopAnimating];
+        [self.engine newMultipeerGame];
+    });
+    
 }
 
 
@@ -239,9 +212,30 @@
     }
 }
 
-/*
-- (void)newGame {
-    [self.engine newGame];
-}*/
+- (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
+    if (state == MCSessionStateNotConnected) {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 3] animated:YES];
+            });
+        }];
+        
+        [alert addAction:quit];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
 
-@end // newGame and startGame for multiple devices //JSON
+- (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
+    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSArray *stringComponents = [dataString componentsSeparatedByString:DATA_SEPARATOR];
+    if ([stringComponents.firstObject intValue] == EnumSendDataCoordinates ) {
+        [self didReceiveCoordinatesWithString:stringComponents.lastObject];
+    }
+    else if ([stringComponents.firstObject intValue] == EnumSendDataTurn) {
+        [self didReceivePlayerOnTurnWithString:stringComponents.lastObject];
+    }
+}
+
+@end
