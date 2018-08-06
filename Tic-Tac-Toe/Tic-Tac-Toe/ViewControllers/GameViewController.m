@@ -34,6 +34,8 @@
 @property (strong, nonatomic) UIColor *labelsColour;
 @property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 
+@property (assign) BOOL otherPlayerTappedNewGame;
+
 @end
 
 @implementation GameViewController
@@ -111,14 +113,29 @@
     if (self.gameMode == EnumGameModeOneDevice) {
         [self.engine newGame];
     }
-    else if (self.roomBelongsToMe) { //two devices
+    
+    if (self.roomBelongsToMe) {
         [self.engine setUpPlayers];
         [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
-        [self.engine newMultipeerGame];
+        if (self.otherPlayerTappedNewGame) {
+            self.otherPlayerTappedNewGame = false;
+            [self.engine newMultipeerGame];
+        }
+        else {
+            [self.activityIndicator startAnimating];
+        }
     }
-    else if(!self.roomBelongsToMe) {
-        [self.activityIndicator startAnimating];
+    else {
+        [self sendTappedNewGame];
+        if(self.otherPlayerTappedNewGame) {
+            self.otherPlayerTappedNewGame = false;
+            [self.engine newMultipeerGame];
+        }
+        else {
+            [self.activityIndicator startAnimating];
+        }
     }
+    
     self.matrixView.userInteractionEnabled = YES;
 }
 
@@ -131,6 +148,12 @@
 
 - (void)sendTheFirstPlayerOnTurn:(NSString *)name {
     NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, name];
+    NSData *data = [turn dataUsingEncoding:NSUTF8StringEncoding];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+}
+
+- (void)sendTappedNewGame {
+    NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataReadyToPlay, self.engine.player1.name];
     NSData *data = [turn dataUsingEncoding:NSUTF8StringEncoding];
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
@@ -153,13 +176,32 @@
     else if (!self.roomBelongsToMe) {
         self.engine.currentPlayer = self.engine.player2;
     }
+    self.otherPlayerTappedNewGame = true;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activityIndicator stopAnimating];
-        [self.engine newMultipeerGame];
+        if ([self.activityIndicator isAnimating]) {
+            [self.activityIndicator stopAnimating];
+            self.otherPlayerTappedNewGame = false;
+            [self.engine newMultipeerGame];
+        }
     });
     
 }
 
+- (void)didReceiveJoinedPlayerStartedNewGame {
+    self.otherPlayerTappedNewGame = true;
+    __block BOOL isActivityIndicatorAnimating;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        isActivityIndicatorAnimating = [self.activityIndicator isAnimating];
+    });
+    if (isActivityIndicatorAnimating) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.activityIndicator stopAnimating];
+            self.otherPlayerTappedNewGame = false;
+            [self.engine newMultipeerGame];
+        });
+    }
+}
 
 // EngineDelegate methods
 
@@ -235,6 +277,9 @@
     }
     else if ([stringComponents.firstObject intValue] == EnumSendDataTurn) {
         [self didReceivePlayerOnTurnWithString:stringComponents.lastObject];
+    }
+    else if([stringComponents.firstObject intValue] == EnumSendDataReadyToPlay) {
+        [self didReceiveJoinedPlayerStartedNewGame];
     }
 }
 
