@@ -81,6 +81,10 @@
     [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataReliable error:&error];
 }
 
+- (void)disconnectPeer {
+    [self.session disconnect];
+}
+
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
     if (state != MCSessionStateConnecting) {
             [self.peerSessionDelegate peer:(peerID) changedState:state];

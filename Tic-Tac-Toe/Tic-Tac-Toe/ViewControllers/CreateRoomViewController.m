@@ -104,17 +104,16 @@
 }
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-    NSString *otherPlayerName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    self.engine.player2.name = otherPlayerName;
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    if ([dataDict objectForKey:KEY_NAME]) {
+        self.engine.player2.name = dataDict[KEY_NAME];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *myName = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataName, self.playerNameTextField.text];
-        NSData *dataName = [myName dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, self.engine.currentPlayer.name];
-        NSData *dataTurn = [turn dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dataDict = @{KEY_TURN : self.engine.currentPlayer.name, KEY_NAME : self.playerNameTextField.text};
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
         
-        [MultipeerConectivityManager.sharedInstance sendData:dataName toPeer:peerID];
-        [MultipeerConectivityManager.sharedInstance sendData:dataTurn toPeer:peerID];
+        [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
         [MultipeerConectivityManager.sharedInstance stopAdvertising];
         
         [self startGameWithPeer:peerID];

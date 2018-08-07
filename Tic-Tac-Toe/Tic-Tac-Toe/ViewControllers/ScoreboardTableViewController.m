@@ -16,6 +16,8 @@
 #import "Constants.h"
 #import "UserDefaultsManager.h"
 
+#define SCOREBOARD_SECTIONS                         2
+
 @interface ScoreboardTableViewController ()
 
 @property (strong, nonatomic) NSDictionary *scoreboardData;

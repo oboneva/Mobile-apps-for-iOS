@@ -8,7 +8,6 @@
 
 #import "GameEngine.h"
 
-#import "Constants.h"
 #import "Utilities.h"
 #import "Protocols.h"
 #import "UserDefaultsManager.h"
@@ -29,7 +28,11 @@
 #define SCORES_H_B_MEDIUM_GAME                      2
 #define SCORES_H_B_HARD_GAME                        4
 
-@interface GameEngine ()
+#define ROWS_COUNT                                  3
+#define ITEMS_COUNT                                 3
+#define DIRECTIONS                                  8
+
+@interface GameEngine () <BoardStateDelegate>
 
 @property (strong, nonatomic) NSArray<NSArray<GameCellModel *> *> *gameMatrix;
 - (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath;
@@ -281,6 +284,12 @@
 
 - (BOOL)areCoordinatesValidX:(int)x andY:(int)y {
     return x >= 0 && x < ROWS_COUNT && y >= 0 && y < ITEMS_COUNT;
+}
+
+-(NSArray<NSIndexPath *> *)availableCells
+{
+    //This is a stub
+    return @[];
 }
 
 @end

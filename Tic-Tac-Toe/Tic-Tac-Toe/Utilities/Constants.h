@@ -28,11 +28,6 @@
 #define IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER      @"CreateRoomViewControllerID"
 #define IDENTIFIER_JOIN_ROOM_VIEW_CONTROLLER        @"JoinRoomViewControllerID"
 
-#define ROWS_COUNT                                  3
-#define ITEMS_COUNT                                 3
-#define DIRECTIONS                                  8
-#define SCOREBOARD_SECTIONS                         2
-
 #define EMPTY_CELL                                  @""
 
 #define FIRST_PLAYER_SYMBOL                         EnumCellWithX
@@ -44,14 +39,12 @@
 #define HUMAN_SCORES_KEY                            @"scores"
 #define LOST_AGAINST_BOT_KEY                        @"lostGames"
 
-#define NOTIFICATION_CHANGED_STATE                  @"MCPeerDidChangeState"
-#define NOTIFICATION_RECEIVE_DATA                   @"MCPeerDidReceiveInformation"
-#define NOTIFICATION_PEER_FOUND                     @"MCPeerFound"
-#define NOTIFICATION_PEER_LOST                      @"MCPeerLost"
-#define NOTIFICATION_PEER_WILL_JOIN                 @"MCPeerWillJoin"
-#define SERVICE_TYPE                                @"game"
+#define KEY_NAME                                    @"name"
+#define KEY_TURN                                    @"turn"
+#define KEY_COORDINATES                             @"coordinates"
+#define KEY_READY                                   @"ready"
 
-#define DATA_SEPARATOR                              @" "
+#define SERVICE_TYPE                                @"game"
 
 #define TIC_TAC_TOE                                 EnumGameTicTacToe
 #define TUNAK_TUNAK_TUN                             EnumGameTunakTunakTun
@@ -89,19 +82,5 @@ typedef enum : NSInteger {
     EnumGameModeOneDevice = 0,
     EnumGameModeTwoDevices,
 } EnumGameMode;
-
-typedef enum : NSInteger {
-    EnumSendDataTurn = 0,
-    EnumSendDataName,
-    EnumSendDataGame,
-    EnumSendDataCoordinates,
-    EnumSendDataState,
-    EnumSendDataReadyToPlay,
-} EnumSendData;
-
-typedef enum : NSInteger {
-    EnumReadyToListen = 0,
-    EnumReadyToPlay,
-} EnumReady;
 
 #endif /* Constants_h */

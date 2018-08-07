@@ -22,6 +22,7 @@
 -(void)stopAdvertising;
 -(void)invitePeer:(MCPeerID *)peerID;
 -(void)sendData:(NSData *)data toPeer:(MCPeerID *)peerID;
+- (void)disconnectPeer;
 
 +(instancetype)sharedInstance;
 

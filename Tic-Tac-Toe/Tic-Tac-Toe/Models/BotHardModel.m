@@ -10,6 +10,10 @@
 
 @implementation BotHardModel
 
+- (void)makeTheMoveSpecific {
+    [NSThread sleepForTimeInterval:5];
+}
+
 - (NSString *)name {
     return @"Bot-Hard";
 }

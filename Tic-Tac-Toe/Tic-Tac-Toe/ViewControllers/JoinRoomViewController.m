@@ -27,11 +27,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *playerNameTextField;
 @property (weak, nonatomic) IBOutlet UITableView *rooms;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UIView *roomsFoundSectionHeader;
+@property (weak, nonatomic) IBOutlet UIButton *joinButton;
+
 @property (assign) EnumGame gameType;
 @property (strong, nonatomic) NSMutableDictionary<MCPeerID *, NSDictionary *> *roomsFound;
 @property (strong, nonatomic) NSMutableArray<MCPeerID *> *peers;
 @property (strong, nonatomic) MCPeerID *peerToJoin;
-@property (strong, nonatomic) NSString *otherPlayerName;
 
 @end
 
@@ -53,6 +55,7 @@
     
     [self.activityIndicator hidesWhenStopped];
     [self.activityIndicator setHidesWhenStopped:YES];
+    [self.joinButton setHidden:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,11 +97,22 @@
     return cell;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return self.roomsFoundSectionHeader;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return self.roomsFoundSectionHeader.frame.size.height;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.joinButton setHidden:NO];
     self.peerToJoin = self.peers[indexPath.row];
 }
 
@@ -167,7 +181,8 @@
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
     if (state == MCSessionStateConnected) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSData *data = [self.playerNameTextField.text dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dataDict = @{KEY_NAME: self.playerNameTextField.text};
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
             [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peerToJoin];
         });
         
@@ -175,14 +190,8 @@
 }
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray *stringComponents = [dataString componentsSeparatedByString:DATA_SEPARATOR];
-    if ([stringComponents.firstObject intValue] == EnumSendDataTurn) {
-        [self createEngineWithSecondPlayer:self.otherPlayerName andPlayerOnTurn:stringComponents.lastObject];
-    }
-    else if([stringComponents.firstObject intValue] == EnumSendDataName) {
-        self.otherPlayerName = stringComponents.lastObject;
-    }
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    [self createEngineWithSecondPlayer:dataDict[KEY_NAME] andPlayerOnTurn:dataDict[KEY_TURN]];
 }
 
 @end

@@ -108,7 +108,7 @@
     if (size > self.view.frame.size.height) {
         size = self.view.frame.size.height;
     }
-    return CGSizeMake(size * 0.3 - 5, size * 0.3 - 5);
+    return CGSizeMake(size * 0.28 - 5, size * 0.28 - 5);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

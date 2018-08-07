@@ -8,6 +8,8 @@
 
 #import "GameEngine.h"
 
+#import "JoinRoomViewController.h"
+#import "CreateRoomViewController.h"
 #import "GameViewController.h"
 #import "MatrixCollectionViewController.h"
 
@@ -21,8 +23,9 @@
 #import "Utilities.h"
 #import "MultipeerConectivityManager.h"
 #import "Protocols.h"
+#import "Constants.h"
 
-@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate>
+@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
 @property (strong, nonatomic) MatrixCollectionViewController *matrixViewController;
@@ -52,6 +55,8 @@
     self.labelsColour = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
     [self.startNewGameButton setHidden:YES];
     MultipeerConectivityManager.sharedInstance.peerSessionDelegate = self;
+    
+    self.navigationController.delegate = self;
 
     [self.activityIndicator setHidesWhenStopped:YES];
 }
@@ -67,6 +72,15 @@
     self.matrixViewController.engineDelegate = self;
     self.engine.notifyPlayerToPlayDelegate = self;
     self.engine.endGameDelegate = self;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isKindOfClass:JoinRoomViewController.class] || //back button is pressed
+        [viewController isKindOfClass:CreateRoomViewController.class]) {
+        //send state
+        //MultipeerConectivityManager.sharedInstance
+        [MultipeerConectivityManager.sharedInstance disconnectPeer];
+    }
 }
 
 -(void)didChangePlayerToPlayWithName:(NSString *)playerName {
@@ -125,7 +139,7 @@
             [self.activityIndicator startAnimating];
         }
     }
-    else {
+    else if(!self.roomBelongsToMe && self.gameMode == EnumGameModeTwoDevices){
         [self sendTappedNewGame];
         if(self.otherPlayerTappedNewGame) {
             self.otherPlayerTappedNewGame = false;
@@ -141,20 +155,21 @@
 
 //two devices
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *stringData = [NSString stringWithFormat:@"%ld - %d,%d", EnumSendDataCoordinates, (int)indexPath.section, (int)indexPath.row];
-    NSData *data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *stringCoords = [NSString stringWithFormat:@"%d,%d",(int)indexPath.section, (int)indexPath.row];
+    NSDictionary *dataDict = @{KEY_COORDINATES : stringCoords};
+    NSData *data  =[NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
 - (void)sendTheFirstPlayerOnTurn:(NSString *)name {
-    NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataTurn, name];
-    NSData *data = [turn dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dataDict = @{KEY_TURN : name};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
 - (void)sendTappedNewGame {
-    NSString *turn = [[NSString alloc] initWithFormat:@"%ld - %@", EnumSendDataReadyToPlay, self.engine.player1.name];
-    NSData *data = [turn dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dataDict = @{KEY_READY : self.engine.player1.name};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
@@ -270,16 +285,17 @@
 }
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray *stringComponents = [dataString componentsSeparatedByString:DATA_SEPARATOR];
-    if ([stringComponents.firstObject intValue] == EnumSendDataCoordinates ) {
-        [self didReceiveCoordinatesWithString:stringComponents.lastObject];
-    }
-    else if ([stringComponents.firstObject intValue] == EnumSendDataTurn) {
-        [self didReceivePlayerOnTurnWithString:stringComponents.lastObject];
-    }
-    else if([stringComponents.firstObject intValue] == EnumSendDataReadyToPlay) {
-        [self didReceiveJoinedPlayerStartedNewGame];
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    for (NSString *key in dataDict.allKeys) {
+        if ([key isEqualToString:KEY_COORDINATES]) {
+            [self didReceiveCoordinatesWithString:dataDict[key]];
+        }
+        else if ([key isEqualToString:KEY_TURN]) {
+            [self didReceivePlayerOnTurnWithString:dataDict[key]];
+        }
+        else if([key isEqualToString:KEY_READY]) {
+            [self didReceiveJoinedPlayerStartedNewGame];
+        }
     }
 }
 
