@@ -945,7 +945,7 @@
                                 </connections>
                             </containerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hitler" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-L7-Sck">
-                                <rect key="frame" x="76.333333333333329" y="84" width="51.999999999999986" height="27"/>
+                                <rect key="frame" x="76.333333333333329" y="84" width="51.333333333333329" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -965,7 +965,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hitler won." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfO-8b-sib">
-                                <rect key="frame" x="50" y="670" width="116" height="30"/>
+                                <rect key="frame" x="50.000000000000007" y="670" width="115.66666666666669" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -976,13 +976,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="D5S-mK-SJq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BfO-8b-sib" secondAttribute="trailing" constant="248" id="1W3-dI-KE9"/>
+                            <constraint firstItem="D5S-mK-SJq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BfO-8b-sib" secondAttribute="trailing" constant="200" id="1W3-dI-KE9"/>
                             <constraint firstItem="BfO-8b-sib" firstAttribute="leading" secondItem="D5S-mK-SJq" secondAttribute="leading" constant="50" id="4rT-oT-1g7"/>
                             <constraint firstItem="C00-mP-mkJ" firstAttribute="top" secondItem="D5S-mK-SJq" secondAttribute="top" constant="20" id="70Q-hw-JCE"/>
                             <constraint firstItem="WG7-KU-2ba" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="D5S-mK-SJq" secondAttribute="leading" constant="244" id="7hN-wD-AN0"/>
                             <constraint firstItem="YlG-GR-Yg3" firstAttribute="centerX" secondItem="D5S-mK-SJq" secondAttribute="centerX" id="8Bu-7p-Cez"/>
                             <constraint firstItem="64f-QQ-6SY" firstAttribute="top" secondItem="YlG-GR-Yg3" secondAttribute="bottom" constant="25" id="CMr-1p-nfL"/>
-                            <constraint firstItem="D5S-mK-SJq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4R2-L7-Sck" secondAttribute="trailing" constant="285.66666666666669" id="GtO-Y8-Ueb"/>
+                            <constraint firstItem="D5S-mK-SJq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4R2-L7-Sck" secondAttribute="trailing" constant="200" id="GtO-Y8-Ueb"/>
                             <constraint firstItem="C00-mP-mkJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="D5S-mK-SJq" secondAttribute="leading" constant="240" id="K8q-76-M0I"/>
                             <constraint firstItem="D5S-mK-SJq" firstAttribute="bottom" secondItem="WG7-KU-2ba" secondAttribute="bottom" constant="30" id="OZl-7P-vHB"/>
                             <constraint firstItem="D5S-mK-SJq" firstAttribute="bottom" secondItem="BfO-8b-sib" secondAttribute="bottom" constant="36" id="VGi-wJ-HJK"/>

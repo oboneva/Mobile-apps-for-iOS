@@ -47,8 +47,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [MultipeerConectivityManager.sharedInstance setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
     self.playerNameTextField.delegate = self;
     
     self.rooms.dataSource = self;
@@ -71,10 +69,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)dismissKeyboard {
-    [self.view endEditing:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

@@ -20,6 +20,7 @@
 
 - (BOOL)isEqualToCell:(GameCellModel *)other;
 - (BOOL)isSelectable;
+- (BOOL)isEmpty;
 - (NSString *)stringRepresentation;
 
 @end

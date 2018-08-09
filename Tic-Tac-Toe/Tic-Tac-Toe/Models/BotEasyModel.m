@@ -7,10 +7,16 @@
 //
 
 #import "BotEasyModel.h"
+#import "Utilities.h"
 
 @implementation BotEasyModel
 
-- (void)makeTheMoveSpecific {};
+- (NSIndexPath *)makeMove {
+    NSArray *available = [self.boardStateDelegate availableCells];
+    NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count]];
+    
+    return index;
+}
 
 -(NSString *)name {
     return @"G-Eazy";

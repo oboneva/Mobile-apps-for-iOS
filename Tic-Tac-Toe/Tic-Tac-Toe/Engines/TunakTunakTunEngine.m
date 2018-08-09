@@ -28,6 +28,11 @@
 
 @implementation TunakTunakTunEngine
 
+- (int)emptyCellsCount {
+    return 0;
+}
+
+
 +(Class)cellType
 {
     return TunakTunakTunCellModel.class;
@@ -57,9 +62,29 @@
     }
 }
 
--(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
     [self setNewColourForCellAtIndexPath:indexPath];
+}
+
+- (void)unmarkCellAtIndexPath:(NSIndexPath *)indexPath {
+    TunakTunakTunCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
+    if (cell.colour == LAST_COLOUR) {
+        self.filled_cells--;
+    }
+    cell.colour--;
+}
+
+- (BOOL)isWinCombinationAtIndexPathForMe:(NSIndexPath *)indexPath {
+    [self markCellSelectedAtIndexPath:indexPath];
+    BOOL winCombination = [self isWinnerPlayerAtIndex:indexPath];
+    [self unmarkCellAtIndexPath:indexPath];
+    
+    return winCombination;
+}
+
+- (BOOL)isWinCombinationAtIndexPathForOther:(NSIndexPath *)indexPath {
+    //kind of a stub
+    return false;
 }
 
 @end

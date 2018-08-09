@@ -7,11 +7,29 @@
 //
 
 #import "BotHardModel.h"
+#import "Utilities.h"
 
 @implementation BotHardModel
 
-- (void)makeTheMoveSpecific {
+- (NSIndexPath *)makeMove{
     [NSThread sleepForTimeInterval:5];
+
+    NSArray<NSIndexPath *> *available = [self.boardStateDelegate availableCells];
+    int count = [self.boardStateDelegate emptyCellsCount];
+    if (count < 8) {
+        for (NSIndexPath *index in available) {
+            if ([self.boardStateDelegate isWinCombinationAtIndexPathForMe:index]) {
+                return index;
+            }
+        }
+        for (NSIndexPath *index in available) {
+            if ([self.boardStateDelegate isWinCombinationAtIndexPathForOther:index]) {
+                return index;
+            }
+        }
+    }
+
+    return available[[Utilities randomNumberWithUpperBound:available.count]];
 }
 
 - (NSString *)name {

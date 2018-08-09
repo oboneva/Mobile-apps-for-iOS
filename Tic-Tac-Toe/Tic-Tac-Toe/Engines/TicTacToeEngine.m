@@ -50,19 +50,50 @@
     return [super isCellAtIndexPathSelectable:indexPath] && [self.gameMatrix[indexPath.section][indexPath.item] isSelectable];
 }
 
-- (void)setNewContent:(EnumPlayerSymbol)symbol forCellAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setNewContent:(EnumCell)symbol forCellAtIndexPath:(NSIndexPath *)indexPath {
     TicTacToeCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
-    cell.content = (EnumCell)symbol;
+    cell.content = symbol;
+}
+
+- (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    [self setNewContent:(EnumCell)self.currentPlayer.symbol forCellAtIndexPath:indexPath];
     self.filled_cells++;
 }
 
--(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self setNewContent:self.currentPlayer.symbol forCellAtIndexPath:indexPath];
+- (void)unmarkCellAtIndexPath:(NSIndexPath *)indexPath {
+    [self setNewContent:EnumCellEmpty forCellAtIndexPath:indexPath];
+    self.filled_cells--;
 }
 
-- (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath
-{
+- (BOOL)isWinCombinationAtIndexPathForMe:(NSIndexPath *)indexPath {
+    BOOL result;
+    [self markCellSelectedAtIndexPath:indexPath];
+    result = [self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath];
+    [self unmarkCellAtIndexPath:indexPath];
+    
+    return result;
+}
+
+- (BOOL)isWinCombinationAtIndexPathForOther:(NSIndexPath *)indexPath {
+    BOOL result;
+    EnumPlayerSymbol otherPlayerSymbol = EnumPlayerSymbolX;
+    if (self.currentPlayer.symbol == EnumPlayerSymbolX) {
+        otherPlayerSymbol = EnumPlayerSymbolO;
+    }
+    
+    [self setNewContent:(EnumCell)otherPlayerSymbol forCellAtIndexPath:indexPath];
+    self.filled_cells++;
+    result = [self isWinnerPlayerWithSymbol:otherPlayerSymbol atIndex:indexPath];
+    [self unmarkCellAtIndexPath:indexPath];
+    
+    return result;
+}
+
+- (int)emptyCellsCount { 
+    return 0;
+}
+
+- (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath {
     return [self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath];
 }
 

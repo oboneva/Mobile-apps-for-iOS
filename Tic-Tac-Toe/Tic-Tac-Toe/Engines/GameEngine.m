@@ -69,8 +69,11 @@
     return self.gameMatrix[indexPath.section][indexPath.item];
 }
 
--(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    //Does nothing in base class
+}
+
+- (void)unmarkCellAtIndexPath:(NSIndexPath *)indexPath {
     //Does nothing in base class
 }
 
@@ -140,7 +143,7 @@
         }
     }
     if(!flag) {
-        [lostGames addObject:[[LostGamesDataModel alloc] initWithPlayerName:self.player1.name andBotname:self.currentPlayer.name]];
+        [lostGames addObject:[[LostGamesDataModel alloc] initWithPlayerName:self.player1.name andBotName:self.currentPlayer.name]];
     }
     
     [UserDefaultsManager saveCustomObject:lostGames.copy];
@@ -284,6 +287,28 @@
 {
     //This is a stub
     return @[];
+}
+
+- (int)emptyCellsCount {
+    int count = 0;
+    for (int i = 0; i < self.gameMatrix.count; i++) {
+        for (int j = 0; j < self.gameMatrix[i].count; j++) {
+            if ([self.gameMatrix[i][j] isEmpty]) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+- (BOOL)isWinCombinationAtIndexPathForMe:(NSIndexPath *)indexPath {
+    //stub - again
+    return false;
+}
+
+- (BOOL)isWinCombinationAtIndexPathForOther:(NSIndexPath *)indexPath {
+    //stub - again
+    return false;
 }
 
 - (NSString *)mapParsedToString {

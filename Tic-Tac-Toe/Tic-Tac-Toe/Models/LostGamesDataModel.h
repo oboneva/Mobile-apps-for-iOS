@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSString *botName;
 @property (assign) int countOfGamesLost;
 
-- (instancetype)initWithPlayerName:(NSString *)playerName andBotname:(NSString *)botName;
+- (instancetype)initWithPlayerName:(NSString *)playerName andBotName:(NSString *)botName;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 - (id)initWithCoder:(NSCoder *)decoder;
 

@@ -89,6 +89,9 @@
         if ([playerName isEqualToString:self.engine.player1.name]) {
             self.player1InfoLabel.textColor = self.labelsColour;
             self.player2InfoLabel.textColor = [UIColor grayColor];
+            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
+                [self sendTheGameMap];
+            }
         }
         else {
             self.player1InfoLabel.textColor = [UIColor grayColor];
@@ -312,7 +315,10 @@
 }
 
 - (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+    if (self.gameMode == EnumGameModeTwoDevices && [self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+        [self sendCellMarkedAtIndexPath:indexPath];
+    }
+    else if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.engine.currentPlayer != self.engine.player1) {
         [self sendCellMarkedAtIndexPath:indexPath];
     }
 }
@@ -331,9 +337,7 @@
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 3] animated:YES];
-            });
+            [self.navigationController popToViewController:self.navigationController.viewControllers[(self.navigationController.viewControllers.count - 3)] animated:YES];
         }];
         
         [alert addAction:quit];

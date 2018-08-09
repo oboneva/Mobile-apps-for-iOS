@@ -20,6 +20,7 @@
 
 #define TIC_TAC          @"Tic-Tac-Toe"
 #define TUNAK_TUNAK      @"Tunak-Tunak-Tun"
+#define DISPLAY_NAME     @".game"
 #define QUESTION         @"What is your name?"
 #define UNKNOWN_APP      @"unknown"
 #define ROOM_NAME        @"roomName"
@@ -44,7 +45,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *displayName = [[UIDevice currentDevice].name stringByAppendingString:@".game"];
+    NSString *displayName = [[UIDevice currentDevice].name stringByAppendingString:DISPLAY_NAME];
     [MultipeerConectivityManager.sharedInstance setupPeerAndSessionWithDisplayName:displayName];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];

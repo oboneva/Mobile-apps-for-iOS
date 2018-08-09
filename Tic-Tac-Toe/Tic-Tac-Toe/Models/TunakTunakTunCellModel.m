@@ -42,6 +42,10 @@
     return self.colour != LAST_COLOUR;
 }
 
+- (BOOL)isEmpty {
+    return self.colour == EnumColourClear;
+}
+
 - (NSString *)stringRepresentation {
     NSString *cell = @" Y ";
     if (self.colour == EnumColourRed) {

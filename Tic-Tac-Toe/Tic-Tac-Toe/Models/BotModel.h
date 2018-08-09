@@ -12,7 +12,6 @@
 @interface BotModel : PlayerModel
 
 - (NSIndexPath *)makeMove;
-- (void)makeTheMoveSpecific;
 @property (weak, nonatomic)id<BoardStateDelegate>boardStateDelegate;
 
 @end

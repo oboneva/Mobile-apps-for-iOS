@@ -33,10 +33,12 @@
 @protocol BoardStateDelegate
 
 - (NSArray<NSIndexPath *> *)availableCells;
+- (int)emptyCellsCount;
+- (BOOL)isWinCombinationAtIndexPathForMe:(NSIndexPath *)indexPath;
+- (BOOL)isWinCombinationAtIndexPathForOther:(NSIndexPath *)indexPath;
 
 @end
 
-//
 @protocol MultipleDevicesGameMessagingDelegate
 
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath;

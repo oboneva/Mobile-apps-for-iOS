@@ -13,13 +13,8 @@
 @implementation BotModel
 
 - (NSIndexPath *)makeMove {
-    [self makeTheMoveSpecific];
-    NSArray *available = [self.boardStateDelegate availableCells];
-    NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count]];
-    
-    return index;
+    //This is a stub, shoudn't be called.
+    return [NSIndexPath alloc];
 }
-
-- (void)makeTheMoveSpecific {};
 
 @end

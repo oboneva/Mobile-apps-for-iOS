@@ -39,6 +39,10 @@
     return self.content == EnumCellEmpty;
 }
 
+- (BOOL)isEmpty {
+    return [self isSelectable];
+}
+
 - (NSString *)stringRepresentation {
     NSString *cell = @" X ";
     if (self.content == EnumCellEmpty) {

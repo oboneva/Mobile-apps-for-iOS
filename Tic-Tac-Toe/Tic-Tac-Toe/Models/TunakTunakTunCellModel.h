@@ -20,6 +20,7 @@
 - (void)clearCell;
 
 - (BOOL)isSelectable;
+- (BOOL)isEmpty;
 - (BOOL)isEqualToCell:(TunakTunakTunCellModel *)other;
 
 @end

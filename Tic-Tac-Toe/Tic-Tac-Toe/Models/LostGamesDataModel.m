@@ -10,7 +10,7 @@
 
 @implementation LostGamesDataModel
 
-- (instancetype)initWithPlayerName:(NSString *)playerName andBotname:(NSString *)botName {
+- (instancetype)initWithPlayerName:(NSString *)playerName andBotName:(NSString *)botName {
     self = [super init];
     if (self) {
         self.playerName = playerName;
