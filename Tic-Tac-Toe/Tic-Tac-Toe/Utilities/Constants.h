@@ -43,8 +43,15 @@
 #define KEY_TURN                                    @"turn"
 #define KEY_COORDINATES                             @"coordinates"
 #define KEY_READY                                   @"ready"
+#define KEY_APP                                     @"application"
+#define KEY_MESSAGE                                 @"message"
+#define KEY_MAP                                     @"map"                     
+#define KEY_QUESTION                                @"question"
+#define KEY_ANSWER                                  @"answer"
 
-#define SERVICE_TYPE                                @"game"
+#define THIS_APP_NAME                               @"Tic-Tac-Toe"
+
+#define SERVICE_TYPE                                @"tic-tac-toe"
 
 #define TIC_TAC_TOE                                 EnumGameTicTacToe
 #define TUNAK_TUNAK_TUN                             EnumGameTunakTunakTun

@@ -25,6 +25,9 @@
 #import "Protocols.h"
 #import "Constants.h"
 
+#define QUESTION                @"Another game?"
+#define INVALID_COORDS_MESSAGE  @"Invalid coordinates!"
+
 @interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
@@ -77,8 +80,6 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if ([viewController isKindOfClass:JoinRoomViewController.class] || //back button is pressed
         [viewController isKindOfClass:CreateRoomViewController.class]) {
-        //send state
-        //MultipeerConectivityManager.sharedInstance
         [MultipeerConectivityManager.sharedInstance disconnectPeer];
     }
 }
@@ -92,6 +93,9 @@
         else {
             self.player1InfoLabel.textColor = [UIColor grayColor];
             self.player2InfoLabel.textColor = self.labelsColour;
+            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
+                [self sendTheGameMap];
+            }
         }
     });
 }
@@ -103,6 +107,9 @@
         self.matrixView.userInteractionEnabled = NO;
         [self.startNewGameButton setHidden:NO];
     });
+    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+        [self sendWinner:@""];
+    }
 }
 
 - (void)didEndGameWithWinner:(PlayerModel *)winner {
@@ -113,6 +120,10 @@
         self.matrixView.userInteractionEnabled = NO;
         [self.startNewGameButton setHidden:NO];
     });
+    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+        [self sendTheGameMap];
+        [self sendWinner:winner.name];
+    }
 }
 
 -(void)forceRefresh {
@@ -136,6 +147,9 @@
             [self.engine newMultipeerGame];
         }
         else {
+            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+                [self sendQuestionForNewGame];
+            }
             [self.activityIndicator startAnimating];
         }
     }
@@ -153,7 +167,6 @@
     self.matrixView.userInteractionEnabled = YES;
 }
 
-//two devices
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
     NSString *stringCoords = [NSString stringWithFormat:@"%d,%d",(int)indexPath.section, (int)indexPath.row];
     NSDictionary *dataDict = @{KEY_COORDINATES : stringCoords};
@@ -173,15 +186,51 @@
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
+- (void)sendQuestionForNewGame {
+    NSDictionary *dataDict = @{KEY_QUESTION : QUESTION};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+}
+
+- (void)sendWinner:(NSString *)winnerName {
+    NSString *message = [[NSString alloc] initWithFormat:@"Congrats to %@!", winnerName];
+    NSDictionary *dataDict = @{KEY_MESSAGE : message};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+}
+
+- (void)sendTheGameMap {
+    NSDictionary *dataDict = @{KEY_MAP : [self.engine mapParsedToString]};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+}
+
+- (void)sendInvalidCoordinatesMessage {
+    NSDictionary *dataDict = @{KEY_MESSAGE : INVALID_COORDS_MESSAGE};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+}
+
 - (void)didReceiveCoordinatesWithString:(NSString *)string {
     NSInteger section = [[string substringFromIndex:0] intValue];
     NSInteger row = [[string substringFromIndex:2] intValue];
+    if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+        section--;
+        row--;
+    }
     NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:section];
-    
-    [self.engine playerSelectedItemAtIndexPath:index];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.matrixViewController.collectionView reloadData];
-    });
+
+    if ([self.otherPlayerAppName isEqualToString:THIS_APP_NAME] ||
+        ([self.engine areCoordinatesValidX:(int)section andY:(int)row] &&
+         [self.engine isCellAtIndexPathSelectable:index])) {
+        [self.engine playerSelectedItemAtIndexPath:index];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.matrixViewController.collectionView reloadData];
+        });
+    }
+    else {
+        [self sendInvalidCoordinatesMessage];
+    }
 }
 
 - (void)didReceivePlayerOnTurnWithString:(NSString *)string {
@@ -205,17 +254,23 @@
 
 - (void)didReceiveJoinedPlayerStartedNewGame {
     self.otherPlayerTappedNewGame = true;
-    __block BOOL isActivityIndicatorAnimating;
     dispatch_async(dispatch_get_main_queue(), ^{
-        isActivityIndicatorAnimating = [self.activityIndicator isAnimating];
-    });
-    if (isActivityIndicatorAnimating) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.activityIndicator isAnimating]) {
             [self.activityIndicator stopAnimating];
             self.otherPlayerTappedNewGame = false;
             [self.engine newMultipeerGame];
-        });
-    }
+        }
+    });
+}
+
+- (void)didReceiveAnswer:(NSString *)answer {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[answer lowercaseString] containsString:@"yes"] && [self.activityIndicator isAnimating]) {
+            [self.activityIndicator stopAnimating];
+            [self.engine newMultipeerGame];
+        }
+    });
+    
 }
 
 // EngineDelegate methods
@@ -257,7 +312,9 @@
 }
 
 - (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath {
-    [self sendCellMarkedAtIndexPath:indexPath];
+    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+        [self sendCellMarkedAtIndexPath:indexPath];
+    }
 }
 
 - (void)startGame {
@@ -295,6 +352,9 @@
         }
         else if([key isEqualToString:KEY_READY]) {
             [self didReceiveJoinedPlayerStartedNewGame];
+        }
+        else if ([key isEqualToString:KEY_ANSWER]) {
+            [self didReceiveAnswer:dataDict[KEY_ANSWER]];
         }
     }
 }

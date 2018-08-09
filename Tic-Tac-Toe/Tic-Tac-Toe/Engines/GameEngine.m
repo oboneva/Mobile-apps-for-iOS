@@ -262,11 +262,9 @@
 
 - (void)notifyTheNextPlayer {
     if (self.filled_cells >= ROWS_COUNT * ITEMS_COUNT) {
-        //END CONDITION
         [self.endGameDelegate didEndGameWithNoWinner];
     }
     else {
-        // update the UI
         [self.notifyPlayerToPlayDelegate didChangePlayerToPlayWithName:self.currentPlayer.name];
         [self handleMovementByPlayer:self.currentPlayer];
     }
@@ -275,10 +273,6 @@
 - (void)handleMovementByPlayer:(PlayerModel *)player {
     if ([player isKindOfClass:BotModel.class]) {
         [self playerSelectedItemAtIndexPath:[(BotModel *)player makeMove]];
-    }
-    else {
-        //wait for input
-        [self.endGameDelegate forceRefresh];
     }
 }
 
@@ -290,6 +284,17 @@
 {
     //This is a stub
     return @[];
+}
+
+- (NSString *)mapParsedToString {
+    NSString *map = @"";
+    for (int i = 0; i < self.gameMatrix.count; i++) {
+        for (int j = 0; j < self.gameMatrix[i].count; j++) {
+            map = [map stringByAppendingFormat:@"|%@", [self.gameMatrix[i][j] stringRepresentation]];
+        }
+        map = [map stringByAppendingString:@"|\n"];
+    }
+    return map;
 }
 
 @end

@@ -20,6 +20,7 @@
 - (instancetype)initWithEmptyCells;
 
 - (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
+- (BOOL)areCoordinatesValidX:(int)x andY:(int)y;
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath;
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
 
@@ -35,6 +36,8 @@
 - (void)newGame;
 - (void)startMultipeerGame;
 - (void)newMultipeerGame;
+
+- (NSString *)mapParsedToString;
 
 @property (weak, nonatomic)id<EndGameDelegate>endGameDelegate;
 @property (weak, nonatomic)id<NotifyPlayerToPlayDelegate>notifyPlayerToPlayDelegate;

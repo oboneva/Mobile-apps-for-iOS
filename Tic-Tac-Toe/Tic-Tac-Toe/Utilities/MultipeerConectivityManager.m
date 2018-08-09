@@ -47,7 +47,7 @@
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName {
     self.peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
-    self.session = [[MCSession alloc] initWithPeer:self.peerID];
+    self.session = [[MCSession alloc] initWithPeer:self.peerID securityIdentity:nil encryptionPreference:MCEncryptionNone];
     self.session.delegate = self;
 }
 
@@ -99,8 +99,8 @@
     [self.peerSearchDelegate didLostPeer:peerID];
 }
 
-//accept
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL accept, MCSession *session))invitationHandler {
+    NSLog(@"I am a bitch and go off silently. Maybe.");
     invitationHandler(YES, self.session);
 }
 

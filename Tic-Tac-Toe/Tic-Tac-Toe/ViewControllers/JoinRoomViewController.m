@@ -20,8 +20,12 @@
 #import "Utilities.h"
 #import "MultipeerConectivityManager.h"
 
-#define TIC_TAC      @"Tic-Tac-Toe"
-#define TUNAK_TUNAK  @"Tunak-Tunak-Tun"
+#define TIC_TAC          @"Tic-Tac-Toe"
+#define TUNAK_TUNAK      @"Tunak-Tunak-Tun"
+#define ROOM_NAME        @"roomName"
+#define GAME_NAME        @"gameName"
+#define ALL_PLAYERS      @"appPlayers"
+#define CURRENT_PLAYERS  @"currentPlayers"
 
 @interface JoinRoomViewController () <UITextFieldDelegate, PeerSearchDelegate, PeerSessionDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *playerNameTextField;
@@ -43,8 +47,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [MultipeerConectivityManager.sharedInstance setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    //[self.view addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
     self.playerNameTextField.delegate = self;
     
     self.rooms.dataSource = self;
@@ -90,9 +94,9 @@
     FoundGameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_FOUND_GAME_CELL];
     
     NSDictionary *roomInfo = self.roomsFound[self.peers[indexPath.row]];
-    cell.roomName.text = [roomInfo objectForKey:@"roomName"];
-    cell.gameName.text = [roomInfo objectForKey:@"gameName"];
-    cell.playersCount.text = [[NSString alloc] initWithFormat:@"%@/%@", [roomInfo objectForKey:@"currentPlayers"], [roomInfo objectForKey:@"allPlayers"]];
+    cell.roomName.text = [roomInfo objectForKey:ROOM_NAME];
+    cell.gameName.text = [roomInfo objectForKey:GAME_NAME];
+    cell.playersCount.text = [[NSString alloc] initWithFormat:@"%@/%@", [roomInfo objectForKey:CURRENT_PLAYERS], [roomInfo objectForKey:ALL_PLAYERS]];
     
     return cell;
 }
@@ -139,6 +143,7 @@
         gameController.gameType = self.gameType;
         gameController.peer = self.peerToJoin;
         gameController.roomBelongsToMe = false;
+        gameController.otherPlayerAppName = THIS_APP_NAME;
         
         [MultipeerConectivityManager.sharedInstance stopBrowsing];
         MultipeerConectivityManager.sharedInstance.peerSearchDelegate = nil;
@@ -161,7 +166,7 @@
         gameName = TUNAK_TUNAK;
     }
     
-    if ([[info objectForKey:@"gameName"] isEqualToString:gameName]) {
+    if ([[info objectForKey:GAME_NAME] isEqualToString:gameName]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.roomsFound[peerID] = info;
             [self.peers addObject:peerID];
@@ -181,7 +186,7 @@
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
     if (state == MCSessionStateConnected) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary *dataDict = @{KEY_NAME: self.playerNameTextField.text};
+            NSDictionary *dataDict = @{KEY_NAME: self.playerNameTextField.text, KEY_APP : THIS_APP_NAME};
             NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
             [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peerToJoin];
         });
@@ -191,7 +196,9 @@
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
     NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-    [self createEngineWithSecondPlayer:dataDict[KEY_NAME] andPlayerOnTurn:dataDict[KEY_TURN]];
+    if ([dataDict objectForKey:KEY_NAME]) {
+        [self createEngineWithSecondPlayer:dataDict[KEY_NAME] andPlayerOnTurn:dataDict[KEY_TURN]];
+    }
 }
 
 @end

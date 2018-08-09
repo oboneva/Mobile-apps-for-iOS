@@ -18,5 +18,6 @@
 @property (assign) EnumGame gameType;
 @property (strong, nonatomic) MCPeerID *peer;
 @property (assign) BOOL roomBelongsToMe;
+@property (strong, nonatomic) NSString *otherPlayerAppName;
 
 @end

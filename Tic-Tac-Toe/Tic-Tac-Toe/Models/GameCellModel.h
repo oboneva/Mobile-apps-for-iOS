@@ -20,5 +20,6 @@
 
 - (BOOL)isEqualToCell:(GameCellModel *)other;
 - (BOOL)isSelectable;
+- (NSString *)stringRepresentation;
 
 @end

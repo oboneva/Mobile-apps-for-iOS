@@ -8,6 +8,7 @@
 
 #import "CreateRoomViewController.h"
 #import "GameViewController.h"
+#import "NetworkGameViewController.h"
 
 #import "HumanModel.h"
 
@@ -17,10 +18,17 @@
 #import "Constants.h"
 #import "Utilities.h"
 
-#define TIC_TAC      @"Tic-Tac-Toe"
-#define TUNAK_TUNAK  @"Tunak-Tunak-Tun"
+#define TIC_TAC          @"Tic-Tac-Toe"
+#define TUNAK_TUNAK      @"Tunak-Tunak-Tun"
+#define QUESTION         @"What is your name?"
+#define UNKNOWN_APP      @"unknown"
+#define ROOM_NAME        @"roomName"
+#define GAME_NAME        @"gameName"
+#define ALL_PLAYERS      @"appPlayers"
+#define CURRENT_PLAYERS  @"currentPlayers"
+#define TIC_TAC_TOE_PLAYERS @"2"
 
-@interface CreateRoomViewController () <UITextFieldDelegate, PeerSessionDelegate>
+@interface CreateRoomViewController () <UITextFieldDelegate, PeerSessionDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *roomNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *playerNameTextField;
@@ -36,7 +44,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [MultipeerConectivityManager.sharedInstance setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    NSString *displayName = [[UIDevice currentDevice].name stringByAppendingString:@".game"];
+    [MultipeerConectivityManager.sharedInstance setupPeerAndSessionWithDisplayName:displayName];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     self.playerNameTextField.delegate = self;
@@ -62,6 +71,13 @@
     return YES;
 }
 
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isKindOfClass:NetworkGameViewController.class]) { //back button is pressed
+        [MultipeerConectivityManager.sharedInstance stopAdvertising];
+        [MultipeerConectivityManager.sharedInstance disconnectPeer];
+    }
+}
+
 - (void)createEngine {
     HumanModel *player1 = [[HumanModel alloc] initWithName:self.playerNameTextField.text];
     HumanModel *player2 = [[HumanModel alloc] initWithName:@""];
@@ -74,13 +90,14 @@
     self.engine = engine;
 }
 
-- (void)startGameWithPeer:(MCPeerID *)peerID {
+- (void)startGameWithPeer:(MCPeerID *)peerID andOtherPlayerApp:(NSString *)appName{
     GameViewController *gameController = (GameViewController *)[Utilities viewControllerWithClass:GameViewController.class];
     [gameController setEngine:self.engine];
     gameController.gameMode = EnumGameModeTwoDevices;
     gameController.gameType = self.gameType;
     gameController.peer = peerID;
     gameController.roomBelongsToMe = true;
+    gameController.otherPlayerAppName = appName;
     
     MultipeerConectivityManager.sharedInstance.peerSessionDelegate = nil;
     [self.activityIndicator stopAnimating];
@@ -94,29 +111,36 @@
     if (self.gameType == EnumGameTunakTunakTun) {
         gameName = TUNAK_TUNAK;
     }
-    NSDictionary *discoveryInfo = @{@"roomName" : self.roomNameTextField.text, @"gameName" : gameName, @"currentPlayers" : @"1", @"allPlayers" : @"2"};
+    NSDictionary *discoveryInfo = @{ROOM_NAME : self.roomNameTextField.text, GAME_NAME : gameName, CURRENT_PLAYERS : @"1", ALL_PLAYERS : TIC_TAC_TOE_PLAYERS};
     [MultipeerConectivityManager.sharedInstance startAdvertisingWithDiscoveryInfo:discoveryInfo];
     [self createEngine];
 }
 
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
-    //don't care
+    if (state == MCSessionStateConnected) {
+        NSDictionary *dataDict = @{KEY_QUESTION : QUESTION};
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+        [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
+    }
 }
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-    if ([dataDict objectForKey:KEY_NAME]) {
-        self.engine.player2.name = dataDict[KEY_NAME];
-    }
-    
+    NSDictionary *dataDictReceive = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    __block NSString *otherPlayerAppName = @"";
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSDictionary *dataDict = @{KEY_TURN : self.engine.currentPlayer.name, KEY_NAME : self.playerNameTextField.text};
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+        if ([dataDictReceive objectForKey:KEY_NAME]) {
+            self.engine.player2.name = dataDictReceive[KEY_NAME];
+        }
         
-        [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
+        if ([dataDictReceive objectForKey:KEY_APP]) {
+            otherPlayerAppName = THIS_APP_NAME;
+            NSDictionary *dataDictSend = @{KEY_TURN : self.engine.currentPlayer.name, KEY_NAME : self.playerNameTextField.text};
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dataDictSend options:NSJSONWritingPrettyPrinted error:nil];
+            [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
+            
+        }
         [MultipeerConectivityManager.sharedInstance stopAdvertising];
-        
-        [self startGameWithPeer:peerID];
+        [self startGameWithPeer:peerID andOtherPlayerApp:otherPlayerAppName];
     });
 }
 

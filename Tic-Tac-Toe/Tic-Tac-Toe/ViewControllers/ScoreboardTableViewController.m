@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setUserInteractionEnabled:NO];
+    [self.tableView setAllowsSelection:NO];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -71,7 +71,6 @@
         scoreboardCell.nameLabel.text = self.playersNamesFromScoreboard[indexPath.row];
         [scoreboardCell.nameLabel sizeToFit];
         scoreboardCell.pointsLabel.text = [self.scoreboardData[self.playersNamesFromScoreboard[indexPath.row]] stringValue];
-        
         cell = scoreboardCell;
     }
     else {
@@ -92,7 +91,6 @@
         cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_SCOREBOARD_CELL forIndexPath:indexPath];
         ScoreboardTableViewCell *scoreboardCell = (ScoreboardTableViewCell *)cell;
         [self customizeCell:scoreboardCell atIndexPath:indexPath];
-        
         cell = scoreboardCell;
     }
     else {
@@ -107,17 +105,14 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
+    if (section == 0) {
         return self.winnerSectionHeader;
     }
     return self.loserSectionHeader;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return self.winnerSectionHeader.frame.size.height;
 }
-
 
 @end

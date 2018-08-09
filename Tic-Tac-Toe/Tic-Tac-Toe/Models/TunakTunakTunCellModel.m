@@ -42,4 +42,18 @@
     return self.colour != LAST_COLOUR;
 }
 
+- (NSString *)stringRepresentation {
+    NSString *cell = @" Y ";
+    if (self.colour == EnumColourRed) {
+        cell = @" R ";
+    }
+    else if (self.colour == EnumColourClear) {
+        cell = @"   ";
+    }
+    else if (self.colour == EnumColourGreen) {
+        cell = @" G ";
+    }
+    return cell;
+}
+
 @end

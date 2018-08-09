@@ -39,4 +39,15 @@
     return self.content == EnumCellEmpty;
 }
 
+- (NSString *)stringRepresentation {
+    NSString *cell = @" X ";
+    if (self.content == EnumCellEmpty) {
+        cell = @"   ";
+    }
+    else if (self.content == EnumCellWithO) {
+        cell = @" O ";
+    }
+    return cell;
+}
+
 @end
