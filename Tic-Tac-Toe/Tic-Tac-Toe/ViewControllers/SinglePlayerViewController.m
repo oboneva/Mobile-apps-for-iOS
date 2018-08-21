@@ -17,6 +17,11 @@
 #import "Utilities.h"
 #import "Constants.h"
 
+#define PICKER_VIEW_COMPONENTS 1
+#define EASY_LEVEL             @"Easy"
+#define MEDIUM_LEVEL           @"Meduim"
+#define HARD_LEVEL             @"Hard"
+#define DEFAULT_NAME           @"Player1"
 
 @interface SinglePlayerViewController () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
@@ -33,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.difficultyLevels = @[@"Easy", @"Medium", @"Hard"];
+    self.difficultyLevels = @[EASY_LEVEL, MEDIUM_LEVEL, HARD_LEVEL];
     
     self.difficultyPicker.dataSource = self;
     self.difficultyPicker.delegate = self;
@@ -58,7 +63,7 @@
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
+    return PICKER_VIEW_COMPONENTS;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
@@ -72,17 +77,23 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     self.difficulty = EnumDifficultyMedium;
-    if ([self.difficultyLevels[row] isEqualToString:@"Easy"]) {
+    if ([self.difficultyLevels[row] isEqualToString:EASY_LEVEL]) {
         self.difficulty = EnumDifficultyEasy;
     }
-    else if ([self.difficultyLevels[row] isEqualToString:@"Hard"]) {
+    else if ([self.difficultyLevels[row] isEqualToString:HARD_LEVEL]) {
         self.difficulty = EnumDifficultyHard;
     }
 }
 
 - (IBAction)onPlayTap:(id)sender {
     GameViewController *gameController = (GameViewController *)[Utilities viewControllerWithClass:GameViewController.class];
-    HumanModel *player1 = [[HumanModel alloc] initWithName:self.playerName.text];
+    
+    NSString *playerName = self.playerName.text;
+    if ([playerName isEqualToString:@""]) {
+        playerName = DEFAULT_NAME;
+    }
+    
+    HumanModel *player1 = [[HumanModel alloc] initWithName:playerName];
     BotModel *player2 = [Utilities botWithDifficulty:self.difficulty];
 
     GameEngine *engine = [Utilities gameEngineFromType:self.gameType];

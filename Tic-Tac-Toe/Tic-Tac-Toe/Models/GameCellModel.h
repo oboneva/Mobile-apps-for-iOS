@@ -11,10 +11,10 @@
 
 @interface GameCellModel : NSObject
 
-@property (assign) EnumCell content;
+@property (assign) EnumSymbol content;
 
 + (instancetype)emptyCell;
-+ (instancetype)customCellWithContent:(EnumCell)content;
++ (instancetype)customCellWithContent:(EnumSymbol)content;
 
 - (void)clearCell;
 

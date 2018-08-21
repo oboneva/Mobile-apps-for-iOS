@@ -50,18 +50,18 @@
     return [super isCellAtIndexPathSelectable:indexPath] && [self.gameMatrix[indexPath.section][indexPath.item] isSelectable];
 }
 
-- (void)setNewContent:(EnumCell)symbol forCellAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setNewContent:(EnumSymbol)symbol forCellAtIndexPath:(NSIndexPath *)indexPath {
     TicTacToeCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
     cell.content = symbol;
 }
 
 - (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    [self setNewContent:(EnumCell)self.currentPlayer.symbol forCellAtIndexPath:indexPath];
+    [self setNewContent:self.currentPlayer.symbol forCellAtIndexPath:indexPath];
     self.filled_cells++;
 }
 
 - (void)unmarkCellAtIndexPath:(NSIndexPath *)indexPath {
-    [self setNewContent:EnumCellEmpty forCellAtIndexPath:indexPath];
+    [self setNewContent:EnumSymbolEmpty forCellAtIndexPath:indexPath];
     self.filled_cells--;
 }
 
@@ -76,12 +76,12 @@
 
 - (BOOL)isWinCombinationAtIndexPathForOther:(NSIndexPath *)indexPath {
     BOOL result;
-    EnumPlayerSymbol otherPlayerSymbol = EnumPlayerSymbolX;
-    if (self.currentPlayer.symbol == EnumPlayerSymbolX) {
-        otherPlayerSymbol = EnumPlayerSymbolO;
+    EnumSymbol otherPlayerSymbol = EnumSymbolX;
+    if (self.currentPlayer.symbol == EnumSymbolX) {
+        otherPlayerSymbol = EnumSymbolO;
     }
     
-    [self setNewContent:(EnumCell)otherPlayerSymbol forCellAtIndexPath:indexPath];
+    [self setNewContent:otherPlayerSymbol forCellAtIndexPath:indexPath];
     self.filled_cells++;
     result = [self isWinnerPlayerWithSymbol:otherPlayerSymbol atIndex:indexPath];
     [self unmarkCellAtIndexPath:indexPath];
@@ -89,16 +89,18 @@
     return result;
 }
 
-- (int)emptyCellsCount { 
+- (int)emptyCellsCount {
+    //stub
     return 0;
 }
+
 
 - (BOOL)isWinnerPlayerAtIndex:(NSIndexPath *)indexPath {
     return [self isWinnerPlayerWithSymbol:self.currentPlayer.symbol atIndex:indexPath];
 }
 
-- (BOOL)isWinnerPlayerWithSymbol:(EnumPlayerSymbol)playerSymbol atIndex:(NSIndexPath *)indexPath {
-    TicTacToeCellModel *winCell = [TicTacToeCellModel customCellWithContent:(EnumCell)playerSymbol];
+- (BOOL)isWinnerPlayerWithSymbol:(EnumSymbol)playerSymbol atIndex:(NSIndexPath *)indexPath {
+    TicTacToeCellModel *winCell = [TicTacToeCellModel customCellWithContent:playerSymbol];
     
     if ([self.gameMatrix[0][indexPath.item] isEqualToCell:winCell] &&
         [self.gameMatrix[1][indexPath.item] isEqualToCell:winCell] &&

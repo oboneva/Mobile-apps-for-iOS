@@ -13,7 +13,7 @@
 @interface PlayerModel : NSObject
 
 @property (strong, nonatomic) NSString *name;
-@property (assign) EnumPlayerSymbol symbol;
+@property (assign) EnumSymbol symbol;
 
 - (instancetype) initWithName:(NSString *)name;
 - (void)makeMove;

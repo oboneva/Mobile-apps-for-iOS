@@ -14,12 +14,12 @@
 + (instancetype)emptyCell {
     GameCellModel *newCell = [[GameCellModel alloc] init];
     if (newCell) {
-        newCell.content = EnumCellEmpty;
+        newCell.content = EnumSymbolEmpty;
     }
     return newCell;
 }
 
-+ (instancetype)customCellWithContent:(EnumCell)content {
++ (instancetype)customCellWithContent:(EnumSymbol)content {
     GameCellModel *newCell = [[GameCellModel alloc] init];
     if (newCell) {
         newCell.content = content;
@@ -28,7 +28,7 @@
 }
 
 - (void)clearCell {
-    self.content = EnumCellEmpty;
+    self.content = EnumSymbolEmpty;
 }
 
 - (BOOL)isEqualToCell:(GameCellModel *)other {
@@ -36,7 +36,7 @@
 }
 
 - (BOOL)isSelectable {
-    return self.content == EnumCellEmpty;
+    return self.content == EnumSymbolEmpty;
 }
 
 - (BOOL)isEmpty {
@@ -45,10 +45,10 @@
 
 - (NSString *)stringRepresentation {
     NSString *cell = @" X ";
-    if (self.content == EnumCellEmpty) {
+    if (self.content == EnumSymbolEmpty) {
         cell = @"   ";
     }
-    else if (self.content == EnumCellWithO) {
+    else if (self.content == EnumSymbolO) {
         cell = @" O ";
     }
     return cell;

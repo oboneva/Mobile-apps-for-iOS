@@ -14,7 +14,7 @@
 - (NSIndexPath *)makeMove {
     [NSThread sleepForTimeInterval:2];
     NSArray *available = [self.boardStateDelegate availableCells];
-    NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count]];
+    NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count] ];
     
     return index;
 }

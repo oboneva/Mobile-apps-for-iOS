@@ -37,7 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *player1InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *player2InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endOfGameLabel;
-@property (strong, nonatomic) UIColor *labelsColour;
+@property (strong, nonatomic) UIColor *labelsColor;
 @property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 
 @property (assign) BOOL otherPlayerTappedNewGame;
@@ -55,7 +55,7 @@
     [self.player2InfoLabel sizeToFit];
     self.endOfGameLabel.text = @"";
     
-    self.labelsColour = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
+    self.labelsColor = [[UIColor alloc] initWithRed:255/255 green:102/255 blue:102/255 alpha:1.0];
     [self.startNewGameButton setHidden:YES];
     MultipeerConectivityManager.sharedInstance.peerSessionDelegate = self;
     
@@ -87,7 +87,7 @@
 -(void)didChangePlayerToPlayWithName:(NSString *)playerName {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([playerName isEqualToString:self.engine.player1.name]) {
-            self.player1InfoLabel.textColor = self.labelsColour;
+            self.player1InfoLabel.textColor = self.labelsColor;
             self.player2InfoLabel.textColor = [UIColor grayColor];
             if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
                 [self sendTheGameMap];
@@ -95,7 +95,7 @@
         }
         else {
             self.player1InfoLabel.textColor = [UIColor grayColor];
-            self.player2InfoLabel.textColor = self.labelsColour;
+            self.player2InfoLabel.textColor = self.labelsColor;
             if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
                 [self sendTheGameMap];
             }
@@ -106,7 +106,7 @@
 - (void)didEndGameWithNoWinner {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.endOfGameLabel.text = @"No winner";
-        self.endOfGameLabel.textColor = self.labelsColour;
+        self.endOfGameLabel.textColor = self.labelsColor;
         self.matrixView.userInteractionEnabled = NO;
         [self.startNewGameButton setHidden:NO];
     });
@@ -118,7 +118,7 @@
 - (void)didEndGameWithWinner:(PlayerModel *)winner {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.endOfGameLabel.text = [[NSString alloc] initWithFormat:@"%@ won", winner.name];
-        self.endOfGameLabel.textColor = self.labelsColour;
+        self.endOfGameLabel.textColor = self.labelsColor;
         [self.endOfGameLabel sizeToFit];
         self.matrixView.userInteractionEnabled = NO;
         [self.startNewGameButton setHidden:NO];
@@ -172,44 +172,36 @@
 
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
     NSString *stringCoords = [NSString stringWithFormat:@"%d,%d",(int)indexPath.section, (int)indexPath.row];
-    NSDictionary *dataDict = @{KEY_COORDINATES : stringCoords};
-    NSData *data  =[NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_COORDINATES andValue:stringCoords];
 }
 
 - (void)sendTheFirstPlayerOnTurn:(NSString *)name {
-    NSDictionary *dataDict = @{KEY_TURN : name};
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_TURN andValue:name];
 }
 
 - (void)sendTappedNewGame {
-    NSDictionary *dataDict = @{KEY_READY : self.engine.player1.name};
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_READY andValue:self.engine.player1.name];
 }
 
 - (void)sendQuestionForNewGame {
-    NSDictionary *dataDict = @{KEY_QUESTION : QUESTION};
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_QUESTION andValue:QUESTION];
 }
 
 - (void)sendWinner:(NSString *)winnerName {
     NSString *message = [[NSString alloc] initWithFormat:@"Congrats to %@!", winnerName];
-    NSDictionary *dataDict = @{KEY_MESSAGE : message};
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_MESSAGE andValue:message];
 }
 
 - (void)sendTheGameMap {
-    NSDictionary *dataDict = @{KEY_MAP : [self.engine mapParsedToString]};
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
+    [self sendDictWithKey:KEY_MAP andValue:[self.engine mapParsedToString]];
 }
 
 - (void)sendInvalidCoordinatesMessage {
-    NSDictionary *dataDict = @{KEY_MESSAGE : INVALID_COORDS_MESSAGE};
+    [self sendDictWithKey:KEY_MESSAGE andValue:INVALID_COORDS_MESSAGE];
+}
+
+- (void)sendDictWithKey:(NSString *)key andValue:(NSString *)value {
+    NSDictionary *dataDict = @{key : value};
     NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
     [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }

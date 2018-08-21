@@ -28,6 +28,7 @@
 #define ALL_PLAYERS      @"appPlayers"
 #define CURRENT_PLAYERS  @"currentPlayers"
 #define TIC_TAC_TOE_PLAYERS @"2"
+#define DEFAULT_PLAYER_NAME @"Player"
 
 @interface CreateRoomViewController () <UITextFieldDelegate, PeerSessionDelegate, UINavigationControllerDelegate>
 
@@ -81,7 +82,7 @@
 
 - (void)createEngine {
     HumanModel *player1 = [[HumanModel alloc] initWithName:self.playerNameTextField.text];
-    HumanModel *player2 = [[HumanModel alloc] initWithName:@""];
+    HumanModel *player2 = [[HumanModel alloc] initWithName:DEFAULT_PLAYER_NAME];
     
     GameEngine *engine = [Utilities gameEngineFromType:self.gameType];
     engine.player1 = player1;
@@ -119,26 +120,38 @@
 
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
     if (state == MCSessionStateConnected) {
-        NSDictionary *dataDict = @{KEY_QUESTION : QUESTION};
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
-        [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
+        [self sendQuestion:QUESTION toPeer:peerID];
     }
 }
 
-- (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-    NSDictionary *dataDictReceive = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-    __block NSString *otherPlayerAppName = @"";
+- (void)sendInfoToConnectedPeer:(MCPeerID *)peerID {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([dataDictReceive objectForKey:KEY_NAME]) {
-            self.engine.player2.name = dataDictReceive[KEY_NAME];
+        NSDictionary *dataDict = @{KEY_TURN : self.engine.currentPlayer.name, KEY_NAME : self.playerNameTextField.text};
+        [self sendDataWithDictionary:dataDict toPeer:peerID];
+    });
+}
+
+- (void)sendQuestion:(NSString *)string toPeer:(MCPeerID *)peerID {
+    NSDictionary *dataDict = @{KEY_QUESTION : string};
+    [self sendDataWithDictionary:dataDict toPeer:peerID];
+}
+
+- (void)sendDataWithDictionary:(NSDictionary *)dictionary toPeer:(MCPeerID *)peerID {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
+}
+
+- (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([dataDict objectForKey:KEY_NAME]) {
+            self.engine.player2.name = dataDict[KEY_NAME];
         }
         
-        if ([dataDictReceive objectForKey:KEY_APP]) {
+        NSString *otherPlayerAppName = EMPTY_TEXT;
+        if ([dataDict objectForKey:KEY_APP]) {
             otherPlayerAppName = THIS_APP_NAME;
-            NSDictionary *dataDictSend = @{KEY_TURN : self.engine.currentPlayer.name, KEY_NAME : self.playerNameTextField.text};
-            NSData *data = [NSJSONSerialization dataWithJSONObject:dataDictSend options:NSJSONWritingPrettyPrinted error:nil];
-            [MultipeerConectivityManager.sharedInstance sendData:data toPeer:peerID];
-            
+            [self sendInfoToConnectedPeer:peerID];
         }
         [MultipeerConectivityManager.sharedInstance stopAdvertising];
         [self startGameWithPeer:peerID andOtherPlayerApp:otherPlayerAppName];

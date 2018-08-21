@@ -17,6 +17,9 @@
 #import "Utilities.h"
 #import "Constants.h"
 
+#define PLAYER1_DEFAULT_NAME @"Player1"
+#define PLAYER2_DEFAULT_NAME @"Player2"
+
 @interface MultiplePlayersViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *firstPlayerName;
 @property (weak, nonatomic) IBOutlet UITextField *secondPlayerName;
@@ -51,8 +54,18 @@
 
 - (IBAction)onPlayTap:(id)sender {
     GameViewController *gameController = (GameViewController *)[Utilities viewControllerWithClass:GameViewController.class];
-    HumanModel *player1 = [[HumanModel alloc] initWithName:self.firstPlayerName.text];
-    HumanModel *player2 = [[HumanModel alloc] initWithName:self.secondPlayerName.text];
+    
+    NSString *playerName = self.firstPlayerName.text;
+    if ([playerName isEqualToString:EMPTY_TEXT]) {
+        playerName = PLAYER1_DEFAULT_NAME;
+    }
+    HumanModel *player1 = [[HumanModel alloc] initWithName:playerName];
+    
+    playerName = self.secondPlayerName.text;
+    if ([playerName isEqualToString:EMPTY_TEXT]) {
+        playerName = PLAYER2_DEFAULT_NAME;
+    }
+    HumanModel *player2 = [[HumanModel alloc] initWithName:playerName];
     
     GameEngine *engine = [Utilities gameEngineFromType:self.gameType];
     engine.player1 = player1;

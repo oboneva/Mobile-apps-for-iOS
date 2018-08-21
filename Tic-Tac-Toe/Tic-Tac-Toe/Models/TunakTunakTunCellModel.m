@@ -12,11 +12,11 @@
 
 @implementation TunakTunakTunCellModel
 
-+ (instancetype)customCellWithColour:(EnumColour)colour {
++ (instancetype)customCellWithColor:(EnumColor)color {
     TunakTunakTunCellModel *newCell = [[TunakTunakTunCellModel alloc] init];
     if (newCell) {
         newCell.content = TUNAK_TUNAK_TUN_SYMBOL;
-        newCell.colour = colour;
+        newCell.color = color;
     }
     return newCell;
 }
@@ -25,36 +25,36 @@
     TunakTunakTunCellModel *newCell = [[TunakTunakTunCellModel alloc] init];
     if (newCell) {
         newCell.content = TUNAK_TUNAK_TUN_SYMBOL;
-        newCell.colour = EnumColourClear;
+        newCell.color = EnumColorClear;
     }
     return newCell;
 }
 
 - (BOOL)isEqualToCell:(TunakTunakTunCellModel *)other {
-    return self.colour == other.colour;
+    return self.color == other.color;
 }
 
 - (void)clearCell {
-    self.colour = EnumColourClear;
+    self.color = EnumColorClear;
 }
 
 - (BOOL)isSelectable {
-    return self.colour != LAST_COLOUR;
+    return self.color != LAST_COLOR;
 }
 
 - (BOOL)isEmpty {
-    return self.colour == EnumColourClear;
+    return self.color == EnumColorClear;
 }
 
 - (NSString *)stringRepresentation {
     NSString *cell = @" Y ";
-    if (self.colour == EnumColourRed) {
+    if (self.color == EnumColorRed) {
         cell = @" R ";
     }
-    else if (self.colour == EnumColourClear) {
+    else if (self.color == EnumColorClear) {
         cell = @"   ";
     }
-    else if (self.colour == EnumColourGreen) {
+    else if (self.color == EnumColorGreen) {
         cell = @" G ";
     }
     return cell;

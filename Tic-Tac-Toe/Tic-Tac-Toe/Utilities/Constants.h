@@ -14,7 +14,6 @@
 #define IDENTIFIER_LOST_GAMES_CELL                  @"LostGamesTableViewCellIdentifier"
 #define IDENTIFIER_DEVICE_CELL                      @"DeviceCellIdentifier"
 #define IDENTIFIER_FOUND_GAME_CELL                  @"FoundGameCellIdentifier"
-#define IDENTIFIER_UNWIND_TO_NETWORK_GAME_CONTROLLER @"UnwindToNetworkGameIdentifier"
 
 #define IDENTIFIER_MAIN_VIEW_CONTROLLER             @"MainViewControllerID"
 #define IDENTIFIER_GAME_TABLE_VIEW_CONTROLLER       @"GameTableViewControllerID"
@@ -29,13 +28,13 @@
 #define IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER      @"CreateRoomViewControllerID"
 #define IDENTIFIER_JOIN_ROOM_VIEW_CONTROLLER        @"JoinRoomViewControllerID"
 
-#define EMPTY_CELL                                  @""
+#define EMPTY_TEXT                                  @""
 
-#define FIRST_PLAYER_SYMBOL                         EnumCellWithX
-#define SECOND_PLAYER_SYMBOL                        EnumCellWithO
-#define TUNAK_TUNAK_TUN_SYMBOL                      EnumCellEmpty
+#define FIRST_PLAYER_SYMBOL                         EnumSymbolX
+#define SECOND_PLAYER_SYMBOL                        EnumSymbolO
+#define TUNAK_TUNAK_TUN_SYMBOL                      EnumSymbolEmpty
 
-#define LAST_COLOUR                                 EnumColourRed
+#define LAST_COLOR                                  EnumColorRed
 
 #define HUMAN_SCORES_KEY                            @"scores"
 #define LOST_AGAINST_BOT_KEY                        @"lostGames"
@@ -64,27 +63,22 @@ typedef enum : NSUInteger {
 } EnumDifficulty;
 
 typedef enum : NSUInteger {
-    EnumCellEmpty = 0,
-    EnumCellWithX,
-    EnumCellWithO,
-} EnumCell;
+    EnumSymbolEmpty = 0,
+    EnumSymbolX,
+    EnumSymbolO,
+} EnumSymbol;
 
 typedef enum : NSUInteger {
-    EnumColourClear = 0,
-    EnumColourYellow,
-    EnumColourGreen,
-    EnumColourRed,
-} EnumColour;
+    EnumColorClear = 0,
+    EnumColorYellow,
+    EnumColorGreen,
+    EnumColorRed,
+} EnumColor;
 
 typedef enum : NSInteger {
     EnumGameTicTacToe = 0,
     EnumGameTunakTunakTun,
 } EnumGame;
-
-typedef enum : NSInteger {
-    EnumPlayerSymbolX = EnumCellWithX,
-    EnumPlayerSymbolO = EnumCellWithO,
-} EnumPlayerSymbol;
 
 typedef enum : NSInteger {
     EnumGameModeOneDevice = 0,

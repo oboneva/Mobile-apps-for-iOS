@@ -283,7 +283,7 @@
     return x >= 0 && x < ROWS_COUNT && y >= 0 && y < ITEMS_COUNT;
 }
 
--(NSArray<NSIndexPath *> *)availableCells
+- (NSArray<NSIndexPath *> *)availableCells
 {
     //This is a stub
     return @[];

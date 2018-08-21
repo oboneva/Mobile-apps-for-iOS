@@ -12,9 +12,9 @@
 
 @interface TunakTunakTunCellModel : GameCellModel
 
-@property (assign) EnumColour colour;
+@property (assign) EnumColor color;
 
-+ (instancetype)customCellWithColour:(EnumColour)colour;
++ (instancetype)customCellWithColor:(EnumColor)color;
 + (instancetype)emptyCell;
 
 - (void)clearCell;

@@ -15,7 +15,7 @@
 #import "PlayerModel.h"
 
 @interface MatrixCollectionViewController () <UICollectionViewDelegateFlowLayout>
-@property (strong, nonatomic) NSArray<NSString *> *colourImageNames;
+@property (strong, nonatomic) NSArray<NSString *> *colorImageNames;
 
 @end
 
@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
-    self.colourImageNames = @[@"tunak_yellow.jpg", @"tunak_green.jpg", @"tunak_red.png"];
+    self.colorImageNames = @[@"tunak_yellow.jpg", @"tunak_green.jpg", @"tunak_red.png"];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -53,18 +53,18 @@
     
     [self setTextFromEnum:model.content toCell:cell];
     if ([self.engineDelegate getGameType] == EnumGameTunakTunakTun) {
-        [self setTextColourFromModel:model toCell:cell];
+        [self setTextColorFromModel:model toCell:cell];
     }
     
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
-- (void)setTextColourFromModel:(GameCellModel *)model toCell:(GameCell *)cell {
+- (void)setTextColorFromModel:(GameCellModel *)model toCell:(GameCell *)cell {
     TunakTunakTunCellModel* tempCell = (TunakTunakTunCellModel *)model;
-    if (tempCell.colour > EnumColourClear) {
+    if (tempCell.color > EnumColorClear) {
         [cell.backgroundView setHidden:NO];
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.colourImageNames[(int)tempCell.colour - 1]]];
+        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.colorImageNames[(int)tempCell.color - 1]]];
         cell.contentView.layer.borderColor = [UIColor grayColor].CGColor;
         cell.contentView.layer.borderWidth = 1.0;
     }
@@ -72,15 +72,16 @@
         [cell.backgroundView setHidden:YES];
         cell.contentView.layer.borderWidth = 0.0;
     }
+    
 
 }
 
-- (void)setTextFromEnum:(EnumCell)text toCell:(GameCell *)cell {
-    cell.contentLabel.text = EMPTY_CELL;
-    if (text == EnumCellWithO) {
+- (void)setTextFromEnum:(EnumSymbol)text toCell:(GameCell *)cell {
+    cell.contentLabel.text = EMPTY_TEXT;
+    if (text == EnumSymbolO) {
         cell.contentLabel.text = @"O";
     }
-    else if (text == EnumCellWithX) {
+    else if (text == EnumSymbolX) {
         cell.contentLabel.text = @"X";
     }
 }

@@ -28,11 +28,6 @@
 
 @implementation TunakTunakTunEngine
 
-- (int)emptyCellsCount {
-    return 0;
-}
-
-
 +(Class)cellType
 {
     return TunakTunakTunCellModel.class;
@@ -54,24 +49,24 @@
     return [super isCellAtIndexPathSelectable:indexPath] && [self.gameMatrix[indexPath.section][indexPath.item] isSelectable];
 }
 
-- (void)setNewColourForCellAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setNewColorForCellAtIndexPath:(NSIndexPath *)indexPath {
     TunakTunakTunCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
-    cell.colour++;
-    if (cell.colour == LAST_COLOUR) {
+    cell.color++;
+    if (cell.color == LAST_COLOR) {
         self.filled_cells++;
     }
 }
 
 - (void)markCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    [self setNewColourForCellAtIndexPath:indexPath];
+    [self setNewColorForCellAtIndexPath:indexPath];
 }
 
 - (void)unmarkCellAtIndexPath:(NSIndexPath *)indexPath {
     TunakTunakTunCellModel *cell = self.gameMatrix[indexPath.section][indexPath.item];
-    if (cell.colour == LAST_COLOUR) {
+    if (cell.color == LAST_COLOR) {
         self.filled_cells--;
     }
-    cell.colour--;
+    cell.color--;
 }
 
 - (BOOL)isWinCombinationAtIndexPathForMe:(NSIndexPath *)indexPath {
@@ -86,5 +81,11 @@
     //kind of a stub
     return false;
 }
+
+- (int)emptyCellsCount {
+    //stub
+    return 0;
+}
+
 
 @end

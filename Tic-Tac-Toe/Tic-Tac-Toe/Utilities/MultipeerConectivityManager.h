@@ -15,13 +15,13 @@
 @property (weak, nonatomic)id<PeerSearchDelegate> peerSearchDelegate;
 @property (weak, nonatomic)id<PeerSessionDelegate> peerSessionDelegate;
 
--(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
--(void)startBrowsing;
--(void)stopBrowsing;
--(void)startAdvertisingWithDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo;
--(void)stopAdvertising;
--(void)invitePeer:(MCPeerID *)peerID;
--(void)sendData:(NSData *)data toPeer:(MCPeerID *)peerID;
+- (void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
+- (void)startBrowsing;
+- (void)stopBrowsing;
+- (void)startAdvertisingWithDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)discoveryInfo;
+- (void)stopAdvertising;
+- (void)invitePeer:(MCPeerID *)peerID;
+- (void)sendData:(NSData *)data toPeer:(MCPeerID *)peerID;
 - (void)disconnectPeer;
 
 +(instancetype)sharedInstance;
