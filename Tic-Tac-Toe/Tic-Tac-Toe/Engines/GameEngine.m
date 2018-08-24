@@ -77,6 +77,11 @@
     //Does nothing in base class
 }
 
+- (BOOL)shouldDisplayContentAtIndexPath:(NSIndexPath *)indexPath {
+    //stub
+    return false;
+}
+
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
     [self markCellSelectedAtIndexPath:indexPath];
     if ([self isWinnerPlayerAtIndex:indexPath]) {
@@ -206,7 +211,7 @@
 
 - (void)startGame {
     [self setUpPlayers];
-    
+    NSLog(@"start game gameEngine");
     if ([self.player2 isKindOfClass:BotModel.class]) {
         BotModel *temp = (BotModel *)self.player2;
         temp.boardStateDelegate = self;
@@ -247,11 +252,11 @@
         self.player2.symbol = FIRST_PLAYER_SYMBOL;
     }
 }
-
+//ready
 - (int)rowsCount {
     return ROWS_COUNT;
 }
-
+//ready
 - (int)itemsCount {
     return ITEMS_COUNT;
 }

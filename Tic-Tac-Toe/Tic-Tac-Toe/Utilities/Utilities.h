@@ -11,6 +11,7 @@
 
 @class GameEngine;
 @class BotModel;
+@class ShipModel;
 
 @interface Utilities : NSObject
 
@@ -18,5 +19,6 @@
 + (UIViewController *) viewControllerWithClass:(Class)class;
 + (GameEngine *)gameEngineFromType:(EnumGame)type;
 + (BotModel *) botWithDifficulty:(EnumDifficulty)difficulty;
++ (NSArray<ShipModel *> *)getDefaultShips;
 
 @end

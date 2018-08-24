@@ -67,6 +67,9 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (self.gameType == EnumGameBattleships) {
+        return self.difficultyLevels.count - 1;
+    }
     return self.difficultyLevels.count;
 }
 

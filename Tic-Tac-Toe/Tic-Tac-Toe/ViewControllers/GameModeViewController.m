@@ -9,9 +9,15 @@
 #import "GameModeViewController.h"
 #import "EnemyTypeViewController.h"
 #import "NetworkGameViewController.h"
+#import "SinglePlayerViewController.h"
 
 #import "Constants.h"
 #import "Utilities.h"
+
+@interface SinglePlayerViewController ()
+@property (assign) EnumGame gameType;
+
+@end
 
 @interface EnemyTypeViewController ()
 @property (assign) EnumGame gameType;
@@ -42,9 +48,16 @@
 }
 
 - (IBAction)onLocalGameTap:(id)sender {
-    EnemyTypeViewController *enemyTypeController = (EnemyTypeViewController *)[Utilities viewControllerWithClass:EnemyTypeViewController.class];
-    enemyTypeController.gameType = self.gameType;
-    [self.navigationController pushViewController:enemyTypeController animated:YES];
+    if (self.gameType == EnumGameBattleships) {
+        SinglePlayerViewController *singlePlayerController = (SinglePlayerViewController *)[Utilities viewControllerWithClass:SinglePlayerViewController.class];
+        singlePlayerController.gameType = self.gameType;
+        [self.navigationController pushViewController:singlePlayerController animated:YES];
+    }
+    else {
+        EnemyTypeViewController *enemyTypeController = (EnemyTypeViewController *)[Utilities viewControllerWithClass:EnemyTypeViewController.class];
+        enemyTypeController.gameType = self.gameType;
+        [self.navigationController pushViewController:enemyTypeController animated:YES];
+    }
 }
 
 - (IBAction)onNetworkGameTap:(id)sender {

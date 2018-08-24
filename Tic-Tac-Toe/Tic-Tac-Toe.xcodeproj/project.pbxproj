@@ -43,6 +43,12 @@
 		FA4C88A32109F6DC00C351DF /* LostGamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A22109F6DC00C351DF /* LostGamesTableViewCell.m */; };
 		FA4C88A6210A015C00C351DF /* LostGamesDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A5210A015C00C351DF /* LostGamesDataModel.m */; };
 		FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A8210A085300C351DF /* UserDefaultsManager.m */; };
+		FA53C088212D9B600039390F /* ShipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C087212D9B600039390F /* ShipCell.m */; };
+		FABEB2F1212C528B005EB941 /* BattleshipsEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F0212C528B005EB941 /* BattleshipsEngine.m */; };
+		FABEB2F4212C5673005EB941 /* BattleshipsCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F3212C5673005EB941 /* BattleshipsCellModel.m */; };
+		FABEB2F7212C5B08005EB941 /* BoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F6212C5B08005EB941 /* BoardModel.m */; };
+		FABEB2FA212C5C65005EB941 /* ShipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F9212C5C65005EB941 /* ShipModel.m */; };
+		FABEB2FD212C66A2005EB941 /* ArrangeShipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2FC212C66A2005EB941 /* ArrangeShipsViewController.m */; };
 		FADCE109211196660000FEA2 /* GameTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADCE108211196660000FEA2 /* GameTypeViewController.m */; };
 		FADCE10C21119A4A0000FEA2 /* GameModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADCE10B21119A4A0000FEA2 /* GameModeViewController.m */; };
 		FADCE10F2111A1A60000FEA2 /* EnemyTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADCE10E2111A1A60000FEA2 /* EnemyTypeViewController.m */; };
@@ -140,6 +146,18 @@
 		FA4C88A5210A015C00C351DF /* LostGamesDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LostGamesDataModel.m; sourceTree = "<group>"; };
 		FA4C88A7210A085300C351DF /* UserDefaultsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsManager.h; sourceTree = "<group>"; };
 		FA4C88A8210A085300C351DF /* UserDefaultsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsManager.m; sourceTree = "<group>"; };
+		FA53C086212D9B600039390F /* ShipCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShipCell.h; sourceTree = "<group>"; };
+		FA53C087212D9B600039390F /* ShipCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShipCell.m; sourceTree = "<group>"; };
+		FABEB2EF212C528B005EB941 /* BattleshipsEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BattleshipsEngine.h; path = "Tic-Tac-Toe/Engines/BattleshipsEngine.h"; sourceTree = SOURCE_ROOT; };
+		FABEB2F0212C528B005EB941 /* BattleshipsEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BattleshipsEngine.m; path = "Tic-Tac-Toe/Engines/BattleshipsEngine.m"; sourceTree = SOURCE_ROOT; };
+		FABEB2F2212C5673005EB941 /* BattleshipsCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleshipsCellModel.h; sourceTree = "<group>"; };
+		FABEB2F3212C5673005EB941 /* BattleshipsCellModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BattleshipsCellModel.m; sourceTree = "<group>"; };
+		FABEB2F5212C5B08005EB941 /* BoardModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardModel.h; sourceTree = "<group>"; };
+		FABEB2F6212C5B08005EB941 /* BoardModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardModel.m; sourceTree = "<group>"; };
+		FABEB2F8212C5C65005EB941 /* ShipModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShipModel.h; sourceTree = "<group>"; };
+		FABEB2F9212C5C65005EB941 /* ShipModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShipModel.m; sourceTree = "<group>"; };
+		FABEB2FB212C66A1005EB941 /* ArrangeShipsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrangeShipsViewController.h; sourceTree = "<group>"; };
+		FABEB2FC212C66A2005EB941 /* ArrangeShipsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrangeShipsViewController.m; sourceTree = "<group>"; };
 		FADCE107211196660000FEA2 /* GameTypeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTypeViewController.h; sourceTree = "<group>"; };
 		FADCE108211196660000FEA2 /* GameTypeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameTypeViewController.m; sourceTree = "<group>"; };
 		FADCE10A21119A4A0000FEA2 /* GameModeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameModeViewController.h; sourceTree = "<group>"; };
@@ -240,6 +258,8 @@
 		FA4C884620FC896600C351DF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FABEB2FB212C66A1005EB941 /* ArrangeShipsViewController.h */,
+				FABEB2FC212C66A2005EB941 /* ArrangeShipsViewController.m */,
 				FA4C8892210883BB00C351DF /* ScoreboardTableViewController.h */,
 				FA4C8893210883BB00C351DF /* ScoreboardTableViewController.m */,
 				FA4C881420FC87E200C351DF /* ViewController.h */,
@@ -286,12 +306,18 @@
 		FA4C884F20FC8FB500C351DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FABEB2F8212C5C65005EB941 /* ShipModel.h */,
+				FABEB2F9212C5C65005EB941 /* ShipModel.m */,
+				FABEB2F5212C5B08005EB941 /* BoardModel.h */,
+				FABEB2F6212C5B08005EB941 /* BoardModel.m */,
 				FA4C884C20FC8FAE00C351DF /* GameCellModel.h */,
 				FA4C884D20FC8FAE00C351DF /* GameCellModel.m */,
 				FA4C887621070D1400C351DF /* TicTacToeCellModel.h */,
 				FA4C887721070D1400C351DF /* TicTacToeCellModel.m */,
 				FA4C887921070D3000C351DF /* TunakTunakTunCellModel.h */,
 				FA4C887A21070D3000C351DF /* TunakTunakTunCellModel.m */,
+				FABEB2F2212C5673005EB941 /* BattleshipsCellModel.h */,
+				FABEB2F3212C5673005EB941 /* BattleshipsCellModel.m */,
 				FA4C885F20FE201600C351DF /* PlayerModel.h */,
 				FA4C886020FE201600C351DF /* PlayerModel.m */,
 				FA4C887020FF811B00C351DF /* HumanModel.h */,
@@ -313,6 +339,8 @@
 		FA4C885620FCB05B00C351DF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FA53C086212D9B600039390F /* ShipCell.h */,
+				FA53C087212D9B600039390F /* ShipCell.m */,
 				FADCE119211203520000FEA2 /* FoundGameTableViewCell.h */,
 				FADCE11A211203520000FEA2 /* FoundGameTableViewCell.m */,
 				FA4C88A12109F6DC00C351DF /* LostGamesTableViewCell.h */,
@@ -334,6 +362,8 @@
 				FA4C887D2107142500C351DF /* TicTacToeEngine.m */,
 				FA4C887F2107144900C351DF /* TunakTunakTunEngine.h */,
 				FA4C88802107144900C351DF /* TunakTunakTunEngine.m */,
+				FABEB2EF212C528B005EB941 /* BattleshipsEngine.h */,
+				FABEB2F0212C528B005EB941 /* BattleshipsEngine.m */,
 			);
 			path = Engines;
 			sourceTree = "<group>";
@@ -485,10 +515,13 @@
 				FA4C887B21070D3000C351DF /* TunakTunakTunCellModel.m in Sources */,
 				FA4C88A6210A015C00C351DF /* LostGamesDataModel.m in Sources */,
 				FA4C886820FF723A00C351DF /* GameViewController.m in Sources */,
+				FABEB2F1212C528B005EB941 /* BattleshipsEngine.m in Sources */,
 				FA4C88A02109DEA700C351DF /* BotModel.m in Sources */,
 				FA4C887E2107142500C351DF /* TicTacToeEngine.m in Sources */,
 				FA4C88A32109F6DC00C351DF /* LostGamesTableViewCell.m in Sources */,
 				FA4C882120FC87E400C351DF /* main.m in Sources */,
+				FA53C088212D9B600039390F /* ShipCell.m in Sources */,
+				FABEB2F7212C5B08005EB941 /* BoardModel.m in Sources */,
 				FA4C887520FF813200C351DF /* BotMediumModel.m in Sources */,
 				FA4C886F20FF77A900C351DF /* SinglePlayerViewController.m in Sources */,
 				FA4C885B20FCC43300C351DF /* Utilities.m in Sources */,
@@ -497,10 +530,12 @@
 				FADCE109211196660000FEA2 /* GameTypeViewController.m in Sources */,
 				FA21AE5F210B142D00494946 /* JoinRoomViewController.m in Sources */,
 				FA4C889D2109AD3500C351DF /* BotHardModel.m in Sources */,
+				FABEB2F4212C5673005EB941 /* BattleshipsCellModel.m in Sources */,
 				FADCE11B211203520000FEA2 /* FoundGameTableViewCell.m in Sources */,
 				FA4C881320FC87E200C351DF /* AppDelegate.m in Sources */,
 				FA4C8894210883BB00C351DF /* ScoreboardTableViewController.m in Sources */,
 				FADCE10F2111A1A60000FEA2 /* EnemyTypeViewController.m in Sources */,
+				FABEB2FD212C66A2005EB941 /* ArrangeShipsViewController.m in Sources */,
 				FADCE1152111E5D10000FEA2 /* CreateRoomViewController.m in Sources */,
 				FA4C886C20FF764C00C351DF /* MultiplePlayersViewController.m in Sources */,
 				FA4C88812107144900C351DF /* TunakTunakTunEngine.m in Sources */,
@@ -511,6 +546,7 @@
 				FADCE1122111E21A0000FEA2 /* NetworkGameViewController.m in Sources */,
 				FA21AE62210B363B00494946 /* MultipeerConectivityManager.m in Sources */,
 				FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */,
+				FABEB2FA212C5C65005EB941 /* ShipModel.m in Sources */,
 				FA4C8884210715AF00C351DF /* GameEngine.m in Sources */,
 				FADCE10C21119A4A0000FEA2 /* GameModeViewController.m in Sources */,
 				FA4C889721089D6300C351DF /* ScoreboardTableViewCell.m in Sources */,

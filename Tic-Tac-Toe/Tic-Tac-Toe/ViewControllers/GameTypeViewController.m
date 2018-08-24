@@ -43,6 +43,10 @@
     [self continueGameCreationWithGame:EnumGameTunakTunakTun];
 }
 
+- (IBAction)onBattleshipsTap:(id)sender {
+    [self continueGameCreationWithGame:EnumGameBattleships];
+}
+
 - (void)continueGameCreationWithGame:(EnumGame)gameType {
     GameModeViewController *gameModeController = (GameModeViewController *)[Utilities viewControllerWithClass:GameModeViewController.class];
     gameModeController.gameType = gameType;

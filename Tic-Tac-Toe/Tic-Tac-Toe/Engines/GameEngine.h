@@ -23,7 +23,9 @@
 - (BOOL)areCoordinatesValidX:(int)x andY:(int)y;
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath;
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)shouldDisplayContentAtIndexPath:(NSIndexPath *)indexPath;
 
+@property (assign) EnumBoard boardOnDisplay;
 - (int)rowsCount;
 - (int)itemsCount;
 @property (assign) int filled_cells;

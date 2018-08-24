@@ -10,6 +10,7 @@
 #define Constants_h
 
 #define IDENTIFIER_GAME_CELL                        @"GameCellIdentifier"
+#define IDENTIFIER_SHIP_CELL                        @"ShipCellIdentifier"
 #define IDENTIFIER_SCOREBOARD_CELL                  @"ScoreboardCellIdentifier"
 #define IDENTIFIER_LOST_GAMES_CELL                  @"LostGamesTableViewCellIdentifier"
 #define IDENTIFIER_DEVICE_CELL                      @"DeviceCellIdentifier"
@@ -27,6 +28,7 @@
 #define IDENTIFIER_NETWORK_GAME_VIEW_CONTROLLER     @"NetworkGameViewControllerID"
 #define IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER      @"CreateRoomViewControllerID"
 #define IDENTIFIER_JOIN_ROOM_VIEW_CONTROLLER        @"JoinRoomViewControllerID"
+#define IDENTIFIER_ARRANGE_SHIPS_VIEW_CONTROLLER    @"ArrangeShipsViewControllerID"
 
 #define EMPTY_TEXT                                  @""
 
@@ -78,11 +80,17 @@ typedef enum : NSUInteger {
 typedef enum : NSInteger {
     EnumGameTicTacToe = 0,
     EnumGameTunakTunakTun,
+    EnumGameBattleships,
 } EnumGame;
 
 typedef enum : NSInteger {
     EnumGameModeOneDevice = 0,
     EnumGameModeTwoDevices,
 } EnumGameMode;
+
+typedef enum : NSInteger {
+    EnumBoardPlayer1 = 0,
+    EnumBoardPlayer2,
+} EnumBoard;
 
 #endif /* Constants_h */

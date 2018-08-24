@@ -9,7 +9,7 @@
 #import "BotHardModel.h"
 #import "Utilities.h"
 
-@implementation BotHardModel
+@implementation BotHardModel //not avaiable for battleships
 
 - (NSIndexPath *)makeMove{
     [NSThread sleepForTimeInterval:5];

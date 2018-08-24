@@ -18,6 +18,7 @@
 #import "EnemyTypeViewController.h"
 #import "NetworkGameViewController.h"
 #import "CreateRoomViewController.h"
+#import "ArrangeShipsViewController.h"
 
 #import "Utilities.h"
 #import "Constants.h"
@@ -25,9 +26,11 @@
 #import "BotMediumModel.h"
 #import "BotEasyModel.h"
 #import "BotHardModel.h"
+#import "ShipModel.h"
 
 #import "TicTacToeEngine.h"
 #import "TunakTunakTunEngine.h"
+#import "BattleshipsEngine.h"
 
 @implementation Utilities
 
@@ -64,7 +67,8 @@
                     GameModeViewController.class : IDENTIFIER_GAME_MODE_VIEW_CONTROLLER,
                     EnemyTypeViewController.class : IDENTIFIER_ENEMY_TYPE_VIEW_CONTROLLER,
                     NetworkGameViewController.class : IDENTIFIER_NETWORK_GAME_VIEW_CONTROLLER,
-                    CreateRoomViewController.class : IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER
+                    CreateRoomViewController.class : IDENTIFIER_CREATE_ROOM_VIEW_CONTROLLER,
+                    ArrangeShipsViewController.class : IDENTIFIER_ARRANGE_SHIPS_VIEW_CONTROLLER
                   };
     }
     
@@ -80,7 +84,8 @@
     static NSDictionary<NSNumber *, NSString *> *idents = nil;
     if (!idents) {
         idents = @{ [NSNumber numberWithInt:EnumGameTicTacToe] : NSStringFromClass(TicTacToeEngine.class),
-                    [NSNumber numberWithInt:EnumGameTunakTunakTun] : NSStringFromClass(TunakTunakTunEngine.class)
+                    [NSNumber numberWithInt:EnumGameTunakTunakTun] : NSStringFromClass(TunakTunakTunEngine.class),
+                    [NSNumber numberWithInt:EnumGameBattleships] : NSStringFromClass(BattleshipsEngine.class)
                     };
     }
     return idents;
@@ -100,6 +105,22 @@
                     };
     }
     return idents;
+}
+/*
++ (NSDictionary<NSString *, NSNumber *> *)shipUnits {
+    return @{@"Carrier": @1, @"Battleship": @1, @"Destroyer": @1, @"Submarine": @2, @"Patrol Craft": @2};
+}*/
+
++ (NSArray<ShipModel *> *)getDefaultShips { //move to user defaults
+    ShipModel *ship1 = [ShipModel newShipWithName:@"Carrier" andSize:5];
+    ShipModel *ship2 = [ShipModel newShipWithName:@"Battleship" andSize:4];
+    ShipModel *ship3 = [ShipModel newShipWithName:@"Destroyer" andSize:3];
+    ShipModel *ship4 = [ShipModel newShipWithName:@"Submarine" andSize:3];
+    ShipModel *ship41 = [ShipModel newShipWithName:@"Submarine" andSize:3];
+    ShipModel *ship5 = [ShipModel newShipWithName:@"Patrol Craft" andSize:2];
+    ShipModel *ship51 = [ShipModel newShipWithName:@"Patrol Craft" andSize:2];
+    
+    return @[ship1, ship2, ship3, ship4, ship41, ship5, ship51];
 }
 
 @end

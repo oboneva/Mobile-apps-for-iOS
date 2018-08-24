@@ -57,9 +57,12 @@
 - (int)itemsCount;
 - (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath;
 - (BOOL)isCellAtIndexPathSelectable:(NSIndexPath *)indexPath;
+- (BOOL)shouldDisplayContentAtIndexPath:(NSIndexPath *)indexPath;
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)startGame;
+
+- (EnumBoard)displayedBoard;
 
 @end
 
@@ -74,6 +77,19 @@
 
 - (void)didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID;
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state;
+
+@end
+
+@protocol ArrangeShipsDelegate
+
+- (void)shipsAreArranged;
+
+@end
+
+@class ShipModel;
+@protocol ShipsDelegate
+
+- (NSArray<ShipModel *> *)availableShips;
 
 @end
 

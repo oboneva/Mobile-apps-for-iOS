@@ -25,12 +25,13 @@
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
     self.colorImageNames = @[@"tunak_yellow.jpg", @"tunak_green.jpg", @"tunak_red.png"];
+    [self.engineDelegate startGame];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.engineDelegate startGame];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,11 +56,26 @@
     if ([self.engineDelegate getGameType] == EnumGameTunakTunakTun) {
         [self setTextColorFromModel:model toCell:cell];
     }
+    else if ([self.engineDelegate getGameType] == EnumGameBattleships) {
+        [self setBackgroundColorToCell:cell atIndexPath:indexPath];
+    }
     
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
+
+- (void)setBackgroundColorToCell:(GameCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    if ([self.engineDelegate shouldDisplayContentAtIndexPath:indexPath]) {
+        cell.backgroundColor = [UIColor blueColor];
+    }
+    else {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+    cell.contentView.layer.borderColor = [UIColor grayColor].CGColor;
+    cell.contentView.layer.borderWidth = 1.0;
+}
+
 - (void)setTextColorFromModel:(GameCellModel *)model toCell:(GameCell *)cell {
     TunakTunakTunCellModel* tempCell = (TunakTunakTunCellModel *)model;
     if (tempCell.color > EnumColorClear) {
@@ -72,8 +88,6 @@
         [cell.backgroundView setHidden:YES];
         cell.contentView.layer.borderWidth = 0.0;
     }
-    
-
 }
 
 - (void)setTextFromEnum:(EnumSymbol)text toCell:(GameCell *)cell {
@@ -108,10 +122,16 @@
     if (size > self.view.frame.size.height) {
         size = self.view.frame.size.height;
     }
+    if ([self.engineDelegate getGameType] == EnumGameBattleships) {
+        return CGSizeMake(size * 0.09, size * 0.09);
+    }
     return CGSizeMake(size * 0.29 - 5, size * 0.29 - 5);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if ([self.engineDelegate getGameType] == EnumGameBattleships) {
+        return UIEdgeInsetsMake(0, 0, 0, 0);
+    }
     return UIEdgeInsetsMake(10, 5, 0, 0);
 }
 

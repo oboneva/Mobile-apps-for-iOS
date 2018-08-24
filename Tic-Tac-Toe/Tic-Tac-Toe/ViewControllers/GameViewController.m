@@ -7,13 +7,16 @@
 //
 
 #import "GameEngine.h"
+#import "BattleshipsEngine.h"
 
 #import "JoinRoomViewController.h"
 #import "CreateRoomViewController.h"
 #import "GameViewController.h"
 #import "MatrixCollectionViewController.h"
+#import "ArrangeShipsViewController.h"
 
 #import "PlayerModel.h"
+#import "BotModel.h"
 #import "GameCellModel.h"
 #import "TunakTunakTunCellModel.h"
 #import "TicTacToeCellModel.h"
@@ -28,18 +31,18 @@
 #define QUESTION                @"Another game?"
 #define INVALID_COORDS_MESSAGE  @"Invalid coordinates!"
 
-@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate>
+@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate, ArrangeShipsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
 @property (strong, nonatomic) MatrixCollectionViewController *matrixViewController;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (weak, nonatomic) IBOutlet UILabel *player1InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *player2InfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endOfGameLabel;
 @property (strong, nonatomic) UIColor *labelsColor;
-@property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (assign) BOOL otherPlayerTappedNewGame;
 
 @end
@@ -84,6 +87,19 @@
     }
 }
 
+- (void)arrangeShipsAndStartGame {
+    if ([self.engine.player2 isKindOfClass:BotModel.class]) {
+        BotModel *botTemp = (BotModel *)self.engine.player2;
+        BattleshipsEngine *engineTemp = (BattleshipsEngine *)self.engine;
+        [botTemp arrangeShips:[Utilities getDefaultShips] onBoard:engineTemp.boardPlayer2];
+    }
+    ArrangeShipsViewController *arrangeShipsController = (ArrangeShipsViewController *)[Utilities viewControllerWithClass:ArrangeShipsViewController.class];
+    BattleshipsEngine *battleshipsEngine = (BattleshipsEngine *)self.engine;
+    arrangeShipsController.boardModel = battleshipsEngine.boardPlayer1;
+    arrangeShipsController.arrangeShipsDelegate = self;
+    [self.navigationController presentViewController:arrangeShipsController animated:YES completion:nil];
+}
+
 -(void)didChangePlayerToPlayWithName:(NSString *)playerName {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([playerName isEqualToString:self.engine.player1.name]) {
@@ -96,6 +112,7 @@
         else {
             self.player1InfoLabel.textColor = [UIColor grayColor];
             self.player2InfoLabel.textColor = self.labelsColor;
+            
             if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
                 [self sendTheGameMap];
             }
@@ -135,11 +152,16 @@
     });
 }
 
+- (void)shipsAreArranged {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.engine startGame];
+}
+
 - (IBAction)onNewGameTap:(id)sender {
     [self.startNewGameButton setHidden:YES];
     self.endOfGameLabel.text = @"";
     if (self.gameMode == EnumGameModeOneDevice) {
-        [self.engine newGame];
+        [self newGame];
     }
     
     if (self.roomBelongsToMe) {
@@ -294,6 +316,10 @@
     return self.engine.itemsCount;
 }
 
+- (BOOL)shouldDisplayContentAtIndexPath:(NSIndexPath *)indexPath { //if board on display == 1 and is part of ship ; content -> ship
+    return [self.engine shouldDisplayContentAtIndexPath:indexPath];
+}
+
 - (GameCellModel *)getCellAtIndex:(NSIndexPath *)indexPath {
     return [self.engine getCellAtIndex:indexPath];
 }
@@ -316,11 +342,25 @@
 }
 
 - (void)startGame {
-    if (self.gameMode == EnumGameModeOneDevice) {
+    if (self.gameType == EnumGameBattleships) {
+        [self arrangeShipsAndStartGame];
+    }
+    else if (self.gameMode == EnumGameModeOneDevice) {
         [self.engine startGame];
     }
     else {
         [self.engine startMultipeerGame];
+    }
+}
+
+- (void)newGame {
+    if (self.gameType != EnumGameBattleships) {
+        [self.engine newGame];
+    }
+    else {
+        BattleshipsEngine *temp = (BattleshipsEngine *)self.engine;
+        [temp clearBoards];
+        [self arrangeShipsAndStartGame];
     }
 }
 
