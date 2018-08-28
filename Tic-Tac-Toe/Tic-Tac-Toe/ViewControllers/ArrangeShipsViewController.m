@@ -46,18 +46,17 @@
     self.board.dataSource = self;
     self.ships.delegate = self;
     self.ships.dataSource = self;
+
     /*
     if (@available(iOS 11.0, *)) {
         self.ships.dragDelegate = self;
         [self.ships dragInteractionEnabled];
+        self.board.dropDelegate = self;
+        [self.ships allowsSelection];
     } else {
         // Fallback on earlier versions
-        NSLog(@"asdfsdfdfgdf");
     }
-     */
-    
-    //[self.ships allowsSelection];
-    [self arrangeUserShipsTemp];
+    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,6 +86,11 @@
         GameCell *gameCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_GAME_CELL forIndexPath:indexPath];
         gameCell.contentLabel.text = @"";
         cell = gameCell;
+        if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
+            cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+        }
     }
     else {
         ShipCell *shipCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_SHIP_CELL forIndexPath:indexPath];
@@ -112,20 +116,30 @@
 }
 */
 
-- (void)arrangeUserShipsTemp {
-    self.boardModel.ships = [Utilities getDefaultShips];
-    int i = 0;
-    for (ShipModel *ship in self.boardModel.ships) {
-        ship.head = [NSIndexPath indexPathForItem:0 inSection:i];
-        ship.tail = [NSIndexPath indexPathForItem:ship.size - 1 inSection:i];
-        i++;
-    }
-    [self.doneButton setHidden:NO];
-}
-
 - (IBAction)onDoneTap:(id)sender {
     [self.arrangeShipsDelegate shipsAreArranged];
 }
+
+- (IBAction)onRandomArrangeTap:(id)sender {
+    self.boardModel.ships = [Utilities getDefaultShips];
+    [self.boardModel randomArrangeShips];
+    self.defaultShips = @[].mutableCopy;
+    [self.ships reloadData];
+    [self.board reloadData];
+    [self.doneButton setHidden:NO];
+}
+
+/*
+- (nonnull NSArray<UIDragItem *> *)collectionView:(nonnull UICollectionView *)collectionView itemsForBeginningDragSession:(nonnull id<UIDragSession>)session atIndexPath:(nonnull NSIndexPath *)indexPath {
+ 
+}
+
+- (void)collectionView:(nonnull UICollectionView *)collectionView performDropWithCoordinator:(nonnull id<UICollectionViewDropCoordinator>)coordinator {
+    <#code#>
+}
+*/
+
+
 
 
 @end

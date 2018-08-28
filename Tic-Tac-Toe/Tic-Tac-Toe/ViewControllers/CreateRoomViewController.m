@@ -20,6 +20,7 @@
 
 #define TIC_TAC          @"Tic-Tac-Toe"
 #define TUNAK_TUNAK      @"Tunak-Tunak-Tun"
+#define BATTLESHIPS      @"Battleships"
 #define DISPLAY_NAME     @".game"
 #define QUESTION         @"What is your name?"
 #define UNKNOWN_APP      @"unknown"
@@ -112,6 +113,9 @@
     NSString *gameName = TIC_TAC;
     if (self.gameType == EnumGameTunakTunakTun) {
         gameName = TUNAK_TUNAK;
+    }
+    else if (self.gameType == EnumGameBattleships) {
+        gameName = BATTLESHIPS;
     }
     NSDictionary *discoveryInfo = @{ROOM_NAME : self.roomNameTextField.text, GAME_NAME : gameName, CURRENT_PLAYERS : @"1", ALL_PLAYERS : TIC_TAC_TOE_PLAYERS};
     [MultipeerConectivityManager.sharedInstance startAdvertisingWithDiscoveryInfo:discoveryInfo];

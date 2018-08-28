@@ -10,6 +10,7 @@
 #import "BoardModel.h"
 #import "ShipModel.h"
 #import "BattleshipsCellModel.h"
+#import "Utilities.h"
 
 @implementation BoardModel
 
@@ -81,6 +82,62 @@
     }
     
     self.filled_cells = 0;
+    self.ships = @[].copy;
+}
+
+- (void)randomArrangeShips {
+    for (ShipModel *ship in self.ships) {
+        [self arrangeShip:ship];
+    }
+}
+
+- (void)arrangeShip:(ShipModel *)ship {
+    NSArray<NSIndexPath *> *availableCells = [self availableCellsForShip];
+    NSIndexPath *index = availableCells[[Utilities randomNumberWithUpperBound:availableCells.count]];
+    
+    if ([self couldArrangeShipHorizontally:ship atIndexPath:index]) {
+        [self arrangeShip:ship horizontallyAtIndexPath:index];
+    }
+    else if ([self couldArrangeShipVertically:ship atIndexPath:index]) {
+        [self arrangeShip:ship verticallyAtIndexPath:index];
+    }
+    else {
+        [self arrangeShip:ship]; ////////////////////
+    }
+}
+
+- (BOOL)couldArrangeShipHorizontally:(ShipModel *)ship atIndexPath:(NSIndexPath *)index {
+    if (index.item + ship.size - 1 >= self.columns) {
+        return false;
+    }
+    for (NSInteger i = index.item; i < ship.size; i++){
+        if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:i inSection:index.section]]){
+            return false;
+        }
+    }
+    return true;
+}
+
+- (BOOL)couldArrangeShipVertically:(ShipModel *)ship atIndexPath:(NSIndexPath *)index {
+    if (index.section + ship.size - 1 >= self.rows) {
+        return false;
+    }
+    for (NSInteger i = index.section; i < ship.size; i++){
+        if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:index.item inSection:i]]){
+            return false;
+        }
+    }
+    return true;
+}
+
+- (void)arrangeShip:(ShipModel *)ship horizontallyAtIndexPath:(NSIndexPath *)indexPath {
+    ship.head = indexPath;
+    ship.tail = [NSIndexPath indexPathForItem:indexPath.item + ship.size - 1 inSection:indexPath.section];
+}
+
+- (void)arrangeShip:(ShipModel *)ship verticallyAtIndexPath:(NSIndexPath *)indexPath {
+    ship.head = indexPath;
+    ship.tail = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + ship.size - 1];
 }
 
 @end

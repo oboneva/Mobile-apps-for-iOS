@@ -26,5 +26,6 @@
 - (NSArray<NSIndexPath *> *)availableCellsForShip;
 - (ShipModel *)shipAtIndexPath:(NSIndexPath *)indexPath;
 - (void)clearBoard;
+- (void)randomArrangeShips;
 
 @end

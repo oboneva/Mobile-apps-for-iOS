@@ -62,8 +62,6 @@
 - (void)cellMarkedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)startGame;
 
-- (EnumBoard)displayedBoard;
-
 @end
 
 @protocol PeerSearchDelegate

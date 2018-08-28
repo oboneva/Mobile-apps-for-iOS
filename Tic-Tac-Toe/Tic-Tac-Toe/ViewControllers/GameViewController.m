@@ -20,6 +20,8 @@
 #import "GameCellModel.h"
 #import "TunakTunakTunCellModel.h"
 #import "TicTacToeCellModel.h"
+#import "BoardModel.h"
+#import "ShipModel.h"
 
 #import "GameCell.h"
 
@@ -44,6 +46,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (assign) BOOL otherPlayerTappedNewGame;
+@property (assign) BOOL isShipsInfoSended;
 
 @end
 
@@ -154,7 +157,16 @@
 
 - (void)shipsAreArranged {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self.engine startGame];
+    if (self.gameMode == EnumGameModeOneDevice) {
+        [self.engine startGame];
+    }
+    else {
+        [self sendShipsInfo];
+        if (!self.isShipsInfoSended) {
+            [self.engine startMultipeerGame];
+        }
+        //self.isShipsInfoSended = YES;
+    }
 }
 
 - (IBAction)onNewGameTap:(id)sender {
@@ -169,7 +181,7 @@
         [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
         if (self.otherPlayerTappedNewGame) {
             self.otherPlayerTappedNewGame = false;
-            [self.engine newMultipeerGame];
+            [self newGame];
         }
         else {
             if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
@@ -178,11 +190,11 @@
             [self.activityIndicator startAnimating];
         }
     }
-    else if(!self.roomBelongsToMe && self.gameMode == EnumGameModeTwoDevices){
+    else if (!self.roomBelongsToMe && self.gameMode == EnumGameModeTwoDevices){
         [self sendTappedNewGame];
-        if(self.otherPlayerTappedNewGame) {
+        if (self.otherPlayerTappedNewGame) {
             self.otherPlayerTappedNewGame = false;
-            [self.engine newMultipeerGame];
+            [self newGame];
         }
         else {
             [self.activityIndicator startAnimating];
@@ -220,6 +232,17 @@
 
 - (void)sendInvalidCoordinatesMessage {
     [self sendDictWithKey:KEY_MESSAGE andValue:INVALID_COORDS_MESSAGE];
+}
+
+- (void)sendShipsInfo {
+    BattleshipsEngine *battleshipsEngine = (BattleshipsEngine *)self.engine;
+    NSMutableArray *shipsInfo = [[NSMutableArray alloc] init];
+    for (ShipModel *ship in battleshipsEngine.boardPlayer1.ships) {
+        [shipsInfo addObject:[ship toJSON]];
+    }
+    NSDictionary *dataDict = @{KEY_BOARD : shipsInfo};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil];
+    [MultipeerConectivityManager.sharedInstance sendData:data toPeer:self.peer];
 }
 
 - (void)sendDictWithKey:(NSString *)key andValue:(NSString *)value {
@@ -263,7 +286,7 @@
         if ([self.activityIndicator isAnimating]) {
             [self.activityIndicator stopAnimating];
             self.otherPlayerTappedNewGame = false;
-            [self.engine newMultipeerGame];
+            [self newGame];
         }
     });
     
@@ -275,7 +298,7 @@
         if ([self.activityIndicator isAnimating]) {
             [self.activityIndicator stopAnimating];
             self.otherPlayerTappedNewGame = false;
-            [self.engine newMultipeerGame];
+            [self newGame];
         }
     });
 }
@@ -284,9 +307,24 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([[answer lowercaseString] containsString:@"yes"] && [self.activityIndicator isAnimating]) {
             [self.activityIndicator stopAnimating];
-            [self.engine newMultipeerGame];
+            [self newGame];
         }
     });
+    
+}
+
+- (void)didReceiveShipsInfo:(NSArray *)shipsInfo {
+    BattleshipsEngine *engine = (BattleshipsEngine *)self.engine;
+    NSMutableArray *ships = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in shipsInfo) {
+        ShipModel *newShip = [ShipModel newShipFromJSON:dict];
+        [ships addObject:newShip];
+    }
+    engine.boardPlayer2.ships = ships.copy;
+    if (self.isShipsInfoSended) {
+        self.isShipsInfoSended = false;
+        [self.engine startMultipeerGame];
+    }
     
 }
 
@@ -354,13 +392,16 @@
 }
 
 - (void)newGame {
-    if (self.gameType != EnumGameBattleships) {
+    if (self.gameType != EnumGameBattleships && self.gameMode == EnumGameModeOneDevice) {
         [self.engine newGame];
     }
-    else {
-        BattleshipsEngine *temp = (BattleshipsEngine *)self.engine;
-        [temp clearBoards];
+    else if (self.gameType == EnumGameBattleships && self.gameMode == EnumGameModeTwoDevices){
+        BattleshipsEngine *tempEngine = (BattleshipsEngine *)self.engine;
+        [tempEngine clearBoards];
         [self arrangeShipsAndStartGame];
+    }
+    else if (self.gameMode == EnumGameModeTwoDevices) {
+        [self.engine newMultipeerGame];
     }
 }
 
@@ -391,6 +432,9 @@
         }
         else if ([key isEqualToString:KEY_ANSWER]) {
             [self didReceiveAnswer:dataDict[KEY_ANSWER]];
+        }
+        else if ([key isEqualToString:KEY_BOARD]) {
+            [self didReceiveShipsInfo:dataDict[KEY_BOARD]];
         }
     }
 }

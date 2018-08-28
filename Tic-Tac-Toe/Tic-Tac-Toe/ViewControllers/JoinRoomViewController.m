@@ -22,6 +22,7 @@
 
 #define TIC_TAC          @"Tic-Tac-Toe"
 #define TUNAK_TUNAK      @"Tunak-Tunak-Tun"
+#define BATTLESHIPS      @"Battleships"
 #define ROOM_NAME        @"roomName"
 #define GAME_NAME        @"gameName"
 #define ALL_PLAYERS      @"appPlayers"
@@ -158,6 +159,9 @@
     NSString *gameName = TIC_TAC;
     if (self.gameType == EnumGameTunakTunakTun) {
         gameName = TUNAK_TUNAK;
+    }
+    else if (self.gameType == EnumGameBattleships) {
+        gameName = BATTLESHIPS;
     }
     
     if ([[info objectForKey:GAME_NAME] isEqualToString:gameName]) {

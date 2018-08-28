@@ -67,7 +67,7 @@
 
 - (void)setBackgroundColorToCell:(GameCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     if ([self.engineDelegate shouldDisplayContentAtIndexPath:indexPath]) {
-        cell.backgroundColor = [UIColor blueColor];
+        cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
     }
     else {
         cell.backgroundColor = [UIColor whiteColor];

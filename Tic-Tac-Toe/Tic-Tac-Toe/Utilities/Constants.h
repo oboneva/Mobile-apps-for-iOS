@@ -50,6 +50,7 @@
 #define KEY_MAP                                     @"map"                     
 #define KEY_QUESTION                                @"question"
 #define KEY_ANSWER                                  @"answer"
+#define KEY_BOARD                                   @"board"
 
 #define THIS_APP_NAME                               @"Tic-Tac-Toe"
 

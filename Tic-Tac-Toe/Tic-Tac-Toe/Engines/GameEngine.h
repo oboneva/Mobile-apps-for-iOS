@@ -38,6 +38,7 @@
 - (void)newGame;
 - (void)startMultipeerGame;
 - (void)newMultipeerGame;
+- (void)clearTheCells;
 
 - (NSString *)mapParsedToString;
 

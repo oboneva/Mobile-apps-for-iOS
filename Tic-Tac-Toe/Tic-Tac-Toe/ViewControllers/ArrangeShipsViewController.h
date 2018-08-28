@@ -10,7 +10,7 @@
 #import "Protocols.h"
 
 @class BoardModel;
-@interface ArrangeShipsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate/*, UICollectionViewDragDelegate, UICollectionViewDropDelegate*/>
+@interface ArrangeShipsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>/*, UICollectionViewDragDelegate, UICollectionViewDropDelegate*/
 
 @property (strong, nonatomic) BoardModel *boardModel;
 @property (strong, nonatomic)id<ArrangeShipsDelegate>arrangeShipsDelegate;

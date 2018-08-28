@@ -16,8 +16,11 @@
 @property (strong, nonatomic)NSIndexPath *tail;
 
 + (instancetype)newShipWithName:(NSString *)name andSize:(int)size;
++ (instancetype)newShipFromJSON:(NSDictionary *)dict;
+
 - (BOOL)isCellAtIndexPathPartOfThisShip:(NSIndexPath *)indexPath;
 - (BOOL)hasSunk;
 - (void)hit;
+- (NSDictionary *)toJSON;
 
 @end

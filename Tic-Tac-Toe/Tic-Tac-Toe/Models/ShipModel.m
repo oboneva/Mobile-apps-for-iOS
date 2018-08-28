@@ -40,5 +40,31 @@
     (indexPath.item == self.head.item && indexPath.section >= self.head.section && indexPath.section <= self.tail.section);
 }
 
+- (NSDictionary *)toJSON {
+    return @{@"name" : self.name, @"size" : [NSNumber numberWithInt:self.size], @"head" : [self indexPathToJSON:self.head], @"tail" : [self indexPathToJSON:self.tail]};
+}
+
+- (NSDictionary<NSString *, NSNumber *> *)indexPathToJSON:(NSIndexPath *)indexPath {
+    NSNumber *section = [NSNumber numberWithInteger:indexPath.section];
+    NSNumber *item = [NSNumber numberWithInteger:indexPath.item];
+    return @{@"section" : section, @"item" : item};
+}
+
+- (NSIndexPath *)indexPathFromJSON:(NSDictionary<NSString *, NSNumber *> *)dict {
+    return [NSIndexPath indexPathForItem:[dict[@"item"] integerValue] inSection:[dict[@"section"] integerValue]];
+}
+
++ (instancetype)newShipFromJSON:(NSDictionary *)dict {
+    ShipModel *newShip = [[ShipModel alloc] init];
+    if (newShip) {
+        newShip.name = dict[@"name"];
+        newShip.size = [dict[@"size"] intValue];
+        newShip.hitCount = 0;
+        newShip.head = [newShip indexPathFromJSON:dict[@"head"]];
+        newShip.tail = [newShip indexPathFromJSON:dict[@"tail"]];
+    }
+    return newShip;
+}
+
 @end
 

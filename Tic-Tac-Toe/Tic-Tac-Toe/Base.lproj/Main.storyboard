@@ -904,7 +904,7 @@
                                         </label>
                                     </subviews>
                                 </view>
-                                <color key="backgroundColor" red="0.93410046010964465" green="0.93410046010964465" blue="0.93410046010964465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93410046010964465" blue="0.93410046010964465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="gGH-Id-CdV" firstAttribute="centerX" secondItem="ATA-HW-G2y" secondAttribute="centerX" id="AVg-t2-POZ"/>
                                     <constraint firstItem="gGH-Id-CdV" firstAttribute="centerY" secondItem="ATA-HW-G2y" secondAttribute="centerY" id="Wgy-5c-67G"/>
@@ -1117,14 +1117,23 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsB-oZ-b2T">
+                                <rect key="frame" x="150" y="453" width="114" height="30"/>
+                                <state key="normal" title="Random arrange"/>
+                                <connections>
+                                    <action selector="onRandomArrangeTap:" destination="ZXm-hk-YGs" eventType="touchUpInside" id="WTP-WI-HN8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="TsB-oZ-b2T" firstAttribute="top" secondItem="S03-U4-yKr" secondAttribute="bottom" constant="18" id="5Dd-YK-a5Q"/>
                             <constraint firstItem="5oj-eA-01X" firstAttribute="top" secondItem="jQB-Gy-fEU" secondAttribute="top" constant="50" id="6hK-B7-iwq"/>
                             <constraint firstItem="S03-U4-yKr" firstAttribute="top" secondItem="5oj-eA-01X" secondAttribute="bottom" constant="35" id="IRn-aj-Oho"/>
                             <constraint firstItem="5oj-eA-01X" firstAttribute="centerX" secondItem="jQB-Gy-fEU" secondAttribute="centerX" id="Pnd-Qy-acI"/>
                             <constraint firstItem="jQB-Gy-fEU" firstAttribute="bottom" secondItem="TTA-Qn-Gcx" secondAttribute="bottom" constant="40" id="SKI-l8-IIb"/>
                             <constraint firstItem="S03-U4-yKr" firstAttribute="centerX" secondItem="jQB-Gy-fEU" secondAttribute="centerX" id="Skr-5Z-Q2U"/>
+                            <constraint firstItem="TsB-oZ-b2T" firstAttribute="centerX" secondItem="jQB-Gy-fEU" secondAttribute="centerX" id="XyR-ow-6EH"/>
                             <constraint firstItem="jQB-Gy-fEU" firstAttribute="trailing" secondItem="3kE-mn-usz" secondAttribute="trailing" constant="30" id="iRR-Xy-NaT"/>
                             <constraint firstItem="3kE-mn-usz" firstAttribute="top" secondItem="S03-U4-yKr" secondAttribute="bottom" constant="50" id="n4g-ru-gNU"/>
                             <constraint firstItem="3kE-mn-usz" firstAttribute="leading" secondItem="jQB-Gy-fEU" secondAttribute="leading" constant="30" id="pNf-8r-COM"/>
