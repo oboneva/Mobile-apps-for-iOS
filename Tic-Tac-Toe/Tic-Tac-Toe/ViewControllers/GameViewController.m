@@ -395,7 +395,7 @@
     if (self.gameType != EnumGameBattleships && self.gameMode == EnumGameModeOneDevice) {
         [self.engine newGame];
     }
-    else if (self.gameType == EnumGameBattleships && self.gameMode == EnumGameModeTwoDevices){
+    else if (self.gameType == EnumGameBattleships){
         BattleshipsEngine *tempEngine = (BattleshipsEngine *)self.engine;
         [tempEngine clearBoards];
         [self arrangeShipsAndStartGame];

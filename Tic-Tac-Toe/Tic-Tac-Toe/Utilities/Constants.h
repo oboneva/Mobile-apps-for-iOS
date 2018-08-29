@@ -94,4 +94,9 @@ typedef enum : NSInteger {
     EnumBoardPlayer2,
 } EnumBoard;
 
+typedef enum : NSInteger {
+    EnumOrientationHorizontal = 0,
+    EnumOrientationVertical,
+} EnumOrientation;
+
 #endif /* Constants_h */

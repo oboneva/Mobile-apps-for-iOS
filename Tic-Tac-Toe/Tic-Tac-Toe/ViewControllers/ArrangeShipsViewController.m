@@ -13,6 +13,7 @@
 #import "BoardModel.h"
 #import "HumanModel.h"
 #import "BotModel.h"
+#import "DraggedShipModel.h"
 
 #import "GameCell.h"
 #import "ShipCell.h"
@@ -30,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 
 @property (strong, nonatomic) NSMutableArray<ShipModel *> *defaultShips;
+@property (strong, nonatomic) DraggedShipModel *draggedShip;
 
 @end
 
@@ -47,21 +49,121 @@
     self.ships.delegate = self;
     self.ships.dataSource = self;
 
-    /*
-    if (@available(iOS 11.0, *)) {
-        self.ships.dragDelegate = self;
-        [self.ships dragInteractionEnabled];
-        self.board.dropDelegate = self;
-        [self.ships allowsSelection];
-    } else {
-        // Fallback on earlier versions
-    }
-    */
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanWithGestureRecognizer:)];
+    UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationWithGestureReconzier:)];
+    
+    panGestureRecognizer.delegate = self;
+    rotationGestureRecognizer.delegate = self;
+    
+    [self.view addGestureRecognizer:panGestureRecognizer];
+    [self.view addGestureRecognizer:rotationGestureRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return gestureRecognizer.view == otherGestureRecognizer.view;
+}
+
+- (void)handlePanWithGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
+    [self cleanDraggedShipShadowOnBoard];
+    
+    CGPoint touchLocationShips = [panGestureRecognizer locationInView:self.ships];
+    CGPoint touchLocationBoard = [panGestureRecognizer locationInView:self.board];
+    
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        NSIndexPath *touchedShipsCellIndex = [self.ships indexPathForItemAtPoint:touchLocationShips];
+        [self setDraggedShipCellAtIndexPath:touchedShipsCellIndex];
+    }
+    else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard]; //empty array
+        [self draggedShipDroppedOnBoardAtIndexPath:touchedBoardCellIndex];
+    }
+    else if (self.draggedShip) {
+        self.draggedShip.cell.center = touchLocationShips;
+        NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard];
+        [self setDraggedShipShadowOnBoardAtIndexPath:touchedBoardCellIndex];
+    }
+}
+
+- (void)setDraggedShipCellAtIndexPath:(NSIndexPath *)indexPath {
+    ShipModel *draggedShip = self.defaultShips[indexPath.item];
+    ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
+    self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
+}
+
+- (void)cleanDraggedShipShadowOnBoard {
+    if (self.draggedShip.currentHeadIndex && self.draggedShip.currentTailIndex) {
+        NSArray *cellsWithShadow = @[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex];
+        self.draggedShip.currentHeadIndex = nil;
+        self.draggedShip.currentTailIndex = nil;
+        [self.board reloadItemsAtIndexPaths:cellsWithShadow];
+    }
+}
+
+- (void)draggedShipDroppedOnBoardAtIndexPath:(NSIndexPath *)indexPath {
+    self.draggedShip.ship.head = indexPath;
+    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
+        self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
+    }
+    else {
+        self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
+    }
+    
+    self.boardModel.ships = [self.boardModel.ships arrayByAddingObject:self.draggedShip.ship];
+    [self reloadBoardCellsFromIndexPath:self.draggedShip.ship.head toIndexPath:self.draggedShip.ship.tail];
+    [self.defaultShips removeObject:self.draggedShip.ship];
+    self.draggedShip.ship = nil;
+    self.draggedShip.orientation = EnumOrientationHorizontal;
+    [self.ships reloadData];
+    if ([self areAllShipsArranged]) {
+        [self.doneButton setHidden:NO];
+    }
+}
+
+- (void)setDraggedShipShadowOnBoardAtIndexPath:(NSIndexPath *)indexPath {
+    self.draggedShip.currentHeadIndex = indexPath;
+    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
+        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:self.draggedShip.currentHeadIndex.item + self.draggedShip.ship.size - 1 inSection:self.draggedShip.currentHeadIndex.section];
+    }
+    else {
+        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:self.draggedShip.currentHeadIndex.item inSection:self.draggedShip.currentHeadIndex.section + self.draggedShip.ship.size - 1];
+    }
+    
+    if (self.draggedShip.currentTailIndex && self.draggedShip.currentHeadIndex) {
+        [self.board reloadItemsAtIndexPaths:@[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex]];
+    }
+}
+
+- (void)reloadBoardCellsFromIndexPath:(NSIndexPath *)indexBegin toIndexPath:(NSIndexPath *)indexEnd {
+    NSMutableArray<NSIndexPath *> *cellsToBeReloaded = [[NSMutableArray alloc] init];
+    while(indexBegin != indexEnd) {
+        [cellsToBeReloaded addObject:indexBegin];
+        if (indexBegin.item == indexEnd.item) {
+            indexBegin = [NSIndexPath indexPathForItem:indexBegin.item inSection:indexBegin.section + 1];
+        }
+        else {
+            indexBegin = [NSIndexPath indexPathForItem:indexBegin.item + 1 inSection:indexBegin.section];
+        }
+    }
+    [cellsToBeReloaded addObject:indexEnd];
+    [self.board reloadItemsAtIndexPaths:cellsToBeReloaded];
+}
+
+- (void)handleRotationWithGestureReconzier:(UIRotationGestureRecognizer *)rotationGestureRecognizer {
+    if (self.draggedShip.cell) {
+        self.draggedShip.cell.transform = CGAffineTransformRotate(self.draggedShip.cell.transform, rotationGestureRecognizer.rotation);
+        if (self.draggedShip.cell.frame.size.width < self.draggedShip.cell.frame.size.height) {
+            self.draggedShip.orientation = EnumOrientationVertical;
+        }
+        else {
+            self.draggedShip.orientation = EnumOrientationHorizontal;
+        }
+        rotationGestureRecognizer.rotation = 0.0;
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -86,16 +188,19 @@
         GameCell *gameCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_GAME_CELL forIndexPath:indexPath];
         gameCell.contentLabel.text = @"";
         cell = gameCell;
-        if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
+        if (indexPath == self.draggedShip.currentHeadIndex || indexPath == self.draggedShip.currentTailIndex) {
+            cell.backgroundColor = [UIColor greenColor];
+        }
+        else if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
             cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
-        } else {
+        }
+        else {
             cell.backgroundColor = [UIColor whiteColor];
         }
     }
     else {
         ShipCell *shipCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_SHIP_CELL forIndexPath:indexPath];
         shipCell.nameLabel.text = self.defaultShips[indexPath.item].name;
-        //shipCell.sizeLabel.text = [self.defaultShips[indexPath.item].size stringValue];
         cell = shipCell;
     }
     
@@ -107,14 +212,6 @@
 - (BOOL)areAllShipsArranged {
     return self.defaultShips.count == 0;
 }
-
-/*
-- (NSArray<UIDragItem *> *)collectionView:(UICollectionView *)collectionView itemsForBeginningDragSession:(id<UIDragSession>)session atIndexPath:(NSIndexPath *)indexPath {
-    NSItemProvider *item = [[NSItemProvider alloc] initWithObject:[self.defaultShipSize[self.defaultShipsNames[indexPath.item]] stringValue]];
-    UIDragItem *dragItem = [[UIDragItem alloc] initWithItemProvider:item];
-    return @[dragItem];
-}
-*/
 
 - (IBAction)onDoneTap:(id)sender {
     [self.arrangeShipsDelegate shipsAreArranged];
@@ -128,18 +225,5 @@
     [self.board reloadData];
     [self.doneButton setHidden:NO];
 }
-
-/*
-- (nonnull NSArray<UIDragItem *> *)collectionView:(nonnull UICollectionView *)collectionView itemsForBeginningDragSession:(nonnull id<UIDragSession>)session atIndexPath:(nonnull NSIndexPath *)indexPath {
- 
-}
-
-- (void)collectionView:(nonnull UICollectionView *)collectionView performDropWithCoordinator:(nonnull id<UICollectionViewDropCoordinator>)coordinator {
-    <#code#>
-}
-*/
-
-
-
 
 @end
