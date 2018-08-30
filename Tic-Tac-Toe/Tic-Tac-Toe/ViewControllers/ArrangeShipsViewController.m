@@ -33,6 +33,8 @@
 @property (strong, nonatomic) NSMutableArray<ShipModel *> *defaultShips;
 @property (strong, nonatomic) DraggedShipModel *draggedShip;
 
+@property (assign)BOOL flag;
+
 @end
 
 @implementation ArrangeShipsViewController
@@ -69,23 +71,28 @@
 }
 
 - (void)handlePanWithGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
-    [self cleanDraggedShipShadowOnBoard];
-    
     CGPoint touchLocationShips = [panGestureRecognizer locationInView:self.ships];
     CGPoint touchLocationBoard = [panGestureRecognizer locationInView:self.board];
     
+    NSIndexPath *touchedShipsCellIndex = [self.ships indexPathForItemAtPoint:touchLocationShips];
+    NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard];
+    
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        NSIndexPath *touchedShipsCellIndex = [self.ships indexPathForItemAtPoint:touchLocationShips];
         [self setDraggedShipCellAtIndexPath:touchedShipsCellIndex];
     }
     else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard]; //empty array
         [self draggedShipDroppedOnBoardAtIndexPath:touchedBoardCellIndex];
     }
     else if (self.draggedShip) {
-        self.draggedShip.cell.center = touchLocationShips;
-        NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard];
-        [self setDraggedShipShadowOnBoardAtIndexPath:touchedBoardCellIndex];
+        [self updateDraggedShipLocationWithPoint:touchLocationShips andIndexPath:touchedBoardCellIndex];
+    }
+}
+
+- (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
+    self.draggedShip.cell.center = point;
+    if (indexPath != self.draggedShip.previousHeadIndex || self.draggedShip.hasShadow) {
+        [self cleanDraggedShipShadowOnBoard];
+        [self setDraggedShipShadowOnBoardAtIndexPath:indexPath];
     }
 }
 
@@ -95,16 +102,52 @@
     self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
 }
 
+- (BOOL)isDraggedShipLocationAvailable {
+    if (!self.draggedShip.currentHeadIndex || !self.draggedShip.currentTailIndex) {
+        return false;
+    }
+    return [self.boardModel couldArrangeShip:self.draggedShip.ship withHeadIndex:self.draggedShip.currentHeadIndex andTailIndex:self.draggedShip.currentTailIndex];
+}
+
 - (void)cleanDraggedShipShadowOnBoard {
-    if (self.draggedShip.currentHeadIndex && self.draggedShip.currentTailIndex) {
+    if ([self areCurrentHeadAndTailIndexesValid]) {
         NSArray *cellsWithShadow = @[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex];
+        self.draggedShip.previousHeadIndex = self.draggedShip.currentHeadIndex;
         self.draggedShip.currentHeadIndex = nil;
         self.draggedShip.currentTailIndex = nil;
         [self.board reloadItemsAtIndexPaths:cellsWithShadow];
+        self.draggedShip.hasShadow = false;
+    }
+    else {
+        self.draggedShip.hasShadow = true;
     }
 }
 
 - (void)draggedShipDroppedOnBoardAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath && [self isDraggedShipLocationAvailable]) {
+        [self setDroppedShipHeadAndTailAtIndexPath:indexPath];
+        [self updateCollectionViewsAfterShipIsArranged];
+    }
+    
+    self.draggedShip.ship = nil;
+    self.draggedShip.orientation = EnumOrientationHorizontal;
+    
+    if ([self areAllShipsArranged]) {
+        [self.doneButton setHidden:NO];
+    }
+}
+
+- (void)setShipCurrentHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
+    self.draggedShip.currentHeadIndex = indexPath;
+    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
+        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
+    }
+    else {
+        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
+    }
+}
+
+- (void)setDroppedShipHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
     self.draggedShip.ship.head = indexPath;
     if (self.draggedShip.orientation == EnumOrientationHorizontal) {
         self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
@@ -112,30 +155,30 @@
     else {
         self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
     }
+}
+
+- (void)updateCollectionViewsAfterShipIsArranged {
+    [self cleanDraggedShipShadowOnBoard];
     
     self.boardModel.ships = [self.boardModel.ships arrayByAddingObject:self.draggedShip.ship];
     [self reloadBoardCellsFromIndexPath:self.draggedShip.ship.head toIndexPath:self.draggedShip.ship.tail];
+    
     [self.defaultShips removeObject:self.draggedShip.ship];
-    self.draggedShip.ship = nil;
-    self.draggedShip.orientation = EnumOrientationHorizontal;
     [self.ships reloadData];
-    if ([self areAllShipsArranged]) {
-        [self.doneButton setHidden:NO];
-    }
 }
 
 - (void)setDraggedShipShadowOnBoardAtIndexPath:(NSIndexPath *)indexPath {
-    self.draggedShip.currentHeadIndex = indexPath;
-    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
-        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:self.draggedShip.currentHeadIndex.item + self.draggedShip.ship.size - 1 inSection:self.draggedShip.currentHeadIndex.section];
-    }
-    else {
-        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:self.draggedShip.currentHeadIndex.item inSection:self.draggedShip.currentHeadIndex.section + self.draggedShip.ship.size - 1];
-    }
-    
-    if (self.draggedShip.currentTailIndex && self.draggedShip.currentHeadIndex) {
+    [self setShipCurrentHeadAndTailAtIndexPath:indexPath];
+    if ([self areCurrentHeadAndTailIndexesValid] && [self isDraggedShipLocationAvailable]) {
         [self.board reloadItemsAtIndexPaths:@[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex]];
     }
+}
+
+- (BOOL)areCurrentHeadAndTailIndexesValid {
+    NSIndexPath *head = self.draggedShip.currentHeadIndex;
+    NSIndexPath *tail = self.draggedShip.currentTailIndex;
+    return (head && tail && head.row < [self.board numberOfItemsInSection:head.section] && head.section < [self.board numberOfSections] &&
+            tail.section < [self.board numberOfSections] && tail.row < [self.board numberOfItemsInSection:tail.section]);
 }
 
 - (void)reloadBoardCellsFromIndexPath:(NSIndexPath *)indexBegin toIndexPath:(NSIndexPath *)indexEnd {

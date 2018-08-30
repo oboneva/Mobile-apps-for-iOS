@@ -21,5 +21,8 @@
 @property (strong, nonatomic) NSIndexPath *indexInAllShips;
 @property (strong, nonatomic) NSIndexPath *currentHeadIndex;
 @property (strong, nonatomic) NSIndexPath *currentTailIndex;
+@property (strong, nonatomic) NSIndexPath *previousHeadIndex;
+@property (assign) BOOL hasShadow;
+
 
 @end

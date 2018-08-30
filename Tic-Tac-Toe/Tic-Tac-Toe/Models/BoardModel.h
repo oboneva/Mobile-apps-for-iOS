@@ -23,6 +23,7 @@
 
 - (BOOL)isCellAtIndexPathPartOfShip:(NSIndexPath *)indexPath;
 - (BOOL)playerOnThisBoardLost;
+- (BOOL)couldArrangeShip:(ShipModel *)ship withHeadIndex:(NSIndexPath *)indexPath andTailIndex:(NSIndexPath *)indexPath;
 - (NSArray<NSIndexPath *> *)availableCellsForShip;
 - (ShipModel *)shipAtIndexPath:(NSIndexPath *)indexPath;
 - (void)clearBoard;

@@ -110,7 +110,7 @@
     if (index.item + ship.size - 1 >= self.columns) {
         return false;
     }
-    for (NSInteger i = index.item; i < ship.size; i++){
+    for (NSInteger i = index.item; i < index.item + ship.size; i++){
         if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:i inSection:index.section]]){
             return false;
         }
@@ -122,7 +122,7 @@
     if (index.section + ship.size - 1 >= self.rows) {
         return false;
     }
-    for (NSInteger i = index.section; i < ship.size; i++){
+    for (NSInteger i = index.section; i < index.item + ship.size; i++){
         if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:index.item inSection:i]]){
             return false;
         }
@@ -138,6 +138,13 @@
 - (void)arrangeShip:(ShipModel *)ship verticallyAtIndexPath:(NSIndexPath *)indexPath {
     ship.head = indexPath;
     ship.tail = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + ship.size - 1];
+}
+
+- (BOOL)couldArrangeShip:(ShipModel *)ship withHeadIndex:(NSIndexPath *)headIndex andTailIndex:(NSIndexPath *)tailIndex {
+    if (headIndex.section == tailIndex.section) {
+        return [self couldArrangeShipHorizontally:ship atIndexPath:headIndex];
+    }
+    return [self couldArrangeShipVertically:ship atIndexPath:headIndex];
 }
 
 @end
