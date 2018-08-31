@@ -12,9 +12,11 @@
 @implementation BotHardModel //not avaiable for battleships
 
 - (NSIndexPath *)makeMove{
-    [NSThread sleepForTimeInterval:5];
-
     NSArray<NSIndexPath *> *available = [self.boardStateDelegate availableCells];
+    if (available.count > 1) {
+        [NSThread sleepForTimeInterval:5];
+    }
+    
     int count = [self.boardStateDelegate emptyCellsCount];
     if (count < 8) {
         for (NSIndexPath *index in available) {

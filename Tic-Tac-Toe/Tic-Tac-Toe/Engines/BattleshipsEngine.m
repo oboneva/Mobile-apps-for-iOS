@@ -115,10 +115,16 @@
         [self.endGameDelegate didEndGameWithNoWinner];
     }
     else {
+        [self seeChangesOnBoardBeforeNextMove];
         [self updateBoardOnDisplay];
         [self.notifyPlayerToPlayDelegate didChangePlayerToPlayWithName:self.currentPlayer.name];
         [self handleMovementByPlayer:self.currentPlayer];
     }
+}
+
+- (void)seeChangesOnBoardBeforeNextMove {
+    [self.endGameDelegate forceRefresh];
+    [NSThread sleepForTimeInterval:0.8];
 }
 
 - (void)updateBoardOnDisplay {

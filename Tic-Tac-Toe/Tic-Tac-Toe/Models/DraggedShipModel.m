@@ -15,6 +15,7 @@
     if (new) {
         new.ship = ship;
         new.cell = cell;
+        new.orientation = EnumOrientationHorizontal;
     }
     return new;
 }

@@ -59,6 +59,9 @@
     
     [self.view addGestureRecognizer:panGestureRecognizer];
     [self.view addGestureRecognizer:rotationGestureRecognizer];
+    
+    //[self.ships setAlwaysBounceHorizontal:YES];
+    //[self.ships setBounces:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,7 +92,8 @@
 }
 
 - (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
-    self.draggedShip.cell.center = point;
+    self.draggedShip.cell.nameLabel.center = point;
+    //self.draggedShip.cell
     if (indexPath != self.draggedShip.previousHeadIndex || self.draggedShip.hasShadow) {
         [self cleanDraggedShipShadowOnBoard];
         [self setDraggedShipShadowOnBoardAtIndexPath:indexPath];
@@ -97,9 +101,11 @@
 }
 
 - (void)setDraggedShipCellAtIndexPath:(NSIndexPath *)indexPath {
-    ShipModel *draggedShip = self.defaultShips[indexPath.item];
-    ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
-    self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
+    if (indexPath) {
+        ShipModel *draggedShip = self.defaultShips[indexPath.item];
+        ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
+        self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
+    }
 }
 
 - (BOOL)isDraggedShipLocationAvailable {
@@ -128,9 +134,10 @@
         [self setDroppedShipHeadAndTailAtIndexPath:indexPath];
         [self updateCollectionViewsAfterShipIsArranged];
     }
-    
-    self.draggedShip.ship = nil;
-    self.draggedShip.orientation = EnumOrientationHorizontal;
+    else {
+        [self returnCellToOriginalLocation];
+    }
+    self.draggedShip = nil;
     
     if ([self areAllShipsArranged]) {
         [self.doneButton setHidden:NO];
@@ -164,7 +171,13 @@
     [self reloadBoardCellsFromIndexPath:self.draggedShip.ship.head toIndexPath:self.draggedShip.ship.tail];
     
     [self.defaultShips removeObject:self.draggedShip.ship];
-    [self.ships reloadData];
+    //[self.ships reloadData];
+    [self.ships reloadSections:[NSIndexSet indexSetWithIndex:0]];
+}
+
+- (void)returnCellToOriginalLocation {
+    //[self.ships reloadData];
+    [self.ships reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 - (void)setDraggedShipShadowOnBoardAtIndexPath:(NSIndexPath *)indexPath {
@@ -244,6 +257,7 @@
     else {
         ShipCell *shipCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_SHIP_CELL forIndexPath:indexPath];
         shipCell.nameLabel.text = self.defaultShips[indexPath.item].name;
+        shipCell.sizeLabel.text = [NSString stringWithFormat:@"Size - %d", self.defaultShips[indexPath.item].size];
         cell = shipCell;
     }
     

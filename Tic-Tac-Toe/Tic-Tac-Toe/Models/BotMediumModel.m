@@ -12,8 +12,10 @@
 @implementation BotMediumModel
 
 - (NSIndexPath *)makeMove {
-    [NSThread sleepForTimeInterval:2];
     NSArray *available = [self.boardStateDelegate availableCells];
+    if (available.count > 1) {
+        [NSThread sleepForTimeInterval:2];
+    }
     NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count] ];
     
     return index;
