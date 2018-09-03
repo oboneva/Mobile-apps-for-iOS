@@ -178,7 +178,9 @@
     
     if (self.roomBelongsToMe) {
         [self.engine setUpPlayers];
-        [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
+        if ([self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+            [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
+        }
         if (self.otherPlayerTappedNewGame) {
             self.otherPlayerTappedNewGame = false;
             [self newGame];
@@ -262,7 +264,7 @@
 
     if ([self.otherPlayerAppName isEqualToString:THIS_APP_NAME] ||
         ([self.engine areCoordinatesValidX:(int)section andY:(int)row] &&
-         [self.engine isCellAtIndexPathSelectable:index])) {
+         [self.engine isCellAtIndexPathSelectable:index] && self.engine.currentPlayer == self.engine.player2)) {
         [self.engine playerSelectedItemAtIndexPath:index];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.matrixViewController.collectionView reloadData];
@@ -310,7 +312,6 @@
             [self newGame];
         }
     });
-    
 }
 
 - (void)didReceiveShipsInfo:(NSArray *)shipsInfo {
@@ -321,11 +322,11 @@
         [ships addObject:newShip];
     }
     engine.boardPlayer2.ships = ships.copy;
+    
     if (self.isShipsInfoSended) {
         self.isShipsInfoSended = false;
         [self.engine startMultipeerGame];
     }
-    
 }
 
 // EngineDelegate methods
@@ -407,9 +408,9 @@
 
 - (void)peer:(MCPeerID *)peerID changedState:(MCSessionState)state {
     if (state == MCSessionStateNotConnected) {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"The other player quit the game." message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *quit = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self.navigationController popToViewController:self.navigationController.viewControllers[(self.navigationController.viewControllers.count - 3)] animated:YES];
         }];
         

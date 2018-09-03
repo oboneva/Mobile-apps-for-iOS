@@ -10,6 +10,7 @@
 #import "ShipModel.h"
 #import "BattleshipsCellModel.h"
 #import "BoardModel.h"
+#import "BotEasyModel.h"
 
 #import "BattleshipsEngine.h"
 
@@ -124,7 +125,9 @@
 
 - (void)seeChangesOnBoardBeforeNextMove {
     [self.endGameDelegate forceRefresh];
-    [NSThread sleepForTimeInterval:0.8];
+    if (![self.player2 isKindOfClass:BotEasyModel.class]) {
+        [NSThread sleepForTimeInterval:0.8];
+    }
 }
 
 - (void)updateBoardOnDisplay {

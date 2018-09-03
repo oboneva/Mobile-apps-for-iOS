@@ -33,7 +33,8 @@
 @property (strong, nonatomic) NSMutableArray<ShipModel *> *defaultShips;
 @property (strong, nonatomic) DraggedShipModel *draggedShip;
 
-@property (assign)BOOL flag;
+@property (strong, nonatomic) NSMutableDictionary<NSString *, NSNumber *> *shipUnits;
+@property (strong, nonatomic) NSArray<NSString *> *shipsNames;
 
 @end
 
@@ -44,6 +45,7 @@
     // Do any additional setup after loading the view.
 
     self.defaultShips = [Utilities getDefaultShips].mutableCopy;
+    [self countShipUnits];
     [self.doneButton setHidden:YES];
     
     self.board.delegate = self;
@@ -59,14 +61,30 @@
     
     [self.view addGestureRecognizer:panGestureRecognizer];
     [self.view addGestureRecognizer:rotationGestureRecognizer];
-    
-    //[self.ships setAlwaysBounceHorizontal:YES];
-    //[self.ships setBounces:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+}
+
+- (void)countShipUnits {
+    NSNumber *value;
+    self.shipUnits = [NSMutableDictionary new];
+    for (ShipModel *ship in self.defaultShips) {
+        value = self.shipUnits[ship.name];
+        if (value) {
+            self.shipUnits[ship.name] = [NSNumber numberWithInt:[value intValue] + 1];
+        }
+        else {
+            self.shipUnits[ship.name] = @1;
+        }
+    }
+    self.shipsNames = self.shipUnits.allKeys;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -92,7 +110,7 @@
 }
 
 - (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
-    self.draggedShip.cell.nameLabel.center = point;
+    self.draggedShip.cell.center = point;
     //self.draggedShip.cell
     if (indexPath != self.draggedShip.previousHeadIndex || self.draggedShip.hasShadow) {
         [self cleanDraggedShipShadowOnBoard];
@@ -102,8 +120,9 @@
 
 - (void)setDraggedShipCellAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath) {
-        ShipModel *draggedShip = self.defaultShips[indexPath.item];
+        //ShipModel *draggedShip = self.defaultShips[indexPath.item];
         ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
+        ShipModel *draggedShip = [self shipWithName:draggedCell.nameLabel.text];
         self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
     }
 }
@@ -144,7 +163,7 @@
     }
 }
 
-- (void)setShipCurrentHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setShipCurrentHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {/////////////////
     self.draggedShip.currentHeadIndex = indexPath;
     if (self.draggedShip.orientation == EnumOrientationHorizontal) {
         self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
@@ -154,7 +173,7 @@
     }
 }
 
-- (void)setDroppedShipHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setDroppedShipHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {//////////////////
     self.draggedShip.ship.head = indexPath;
     if (self.draggedShip.orientation == EnumOrientationHorizontal) {
         self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
@@ -171,6 +190,7 @@
     [self reloadBoardCellsFromIndexPath:self.draggedShip.ship.head toIndexPath:self.draggedShip.ship.tail];
     
     [self.defaultShips removeObject:self.draggedShip.ship];
+    [self countShipUnits];
     //[self.ships reloadData];
     [self.ships reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
@@ -234,7 +254,7 @@
     if (collectionView == self.board) {
         return BOARD_SECTION_COUNT;
     }
-    return self.defaultShips.count;
+    return self.shipUnits.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -256,14 +276,25 @@
     }
     else {
         ShipCell *shipCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_SHIP_CELL forIndexPath:indexPath];
-        shipCell.nameLabel.text = self.defaultShips[indexPath.item].name;
-        shipCell.sizeLabel.text = [NSString stringWithFormat:@"Size - %d", self.defaultShips[indexPath.item].size];
+        ShipModel *ship = [self shipWithName:self.shipsNames[indexPath.item]];
+        shipCell.nameLabel.text = ship.name;
+        shipCell.sizeLabel.text = [NSString stringWithFormat:@"Size - %d", ship.size];
+        shipCell.unitsLabel.text = [NSString stringWithFormat:@"x%@", self.shipUnits[ship.name]];
         cell = shipCell;
     }
     
     cell.contentView.layer.borderColor = [UIColor grayColor].CGColor;
     cell.contentView.layer.borderWidth = 1.0;
     return cell;
+}
+
+- (ShipModel *)shipWithName:(NSString *)name {
+    for (ShipModel * ship in self.defaultShips) {
+        if ([ship.name isEqualToString:name]) {
+            return ship;
+        }
+    }
+    return (ShipModel *)nil;
 }
 
 - (BOOL)areAllShipsArranged {
@@ -278,6 +309,8 @@
     self.boardModel.ships = [Utilities getDefaultShips];
     [self.boardModel randomArrangeShips];
     self.defaultShips = @[].mutableCopy;
+    self.shipUnits = @{}.mutableCopy;
+    self.shipsNames = @[];
     [self.ships reloadData];
     [self.board reloadData];
     [self.doneButton setHidden:NO];
