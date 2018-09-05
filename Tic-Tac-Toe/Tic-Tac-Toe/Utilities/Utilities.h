@@ -20,5 +20,6 @@
 + (GameEngine *)gameEngineFromType:(EnumGame)type;
 + (BotModel *) botWithDifficulty:(EnumDifficulty)difficulty;
 + (NSArray<ShipModel *> *)getDefaultShips;
++ (UIColor *)colorForShipWithName:(NSString *)shipName;
 
 @end

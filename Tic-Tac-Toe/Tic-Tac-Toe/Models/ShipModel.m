@@ -8,6 +8,7 @@
 
 #import <UIKit/UITableView.h>
 #import "ShipModel.h"
+#import "Utilities.h"
 
 @interface ShipModel ()
 @property (assign)int hitCount;
@@ -17,12 +18,13 @@
 
 @implementation ShipModel
 
-+ (instancetype)newShipWithName:(NSString *)name andSize:(int)size{
++ (instancetype)newShipWithName:(NSString *)name andSize:(int)size {
     ShipModel *newShip = [[ShipModel alloc] init];
     if (newShip) {
         newShip.size = size;
         newShip.name = name;
         newShip.hitCount = 0;
+        newShip.color = [Utilities colorForShipWithName:name];
     }
     return newShip;
 }
@@ -41,7 +43,10 @@
 }
 
 - (NSDictionary *)toJSON {
-    return @{@"name" : self.name, @"size" : [NSNumber numberWithInt:self.size], @"head" : [self indexPathToJSON:self.head], @"tail" : [self indexPathToJSON:self.tail]};
+    return @{@"name" : self.name,
+             @"size" : [NSNumber numberWithInt:self.size],
+             @"head" : [self indexPathToJSON:self.head],
+             @"tail" : [self indexPathToJSON:self.tail]};
 }
 
 - (NSDictionary<NSString *, NSNumber *> *)indexPathToJSON:(NSIndexPath *)indexPath {
@@ -62,6 +67,7 @@
         newShip.hitCount = 0;
         newShip.head = [newShip indexPathFromJSON:dict[@"head"]];
         newShip.tail = [newShip indexPathFromJSON:dict[@"tail"]];
+        newShip.color = [Utilities colorForShipWithName:newShip.name];
     }
     return newShip;
 }

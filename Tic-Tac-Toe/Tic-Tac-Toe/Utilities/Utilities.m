@@ -107,6 +107,23 @@
     return idents;
 }
 
++ (NSDictionary<NSString *, UIColor *> *) shipsColors {
+    static NSDictionary<NSString *, UIColor *> *colors = nil;
+    if (!colors) {
+        colors = @{ @"Carrier" : [UIColor blueColor],
+                    @"Battleship" : [UIColor yellowColor],
+                    @"Submarine" : [UIColor cyanColor],
+                    @"Destroyer" : [UIColor purpleColor],
+                    @"Patrol Craft" : [UIColor orangeColor],
+                    };
+    }
+    return colors;
+}
+
++ (UIColor *)colorForShipWithName:(NSString *)shipName {
+    return Utilities.shipsColors[shipName];
+}
+
 + (NSArray<ShipModel *> *)getDefaultShips {
     ShipModel *ship1 = [ShipModel newShipWithName:@"Carrier" andSize:5];
     ShipModel *ship2 = [ShipModel newShipWithName:@"Battleship" andSize:4];

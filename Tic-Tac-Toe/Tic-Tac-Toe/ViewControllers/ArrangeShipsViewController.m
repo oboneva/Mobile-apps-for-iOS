@@ -42,7 +42,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 
     self.defaultShips = [Utilities getDefaultShips].mutableCopy;
     [self countShipUnits];
@@ -65,7 +64,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)countShipUnits {
@@ -80,7 +78,6 @@
             self.shipUnits[ship.name] = @1;
         }
     }
-    //NSCountedSet *temp = [NSCountedSet setWithArray:self.defaultShips];
     self.shipsNames = self.shipUnits.allKeys;
 }
 
@@ -96,7 +93,12 @@
     NSIndexPath *touchedBoardCellIndex = [self.board indexPathForItemAtPoint:touchLocationBoard];
     
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [self setDraggedShipCellAtIndexPath:touchedShipsCellIndex];
+        if (touchedShipsCellIndex) {
+            [self setDraggedShipCellAtIndexPath:touchedShipsCellIndex];
+        }
+        if (touchedBoardCellIndex) {
+            [self setDraggedShipAtIndexPath:touchedBoardCellIndex];
+        }
     }
     else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         [self draggedShipDroppedOnBoardAtIndexPath:touchedBoardCellIndex];
@@ -107,8 +109,7 @@
 }
 
 - (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
-    self.draggedShip.cell.center = point;
-    //NSLog(@"%f", self.draggedShip.cell.image.center.x);
+    self.draggedShip.cell.image.center = CGPointMake(point.x - self.draggedShip.cell.frame.origin.x, point.y - self.draggedShip.cell.frame.origin.y);
     if (indexPath != self.draggedShip.previousHeadIndex) {
         [self cleanDraggedShipShadowOnBoard];
         [self setDraggedShipShadowOnBoardAtIndexPath:indexPath];
@@ -116,10 +117,34 @@
 }
 
 - (void)setDraggedShipCellAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath) {
-        ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
-        ShipModel *draggedShip = [self shipWithName:draggedCell.nameLabel.text];
-        self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
+    ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
+    ShipModel *draggedShip = [self shipWithName:draggedCell.nameLabel.text];
+    self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
+}
+
+- (void)setDraggedShipAtIndexPath:(NSIndexPath *)indexPath {
+    ShipCell *draggedCell = (ShipCell *)nil;
+    ShipModel *ship = [self.boardModel shipAtIndexPath:indexPath];
+    if (ship) {
+        [self.defaultShips addObject:ship];
+        [self countShipUnits];
+        self.draggedShip = [DraggedShipModel newWithShip:ship andCell:draggedCell];
+        
+        self.draggedShip.currentHeadIndex = ship.head;
+        self.draggedShip.currentTailIndex = ship.tail;
+        
+        ship.head = nil;
+        ship.tail = nil;
+        
+        
+        if (self.draggedShip.currentHeadIndex.item == self.draggedShip.currentTailIndex.item) {
+            self.draggedShip.orientation = EnumOrientationVertical;
+        }
+        else {
+            self.draggedShip.orientation = EnumOrientationHorizontal;
+        }
+        
+        [self reloadBoardCellsFromIndexPath:self.draggedShip.currentHeadIndex toIndexPath:self.draggedShip.currentTailIndex];
     }
 }
 
@@ -255,8 +280,8 @@
 
 - (void)handleRotationWithGestureRecognizer:(UIRotationGestureRecognizer *)rotationGestureRecognizer {
     if (self.draggedShip.cell) {
-        self.draggedShip.cell.transform = CGAffineTransformRotate(self.draggedShip.cell.transform, rotationGestureRecognizer.rotation);
-        if (self.draggedShip.cell.frame.size.width < self.draggedShip.cell.frame.size.height) {
+        self.draggedShip.cell.image.transform = CGAffineTransformRotate(self.draggedShip.cell.image.transform, rotationGestureRecognizer.rotation);
+        if (self.draggedShip.cell.image.frame.size.width < self.draggedShip.cell.image.frame.size.height) {
             self.draggedShip.orientation = EnumOrientationVertical;
         }
         else {
@@ -296,6 +321,7 @@
         shipCell.nameLabel.text = ship.name;
         shipCell.sizeLabel.text = [NSString stringWithFormat:@"Size - %d", ship.size];
         shipCell.unitsLabel.text = [NSString stringWithFormat:@"x%@", self.shipUnits[ship.name]];
+        shipCell.image.backgroundColor = [Utilities colorForShipWithName:ship.name];
         cell = shipCell;
     }
     
@@ -314,8 +340,8 @@
             cell.backgroundColor = [UIColor redColor];
         }
     }
-    else if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
-        cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
+    else if ([self.boardModel shipAtIndexPath:indexPath]) {
+        cell.backgroundColor = [Utilities colorForShipWithName:[self.boardModel shipAtIndexPath:indexPath].name];
     }
     else {
         cell.backgroundColor = [UIColor whiteColor];
