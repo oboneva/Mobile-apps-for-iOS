@@ -108,45 +108,50 @@
         if ([playerName isEqualToString:self.engine.player1.name]) {
             self.player1InfoLabel.textColor = self.labelsColor;
             self.player2InfoLabel.textColor = [UIColor grayColor];
-            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
-                [self sendTheGameMap];
-            }
         }
         else {
             self.player1InfoLabel.textColor = [UIColor grayColor];
             self.player2InfoLabel.textColor = self.labelsColor;
-            
-            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME] && self.gameMode == EnumGameModeTwoDevices) {
-                [self sendTheGameMap];
-            }
+        }
+        
+        if ([self isOtherPlayingFromChat]) {
+            [self sendTheGameMap];
         }
     });
 }
 
 - (void)didEndGameWithNoWinner {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.endOfGameLabel.text = @"No winner";
-        self.endOfGameLabel.textColor = self.labelsColor;
-        self.matrixView.userInteractionEnabled = NO;
-        [self.startNewGameButton setHidden:NO];
-    });
-    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
+    [self updateUIAfterGameEndWithWinner:@""];
+    if ([self isOtherPlayingFromChat]) {
         [self sendWinner:@""];
     }
 }
 
 - (void)didEndGameWithWinner:(PlayerModel *)winner {
+    [self updateUIAfterGameEndWithWinner:winner.name];
+    if ([self isOtherPlayingFromChat]) {
+        [self sendTheGameMap];
+        [self sendWinner:winner.name];
+    }
+}
+
+- (BOOL)isOtherPlayingFromChat {
+    return self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME];
+}
+
+- (void)updateUIAfterGameEndWithWinner:(NSString *)winner {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.endOfGameLabel.text = [[NSString alloc] initWithFormat:@"%@ won", winner.name];
+        if ([winner isEqualToString:@""]) {
+            self.endOfGameLabel.text = @"No winner";
+        }
+        else {
+            self.endOfGameLabel.text = [[NSString alloc] initWithFormat:@"%@ won", winner];
+        }
         self.endOfGameLabel.textColor = self.labelsColor;
         [self.endOfGameLabel sizeToFit];
         self.matrixView.userInteractionEnabled = NO;
         [self.startNewGameButton setHidden:NO];
     });
-    if (self.gameMode == EnumGameModeTwoDevices && ![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
-        [self sendTheGameMap];
-        [self sendWinner:winner.name];
-    }
 }
 
 -(void)forceRefresh {
@@ -165,7 +170,25 @@
         if (!self.isShipsInfoSended) {
             [self.engine startMultipeerGame];
         }
-        //self.isShipsInfoSended = YES;
+    }
+}
+
+- (void)shouldStartNewGame {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.activityIndicator isAnimating]) {
+            [self.activityIndicator stopAnimating];
+            self.otherPlayerTappedNewGame = false;
+            [self newGame];
+        }
+    });
+}
+
+- (void)setPlayerOnTurnWithName:(NSString *)name {
+    if ([name isEqualToString:self.engine.player1.name]) {
+        self.engine.currentPlayer = self.engine.player1;
+    }
+    else {
+        self.engine.currentPlayer = self.engine.player2;
     }
 }
 
@@ -175,35 +198,36 @@
     if (self.gameMode == EnumGameModeOneDevice) {
         [self newGame];
     }
-    
+    else {
+        [self sendInfoAndStartNewMultiperGame];
+    }
+    self.matrixView.userInteractionEnabled = YES;
+}
+
+- (void)sendInfoAndStartNewMultiperGame {
     if (self.roomBelongsToMe) {
         [self.engine setUpPlayers];
         if ([self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
             [self sendTheFirstPlayerOnTurn:self.engine.currentPlayer.name];
         }
-        if (self.otherPlayerTappedNewGame) {
-            self.otherPlayerTappedNewGame = false;
-            [self newGame];
-        }
-        else {
-            if (![self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {
-                [self sendQuestionForNewGame];
-            }
-            [self.activityIndicator startAnimating];
-        }
     }
-    else if (!self.roomBelongsToMe && self.gameMode == EnumGameModeTwoDevices){
+    else {
         [self sendTappedNewGame];
-        if (self.otherPlayerTappedNewGame) {
-            self.otherPlayerTappedNewGame = false;
-            [self newGame];
-        }
-        else {
-            [self.activityIndicator startAnimating];
-        }
     }
-    
-    self.matrixView.userInteractionEnabled = YES;
+    [self shouldStartNewMutipeerGame];
+}
+
+- (void)shouldStartNewMutipeerGame {
+    if (self.otherPlayerTappedNewGame) {
+        self.otherPlayerTappedNewGame = false;
+        [self newGame];
+    }
+    else {
+        if ([self isOtherPlayingFromChat]) {
+            [self sendQuestionForNewGame];
+        }
+        [self.activityIndicator startAnimating];
+    }
 }
 
 - (void)sendCellMarkedAtIndexPath:(NSIndexPath *)indexPath {
@@ -276,33 +300,16 @@
 }
 
 - (void)didReceivePlayerOnTurnWithString:(NSString *)string {
-    if (!self.roomBelongsToMe && [string isEqualToString:self.engine.player1.name]) {
-        self.engine.currentPlayer = self.engine.player1;
-    }
-    else if (!self.roomBelongsToMe) {
-        self.engine.currentPlayer = self.engine.player2;
+    if (!self.roomBelongsToMe) {
+        [self setPlayerOnTurnWithName:string];
     }
     self.otherPlayerTappedNewGame = true;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.activityIndicator isAnimating]) {
-            [self.activityIndicator stopAnimating];
-            self.otherPlayerTappedNewGame = false;
-            [self newGame];
-        }
-    });
-    
+    [self shouldStartNewGame];
 }
 
 - (void)didReceiveJoinedPlayerStartedNewGame {
     self.otherPlayerTappedNewGame = true;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.activityIndicator isAnimating]) {
-            [self.activityIndicator stopAnimating];
-            self.otherPlayerTappedNewGame = false;
-            [self newGame];
-        }
-    });
+    [self shouldStartNewGame];
 }
 
 - (void)didReceiveAnswer:(NSString *)answer {
@@ -393,15 +400,15 @@
 }
 
 - (void)newGame {
-    if (self.gameType != EnumGameBattleships && self.gameMode == EnumGameModeOneDevice) {
-        [self.engine newGame];
-    }
-    else if (self.gameType == EnumGameBattleships){
+    if (self.gameType == EnumGameBattleships) {
         BattleshipsEngine *tempEngine = (BattleshipsEngine *)self.engine;
         [tempEngine clearBoards];
         [self arrangeShipsAndStartGame];
     }
-    else if (self.gameMode == EnumGameModeTwoDevices) {
+    else if (self.gameMode == EnumGameModeOneDevice){
+        [self.engine newGame];
+    }
+    else {
         [self.engine newMultipeerGame];
     }
 }

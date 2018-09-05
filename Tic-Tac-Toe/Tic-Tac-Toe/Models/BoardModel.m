@@ -122,7 +122,7 @@
     if (index.section + ship.size - 1 >= self.rows) {
         return false;
     }
-    for (NSInteger i = index.section; i < index.item + ship.size; i++){
+    for (NSInteger i = index.section; i < index.section + ship.size; i++){
         if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:index.item inSection:i]]){
             return false;
         }

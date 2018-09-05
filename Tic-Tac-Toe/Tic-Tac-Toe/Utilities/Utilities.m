@@ -106,12 +106,8 @@
     }
     return idents;
 }
-/*
-+ (NSDictionary<NSString *, NSNumber *> *)shipUnits {
-    return @{@"Carrier": @1, @"Battleship": @1, @"Destroyer": @1, @"Submarine": @2, @"Patrol Craft": @2};
-}*/
 
-+ (NSArray<ShipModel *> *)getDefaultShips { //move to user defaults
++ (NSArray<ShipModel *> *)getDefaultShips {
     ShipModel *ship1 = [ShipModel newShipWithName:@"Carrier" andSize:5];
     ShipModel *ship2 = [ShipModel newShipWithName:@"Battleship" andSize:4];
     ShipModel *ship3 = [ShipModel newShipWithName:@"Destroyer" andSize:3];

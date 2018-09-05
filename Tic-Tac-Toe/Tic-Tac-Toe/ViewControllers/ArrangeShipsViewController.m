@@ -54,7 +54,7 @@
     self.ships.dataSource = self;
 
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanWithGestureRecognizer:)];
-    UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationWithGestureReconzier:)];
+    UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationWithGestureRecognizer:)];
     
     panGestureRecognizer.delegate = self;
     rotationGestureRecognizer.delegate = self;
@@ -66,10 +66,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    
 }
 
 - (void)countShipUnits {
@@ -84,6 +80,7 @@
             self.shipUnits[ship.name] = @1;
         }
     }
+    //NSCountedSet *temp = [NSCountedSet setWithArray:self.defaultShips];
     self.shipsNames = self.shipUnits.allKeys;
 }
 
@@ -111,8 +108,8 @@
 
 - (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
     self.draggedShip.cell.center = point;
-    //self.draggedShip.cell
-    if (indexPath != self.draggedShip.previousHeadIndex || self.draggedShip.hasShadow) {
+    //NSLog(@"%f", self.draggedShip.cell.image.center.x);
+    if (indexPath != self.draggedShip.previousHeadIndex) {
         [self cleanDraggedShipShadowOnBoard];
         [self setDraggedShipShadowOnBoardAtIndexPath:indexPath];
     }
@@ -120,7 +117,6 @@
 
 - (void)setDraggedShipCellAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath) {
-        //ShipModel *draggedShip = self.defaultShips[indexPath.item];
         ShipCell *draggedCell = (ShipCell *)[self.ships cellForItemAtIndexPath:indexPath];
         ShipModel *draggedShip = [self shipWithName:draggedCell.nameLabel.text];
         self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
@@ -135,16 +131,19 @@
 }
 
 - (void)cleanDraggedShipShadowOnBoard {
-    if ([self areCurrentHeadAndTailIndexesValid]) {
-        NSArray *cellsWithShadow = @[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex];
-        self.draggedShip.previousHeadIndex = self.draggedShip.currentHeadIndex;
-        self.draggedShip.currentHeadIndex = nil;
-        self.draggedShip.currentTailIndex = nil;
-        [self.board reloadItemsAtIndexPaths:cellsWithShadow];
-        self.draggedShip.hasShadow = false;
+    NSIndexPath *indexBegin = self.draggedShip.currentHeadIndex;
+    NSIndexPath *indexEnd = self.draggedShip.currentTailIndex;
+    self.draggedShip.previousHeadIndex = self.draggedShip.currentHeadIndex;
+    [self.draggedShip resetOccupiedIndexes];
+    [self reloadBoardValidCellsFromIndexPath:indexBegin toIndexPath:indexEnd];
+}
+
+- (NSIndexPath *)getIndexFromShipAfterIndex:(NSIndexPath *)indexPath {
+    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
+        return [NSIndexPath indexPathForItem:indexPath.item + 1 inSection:indexPath.section];
     }
     else {
-        self.draggedShip.hasShadow = true;
+        return [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + 1];
     }
 }
 
@@ -154,32 +153,37 @@
         [self updateCollectionViewsAfterShipIsArranged];
     }
     else {
+        [self cleanDraggedShipShadowOnBoard];
         [self returnCellToOriginalLocation];
     }
+    [self draggedShipWasDropped];
+}
+
+- (void)draggedShipWasDropped {
     self.draggedShip = nil;
-    
     if ([self areAllShipsArranged]) {
         [self.doneButton setHidden:NO];
     }
 }
 
-- (void)setShipCurrentHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {/////////////////
-    self.draggedShip.currentHeadIndex = indexPath;
-    if (self.draggedShip.orientation == EnumOrientationHorizontal) {
-        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
-    }
-    else {
-        self.draggedShip.currentTailIndex = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
+- (void)setShipCurrentHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath) {
+        self.draggedShip.currentHeadIndex = indexPath;
+        self.draggedShip.currentTailIndex = [self tailIndexWithHeadIndex:indexPath];
     }
 }
 
-- (void)setDroppedShipHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {//////////////////
+- (void)setDroppedShipHeadAndTailAtIndexPath:(NSIndexPath *)indexPath {
     self.draggedShip.ship.head = indexPath;
+    self.draggedShip.ship.tail = [self tailIndexWithHeadIndex:indexPath];
+}
+
+- (NSIndexPath *)tailIndexWithHeadIndex:(NSIndexPath *)indexPath {
     if (self.draggedShip.orientation == EnumOrientationHorizontal) {
-        self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
+        return [NSIndexPath indexPathForItem:indexPath.item + self.draggedShip.ship.size - 1 inSection:indexPath.section];
     }
     else {
-        self.draggedShip.ship.tail = [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
+        return [NSIndexPath indexPathForItem:indexPath.item inSection:indexPath.section + self.draggedShip.ship.size - 1];
     }
 }
 
@@ -191,27 +195,47 @@
     
     [self.defaultShips removeObject:self.draggedShip.ship];
     [self countShipUnits];
-    //[self.ships reloadData];
     [self.ships reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 - (void)returnCellToOriginalLocation {
-    //[self.ships reloadData];
     [self.ships reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 - (void)setDraggedShipShadowOnBoardAtIndexPath:(NSIndexPath *)indexPath {
     [self setShipCurrentHeadAndTailAtIndexPath:indexPath];
     if ([self areCurrentHeadAndTailIndexesValid] && [self isDraggedShipLocationAvailable]) {
-        [self.board reloadItemsAtIndexPaths:@[self.draggedShip.currentHeadIndex, self.draggedShip.currentTailIndex]];
+        self.draggedShip.currentIndexesAreValid = YES;
+    }
+    else {
+        self.draggedShip.currentIndexesAreValid = NO;
+    }
+    [self reloadBoardValidCellsFromIndexPath:self.draggedShip.currentHeadIndex toIndexPath:self.draggedShip.currentTailIndex];
+}
+
+- (void)reloadBoardValidCellsFromIndexPath:(NSIndexPath *)indexBegin toIndexPath:(NSIndexPath *)indexEnd {
+    if (![self isIndexValid:indexEnd]) {
+        if (self.draggedShip.orientation == EnumOrientationHorizontal) {
+            indexEnd = [NSIndexPath indexPathForItem:9 inSection:indexEnd.section];
+        }
+        else {
+            indexEnd = [NSIndexPath indexPathForItem:indexEnd.item inSection:9];
+        }
+    }
+    if (indexBegin) {
+        [self reloadBoardCellsFromIndexPath:indexBegin toIndexPath:indexEnd];
     }
 }
 
 - (BOOL)areCurrentHeadAndTailIndexesValid {
     NSIndexPath *head = self.draggedShip.currentHeadIndex;
     NSIndexPath *tail = self.draggedShip.currentTailIndex;
-    return (head && tail && head.row < [self.board numberOfItemsInSection:head.section] && head.section < [self.board numberOfSections] &&
-            tail.section < [self.board numberOfSections] && tail.row < [self.board numberOfItemsInSection:tail.section]);
+    return (head && tail && head.item < [self.board numberOfItemsInSection:head.section] && head.section < [self.board numberOfSections] &&
+            tail.section < [self.board numberOfSections] && tail.item < [self.board numberOfItemsInSection:tail.section]);
+}
+
+- (BOOL)isIndexValid:(NSIndexPath *)indexPath {
+    return indexPath && indexPath.section < [self.board numberOfSections] && indexPath.item < [self.board numberOfItemsInSection:indexPath.section];
 }
 
 - (void)reloadBoardCellsFromIndexPath:(NSIndexPath *)indexBegin toIndexPath:(NSIndexPath *)indexEnd {
@@ -229,7 +253,7 @@
     [self.board reloadItemsAtIndexPaths:cellsToBeReloaded];
 }
 
-- (void)handleRotationWithGestureReconzier:(UIRotationGestureRecognizer *)rotationGestureRecognizer {
+- (void)handleRotationWithGestureRecognizer:(UIRotationGestureRecognizer *)rotationGestureRecognizer {
     if (self.draggedShip.cell) {
         self.draggedShip.cell.transform = CGAffineTransformRotate(self.draggedShip.cell.transform, rotationGestureRecognizer.rotation);
         if (self.draggedShip.cell.frame.size.width < self.draggedShip.cell.frame.size.height) {
@@ -263,16 +287,8 @@
     if (collectionView == self.board) {
         GameCell *gameCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_GAME_CELL forIndexPath:indexPath];
         gameCell.contentLabel.text = @"";
+        [self setBackgroundColorToCell:gameCell atIndexPath:indexPath];
         cell = gameCell;
-        if (indexPath == self.draggedShip.currentHeadIndex || indexPath == self.draggedShip.currentTailIndex) {
-            cell.backgroundColor = [UIColor greenColor];
-        }
-        else if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
-            cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
-        }
-        else {
-            cell.backgroundColor = [UIColor whiteColor];
-        }
     }
     else {
         ShipCell *shipCell = [collectionView dequeueReusableCellWithReuseIdentifier:IDENTIFIER_SHIP_CELL forIndexPath:indexPath];
@@ -288,6 +304,24 @@
     return cell;
 }
 
+- (void)setBackgroundColorToCell:(GameCell *)cell atIndexPath:(NSIndexPath *)indexPath{
+    if ([self isCellAtIndexPathOccupied:indexPath]) {
+        if (self.draggedShip.currentIndexesAreValid) {
+            cell.backgroundColor = [UIColor greenColor];
+        }
+        else {
+            
+            cell.backgroundColor = [UIColor redColor];
+        }
+    }
+    else if ([self.boardModel isCellAtIndexPathPartOfShip:indexPath]) {
+        cell.backgroundColor = [UIColor colorWithRed:0/255 green:128/255 blue:255/255 alpha:1.0];
+    }
+    else {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+}
+
 - (ShipModel *)shipWithName:(NSString *)name {
     for (ShipModel * ship in self.defaultShips) {
         if ([ship.name isEqualToString:name]) {
@@ -295,6 +329,10 @@
         }
     }
     return (ShipModel *)nil;
+}
+
+- (BOOL)isCellAtIndexPathOccupied:(NSIndexPath *)indexPath {
+    return indexPath >= self.draggedShip.currentHeadIndex && indexPath <= self.draggedShip.currentTailIndex;
 }
 
 - (BOOL)areAllShipsArranged {

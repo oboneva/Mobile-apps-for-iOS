@@ -20,4 +20,9 @@
     return new;
 }
 
+- (void)resetOccupiedIndexes {
+    self.currentHeadIndex = nil;
+    self.currentTailIndex = nil;
+}
+
 @end

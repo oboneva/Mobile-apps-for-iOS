@@ -28,10 +28,8 @@
     [self.engineDelegate startGame];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
+-(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,9 +117,6 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat size  = self.view.frame.size.width;
-    if (size > self.view.frame.size.height) {
-        size = self.view.frame.size.height;
-    }
     if ([self.engineDelegate getGameType] == EnumGameBattleships) {
         return CGSizeMake(size * 0.09, size * 0.09);
     }

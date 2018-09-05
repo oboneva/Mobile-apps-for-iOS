@@ -85,21 +85,24 @@
 - (void)playerSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
     [self markCellSelectedAtIndexPath:indexPath];
     if ([self isWinnerPlayerAtIndex:indexPath]) {
-        if ([self.currentPlayer isMemberOfClass:HumanModel.class]) {
-            [self updateRankingForHumanPlayer:self.currentPlayer];
-        }
-        else {
-            [self updateLostGames];
-        }
+        [self updateScoreboard];
         [self.endGameDelegate didEndGameWithWinner:self.currentPlayer];
-        [self.endGameDelegate forceRefresh];
     }
     else {
-        [self.endGameDelegate forceRefresh];
         self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
             [self notifyTheNextPlayer];
         });
+    }
+    [self.endGameDelegate forceRefresh];
+}
+
+- (void)updateScoreboard {
+    if ([self.currentPlayer isMemberOfClass:HumanModel.class]) {
+        [self updateRankingForHumanPlayer:self.currentPlayer];
+    }
+    else {
+        [self updateLostGames];
     }
 }
 
@@ -125,17 +128,22 @@
         [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_H_GAME)] forKey:player.name];
     }
     else {
-        if ([self.player2 isMemberOfClass:BotEasyModel.class]) {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_EASY_GAME)] forKey:player.name];
-        }
-        else if ([self.player2 isMemberOfClass:BotMediumModel.class]) {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_MEDIUM_GAME)] forKey:player.name];
-        }
-        else {
-            [scores setValue:[NSNumber numberWithInt:(currentScores + SCORES_H_B_HARD_GAME)] forKey:player.name];
-        }
+        currentScores = [self newCurrentScoresBasedOnGameDifficulty:currentScores];
+        [scores setValue:[NSNumber numberWithInt:currentScores] forKey:player.name];
     }
     [defaults setObject:scores forKey:HUMAN_SCORES_KEY];
+}
+
+- (int)newCurrentScoresBasedOnGameDifficulty:(int)currentScores {
+    if ([self.player2 isMemberOfClass:BotEasyModel.class]) {
+        return currentScores + SCORES_H_B_EASY_GAME;
+    }
+    else if ([self.player2 isMemberOfClass:BotMediumModel.class]) {
+        return currentScores + SCORES_H_B_MEDIUM_GAME;
+    }
+    else {
+        return currentScores + SCORES_H_B_HARD_GAME;
+    }
 }
 
 - (void)updateLostGames {
@@ -229,14 +237,10 @@
 - (void)setUpPlayers {
     int random = [Utilities randomNumberWithUpperBound:2];
     if (random == 0) {
-        self.player1.symbol = FIRST_PLAYER_SYMBOL;
-        self.player2.symbol = SECOND_PLAYER_SYMBOL;
-        self.currentPlayer = self.player1;
+        [self customSetUpPlayersWithFirstPlayerOnTurn:self.player1];
     }
     else {
-        self.player1.symbol = SECOND_PLAYER_SYMBOL;
-        self.player2.symbol = FIRST_PLAYER_SYMBOL;
-        self.currentPlayer = self.player2;
+        [self customSetUpPlayersWithFirstPlayerOnTurn:self.player2];
     }
 }
 

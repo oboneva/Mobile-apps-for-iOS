@@ -14,15 +14,16 @@
 @interface DraggedShipModel : NSObject
 
 + (instancetype)newWithShip:(ShipModel *)ship andCell:(ShipCell *)cell;
+- (void)resetOccupiedIndexes;
 
 @property (strong, nonatomic) ShipCell *cell;
 @property (strong, nonatomic) ShipModel *ship;
 @property (assign) EnumOrientation orientation;
-@property (strong, nonatomic) NSIndexPath *indexInAllShips;
+
 @property (strong, nonatomic) NSIndexPath *currentHeadIndex;
 @property (strong, nonatomic) NSIndexPath *currentTailIndex;
 @property (strong, nonatomic) NSIndexPath *previousHeadIndex;
-@property (assign) BOOL hasShadow;
 
+@property (assign) BOOL currentIndexesAreValid;
 
 @end
