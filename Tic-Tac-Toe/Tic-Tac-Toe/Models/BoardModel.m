@@ -14,8 +14,18 @@
 
 @implementation BoardModel
 
+
+- (BOOL)couldArrangeShipAtIndexPath:(NSIndexPath *)indexPath {
+    for (ShipModel *ship in self.ships) {
+        if([ship isCellAtIndexPathNextToThisShip:indexPath] || [ship isCellAtIndexPathPartOfThisShip:indexPath]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 - (BOOL)isCellAtIndexPathPartOfShip:(NSIndexPath *)indexPath {
-    for (ShipModel * ship in self.ships) {
+    for (ShipModel *ship in self.ships) {
         if ([ship isCellAtIndexPathPartOfThisShip:indexPath]) {
             return true;
         }
@@ -36,7 +46,7 @@
     NSMutableArray *accumulated = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.gameMatrix.count; i++) {
         for (int j = 0; j < self.gameMatrix[i].count; j++) {
-            if (![self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:j inSection:i]]) {
+            if ([self couldArrangeShipAtIndexPath:[NSIndexPath indexPathForItem:j inSection:i]]) {
                 [accumulated addObject:[NSIndexPath indexPathForItem:j inSection:i]];
             }
             
@@ -111,7 +121,7 @@
         return false;
     }
     for (NSInteger i = index.item; i < index.item + ship.size; i++){
-        if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:i inSection:index.section]]){
+        if (![self couldArrangeShipAtIndexPath:[NSIndexPath indexPathForItem:i inSection:index.section]]){
             return false;
         }
     }
@@ -123,7 +133,7 @@
         return false;
     }
     for (NSInteger i = index.section; i < index.section + ship.size; i++){
-        if ([self isCellAtIndexPathPartOfShip:[NSIndexPath indexPathForItem:index.item inSection:i]]){
+        if (![self couldArrangeShipAtIndexPath:[NSIndexPath indexPathForItem:index.item inSection:i]]){
             return false;
         }
     }

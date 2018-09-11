@@ -21,6 +21,7 @@
 + (instancetype)newShipFromJSON:(NSDictionary *)dict;
 
 - (BOOL)isCellAtIndexPathPartOfThisShip:(NSIndexPath *)indexPath;
+- (BOOL)isCellAtIndexPathNextToThisShip:(NSIndexPath *)indexPath;
 - (BOOL)hasSunk;
 - (void)hit;
 - (NSDictionary *)toJSON;

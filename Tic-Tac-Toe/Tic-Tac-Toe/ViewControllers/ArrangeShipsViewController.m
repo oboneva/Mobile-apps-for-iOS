@@ -60,6 +60,7 @@
     
     [self.view addGestureRecognizer:panGestureRecognizer];
     [self.view addGestureRecognizer:rotationGestureRecognizer];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,8 +97,8 @@
         if (touchedShipsCellIndex) {
             [self setDraggedShipCellAtIndexPath:touchedShipsCellIndex];
         }
-        if (touchedBoardCellIndex) {
-            [self setDraggedShipAtIndexPath:touchedBoardCellIndex];
+        else if (touchedBoardCellIndex) {
+            [self setDraggedShipFromBoardAtIndexPath:touchedBoardCellIndex];
         }
     }
     else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
@@ -109,7 +110,9 @@
 }
 
 - (void)updateDraggedShipLocationWithPoint:(CGPoint)point andIndexPath:(NSIndexPath *)indexPath {
-    self.draggedShip.cell.image.center = CGPointMake(point.x - self.draggedShip.cell.frame.origin.x, point.y - self.draggedShip.cell.frame.origin.y);
+    [self.view.superview addSubview:self.draggedShip.cell.image];
+    self.draggedShip.cell.image.center = CGPointMake(point.x + self.ships.frame.origin.x, point.y + self.ships.frame.origin.y);
+
     if (indexPath != self.draggedShip.previousHeadIndex) {
         [self cleanDraggedShipShadowOnBoard];
         [self setDraggedShipShadowOnBoardAtIndexPath:indexPath];
@@ -122,7 +125,7 @@
     self.draggedShip = [DraggedShipModel newWithShip:draggedShip andCell:draggedCell];
 }
 
-- (void)setDraggedShipAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setDraggedShipFromBoardAtIndexPath:(NSIndexPath *)indexPath {
     ShipCell *draggedCell = (ShipCell *)nil;
     ShipModel *ship = [self.boardModel shipAtIndexPath:indexPath];
     if (ship) {
@@ -135,7 +138,6 @@
         
         ship.head = nil;
         ship.tail = nil;
-        
         
         if (self.draggedShip.currentHeadIndex.item == self.draggedShip.currentTailIndex.item) {
             self.draggedShip.orientation = EnumOrientationVertical;
@@ -177,10 +179,12 @@
         [self setDroppedShipHeadAndTailAtIndexPath:indexPath];
         [self updateCollectionViewsAfterShipIsArranged];
     }
-    else {
+    else if (self.draggedShip){
         [self cleanDraggedShipShadowOnBoard];
         [self returnCellToOriginalLocation];
+        
     }
+    [self.view.superview sendSubviewToBack:self.draggedShip.cell.image];
     [self draggedShipWasDropped];
 }
 
@@ -188,6 +192,9 @@
     self.draggedShip = nil;
     if ([self areAllShipsArranged]) {
         [self.doneButton setHidden:NO];
+    }
+    else {
+        [self.doneButton setHidden:YES];
     }
 }
 
@@ -281,13 +288,17 @@
 - (void)handleRotationWithGestureRecognizer:(UIRotationGestureRecognizer *)rotationGestureRecognizer {
     if (self.draggedShip.cell) {
         self.draggedShip.cell.image.transform = CGAffineTransformRotate(self.draggedShip.cell.image.transform, rotationGestureRecognizer.rotation);
-        if (self.draggedShip.cell.image.frame.size.width < self.draggedShip.cell.image.frame.size.height) {
-            self.draggedShip.orientation = EnumOrientationVertical;
-        }
-        else {
-            self.draggedShip.orientation = EnumOrientationHorizontal;
-        }
         rotationGestureRecognizer.rotation = 0.0;
+        [self updateTheOrientation];
+    }
+}
+
+- (void)updateTheOrientation {
+    if (self.draggedShip.cell.image.frame.size.width < self.draggedShip.cell.image.frame.size.height) {
+        self.draggedShip.orientation = EnumOrientationVertical;
+    }
+    else {
+        self.draggedShip.orientation = EnumOrientationHorizontal;
     }
 }
 

@@ -39,7 +39,12 @@
 
 - (BOOL)isCellAtIndexPathPartOfThisShip:(NSIndexPath *)indexPath {
     return (indexPath.section == self.head.section && indexPath.item >= self.head.item && indexPath.item <= self.tail.item) ||
-    (indexPath.item == self.head.item && indexPath.section >= self.head.section && indexPath.section <= self.tail.section);
+        (indexPath.item == self.head.item && indexPath.section >= self.head.section && indexPath.section <= self.tail.section);
+}
+
+- (BOOL)isCellAtIndexPathNextToThisShip:(NSIndexPath *)indexPath {
+    return (ABS(indexPath.section - self.head.section) <= 1 && indexPath.item >= self.head.item - 1 && indexPath.item <= self.tail.item + 1) ||
+           (ABS(indexPath.item - self.head.item) <= 1 && indexPath.section >= self.head.section - 1 && indexPath.section <= self.tail.section + 1);
 }
 
 - (NSDictionary *)toJSON {

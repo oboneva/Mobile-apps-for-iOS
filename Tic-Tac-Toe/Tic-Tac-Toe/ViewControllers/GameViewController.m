@@ -199,12 +199,12 @@
         [self newGame];
     }
     else {
-        [self sendInfoAndStartNewMultiperGame];
+        [self sendInfoAndStartNewMultipeerGame];
     }
     self.matrixView.userInteractionEnabled = YES;
 }
 
-- (void)sendInfoAndStartNewMultiperGame {
+- (void)sendInfoAndStartNewMultipeerGame {
     if (self.roomBelongsToMe) {
         [self.engine setUpPlayers];
         if ([self.otherPlayerAppName isEqualToString:THIS_APP_NAME]) {

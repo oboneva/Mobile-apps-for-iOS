@@ -13,6 +13,9 @@
 
 - (NSIndexPath *)makeMove {
     NSArray *available = [self.boardStateDelegate availableCells];
+    if (available.count > 1) {
+        [NSThread sleepForTimeInterval:0.2];
+    }
     NSIndexPath *index = available[[Utilities randomNumberWithUpperBound:available.count]];
     
     return index;

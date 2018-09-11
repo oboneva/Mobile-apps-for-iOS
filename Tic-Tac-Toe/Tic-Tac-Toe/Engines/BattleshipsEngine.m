@@ -125,9 +125,7 @@
 
 - (void)seeChangesOnBoardBeforeNextMove {
     [self.endGameDelegate forceRefresh];
-    if (![self.player2 isKindOfClass:BotEasyModel.class]) {
-        [NSThread sleepForTimeInterval:0.8];
-    }
+    [NSThread sleepForTimeInterval:0.8];
 }
 
 - (void)updateBoardOnDisplay {
