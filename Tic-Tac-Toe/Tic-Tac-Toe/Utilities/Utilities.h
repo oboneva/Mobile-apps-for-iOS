@@ -23,3 +23,9 @@
 + (UIColor *)colorForShipWithName:(NSString *)shipName;
 
 @end
+
+
+@interface UIView (NSLayoutConstraintFilter)
+- (NSLayoutConstraint *)constraintForAttribute:(NSLayoutAttribute)attribute;
+- (NSArray *)constraintsForAttribute:(NSLayoutAttribute)attribute;
+@end

@@ -33,7 +33,7 @@
 #define QUESTION                @"Another game?"
 #define INVALID_COORDS_MESSAGE  @"Invalid coordinates!"
 
-@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate, ArrangeShipsDelegate>
+@interface GameViewController () <NotifyPlayerToPlayDelegate, EndGameDelegate, EngineDelegate, PeerSessionDelegate, UINavigationControllerDelegate, GameViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *matrixView;
 @property (strong, nonatomic) MatrixCollectionViewController *matrixViewController;
@@ -99,7 +99,7 @@
     ArrangeShipsViewController *arrangeShipsController = (ArrangeShipsViewController *)[Utilities viewControllerWithClass:ArrangeShipsViewController.class];
     BattleshipsEngine *battleshipsEngine = (BattleshipsEngine *)self.engine;
     arrangeShipsController.boardModel = battleshipsEngine.boardPlayer1;
-    arrangeShipsController.arrangeShipsDelegate = self;
+    arrangeShipsController.gameViewDelegate = self;
     [self.navigationController presentViewController:arrangeShipsController animated:YES completion:nil];
 }
 

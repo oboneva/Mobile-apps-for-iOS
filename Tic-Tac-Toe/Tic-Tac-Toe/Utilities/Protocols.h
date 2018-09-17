@@ -78,17 +78,20 @@
 
 @end
 
-@protocol ArrangeShipsDelegate
+@protocol GameViewDelegate
 
 - (void)shipsAreArranged;
 
 @end
 
 @class ShipModel;
+
 @protocol ShipsDelegate
 
 - (NSArray<ShipModel *> *)availableShips;
 
 @end
+
+
 
 #endif /* Protocols_h */

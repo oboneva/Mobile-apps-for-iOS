@@ -95,10 +95,13 @@
                                     <action selector="onTunakTap:" destination="CPk-cj-3Do" eventType="touchUpInside" id="eZX-PO-4Tk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Cr-Io-WDf">
-                                <rect key="frame" x="146.66666666666666" y="525" width="120.99999999999997" height="42"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Battleships"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Cr-Io-WDf">
+                                <rect key="frame" x="132.66666666666666" y="525" width="149.99999999999997" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="1ub-28-JaI"/>
+                                    <constraint firstAttribute="width" constant="150" id="unR-W7-ySn"/>
+                                </constraints>
+                                <state key="normal" title="Battleships" image="BattleshipsGameIcon"/>
                                 <connections>
                                     <action selector="onBattleshipsTap:" destination="CPk-cj-3Do" eventType="touchUpInside" id="BV6-Dn-FJU"/>
                                 </connections>
@@ -1119,14 +1122,18 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfk-kA-fZf">
-                                                    <rect key="frame" x="113.33333333333333" y="50" width="16.666666666666671" height="18"/>
+                                                    <rect key="frame" x="113" y="50" width="17" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gVX-KS-zgx">
-                                                    <rect key="frame" x="15" y="10" width="120" height="35"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gVX-KS-zgx">
+                                                    <rect key="frame" x="7" y="10" width="136" height="35"/>
                                                     <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="35" id="Cyj-PZ-mX1"/>
+                                                        <constraint firstAttribute="width" constant="136" id="kru-XM-YcD"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ysh-mm-31A">
                                                     <rect key="frame" x="61" y="71" width="29" height="18"/>
@@ -1144,20 +1151,18 @@
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="u7H-9g-AsH" secondAttribute="trailing" constant="45" id="AMO-oo-w8t"/>
+                                            <constraint firstItem="gVX-KS-zgx" firstAttribute="leading" secondItem="zuV-jq-bXt" secondAttribute="leading" constant="7" id="Csj-jV-XUM"/>
                                             <constraint firstAttribute="bottom" secondItem="Ysh-mm-31A" secondAttribute="bottom" constant="6" id="GvC-Mi-gn8"/>
-                                            <constraint firstItem="gVX-KS-zgx" firstAttribute="leading" secondItem="zuV-jq-bXt" secondAttribute="leading" constant="15" id="JHd-jP-oaA"/>
-                                            <constraint firstAttribute="trailing" secondItem="gVX-KS-zgx" secondAttribute="trailing" constant="15" id="NcO-90-VM5"/>
                                             <constraint firstItem="u7H-9g-AsH" firstAttribute="leading" secondItem="zuV-jq-bXt" secondAttribute="leading" constant="20" id="Qb5-HE-d5U"/>
                                             <constraint firstItem="Ysh-mm-31A" firstAttribute="top" secondItem="u7H-9g-AsH" secondAttribute="bottom" constant="3" id="Zhe-w0-0sw"/>
                                             <constraint firstItem="gVX-KS-zgx" firstAttribute="top" secondItem="zuV-jq-bXt" secondAttribute="top" constant="10" id="fSR-xs-dAG"/>
                                             <constraint firstItem="cfk-kA-fZf" firstAttribute="leading" secondItem="zuV-jq-bXt" secondAttribute="leading" constant="113.33333333333333" id="fug-Uv-vCB"/>
-                                            <constraint firstAttribute="bottom" secondItem="gVX-KS-zgx" secondAttribute="bottom" constant="50" id="gwe-vV-siV"/>
                                             <constraint firstItem="Ysh-mm-31A" firstAttribute="centerX" secondItem="zuV-jq-bXt" secondAttribute="centerX" id="jE8-Vo-O8d"/>
                                             <constraint firstAttribute="trailing" secondItem="cfk-kA-fZf" secondAttribute="trailing" constant="20" id="kdm-yL-ghw"/>
                                             <constraint firstItem="Ysh-mm-31A" firstAttribute="top" secondItem="cfk-kA-fZf" secondAttribute="bottom" constant="3" id="pOX-go-omT"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="image" destination="gVX-KS-zgx" id="PNW-2k-icu"/>
+                                            <outlet property="imageView" destination="gVX-KS-zgx" id="6mw-SC-qPC"/>
                                             <outlet property="nameLabel" destination="u7H-9g-AsH" id="z80-Ac-exp"/>
                                             <outlet property="sizeLabel" destination="Ysh-mm-31A" id="9cj-JW-gOJ"/>
                                             <outlet property="unitsLabel" destination="cfk-kA-fZf" id="YCf-9l-qJo"/>
@@ -1283,9 +1288,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="h7y-3e-yLM"/>
                     <connections>
-                        <outlet property="board" destination="S03-U4-yKr" id="iph-r3-Yz2"/>
+                        <outlet property="boardCollectionView" destination="S03-U4-yKr" id="LQc-Jb-Pde"/>
                         <outlet property="doneButton" destination="TTA-Qn-Gcx" id="kK9-c4-oEU"/>
-                        <outlet property="ships" destination="3kE-mn-usz" id="RIU-45-wfc"/>
+                        <outlet property="shipsCollectionView" destination="3kE-mn-usz" id="gJH-AQ-Ba9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vcn-A3-LAf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1294,6 +1299,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BattleshipsGameIcon" width="225" height="225"/>
         <image name="TicTacToeGameIcon" width="512" height="512"/>
         <image name="TunakTunakTunGameIcon" width="512" height="512"/>
     </resources>

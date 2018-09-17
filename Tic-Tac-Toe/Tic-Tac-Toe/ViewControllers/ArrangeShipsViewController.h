@@ -10,9 +10,9 @@
 #import "Protocols.h"
 
 @class BoardModel;
-@interface ArrangeShipsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
+@interface ArrangeShipsViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) BoardModel *boardModel;
-@property (strong, nonatomic)id<ArrangeShipsDelegate>arrangeShipsDelegate;
+@property (strong, nonatomic)id<GameViewDelegate>gameViewDelegate;
 
 @end

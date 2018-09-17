@@ -14,7 +14,7 @@
 @interface BoardModel : NSObject
 
 @property (strong, nonatomic)NSArray<NSArray<BattleshipsCellModel *> *> *gameMatrix;
-@property (strong, nonatomic)NSArray<ShipModel *> *ships;
+@property (strong, nonatomic)NSMutableArray<ShipModel *> *ships;
 @property (assign)int rows;
 @property (assign)int columns;
 @property (assign) int filled_cells;

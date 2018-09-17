@@ -7,15 +7,19 @@
 //
 
 #import "DraggedShipModel.h"
+#import "ShipModel.h"
+#import "Utilities.h"
 
 @implementation DraggedShipModel
 
-+ (instancetype)newWithShip:(ShipModel *)ship andCell:(ShipCell *)cell{
++ (instancetype)newWithShip:(ShipModel *)ship andImageView:(UIImageView *)imageView{
     DraggedShipModel *new = [[DraggedShipModel alloc] init];
     if (new) {
         new.ship = ship;
-        new.cell = cell;
         new.orientation = EnumOrientationHorizontal;
+        new.imageView = [UIImageView new];
+        new.imageView.backgroundColor = [Utilities colorForShipWithName:ship.name];
+        new.imageView.frame = imageView.frame; //for size
     }
     return new;
 }

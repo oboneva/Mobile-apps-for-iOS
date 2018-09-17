@@ -137,3 +137,26 @@
 }
 
 @end
+
+
+@implementation UIView (NSLayoutConstraintFilter)
+
+- (NSArray *)constraintsForAttribute:(NSLayoutAttribute)attribute {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"firstAttribute = %d", attribute];
+    NSArray *filteredArray = [[self constraints] filteredArrayUsingPredicate:predicate];
+    
+    return filteredArray;
+}
+
+- (NSLayoutConstraint *)constraintForAttribute:(NSLayoutAttribute)attribute {
+    NSArray *constraints = [self constraintsForAttribute:attribute];
+    
+    if (constraints.count) {
+        return constraints[0];
+    }
+    
+    return nil;
+}
+
+@end
+

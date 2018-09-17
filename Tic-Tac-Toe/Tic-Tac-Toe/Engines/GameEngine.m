@@ -89,7 +89,7 @@
         [self.endGameDelegate didEndGameWithWinner:self.currentPlayer];
     }
     else {
-        self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
+        [self setNextPlayerAfterSelectionAtIndexPath:indexPath];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
             [self notifyTheNextPlayer];
         });
@@ -104,6 +104,10 @@
     else {
         [self updateLostGames];
     }
+}
+
+- (void)setNextPlayerAfterSelectionAtIndexPath:(NSIndexPath *)indexPath {
+    self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
 }
 
 - (BOOL)isHumanAgainstHumanGame {

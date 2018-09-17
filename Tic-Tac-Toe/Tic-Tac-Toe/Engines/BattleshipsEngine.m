@@ -75,6 +75,13 @@
     }
 }
 
+- (void)setNextPlayerAfterSelectionAtIndexPath:(NSIndexPath *)indexPath {
+    BoardModel *currentBoard = [self currentBoardOnDisplay];
+    if (![currentBoard isCellAtIndexPathPartOfShip:indexPath]) {
+        self.currentPlayer = [self.currentPlayer isEqual:self.player1] ? self.player2 : self.player1;
+    }
+}
+
 - (BoardModel *)currentBoardOnDisplay {
     if (self.boardOnDisplay == EnumBoardPlayer1) {
         return self.boardPlayer1;

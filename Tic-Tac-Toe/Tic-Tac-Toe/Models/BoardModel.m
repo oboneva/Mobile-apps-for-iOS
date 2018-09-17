@@ -67,7 +67,7 @@
             [rows addObject:[[NSArray alloc] initWithArray:columns]];
         }
         newBoard.gameMatrix = [[NSArray alloc] initWithArray:rows];
-        newBoard.ships = [[NSArray alloc] init];
+        newBoard.ships = @[].mutableCopy;
         newBoard.rows = rowsCount;
         newBoard.columns = columnsCount;
         newBoard.filled_cells = 0;

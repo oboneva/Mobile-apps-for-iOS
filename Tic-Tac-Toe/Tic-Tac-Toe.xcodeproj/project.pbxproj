@@ -45,6 +45,8 @@
 		FA4C88A9210A085300C351DF /* UserDefaultsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4C88A8210A085300C351DF /* UserDefaultsManager.m */; };
 		FA53C088212D9B600039390F /* ShipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C087212D9B600039390F /* ShipCell.m */; };
 		FA53C08E21359B580039390F /* DraggedShipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C08D21359B580039390F /* DraggedShipModel.m */; };
+		FA53C097214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C096214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.m */; };
+		FA53C09A214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C099214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.m */; };
 		FABEB2F1212C528B005EB941 /* BattleshipsEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F0212C528B005EB941 /* BattleshipsEngine.m */; };
 		FABEB2F4212C5673005EB941 /* BattleshipsCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F3212C5673005EB941 /* BattleshipsCellModel.m */; };
 		FABEB2F7212C5B08005EB941 /* BoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FABEB2F6212C5B08005EB941 /* BoardModel.m */; };
@@ -151,6 +153,10 @@
 		FA53C087212D9B600039390F /* ShipCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShipCell.m; sourceTree = "<group>"; };
 		FA53C08C21359B580039390F /* DraggedShipModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DraggedShipModel.h; sourceTree = "<group>"; };
 		FA53C08D21359B580039390F /* DraggedShipModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DraggedShipModel.m; sourceTree = "<group>"; };
+		FA53C095214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShipsCollectionViewDataSourceDelegate.h; sourceTree = "<group>"; };
+		FA53C096214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShipsCollectionViewDataSourceDelegate.m; sourceTree = "<group>"; };
+		FA53C098214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BoardCollectionViewDataSourceDelegate.h; path = "Tic-Tac-Toe/Utilities/BoardCollectionViewDataSourceDelegate.h"; sourceTree = SOURCE_ROOT; };
+		FA53C099214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BoardCollectionViewDataSourceDelegate.m; path = "Tic-Tac-Toe/Utilities/BoardCollectionViewDataSourceDelegate.m"; sourceTree = SOURCE_ROOT; };
 		FABEB2EF212C528B005EB941 /* BattleshipsEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BattleshipsEngine.h; path = "Tic-Tac-Toe/Engines/BattleshipsEngine.h"; sourceTree = SOURCE_ROOT; };
 		FABEB2F0212C528B005EB941 /* BattleshipsEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BattleshipsEngine.m; path = "Tic-Tac-Toe/Engines/BattleshipsEngine.m"; sourceTree = SOURCE_ROOT; };
 		FABEB2F2212C5673005EB941 /* BattleshipsCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleshipsCellModel.h; sourceTree = "<group>"; };
@@ -294,6 +300,10 @@
 		FA4C884720FC89C900C351DF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FA53C095214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.h */,
+				FA53C096214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.m */,
+				FA53C098214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.h */,
+				FA53C099214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.m */,
 				FA4C884820FC8A0E00C351DF /* Constants.h */,
 				FA4C885920FCC43300C351DF /* Utilities.h */,
 				FA4C885A20FCC43300C351DF /* Utilities.m */,
@@ -521,6 +531,7 @@
 				FA4C88A6210A015C00C351DF /* LostGamesDataModel.m in Sources */,
 				FA4C886820FF723A00C351DF /* GameViewController.m in Sources */,
 				FABEB2F1212C528B005EB941 /* BattleshipsEngine.m in Sources */,
+				FA53C097214BEB3A0039390F /* ShipsCollectionViewDataSourceDelegate.m in Sources */,
 				FA4C88A02109DEA700C351DF /* BotModel.m in Sources */,
 				FA4C887E2107142500C351DF /* TicTacToeEngine.m in Sources */,
 				FA4C88A32109F6DC00C351DF /* LostGamesTableViewCell.m in Sources */,
@@ -533,6 +544,7 @@
 				FA4C886120FE201600C351DF /* PlayerModel.m in Sources */,
 				FA4C884520FC895600C351DF /* MatrixCollectionViewController.m in Sources */,
 				FA53C08E21359B580039390F /* DraggedShipModel.m in Sources */,
+				FA53C09A214BEBCC0039390F /* BoardCollectionViewDataSourceDelegate.m in Sources */,
 				FADCE109211196660000FEA2 /* GameTypeViewController.m in Sources */,
 				FA21AE5F210B142D00494946 /* JoinRoomViewController.m in Sources */,
 				FA4C889D2109AD3500C351DF /* BotHardModel.m in Sources */,
