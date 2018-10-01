@@ -11,11 +11,13 @@
 #import "ChangesHistory.h"
 #import "ToolboxInitializer.h"
 #import "ToolboxItemViewController.h"
+#import "Annotator.h"
 
 @interface SingleDocumentViewController ()
 
 @property (weak, nonatomic) IBOutlet PDFView *pdfDocumentView;
 @property (weak, nonatomic) IBOutlet PDFThumbnailView *pdfDocumentThumbnailView;
+@property (weak, nonatomic) IBOutlet UIScrollView *toolboxScrollView;
 
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
@@ -25,15 +27,14 @@
 @property (strong, nonatomic) ChangesHistory *annotationsHistory;
 
 //////////////////////////////////////////////////////////
-@property (assign) CGPoint lastPoint;
-@property (strong, nonatomic) UIBezierPath *path;
 @property (strong, nonatomic) PDFAnnotation *annotation;
-@property (weak, nonatomic) IBOutlet UIScrollView *toolboxScrollView;
+
 @property (assign) BOOL isAnnotationAdded;
 
 @property (strong, nonatomic)UIButton *previouslyPressed;
-@property (strong, nonatomic)NSMutableArray<PDFAnnotation *> *removedAnnotations;
 @property (assign)NSUInteger itemOption;
+
+@property (strong, nonatomic) Annotator *annotator;
 
 @end
 
@@ -53,8 +54,8 @@
     self.annotationsHistory = [ChangesHistory newWithChangeType:PDFAnnotation.class];
     [self addGestureRecognizers];
     
-    ///////////////
-    self.removedAnnotations = [NSMutableArray new];
+    /////////////
+    self.annotator = [Annotator new];
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
@@ -104,75 +105,23 @@
     [self.pdfDocumentView addGestureRecognizer:panGestureRecognizer];
 }
 
-- (void)toolboxItemPressed:(UIButton *)button {///////////////////////////////////
-    self.previouslyPressed.backgroundColor = [UIColor lightGrayColor];
-    button.backgroundColor = [UIColor darkGrayColor];
-    self.previouslyPressed = button;
-    
-    if (button.tag == ToolboxItemTypeUndo) {
-        [self undoAnnotation];
-    }
-    else if (button.tag == ToolboxItemTypeRedo) {
-        [self redoAnnotation];
-    }
-    else if (button.tag == ToolboxItemTypeTextUnderline) {
-        [self addAnnotationFromSubtype:PDFAnnotationSubtypeUnderline withMarkUpType:kPDFMarkupTypeUnderline];
-    }
-    else if (button.tag == ToolboxItemTypeTextStrikeThrough) {
-        [self addAnnotationFromSubtype:PDFAnnotationSubtypeStrikeOut withMarkUpType:kPDFMarkupTypeStrikeOut];
-    }
-    else if (button.tag == ToolboxItemTypeTextHighlight) {
-        [self addAnnotationFromSubtype:PDFAnnotationSubtypeHighlight withMarkUpType:kPDFMarkupTypeHighlight];
-    }
-    else if ([self shouldPresentOptionsToButton:button]) {
-        NSLog(@"I Clicked a button %ld version2",(long)button.tag);
-        ToolboxItemViewController *viewController = (ToolboxItemViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_TOOLBOX_ITEM_VIEW_CONTROLLER];
-        viewController.modalPresentationStyle = UIModalPresentationPopover;
-        viewController.popoverPresentationController.delegate = self;
-        viewController.popoverPresentationController.sourceView = self.toolboxScrollView;
-        viewController.popoverPresentationController.sourceRect = button.frame;
-        viewController.itemType = button.tag;
-        viewController.toolboxItemsOptionsDelegate = self;
-        viewController.preferredContentSize = CGSizeMake(100, 150);
-        
-        [self presentViewController:viewController animated:YES completion:nil];
-    }
-}
-
-- (BOOL)shouldPresentOptionsToButton:(UIButton *)button {
-    return button.tag == ToolboxItemTypeArrow || button.tag == ToolboxItemTypeColor || button.tag == ToolboxItemTypeShape || button.tag == ToolboxItemTypeWidth;
-}
-
-- (void)addAnnotationFromSubtype:(PDFAnnotationSubtype)subtype withMarkUpType:(PDFMarkupType)markUp {
-    for (PDFSelection *lineSelection in self.pdfDocumentView.currentSelection.selectionsByLine.copy) {
-        PDFAnnotation *annotation = [[PDFAnnotation alloc] initWithBounds:[lineSelection boundsForPage:self.pdfDocumentView.currentPage] forType:subtype withProperties:nil];
-        [annotation setMarkupType:markUp];
-        [annotation setColor:[UIColor redColor]];
-        [self.pdfDocumentView.currentPage addAnnotation:annotation];
-    }
+- (void)addAnnotation {
+    [self.annotator updatePropertiesForAnnotation:self.annotation];
+    [self.pdfDocumentView.currentPage addAnnotation:self.annotation];
 }
 
 - (void)undoAnnotation {
-    PDFAnnotation *lastAnnotation = [self.pdfDocumentView.currentPage.annotations lastObject];
-    if (lastAnnotation) {
-        [self.pdfDocumentView.currentPage removeAnnotation:lastAnnotation];
-        [self.removedAnnotations addObject:lastAnnotation];
+    if ([self.annotationsHistory couldUndo]) {
+        [self.pdfDocumentView.currentPage removeAnnotation:[self.annotationsHistory lastChange]];
+        [self.annotationsHistory undoChange];
     }
 }
 
 - (void)redoAnnotation {
-    PDFAnnotation *lastRemovedAnnotation = [self.removedAnnotations lastObject];
-    if (lastRemovedAnnotation) {
-        [self.removedAnnotations removeLastObject];
-        [self.pdfDocumentView.currentPage addAnnotation:lastRemovedAnnotation];
+    if ([self.annotationsHistory couldRedo]) {
+        [self.annotationsHistory redoChange];
+        [self.pdfDocumentView.currentPage addAnnotation:[self.annotationsHistory lastChange]];
     }
-}
-
-- (void)didChooseOption:(NSUInteger)option forItem:(ToolboxItemType)itemType {
-    if (itemType == ToolboxItemTypeColor) {
-        self.previouslyPressed.backgroundColor = self.
-    }
-    self.itemOption = option;
 }
 
 - (void)handleTap {
@@ -198,47 +147,49 @@
 }
 
 - (void)drawingOfAnnotationBeganAtPoint:(CGPoint)point {
-    self.path = [UIBezierPath bezierPath];
-    [self.path moveToPoint:self.lastPoint];
+    self.annotator.lastPoint = point;
+    if (self.previouslyPressed.tag != ToolboxItemTypeArrow) {
+        [self.annotator startDrawingWithBezierPathAtPoint:point];
+    }
+    
     self.isAnnotationAdded = false;
-    self.lastPoint = point;
 }
 
 - (void)drawingOfAnnotationContinuedAtPoint:(CGPoint)point {
     if (self.previouslyPressed.tag == ToolboxItemTypeArrow) {
-        [self removeAnnotationIfNeededWithPoint:self.lastPoint];
-        
+        [self removePreviousVersionOfAnnotationWithPoint:self.annotator.lastPoint];
         CGRect annotationBounds = [self.pdfDocumentView.currentPage boundsForBox:kPDFDisplayBoxMediaBox];
         self.annotation = [[PDFAnnotation alloc] initWithBounds:annotationBounds forType:PDFAnnotationSubtypeLine withProperties:nil];
-        self.annotation.startPoint = self.lastPoint;
         self.annotation.endPoint = point;
-        self.annotation.endLineStyle = kPDFLineStyleClosedArrow;
-        [self.pdfDocumentView.currentPage addAnnotation:self.annotation];
+        self.annotation.startPoint = self.annotator.lastPoint;
+        [self addAnnotation];
     }
     else {
-        [self drawingOfAnnotationWithBezierPathContinuedAtPoint:point];
+        [self updateBezierPathWithPoint:point];
+        [self removePreviousVersionOfAnnotationWithPoint:point];
+        [self addAnnotationWithCurrentBezierPath];
     }
 }
 
 - (void)drawingOfAnnotationWithBezierPathContinuedAtPoint:(CGPoint)point {
     [self updateBezierPathWithPoint:point];
-    [self removeAnnotationIfNeededWithPoint:point];
+    [self removePreviousVersionOfAnnotationWithPoint:point];
     [self addAnnotationWithCurrentBezierPath];
 }
 
--(void)removeAnnotationIfNeededWithPoint:(CGPoint)point {
+-(void)removePreviousVersionOfAnnotationWithPoint:(CGPoint)point {
     if (self.isAnnotationAdded) {
         [self.pdfDocumentView.currentPage removeAnnotation:self.annotation];
     }
     else {
-        self.lastPoint = point;
+        self.annotator.lastPoint = point;
         self.isAnnotationAdded = true;
     }
 }
 
 - (void)updateBezierPathWithPoint:(CGPoint)point {
     if (self.previouslyPressed.tag == ToolboxItemTypePen) {
-        [self.path addLineToPoint:point];
+        [self.annotator updateBezierPathWithPoint:point];
     }
     else if (self.previouslyPressed.tag == ToolboxItemTypeShape) {
         [self drawShapeFromType:self.itemOption atPoint:point];
@@ -246,42 +197,80 @@
 }
 
 - (void)drawShapeFromType:(ShapeType)shapeType atPoint:(CGPoint)point {
-    CGFloat beginPointX = MIN(self.lastPoint.x, point.x);
-    CGFloat beginPointY = MIN(self.lastPoint.y, point.y);
-    CGFloat endPointX = MAX(self.lastPoint.x, point.x);
-    CGFloat endPointY = MAX(self.lastPoint.y, point.y);
-    CGFloat width = endPointX - beginPointX;
-    CGFloat height = endPointY - beginPointY;
-    
-    CGRect shapeRect = CGRectMake(beginPointX, beginPointY, width, height);
-    
-    if (shapeType == ShapeTypeRegularRectangle) {
-        self.path = [UIBezierPath bezierPathWithRect:shapeRect];
-    }
-    else if (shapeType == ShapeTypeCircle) {
-        self.path = [UIBezierPath bezierPathWithOvalInRect:shapeRect];
-    }
-    else if (shapeType == ShapeTypeRoundedRectangle) {
-        self.path = [UIBezierPath bezierPathWithRoundedRect:shapeRect cornerRadius:5.0];
-    }
+    [self.annotator addShapeWithBezierPathFromType:shapeType wihtEndPoint:point];
 }
 
 - (void)drawingOfAnnotationEndedAtPoint:(CGPoint)point {
     if (self.previouslyPressed.tag == ToolboxItemTypePen) {
-        [self.path addLineToPoint:point];
+        [self.annotator updateBezierPathWithPoint:point];
     }
     if (self.previouslyPressed.tag != ToolboxItemTypeArrow) {
         [self.pdfDocumentView.currentPage removeAnnotation:self.annotation];
         [self addAnnotationWithCurrentBezierPath];
     }
+    [self.annotationsHistory addChange:self.annotation];
 }
 
 - (void)addAnnotationWithCurrentBezierPath {
     CGRect annotationBounds = [self.pdfDocumentView.currentPage boundsForBox:kPDFDisplayBoxMediaBox];
     self.annotation = [[PDFAnnotation alloc] initWithBounds:annotationBounds forType:PDFAnnotationSubtypeInk withProperties:nil];
-    self.annotation.color = [UIColor orangeColor];
-    [self.annotation addBezierPath:self.path];
-    [self.pdfDocumentView.currentPage addAnnotation:self.annotation];
+    [self.annotator addBezierPathToAnnotation:self.annotation];
+    [self addAnnotation];
+}
+
+- (void)didChooseOption:(id)option forItem:(ToolboxItemType)itemType {
+    [self.annotator updatePropertie:option fromType:itemType];
+}
+
+- (void)toolboxItemPressed:(UIButton *)button {///////////////////////////////////
+    self.previouslyPressed.backgroundColor = [UIColor lightGrayColor];
+    button.backgroundColor = [UIColor darkGrayColor];
+    self.previouslyPressed = button;
+    
+    if (button.tag == ToolboxItemTypeUndo) {
+        [self undoAnnotation];
+    }
+    else if (button.tag == ToolboxItemTypeRedo) {
+        [self redoAnnotation];
+    }
+    else if (button.tag == ToolboxItemTypeTextUnderline) {
+        [self addAnnotationFromSubtype:PDFAnnotationSubtypeUnderline withMarkUpType:kPDFMarkupTypeUnderline];
+    }
+    else if (button.tag == ToolboxItemTypeTextStrikeThrough) {
+        [self addAnnotationFromSubtype:PDFAnnotationSubtypeStrikeOut withMarkUpType:kPDFMarkupTypeStrikeOut];
+    }
+    else if (button.tag == ToolboxItemTypeTextHighlight) {
+        [self addAnnotationFromSubtype:PDFAnnotationSubtypeHighlight withMarkUpType:kPDFMarkupTypeHighlight];
+    }
+    else if ([self shouldPresentOptionsForButton:button]) {
+        [self presentOptionsForToolboxItem:button];
+    }
+}
+
+- (void)presentOptionsForToolboxItem:(UIButton *)item {
+    ToolboxItemViewController *viewController = (ToolboxItemViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_TOOLBOX_ITEM_VIEW_CONTROLLER];
+    
+    viewController.modalPresentationStyle = UIModalPresentationPopover;
+    viewController.popoverPresentationController.delegate = self;
+    viewController.popoverPresentationController.sourceView = self.toolboxScrollView;
+    viewController.popoverPresentationController.sourceRect = item.frame;
+    viewController.itemType = item.tag;
+    viewController.toolboxItemsOptionsDelegate = self;
+    viewController.preferredContentSize = CGSizeMake(100, 150);
+    
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+- (BOOL)shouldPresentOptionsForButton:(UIButton *)button {
+    return button.tag == ToolboxItemTypeArrow || button.tag == ToolboxItemTypeColor || button.tag == ToolboxItemTypeShape || button.tag == ToolboxItemTypeWidth;
+}
+
+- (void)addAnnotationFromSubtype:(PDFAnnotationSubtype)subtype withMarkUpType:(PDFMarkupType)markUp {
+    for (PDFSelection *lineSelection in self.pdfDocumentView.currentSelection.selectionsByLine.copy) {
+        PDFAnnotation *annotation = [[PDFAnnotation alloc] initWithBounds:[lineSelection boundsForPage:self.pdfDocumentView.currentPage] forType:subtype withProperties:nil];
+        [annotation setMarkupType:markUp];
+        [self addAnnotation];
+    }
 }
 
 - (IBAction)onAnnotateTap:(id)sender {

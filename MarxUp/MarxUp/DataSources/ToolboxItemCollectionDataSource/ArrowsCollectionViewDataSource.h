@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "CollectionViewDataSource.h"
+#import "Constants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ArrowsCollectionViewDataSource : CollectionViewDataSource
+
++ (instancetype)newDataSource;
+- (ArrowEndLineType)optionAtIndex:(NSInteger)index;
 
 @end
 

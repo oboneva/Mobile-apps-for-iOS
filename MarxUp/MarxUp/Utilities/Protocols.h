@@ -13,7 +13,7 @@
 
 @protocol ToolboxItemOptionsDelegate <NSObject>
 
-- (void)didChooseOption:(NSUInteger)option forItem:(ToolboxItemType)itemType;
+- (void)didChooseOption:(id)option forItem:(ToolboxItemType)itemType;
 
 @end
 

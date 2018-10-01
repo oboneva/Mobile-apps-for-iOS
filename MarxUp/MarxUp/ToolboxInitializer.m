@@ -46,7 +46,8 @@
 }
 
 + (void)configUI:(UIScrollView *)view {
-    view.backgroundColor = [UIColor lightGrayColor];
+    view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+    
     view.layer.borderColor = [UIColor orangeColor].CGColor;
     view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     view.layer.shadowRadius = 1.0;

@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addChange:(id)change;
 
 - (NSArray *)getAllChanges;
+- (id)lastChange;
 
 - (BOOL)couldRedo;
 - (BOOL)couldUndo;

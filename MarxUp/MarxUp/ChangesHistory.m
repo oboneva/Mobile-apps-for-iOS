@@ -18,7 +18,7 @@
 @implementation ChangesHistory
 
 + (instancetype)newWithChangeType:(Class)changeType {
-    ChangesHistory *new = [[ChangesHistory alloc] init];
+    ChangesHistory *new = [ChangesHistory new];
     if (new) {
         new.visibleChanges = @[].mutableCopy;
         new.invisibleChanges = @[].mutableCopy;
@@ -64,6 +64,10 @@
 
 - (BOOL)couldUndo {
     return self.visibleChanges.count > 0;
+}
+
+- (id)lastChange {
+    return [self.visibleChanges lastObject];
 }
 
 @end

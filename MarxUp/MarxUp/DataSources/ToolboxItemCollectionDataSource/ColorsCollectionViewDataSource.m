@@ -30,10 +30,6 @@
     UIColor *color8 = [UIColor colorWithRed:1 green:0.6196078431 blue:0.5019607843 alpha:1];
     UIColor *color9 = [UIColor colorWithRed:0.5019607843 green:0.8470588235 blue:1 alpha:1];
     UIColor *color10 = [UIColor colorWithRed:0.737254902 green:0.6666666667 blue:0.6431372549 alpha:1];
-/*
-#colorLiteral(red: 0.737254902, green: 0.6666666667, blue: 0.6431372549, alpha: 1), #colorLiteral(red: 0.4745098039, green: 0.3333333333, blue: 0.2823529412, alpha: 1), #colorLiteral(red: 0.3058823529, green: 0.2039215686, blue: 0.1803921569, alpha: 1),
-#colorLiteral(red: 0.5176470588, green: 1, blue: 1, alpha: 1), #colorLiteral(red: 0, green: 0.8980392157, blue: 1, alpha: 1), #colorLiteral(red: 0, green: 0.7215686275, blue: 0.831372549, alpha: 1),
-#colorLiteral(red: 0.7411764706, green: 0.7411764706, blue: 0.7411764706, alpha: 1), #colorLiteral(red: 0.3803921569, green: 0.3803921569, blue: 0.3803921569, alpha: 1), #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)*/
     newDataSource.colors = @[color1, color2, color3, color4, color5, color6, color7, color8, color9, color10];
     return newDataSource;
 }

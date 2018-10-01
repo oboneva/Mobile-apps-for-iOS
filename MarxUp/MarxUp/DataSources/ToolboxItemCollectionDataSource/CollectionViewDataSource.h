@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CollectionViewDataSource : NSObject <UICollectionViewDataSource>
 
-- (NSInteger)optionAtIndex:(NSInteger)index;
+- (id)optionAtIndex:(NSInteger)index;
 
 @end
 

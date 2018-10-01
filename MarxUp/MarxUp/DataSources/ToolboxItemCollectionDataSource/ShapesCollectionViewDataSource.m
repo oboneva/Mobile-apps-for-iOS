@@ -22,10 +22,9 @@
     ShapesCollectionViewDataSource *newSource = [ShapesCollectionViewDataSource new];
     if (newSource) {
         ShapeModel *circle = [ShapeModel newShapeFromType:ShapeTypeCircle];
-        ShapeModel *triangle = [ShapeModel newShapeFromType:ShapeTypeTriangle];
         ShapeModel *rectangle = [ShapeModel newShapeFromType:ShapeTypeRegularRectangle];
-        ShapeModel *roundedRect  =[ShapeModel newShapeFromType:ShapeTypeRoundedRectangle];
-        newSource.shapes = @[roundedRect, circle, triangle, rectangle];
+        ShapeModel *roundedRect = [ShapeModel newShapeFromType:ShapeTypeRoundedRectangle];
+        newSource.shapes = @[roundedRect, rectangle, circle];
     }
     
     return newSource;
@@ -49,7 +48,11 @@
 }
 
 - (ShapeType)optionAtIndex:(NSInteger)index {
-    return self.shapes[index].type;
+    NSLog(@"index - %ld", index);
+    ShapeModel *temp = self.shapes[index];
+    ShapeType temp2 = temp.type;
+    //return temp.type;
+    return temp2;
 }
 
 

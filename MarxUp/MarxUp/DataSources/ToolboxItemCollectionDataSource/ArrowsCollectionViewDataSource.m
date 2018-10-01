@@ -7,7 +7,24 @@
 //
 
 #import "ArrowsCollectionViewDataSource.h"
+#import "ArrowModel.h"
+
+
+@interface ArrowsCollectionViewDataSource ()
+
+@property (strong, nonatomic)NSArray<ArrowModel *> *arrows;
+
+@end
 
 @implementation ArrowsCollectionViewDataSource
+
+/*
++ (instancetype)newDataSource {
+    
+}
+*/
+- (ArrowEndLineType)optionAtIndex:(NSInteger)index {
+    return self.arrows[index].type;
+}
 
 @end

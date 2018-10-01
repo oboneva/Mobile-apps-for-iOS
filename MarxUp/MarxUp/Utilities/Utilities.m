@@ -46,7 +46,6 @@
 
 + (NSDictionary<NSNumber *, NSString *> *)stringShapeTypes {
     return @{[NSNumber numberWithInteger:ShapeTypeCircle] : @"circle",
-             [NSNumber numberWithInteger:ShapeTypeTriangle] : @"triangle",
              [NSNumber numberWithInteger:ShapeTypeRegularRectangle] : @"regularRectangle",
              [NSNumber numberWithInteger:ShapeTypeRoundedRectangle] : @"roundedRectangle"
              };

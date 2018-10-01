@@ -10,6 +10,8 @@
 #import "CollectionViewDataSource.h"
 #import "Utilities.h"
 
+#import "ShapesCollectionViewDataSource.h"
+
 @interface ToolboxItemViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *toolboxItemOptions;
@@ -30,8 +32,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"item %ld pressed", indexPath.item);
-    [self.toolboxItemsOptionsDelegate didChooseOption:[self.itemOptionsDataSource optionAtIndex:indexPath.item] forItem:self.itemType];
+    id option = [self.itemOptionsDataSource optionAtIndex:indexPath.item];
+    [self.toolboxItemsOptionsDelegate didChooseOption:option forItem:self.itemType];
 }
 
 @end

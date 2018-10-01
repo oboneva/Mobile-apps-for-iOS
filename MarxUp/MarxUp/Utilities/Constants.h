@@ -29,10 +29,14 @@ typedef enum : NSInteger {
 } ToolboxItemType;
 
 typedef enum : NSUInteger {
-    ShapeTypeCircle,
+    ShapeTypeCircle = 1,
     ShapeTypeRoundedRectangle,
     ShapeTypeRegularRectangle,
-    ShapeTypeTriangle,
 } ShapeType;
+
+typedef enum : NSUInteger {
+    ArrowEndLineTypeClosed,
+    ArrowEndLineTypeOpened,
+} ArrowEndLineType;
 
 #endif /* Constants_h */
