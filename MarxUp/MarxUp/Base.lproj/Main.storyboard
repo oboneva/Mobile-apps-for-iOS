@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wt6-QB-GET">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="RootViewControllerID" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-166" y="-3"/>
+        </scene>
+        <!--Single Document View Controller-->
+        <scene sceneID="925-sp-4tj">
+            <objects>
+                <viewController storyboardIdentifier="SingleDocumentViewControllerID" id="Wt6-QB-GET" customClass="SingleDocumentViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h53-XJ-ktM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-NR-My0" customClass="PDFView">
+                                <rect key="frame" x="0.0" y="55" width="375" height="464"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imk-X8-xuC">
+                                <rect key="frame" x="320" y="55" width="50" height="464"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="H9n-5P-Dbz"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vw3-ah-IP3">
+                                <rect key="frame" x="345" y="20" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Peh-Y7-uwT"/>
+                                    <constraint firstAttribute="width" constant="20" id="bny-ug-gIe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="^">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onToolboxTap:" destination="Wt6-QB-GET" eventType="touchUpInside" id="w2J-D8-CGP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uba-Bk-Qrf">
+                                <rect key="frame" x="62" y="25" width="43" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="ZE4-R6-Yuj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSaveTap:" destination="Wt6-QB-GET" eventType="touchUpInside" id="q8X-hu-gee"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqW-PJ-nlA">
+                                <rect key="frame" x="280" y="25" width="50" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="hJ1-au-vhA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onResetTap:" destination="Wt6-QB-GET" eventType="touchUpInside" id="ywY-Qc-eMM"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uv0-E3-gSK" customClass="PDFThumbnailView">
+                                <rect key="frame" x="0.0" y="529" width="375" height="128"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="RJc-mH-SMq"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOt-cY-gls">
+                                <rect key="frame" x="15" y="20" width="32" height="32"/>
+                                <state key="normal" image="annotate_button_icon"/>
+                                <connections>
+                                    <action selector="onAnnotateTap:" destination="Wt6-QB-GET" eventType="touchUpInside" id="ZCb-WD-rrK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="trailing" secondItem="Uv0-E3-gSK" secondAttribute="trailing" id="0Cr-MZ-LPc"/>
+                            <constraint firstItem="Vw3-ah-IP3" firstAttribute="leading" secondItem="vqW-PJ-nlA" secondAttribute="trailing" constant="15" id="5Ei-fj-KS9"/>
+                            <constraint firstItem="Vw3-ah-IP3" firstAttribute="top" secondItem="9xq-9y-CeZ" secondAttribute="top" id="7S1-hr-UKZ"/>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="bottom" secondItem="Uv0-E3-gSK" secondAttribute="bottom" constant="10" id="9wS-bC-jnW"/>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="trailing" secondItem="JJY-NR-My0" secondAttribute="trailing" id="Cp4-si-zbQ"/>
+                            <constraint firstItem="Uv0-E3-gSK" firstAttribute="top" secondItem="JJY-NR-My0" secondAttribute="bottom" constant="10" id="FAJ-Gi-oon"/>
+                            <constraint firstItem="JJY-NR-My0" firstAttribute="leading" secondItem="9xq-9y-CeZ" secondAttribute="leading" id="FhJ-oE-cNB"/>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="top" secondItem="FOt-cY-gls" secondAttribute="top" id="G3Y-CY-HIx"/>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="trailing" secondItem="Vw3-ah-IP3" secondAttribute="trailing" constant="10" id="Gju-uw-Kuf"/>
+                            <constraint firstItem="FOt-cY-gls" firstAttribute="leading" secondItem="9xq-9y-CeZ" secondAttribute="leading" constant="15" id="Iiu-Ae-2pI"/>
+                            <constraint firstItem="Uv0-E3-gSK" firstAttribute="leading" secondItem="9xq-9y-CeZ" secondAttribute="leading" id="JLC-8R-NJN"/>
+                            <constraint firstItem="Uba-Bk-Qrf" firstAttribute="leading" secondItem="FOt-cY-gls" secondAttribute="trailing" constant="15" id="Y8P-e0-WO0"/>
+                            <constraint firstItem="9xq-9y-CeZ" firstAttribute="trailing" secondItem="imk-X8-xuC" secondAttribute="trailing" constant="5" id="c1e-uS-DNw"/>
+                            <constraint firstItem="Uba-Bk-Qrf" firstAttribute="top" secondItem="9xq-9y-CeZ" secondAttribute="top" constant="5" id="g4T-cC-mtN"/>
+                            <constraint firstItem="vqW-PJ-nlA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Uba-Bk-Qrf" secondAttribute="trailing" constant="175" id="jAn-tp-HO6"/>
+                            <constraint firstItem="imk-X8-xuC" firstAttribute="top" secondItem="9xq-9y-CeZ" secondAttribute="top" constant="35" id="oCP-4J-ay5"/>
+                            <constraint firstItem="vqW-PJ-nlA" firstAttribute="top" secondItem="9xq-9y-CeZ" secondAttribute="top" constant="5" id="rOv-wJ-wpB"/>
+                            <constraint firstItem="imk-X8-xuC" firstAttribute="height" secondItem="JJY-NR-My0" secondAttribute="height" id="x17-IG-BCH"/>
+                            <constraint firstItem="JJY-NR-My0" firstAttribute="top" secondItem="9xq-9y-CeZ" secondAttribute="top" constant="35" id="xQA-IN-dty"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9xq-9y-CeZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="annotateButton" destination="FOt-cY-gls" id="Ou6-Ja-beF"/>
+                        <outlet property="pdfDocumentThumbnailView" destination="Uv0-E3-gSK" id="H5b-vH-Dnc"/>
+                        <outlet property="pdfDocumentView" destination="JJY-NR-My0" id="RZG-bq-kPe"/>
+                        <outlet property="resetButton" destination="vqW-PJ-nlA" id="Mha-2q-kES"/>
+                        <outlet property="saveButton" destination="Uba-Bk-Qrf" id="MYd-Cy-cdU"/>
+                        <outlet property="toolBoxButton" destination="Vw3-ah-IP3" id="r3A-On-8lM"/>
+                        <outlet property="toolboxScrollView" destination="imk-X8-xuC" id="l7l-fX-Sgi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nce-ON-RgY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="596" y="-3.1484257871064472"/>
+        </scene>
+        <!--Toolbox Item View Controller-->
+        <scene sceneID="x3t-Db-XJ1">
+            <objects>
+                <viewController storyboardIdentifier="ToolboxItemViewControllerID" id="Nrz-86-4Qc" customClass="ToolboxItemViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DLz-ez-YiR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ygm-Ah-OpE">
+                                <rect key="frame" x="5" y="25" width="365" height="637"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="w1C-Vv-aP2">
+                                    <size key="itemSize" width="40" height="40"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ToolboxItemOptionsCell" id="hxL-CS-2bs" customClass="ToolboxItemOptionsCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="REf-tk-RX4">
+                                                    <rect key="frame" x="2" y="-2" width="40" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <connections>
+                                            <outlet property="imageView" destination="REf-tk-RX4" id="PIr-iC-3ga"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ygm-Ah-OpE" firstAttribute="top" secondItem="y0W-nI-0gc" secondAttribute="top" constant="5" id="Tr5-Fd-VMt"/>
+                            <constraint firstItem="y0W-nI-0gc" firstAttribute="bottom" secondItem="Ygm-Ah-OpE" secondAttribute="bottom" constant="5" id="fjF-cn-Xaa"/>
+                            <constraint firstItem="Ygm-Ah-OpE" firstAttribute="leading" secondItem="y0W-nI-0gc" secondAttribute="leading" constant="5" id="gLW-dg-Rie"/>
+                            <constraint firstItem="y0W-nI-0gc" firstAttribute="trailing" secondItem="Ygm-Ah-OpE" secondAttribute="trailing" constant="5" id="yAF-fv-TIY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="y0W-nI-0gc"/>
+                    </view>
+                    <connections>
+                        <outlet property="toolboxItemOptions" destination="Ygm-Ah-OpE" id="9sf-eX-NFB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mW6-FQ-2D5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1392.8" y="-3.1484257871064472"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="annotate_button_icon" width="32" height="32"/>
+    </resources>
+</document>

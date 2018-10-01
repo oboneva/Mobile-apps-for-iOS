@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA53C0FF2150EFF10039390F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C0FE2150EFF10039390F /* AppDelegate.m */; };
+		FA53C1022150EFF10039390F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C1012150EFF10039390F /* ViewController.m */; };
+		FA53C1052150EFF10039390F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA53C1032150EFF10039390F /* Main.storyboard */; };
+		FA53C1082150EFF10039390F /* MarxUp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA53C1062150EFF10039390F /* MarxUp.xcdatamodeld */; };
+		FA53C10A2150EFF30039390F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA53C1092150EFF30039390F /* Assets.xcassets */; };
+		FA53C10D2150EFF30039390F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA53C10B2150EFF30039390F /* LaunchScreen.storyboard */; };
+		FA53C1102150EFF30039390F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C10F2150EFF30039390F /* main.m */; };
+		FA53C1192150F0480039390F /* SingleDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C1182150F0480039390F /* SingleDocumentViewController.m */; };
+		FA53C11B215114E00039390F /* Manifesto.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FA53C11A215114DF0039390F /* Manifesto.pdf */; };
+		FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95CF21526AA100E38BD3 /* ChangesHistory.m */; };
+		FACD95E3215B7AB300E38BD3 /* ToolboxItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */; };
+		FACD95E7215B7D2B00E38BD3 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95E6215B7D2B00E38BD3 /* Utilities.m */; };
+		FACD95EA215B7F5F00E38BD3 /* CollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95E9215B7F5F00E38BD3 /* CollectionViewDataSource.m */; };
+		FACD95EF215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95EE215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m */; };
+		FACD95F2215B9C0600E38BD3 /* ShapeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95F1215B9C0500E38BD3 /* ShapeModel.m */; };
+		FACD95F6215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95F5215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.m */; };
+		FACD95FA215CF2BF00E38BD3 /* ToolboxItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95F9215CF2BF00E38BD3 /* ToolboxItemModel.m */; };
+		FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95FC215CF7A800E38BD3 /* ToolboxDataSource.m */; };
+		FACD9601215D00B200E38BD3 /* ToolboxInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */; };
+		FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD96042161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m */; };
+		FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FA53C0FA2150EFF10039390F /* MarxUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarxUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA53C0FD2150EFF10039390F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FA53C0FE2150EFF10039390F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FA53C1002150EFF10039390F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		FA53C1012150EFF10039390F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FA53C1042150EFF10039390F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FA53C1072150EFF10039390F /* MarxUp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MarxUp.xcdatamodel; sourceTree = "<group>"; };
+		FA53C1092150EFF30039390F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FA53C10C2150EFF30039390F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA53C10E2150EFF30039390F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA53C10F2150EFF30039390F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FA53C1172150F0480039390F /* SingleDocumentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleDocumentViewController.h; sourceTree = "<group>"; };
+		FA53C1182150F0480039390F /* SingleDocumentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleDocumentViewController.m; sourceTree = "<group>"; };
+		FA53C11A215114DF0039390F /* Manifesto.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Manifesto.pdf; sourceTree = "<group>"; };
+		FACD95CE21526AA100E38BD3 /* ChangesHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangesHistory.h; sourceTree = "<group>"; };
+		FACD95CF21526AA100E38BD3 /* ChangesHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangesHistory.m; sourceTree = "<group>"; };
+		FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxItemViewController.h; sourceTree = "<group>"; };
+		FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxItemViewController.m; sourceTree = "<group>"; };
+		FACD95E4215B7BFF00E38BD3 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		FACD95E5215B7D2B00E38BD3 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		FACD95E6215B7D2B00E38BD3 /* Utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		FACD95E8215B7F5F00E38BD3 /* CollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewDataSource.h; sourceTree = "<group>"; };
+		FACD95E9215B7F5F00E38BD3 /* CollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewDataSource.m; sourceTree = "<group>"; };
+		FACD95ED215B9A9800E38BD3 /* ShapesCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShapesCollectionViewDataSource.h; sourceTree = "<group>"; };
+		FACD95EE215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShapesCollectionViewDataSource.m; sourceTree = "<group>"; };
+		FACD95F0215B9C0500E38BD3 /* ShapeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShapeModel.h; sourceTree = "<group>"; };
+		FACD95F1215B9C0500E38BD3 /* ShapeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShapeModel.m; sourceTree = "<group>"; };
+		FACD95F4215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxItemOptionsCollectionViewCell.h; sourceTree = "<group>"; };
+		FACD95F5215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxItemOptionsCollectionViewCell.m; sourceTree = "<group>"; };
+		FACD95F8215CF2BF00E38BD3 /* ToolboxItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxItemModel.h; sourceTree = "<group>"; };
+		FACD95F9215CF2BF00E38BD3 /* ToolboxItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxItemModel.m; sourceTree = "<group>"; };
+		FACD95FB215CF7A800E38BD3 /* ToolboxDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxDataSource.h; sourceTree = "<group>"; };
+		FACD95FC215CF7A800E38BD3 /* ToolboxDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxDataSource.m; sourceTree = "<group>"; };
+		FACD95FF215D00B200E38BD3 /* ToolboxInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxInitializer.h; sourceTree = "<group>"; };
+		FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxInitializer.m; sourceTree = "<group>"; };
+		FACD9602215E46BE00E38BD3 /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
+		FACD96032161FD0A00E38BD3 /* ColorsCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsCollectionViewDataSource.h; sourceTree = "<group>"; };
+		FACD96042161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsCollectionViewDataSource.m; sourceTree = "<group>"; };
+		FACD96062161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrowsCollectionViewDataSource.h; sourceTree = "<group>"; };
+		FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrowsCollectionViewDataSource.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA53C0F72150EFF10039390F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA53C0F12150EFF10039390F = {
+			isa = PBXGroup;
+			children = (
+				FA53C0FC2150EFF10039390F /* MarxUp */,
+				FA53C0FB2150EFF10039390F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA53C0FB2150EFF10039390F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA53C0FA2150EFF10039390F /* MarxUp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA53C0FC2150EFF10039390F /* MarxUp */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95FE215CF7C700E38BD3 /* DataSources */,
+				FACD95F7215BA4A800E38BD3 /* Cells */,
+				FACD95F3215B9C1500E38BD3 /* Models */,
+				FACD95EB215B7FA800E38BD3 /* Utilities */,
+				FA53C1162150F0080039390F /* ViewControllers */,
+				FACD95FF215D00B200E38BD3 /* ToolboxInitializer.h */,
+				FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */,
+				FACD95CE21526AA100E38BD3 /* ChangesHistory.h */,
+				FACD95CF21526AA100E38BD3 /* ChangesHistory.m */,
+				FA53C0FD2150EFF10039390F /* AppDelegate.h */,
+				FA53C0FE2150EFF10039390F /* AppDelegate.m */,
+				FA53C1032150EFF10039390F /* Main.storyboard */,
+				FA53C1092150EFF30039390F /* Assets.xcassets */,
+				FA53C10B2150EFF30039390F /* LaunchScreen.storyboard */,
+				FA53C10E2150EFF30039390F /* Info.plist */,
+				FA53C10F2150EFF30039390F /* main.m */,
+				FA53C1062150EFF10039390F /* MarxUp.xcdatamodeld */,
+				FA53C11A215114DF0039390F /* Manifesto.pdf */,
+			);
+			path = MarxUp;
+			sourceTree = "<group>";
+		};
+		FA53C1162150F0080039390F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */,
+				FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */,
+				FA53C1172150F0480039390F /* SingleDocumentViewController.h */,
+				FA53C1182150F0480039390F /* SingleDocumentViewController.m */,
+				FA53C1002150EFF10039390F /* ViewController.h */,
+				FA53C1012150EFF10039390F /* ViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FACD95EB215B7FA800E38BD3 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FACD9602215E46BE00E38BD3 /* Protocols.h */,
+				FACD95E5215B7D2B00E38BD3 /* Utilities.h */,
+				FACD95E6215B7D2B00E38BD3 /* Utilities.m */,
+				FACD95E4215B7BFF00E38BD3 /* Constants.h */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FACD95EC215B804F00E38BD3 /* ToolboxItemCollectionDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95ED215B9A9800E38BD3 /* ShapesCollectionViewDataSource.h */,
+				FACD95EE215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m */,
+				FACD96032161FD0A00E38BD3 /* ColorsCollectionViewDataSource.h */,
+				FACD96042161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m */,
+				FACD96062161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.h */,
+				FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */,
+				FACD95E8215B7F5F00E38BD3 /* CollectionViewDataSource.h */,
+				FACD95E9215B7F5F00E38BD3 /* CollectionViewDataSource.m */,
+			);
+			path = ToolboxItemCollectionDataSource;
+			sourceTree = "<group>";
+		};
+		FACD95F3215B9C1500E38BD3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95F8215CF2BF00E38BD3 /* ToolboxItemModel.h */,
+				FACD95F9215CF2BF00E38BD3 /* ToolboxItemModel.m */,
+				FACD95F0215B9C0500E38BD3 /* ShapeModel.h */,
+				FACD95F1215B9C0500E38BD3 /* ShapeModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FACD95F7215BA4A800E38BD3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95F4215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.h */,
+				FACD95F5215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		FACD95FE215CF7C700E38BD3 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95FB215CF7A800E38BD3 /* ToolboxDataSource.h */,
+				FACD95FC215CF7A800E38BD3 /* ToolboxDataSource.m */,
+				FACD95EC215B804F00E38BD3 /* ToolboxItemCollectionDataSource */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA53C0F92150EFF10039390F /* MarxUp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA53C1132150EFF30039390F /* Build configuration list for PBXNativeTarget "MarxUp" */;
+			buildPhases = (
+				FA53C0F62150EFF10039390F /* Sources */,
+				FA53C0F72150EFF10039390F /* Frameworks */,
+				FA53C0F82150EFF10039390F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarxUp;
+			productName = MarxUp;
+			productReference = FA53C0FA2150EFF10039390F /* MarxUp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA53C0F22150EFF10039390F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Ognyanka Boneva";
+				TargetAttributes = {
+					FA53C0F92150EFF10039390F = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = FA53C0F52150EFF10039390F /* Build configuration list for PBXProject "MarxUp" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FA53C0F12150EFF10039390F;
+			productRefGroup = FA53C0FB2150EFF10039390F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA53C0F92150EFF10039390F /* MarxUp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA53C0F82150EFF10039390F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA53C10D2150EFF30039390F /* LaunchScreen.storyboard in Resources */,
+				FA53C10A2150EFF30039390F /* Assets.xcassets in Resources */,
+				FA53C1052150EFF10039390F /* Main.storyboard in Resources */,
+				FA53C11B215114E00039390F /* Manifesto.pdf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA53C0F62150EFF10039390F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA53C1022150EFF10039390F /* ViewController.m in Sources */,
+				FACD95F2215B9C0600E38BD3 /* ShapeModel.m in Sources */,
+				FACD95EF215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m in Sources */,
+				FA53C0FF2150EFF10039390F /* AppDelegate.m in Sources */,
+				FACD95E7215B7D2B00E38BD3 /* Utilities.m in Sources */,
+				FACD95FA215CF2BF00E38BD3 /* ToolboxItemModel.m in Sources */,
+				FA53C1102150EFF30039390F /* main.m in Sources */,
+				FACD95F6215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.m in Sources */,
+				FACD95E3215B7AB300E38BD3 /* ToolboxItemViewController.m in Sources */,
+				FACD9601215D00B200E38BD3 /* ToolboxInitializer.m in Sources */,
+				FA53C1192150F0480039390F /* SingleDocumentViewController.m in Sources */,
+				FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */,
+				FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */,
+				FACD95EA215B7F5F00E38BD3 /* CollectionViewDataSource.m in Sources */,
+				FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */,
+				FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */,
+				FA53C1082150EFF10039390F /* MarxUp.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FA53C1032150EFF10039390F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA53C1042150EFF10039390F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FA53C10B2150EFF30039390F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA53C10C2150EFF30039390F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA53C1112150EFF30039390F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FA53C1122150EFF30039390F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FA53C1142150EFF30039390F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z2C9R92NA2;
+				INFOPLIST_FILE = MarxUp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FA53C1152150EFF30039390F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z2C9R92NA2;
+				INFOPLIST_FILE = MarxUp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA53C0F52150EFF10039390F /* Build configuration list for PBXProject "MarxUp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA53C1112150EFF30039390F /* Debug */,
+				FA53C1122150EFF30039390F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA53C1132150EFF30039390F /* Build configuration list for PBXNativeTarget "MarxUp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA53C1142150EFF30039390F /* Debug */,
+				FA53C1152150EFF30039390F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FA53C1062150EFF10039390F /* MarxUp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FA53C1072150EFF10039390F /* MarxUp.xcdatamodel */,
+			);
+			currentVersion = FA53C1072150EFF10039390F /* MarxUp.xcdatamodel */;
+			path = MarxUp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FA53C0F22150EFF10039390F /* Project object */;
+}
