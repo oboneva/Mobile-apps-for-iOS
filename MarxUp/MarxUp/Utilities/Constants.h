@@ -10,10 +10,13 @@
 #define Constants_h
 
 #define IDENTIFIER_TOOLBOX_ITEM_OPTIONS_CELL   @"ToolboxItemOptionsCell"
+#define IDENTIFIER_DOCUMENT_PREVIEW_CELL       @"DocumentPreviewCell"
 
+#define ID_LINE_WIDTH_VIEW_CONTROLLER          @"LineWidthViewControllerID"
 #define ID_TOOLBOX_ITEM_VIEW_CONTROLLER        @"ToolboxItemViewControllerID"
 #define ID_SINGLE_DOCUMENT_VIEW_CONTROLLER     @"SingleDocumentViewControllerID"
 #define ID_VIEW_CONTROLLER                     @"RootViewControllerID"
+#define ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER    @"DocumentPreviewTableViewControllerID"
 
 typedef enum : NSInteger {
     ToolboxItemTypeColor = 1,
@@ -36,7 +39,7 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     ArrowEndLineTypeClosed,
-    ArrowEndLineTypeOpened,
+    ArrowEndLineTypeOpen,
 } ArrowEndLineType;
 
 #endif /* Constants_h */

@@ -7,6 +7,7 @@
 //
 
 #import "ArrowModel.h"
+#import "Utilities.h"
 
 @interface ArrowModel ()
 
@@ -20,7 +21,7 @@
     ArrowModel *new = [ArrowModel new];
     if (new) {
         new.type = type;
-        new.image = [UIImage imageNamed:@""];
+        new.image = [UIImage imageNamed:[NSString stringWithFormat:@"toolbox-arrow-%@", [Utilities arrowTypeToString:type]]];
     }
     return new;
 }

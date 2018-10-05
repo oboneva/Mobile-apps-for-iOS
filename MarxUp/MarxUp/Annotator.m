@@ -8,31 +8,52 @@
 
 #import "Annotator.h"
 
+@interface Annotator ()
+
+@property (strong, nonatomic) UIColor *color;
+@property (assign) CGFloat lineWidth;
+@property (assign) PDFLineStyle endLineStyle;
+@property (assign) ShapeType shape;
+@property (strong, nonatomic) UIBezierPath *path;
+
+@end
+
 @implementation Annotator
 
 - (void)startDrawingWithBezierPathAtPoint:(CGPoint)point {
     self.path = [UIBezierPath new];
+    self.path.lineWidth = self.lineWidth;
     [self.path moveToPoint:point];
 }
 
-- (void)updatePropertie:(id)property fromType:(ToolboxItemType)type {
-    if (type == ToolboxItemTypeColor) {
-        self.color = property;
+- (void)updatePropertie:(NSInteger)property fromType:(ToolboxItemType)type {
+    if (type == ToolboxItemTypeWidth) {
+        self.lineWidth = property;
     }
-    else if (type == ToolboxItemTypeWidth) {
-        self.lineWidth = [property doubleValue];
+    else if (type == ToolboxItemTypeArrow && property == ArrowEndLineTypeOpen) {
+        self.endLineStyle = kPDFLineStyleOpenArrow;
     }
-    else if (type == ToolboxItemTypeArrow) {
-        self.endLineStyle = [property integerValue];
+    else if (type == ToolboxItemTypeArrow && property == ArrowEndLineTypeClosed) {
+        self.endLineStyle = kPDFLineStyleClosedArrow;
     }
+    else if (type == ToolboxItemTypeShape) {
+        self.shape = property;
+    }
+}
+
+- (void)updateColor:(UIColor *)color {
+    self.color = color;
+}
+
+- (void)updateLineWidth:(CGFloat)width {
+    self.lineWidth = width;
 }
 
 - (void)updatePropertiesForAnnotation:(PDFAnnotation *)pdfAnnotation {
     pdfAnnotation.color = self.color;
-    self.path.lineWidth = self.lineWidth;
-    
     if (self.endLineStyle) {
-        pdfAnnotation.endLineStyle = kPDFLineStyleClosedArrow;
+        pdfAnnotation.endLineStyle = self.endLineStyle;
+        pdfAnnotation.border.lineWidth = self.lineWidth;
     }
 }
 
@@ -45,7 +66,7 @@
 }
 
 
-- (void)addShapeWithBezierPathFromType:(ShapeType)type wihtEndPoint:(CGPoint)point {
+- (void)addShapeWithBezierPathAtPoint:(CGPoint)point {
     CGFloat beginPointX = MIN(self.lastPoint.x, point.x);
     CGFloat beginPointY = MIN(self.lastPoint.y, point.y);
     CGFloat endPointX = MAX(self.lastPoint.x, point.x);
@@ -55,15 +76,16 @@
     
     CGRect shapeRect = CGRectMake(beginPointX, beginPointY, width, height);
     
-    if (type == ShapeTypeRegularRectangle) {
+    if (self.shape == ShapeTypeRegularRectangle) {
         self.path = [UIBezierPath bezierPathWithRect:shapeRect];
     }
-    else if (type == ShapeTypeCircle) {
+    else if (self.shape == ShapeTypeCircle) {
         self.path = [UIBezierPath bezierPathWithOvalInRect:shapeRect];
     }
-    else if (type == ShapeTypeRoundedRectangle) {
+    else if (self.shape == ShapeTypeRoundedRectangle) {
         self.path = [UIBezierPath bezierPathWithRoundedRect:shapeRect cornerRadius:5.0];
     }
+    self.path.lineWidth = self.lineWidth;
 }
 
 @end

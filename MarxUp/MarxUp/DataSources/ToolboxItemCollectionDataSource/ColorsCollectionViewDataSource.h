@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ColorsCollectionViewDataSource : CollectionViewDataSource
 
 + (instancetype)newDataSource;
-- (UIColor *)optionAtIndex:(NSInteger)index;
 
 @end
 

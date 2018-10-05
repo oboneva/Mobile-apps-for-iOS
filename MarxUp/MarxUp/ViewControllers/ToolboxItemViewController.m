@@ -8,9 +8,8 @@
 
 #import "ToolboxItemViewController.h"
 #import "CollectionViewDataSource.h"
+#import "ColorsCollectionViewDataSource.h"
 #import "Utilities.h"
-
-#import "ShapesCollectionViewDataSource.h"
 
 @interface ToolboxItemViewController ()
 
@@ -24,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor orangeColor];
+    self.view.backgroundColor = [UIColor clearColor];
     self.itemOptionsDataSource = [Utilities dataSourceForToolboxItem:self.itemType];
     self.toolboxItemOptions.dataSource = self.itemOptionsDataSource;
     self.toolboxItemOptions.delegate = self;
@@ -32,8 +31,12 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    id option = [self.itemOptionsDataSource optionAtIndex:indexPath.item];
-    [self.toolboxItemsOptionsDelegate didChooseOption:option forItem:self.itemType];
+    if ([self.itemOptionsDataSource isMemberOfClass:ColorsCollectionViewDataSource.class]) {
+        [self.toolboxItemsOptionsDelegate didChooseColor:[self.itemOptionsDataSource colorAtIndex:indexPath.item]];
+    }
+    else {
+        [self.toolboxItemsOptionsDelegate didChooseOption:[self.itemOptionsDataSource optionAtIndex:indexPath.item] forItem:self.itemType];
+    }
 }
 
 @end

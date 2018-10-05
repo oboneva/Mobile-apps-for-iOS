@@ -20,16 +20,16 @@
 
 + (instancetype)newDataSource {
     ColorsCollectionViewDataSource *newDataSource = [ColorsCollectionViewDataSource new];
-    UIColor *color1 = [UIColor colorWithRed:1 green:0.5411764706 blue:0.5019607843 alpha:1];
-    UIColor *color2 = [UIColor colorWithRed:0.9176470588 green:0.5019607843 blue:0.9882352941 alpha:1];
-    UIColor *color3 = [UIColor colorWithRed:1 green:1 blue:0.5529411765 alpha:1];
-    UIColor *color4 = [UIColor colorWithRed:0.7254901961 green:0.9647058824 blue:0.7921568627 alpha:1];
-    UIColor *color5 = [UIColor colorWithRed:0.7019607843 green:0.5333333333 blue:1 alpha:1];
-    UIColor *color6 = [UIColor colorWithRed:1 green:0.8196078431 blue:0.5019607843 alpha:1];
-    UIColor *color7 = [UIColor colorWithRed:0.5490196078 green:0.6196078431 blue:1 alpha:1];
-    UIColor *color8 = [UIColor colorWithRed:1 green:0.6196078431 blue:0.5019607843 alpha:1];
-    UIColor *color9 = [UIColor colorWithRed:0.5019607843 green:0.8470588235 blue:1 alpha:1];
-    UIColor *color10 = [UIColor colorWithRed:0.737254902 green:0.6666666667 blue:0.6431372549 alpha:1];
+    UIColor *color1 = [UIColor blackColor];
+    UIColor *color2 = [UIColor blueColor];
+    UIColor *color3 = [UIColor redColor];
+    UIColor *color4 = [UIColor orangeColor];
+    UIColor *color5 = [UIColor yellowColor];
+    UIColor *color6 = [UIColor whiteColor];
+    UIColor *color7 = [UIColor greenColor];
+    UIColor *color8 = [UIColor magentaColor];
+    UIColor *color9 = [UIColor purpleColor];
+    UIColor *color10 = [UIColor brownColor];
     newDataSource.colors = @[color1, color2, color3, color4, color5, color6, color7, color8, color9, color10];
     return newDataSource;
 }
@@ -50,7 +50,7 @@
     return cell;
 }
 
-- (UIColor *)optionAtIndex:(NSInteger)index {
+- (UIColor *)colorAtIndex:(NSInteger)index {
     return self.colors[index];
 }
 

@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ShapesCollectionViewDataSource : CollectionViewDataSource
 
 + (instancetype)newDataSource;
-- (ShapeType)optionAtIndex:(NSInteger)index;
 
 @end
 

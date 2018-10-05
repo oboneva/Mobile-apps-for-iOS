@@ -11,6 +11,7 @@
 #import "ChangesHistory.h"
 #import "ToolboxInitializer.h"
 #import "ToolboxItemViewController.h"
+#import "LineWidthViewController.h"
 #import "Annotator.h"
 
 @interface SingleDocumentViewController ()
@@ -43,8 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Manifesto.pdf" ofType:nil];
-    self.pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:path]];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"Manifesto.pdf" ofType:nil];
+//    self.pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:self.pdfDocumentPath]];
     
     [self configurePDFView];
     [self configurePDFThumbnailView];
@@ -105,9 +106,9 @@
     [self.pdfDocumentView addGestureRecognizer:panGestureRecognizer];
 }
 
-- (void)addAnnotation {
-    [self.annotator updatePropertiesForAnnotation:self.annotation];
-    [self.pdfDocumentView.currentPage addAnnotation:self.annotation];
+- (void)addAnnotation:(PDFAnnotation *)annotation {
+    [self.annotator updatePropertiesForAnnotation:annotation];
+    [self.pdfDocumentView.currentPage addAnnotation:annotation];
 }
 
 - (void)undoAnnotation {
@@ -162,12 +163,10 @@
         self.annotation = [[PDFAnnotation alloc] initWithBounds:annotationBounds forType:PDFAnnotationSubtypeLine withProperties:nil];
         self.annotation.endPoint = point;
         self.annotation.startPoint = self.annotator.lastPoint;
-        [self addAnnotation];
+        [self addAnnotation:self.annotation];
     }
     else {
-        [self updateBezierPathWithPoint:point];
-        [self removePreviousVersionOfAnnotationWithPoint:point];
-        [self addAnnotationWithCurrentBezierPath];
+        [self drawingOfAnnotationWithBezierPathContinuedAtPoint:point];
     }
 }
 
@@ -192,12 +191,12 @@
         [self.annotator updateBezierPathWithPoint:point];
     }
     else if (self.previouslyPressed.tag == ToolboxItemTypeShape) {
-        [self drawShapeFromType:self.itemOption atPoint:point];
+        [self drawShapeFromTypeAtPoint:point];
     }
 }
 
-- (void)drawShapeFromType:(ShapeType)shapeType atPoint:(CGPoint)point {
-    [self.annotator addShapeWithBezierPathFromType:shapeType wihtEndPoint:point];
+- (void)drawShapeFromTypeAtPoint:(CGPoint)point {
+    [self.annotator addShapeWithBezierPathAtPoint:point];
 }
 
 - (void)drawingOfAnnotationEndedAtPoint:(CGPoint)point {
@@ -215,11 +214,19 @@
     CGRect annotationBounds = [self.pdfDocumentView.currentPage boundsForBox:kPDFDisplayBoxMediaBox];
     self.annotation = [[PDFAnnotation alloc] initWithBounds:annotationBounds forType:PDFAnnotationSubtypeInk withProperties:nil];
     [self.annotator addBezierPathToAnnotation:self.annotation];
-    [self addAnnotation];
+    [self addAnnotation:self.annotation];
 }
 
-- (void)didChooseOption:(id)option forItem:(ToolboxItemType)itemType {
+- (void)didChooseOption:(NSInteger)option forItem:(ToolboxItemType)itemType {
     [self.annotator updatePropertie:option fromType:itemType];
+}
+
+- (void)didChooseColor:(UIColor *)color {
+    [self.annotator updateColor:color];
+}
+
+- (void)didChooseLineWidth:(CGFloat)width {
+    [self.annotator updateLineWidth:width];
 }
 
 - (void)toolboxItemPressed:(UIButton *)button {///////////////////////////////////
@@ -248,14 +255,23 @@
 }
 
 - (void)presentOptionsForToolboxItem:(UIButton *)item {
-    ToolboxItemViewController *viewController = (ToolboxItemViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_TOOLBOX_ITEM_VIEW_CONTROLLER];
+    UIViewController *viewController;
+    if (item.tag == ToolboxItemTypeWidth) {
+        LineWidthViewController *lineWidthControler = (LineWidthViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_LINE_WIDTH_VIEW_CONTROLLER];
+        lineWidthControler.toolboxItemOptionsDelegate = self;
+        viewController = lineWidthControler;
+    }
+    else {
+        ToolboxItemViewController *itemCollectionViewController = (ToolboxItemViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_TOOLBOX_ITEM_VIEW_CONTROLLER];
+        itemCollectionViewController.itemType = item.tag;
+        itemCollectionViewController.toolboxItemsOptionsDelegate = self;
+        viewController = itemCollectionViewController;
+    }
     
     viewController.modalPresentationStyle = UIModalPresentationPopover;
     viewController.popoverPresentationController.delegate = self;
     viewController.popoverPresentationController.sourceView = self.toolboxScrollView;
     viewController.popoverPresentationController.sourceRect = item.frame;
-    viewController.itemType = item.tag;
-    viewController.toolboxItemsOptionsDelegate = self;
     viewController.preferredContentSize = CGSizeMake(100, 150);
     
     [self presentViewController:viewController animated:YES completion:nil];
@@ -269,7 +285,8 @@
     for (PDFSelection *lineSelection in self.pdfDocumentView.currentSelection.selectionsByLine.copy) {
         PDFAnnotation *annotation = [[PDFAnnotation alloc] initWithBounds:[lineSelection boundsForPage:self.pdfDocumentView.currentPage] forType:subtype withProperties:nil];
         [annotation setMarkupType:markUp];
-        [self addAnnotation];
+        [self addAnnotation:annotation];
+        [self.annotationsHistory addChange:annotation];
     }
 }
 
@@ -284,6 +301,8 @@
     
     [self.pdfDocumentView setUserInteractionEnabled:NO];
     [self annotationRelatedButtonsSetHidden:YES];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onResetTap:(id)sender {

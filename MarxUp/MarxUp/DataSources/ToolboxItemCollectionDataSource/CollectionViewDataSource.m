@@ -20,9 +20,13 @@
     return (NSInteger)nil;
 }
 
-- (id)optionAtIndex:(NSInteger)index {
+- (NSInteger)optionAtIndex:(NSInteger)index {
     //stub
-    return (id)nil;
+    return (NSInteger)nil;
+}
+
+- (UIColor *)colorAtIndex:(NSInteger)index {
+    return (UIColor *)nil;
 }
 
 @end

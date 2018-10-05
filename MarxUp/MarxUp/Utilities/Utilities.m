@@ -9,17 +9,16 @@
 #import "Utilities.h"
 #import "ShapesCollectionViewDataSource.h"
 #import "ColorsCollectionViewDataSource.h"
+#import "ArrowsCollectionViewDataSource.h"
+#import "DocumentPreviewTableViewController.h"
+#import "ToolboxItemViewController.h"
+#import "SingleDocumentViewController.h"
+#import "LineWidthViewController.h"
 
 @implementation Utilities
 
 + (CollectionViewDataSource *)dataSourceForToolboxItem:(ToolboxItemType)item {
-    if (item == ToolboxItemTypeShape) {
-        return [ShapesCollectionViewDataSource newDataSource];
-    }
-    else if (item == ToolboxItemTypeColor) {
-        return [ColorsCollectionViewDataSource newDataSource];
-    }
-    return (CollectionViewDataSource *)nil;
+    return [NSClassFromString([[Utilities dataSources]objectForKey:[NSNumber numberWithInteger:item]]) newDataSource];
 }
 
 + (NSString *)itemTypeToString:(ToolboxItemType)type {
@@ -28,6 +27,44 @@
 
 + (NSString *)shapeTypeToString:(ShapeType)type {
     return [[Utilities stringShapeTypes] objectForKey:[NSNumber numberWithInteger:type]];
+}
+
++ (NSString *)arrowTypeToString:(ArrowEndLineType)type {
+    return [[Utilities stringArrowTypes] objectForKey:[NSNumber numberWithInteger:type]];
+}
+
++ (UIViewController *)viewControllerWithClass:(Class)class {
+    NSString *identifier = Utilities.classIdentifiers[class];
+    
+    UIViewController *viewController;
+    if (identifier) {
+        viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:identifier];
+    }
+    else {
+        viewController = [[class alloc] init];
+    }
+    
+    return viewController;
+}
+
++ (NSDictionary<Class, NSString *> *)classIdentifiers {
+    static NSDictionary<Class, NSString *> *idents = nil;
+    if (!idents) {
+        idents = @{DocumentPreviewTableViewController.class : ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER,
+                   ToolboxItemViewController.class : ID_TOOLBOX_ITEM_VIEW_CONTROLLER,
+                   SingleDocumentViewController.class : ID_SINGLE_DOCUMENT_VIEW_CONTROLLER,
+                   LineWidthViewController.class : ID_LINE_WIDTH_VIEW_CONTROLLER
+                 };
+    }
+    
+    return idents;
+}
+
++ (NSDictionary<NSNumber *, NSString *> *)dataSources {
+   return @{[NSNumber numberWithInteger:ToolboxItemTypeColor] : NSStringFromClass(ColorsCollectionViewDataSource.class),
+            [NSNumber numberWithInteger:ToolboxItemTypeArrow] : NSStringFromClass(ArrowsCollectionViewDataSource.class),
+            [NSNumber numberWithInteger:ToolboxItemTypeShape] : NSStringFromClass(ShapesCollectionViewDataSource.class)
+            };
 }
 
 + (NSDictionary<NSNumber *, NSString *> *)stringItemTypes {
@@ -51,8 +88,10 @@
              };
 }
 
-+ (UIViewController *)viewControllerFromClass:(Class *)class {
-    return (UIViewController *)nil;
++ (NSDictionary<NSNumber *, NSString *> *)stringArrowTypes {
+    return @{ [NSNumber numberWithInteger:ArrowEndLineTypeClosed] : @"closed",
+              [NSNumber numberWithInteger:ArrowEndLineTypeOpen] : @"open"
+             };
 }
 
 @end

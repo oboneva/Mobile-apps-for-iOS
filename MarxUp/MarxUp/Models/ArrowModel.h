@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ArrowModel : NSObject
 
 + (instancetype)newArrowFromType:(ArrowEndLineType)type;
+
 @property (strong, nonatomic, readonly) UIImage *image;
 @property (assign)ArrowEndLineType type;
 

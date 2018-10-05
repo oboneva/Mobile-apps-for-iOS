@@ -48,11 +48,7 @@
 }
 
 - (ShapeType)optionAtIndex:(NSInteger)index {
-    NSLog(@"index - %ld", index);
-    ShapeModel *temp = self.shapes[index];
-    ShapeType temp2 = temp.type;
-    //return temp.type;
-    return temp2;
+    return self.shapes[index].type;
 }
 
 

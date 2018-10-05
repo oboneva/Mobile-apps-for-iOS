@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (CollectionViewDataSource *)dataSourceForToolboxItem:(ToolboxItemType)item;
 + (NSString *)shapeTypeToString:(ShapeType)type;
 + (NSString *)itemTypeToString:(ToolboxItemType)type;
-+ (UIViewController *)viewControllerFromClass:(Class *)class;
++ (NSString *)arrowTypeToString:(ArrowEndLineType)type;
++ (UIViewController *)viewControllerWithClass:(Class)class;
 
 @end
 

@@ -13,7 +13,9 @@
 
 @protocol ToolboxItemOptionsDelegate <NSObject>
 
-- (void)didChooseOption:(id)option forItem:(ToolboxItemType)itemType;
+- (void)didChooseOption:(NSInteger)option forItem:(ToolboxItemType)itemType;
+- (void)didChooseColor:(UIColor *)color;
+- (void)didChooseLineWidth:(CGFloat)width;
 
 @end
 
