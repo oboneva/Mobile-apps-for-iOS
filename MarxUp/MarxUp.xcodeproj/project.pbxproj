@@ -33,6 +33,9 @@
 		FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */; };
 		FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CD21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m */; };
 		FAE6F7D121663D4A00DE22A1 /* DocumentPreviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */; };
+		FAE6F7D7216B4E5500DE22A1 /* ImagePreviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D6216B4E5500DE22A1 /* ImagePreviewTableViewController.m */; };
+		FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */; };
+		FAE6F7DD216B6C4900DE22A1 /* ImagePreviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7DC216B6C4900DE22A1 /* ImagePreviewTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +89,12 @@
 		FAE6F7CD21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentPreviewTableViewCell.m; sourceTree = "<group>"; };
 		FAE6F7CF21663D4A00DE22A1 /* DocumentPreviewTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentPreviewTableViewController.h; sourceTree = "<group>"; };
 		FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentPreviewTableViewController.m; sourceTree = "<group>"; };
+		FAE6F7D5216B4E5500DE22A1 /* ImagePreviewTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePreviewTableViewController.h; sourceTree = "<group>"; };
+		FAE6F7D6216B4E5500DE22A1 /* ImagePreviewTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewTableViewController.m; sourceTree = "<group>"; };
+		FAE6F7D8216B67FC00DE22A1 /* ImageDataRequester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageDataRequester.h; sourceTree = "<group>"; };
+		FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDataRequester.m; sourceTree = "<group>"; };
+		FAE6F7DB216B6C4900DE22A1 /* ImagePreviewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePreviewTableViewCell.h; sourceTree = "<group>"; };
+		FAE6F7DC216B6C4900DE22A1 /* ImagePreviewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +154,8 @@
 		FA53C1162150F0080039390F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FAE6F7D5216B4E5500DE22A1 /* ImagePreviewTableViewController.h */,
+				FAE6F7D6216B4E5500DE22A1 /* ImagePreviewTableViewController.m */,
 				FAE6F7CF21663D4A00DE22A1 /* DocumentPreviewTableViewController.h */,
 				FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */,
 				FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */,
@@ -162,6 +173,7 @@
 		FACD95EB215B7FA800E38BD3 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FAE6F7D8216B67FC00DE22A1 /* ImageDataRequester.h */,
 				FACD9602215E46BE00E38BD3 /* Protocols.h */,
 				FACD95E5215B7D2B00E38BD3 /* Utilities.h */,
 				FACD95E6215B7D2B00E38BD3 /* Utilities.m */,
@@ -201,6 +213,8 @@
 		FACD95F7215BA4A800E38BD3 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FAE6F7DB216B6C4900DE22A1 /* ImagePreviewTableViewCell.h */,
+				FAE6F7DC216B6C4900DE22A1 /* ImagePreviewTableViewCell.m */,
 				FAE6F7CC21663D0A00DE22A1 /* DocumentPreviewTableViewCell.h */,
 				FAE6F7CD21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m */,
 				FACD95F4215BA49500E38BD3 /* ToolboxItemOptionsCollectionViewCell.h */,
@@ -306,10 +320,13 @@
 				06B1D4C8216271BD004B552E /* ArrowModel.m in Sources */,
 				FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */,
 				FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */,
+				FAE6F7D7216B4E5500DE22A1 /* ImagePreviewTableViewController.m in Sources */,
 				FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */,
+				FAE6F7DD216B6C4900DE22A1 /* ImagePreviewTableViewCell.m in Sources */,
 				FACD95EA215B7F5F00E38BD3 /* CollectionViewDataSource.m in Sources */,
 				FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */,
 				FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */,
+				FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */,
 				FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */,
 				FA53C1082150EFF10039390F /* MarxUp.xcdatamodeld in Sources */,
 			);

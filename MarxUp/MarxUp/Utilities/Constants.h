@@ -11,12 +11,14 @@
 
 #define IDENTIFIER_TOOLBOX_ITEM_OPTIONS_CELL   @"ToolboxItemOptionsCell"
 #define IDENTIFIER_DOCUMENT_PREVIEW_CELL       @"DocumentPreviewCell"
+#define IDENTIFIER_IMAGE_PREVIEW_CELL          @"ImagePreviewCell"
 
 #define ID_LINE_WIDTH_VIEW_CONTROLLER          @"LineWidthViewControllerID"
 #define ID_TOOLBOX_ITEM_VIEW_CONTROLLER        @"ToolboxItemViewControllerID"
 #define ID_SINGLE_DOCUMENT_VIEW_CONTROLLER     @"SingleDocumentViewControllerID"
 #define ID_VIEW_CONTROLLER                     @"RootViewControllerID"
 #define ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER    @"DocumentPreviewTableViewControllerID"
+#define ID_IMAGE_PREVIEW_VIEW_CONTROLLER       @"ImagePreviewTableViewControllerID"
 
 typedef enum : NSInteger {
     ToolboxItemTypeColor = 1,

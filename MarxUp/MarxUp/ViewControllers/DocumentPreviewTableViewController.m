@@ -25,12 +25,6 @@
     [super viewDidLoad];
     
     self.documentsPaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"pdf" inDirectory:nil];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark - Table view data source
@@ -57,24 +51,9 @@
 
 - (UIImage *)imageForPDFDocument:(PDFDocument *)document withImageRect:(CGRect)cellRect{
     PDFPage *firstPage = [document pageAtIndex:0];
-//    CGRect firstPageRect = [firstPage boundsForBox:kPDFDisplayBoxMediaBox];
-//    UIGraphicsImageRenderer *imageRenderer = [[UIGraphicsImageRenderer alloc] initWithSize:cellRect.size];
-//
-//    UIImage *image = [imageRenderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
-//        [[UIColor whiteColor] set];
-//        [rendererContext fillRect:cellRect];
-//
-//        CGContextFillRect(rendererContext.CGContext, cellRect);
-//        CGContextTranslateCTM(rendererContext.CGContext, 0, cellRect.size.height);
-//        CGContextScaleCTM(rendererContext.CGContext, 1, -1);
-//
-//        CGContextDrawPDFPage(rendererContext.CGContext, firstPage.pageRef);
-//    }];
-    
     UIImage *image = [firstPage thumbnailOfSize:cellRect.size forBox:kPDFDisplayBoxArtBox];
 
     return image;
-    //return (UIImage *)nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
