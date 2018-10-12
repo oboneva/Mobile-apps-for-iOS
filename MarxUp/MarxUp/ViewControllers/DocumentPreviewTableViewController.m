@@ -11,11 +11,12 @@
 #import "SingleDocumentViewController.h"
 #import "Constants.h"
 #import "Utilities.h"
+#import "FileManager.h"
 #import <PDFKit/PDFKit.h>
 
 @interface DocumentPreviewTableViewController ()
 
-@property (strong, nonatomic) NSArray<NSString *> *documentsPaths;
+@property (strong, nonatomic) NSArray<NSURL *> *documentsURLs;
 
 @end
 
@@ -23,8 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.documentsPaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"pdf" inDirectory:nil];
+    self.documentsURLs = [FileManager loadDocumentsOfType:@"pdf"];
 }
 
 #pragma mark - Table view data source
@@ -34,12 +34,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.documentsPaths.count;
+    return self.documentsURLs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DocumentPreviewTableViewCell *cell = (DocumentPreviewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:IDENTIFIER_DOCUMENT_PREVIEW_CELL forIndexPath:indexPath];
-    PDFDocument *document = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:self.documentsPaths[indexPath.row]]];
+    PDFDocument *document = [[PDFDocument alloc] initWithURL:self.documentsURLs[indexPath.row]];
     cell.documentImageView.image = [self imageForPDFDocument:document withImageRect:cell.documentImageView.frame];
     cell.documentImageView.layer.borderColor = UIColor.orangeColor.CGColor;
     cell.documentImageView.layer.borderWidth = 2.0;
@@ -58,9 +58,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleDocumentViewController *documentViewController = (SingleDocumentViewController *)[Utilities viewControllerWithClass:SingleDocumentViewController.class];
-    documentViewController.pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:self.documentsPaths[indexPath.row]]];
+    documentViewController.pdfDocument = [[PDFDocument alloc] initWithURL:self.documentsURLs[indexPath.row]];
 
     [self presentViewController:documentViewController animated:YES completion:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
 }
 
 @end

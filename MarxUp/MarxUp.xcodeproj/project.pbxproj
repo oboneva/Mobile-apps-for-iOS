@@ -36,6 +36,7 @@
 		FAE6F7D7216B4E5500DE22A1 /* ImagePreviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D6216B4E5500DE22A1 /* ImagePreviewTableViewController.m */; };
 		FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */; };
 		FAE6F7DD216B6C4900DE22A1 /* ImagePreviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7DC216B6C4900DE22A1 /* ImagePreviewTableViewCell.m */; };
+		FAE6F7E02170AAB600DE22A1 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7DF2170AAB600DE22A1 /* FileManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,8 @@
 		FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDataRequester.m; sourceTree = "<group>"; };
 		FAE6F7DB216B6C4900DE22A1 /* ImagePreviewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePreviewTableViewCell.h; sourceTree = "<group>"; };
 		FAE6F7DC216B6C4900DE22A1 /* ImagePreviewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewTableViewCell.m; sourceTree = "<group>"; };
+		FAE6F7DE2170AAB600DE22A1 /* FileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
+		FAE6F7DF2170AAB600DE22A1 /* FileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +176,8 @@
 		FACD95EB215B7FA800E38BD3 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FAE6F7DE2170AAB600DE22A1 /* FileManager.h */,
+				FAE6F7DF2170AAB600DE22A1 /* FileManager.m */,
 				FAE6F7D8216B67FC00DE22A1 /* ImageDataRequester.h */,
 				FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */,
 				FACD9602215E46BE00E38BD3 /* Protocols.h */,
@@ -330,6 +335,7 @@
 				FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */,
 				FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */,
 				FA53C1082150EFF10039390F /* MarxUp.xcdatamodeld in Sources */,
+				FAE6F7E02170AAB600DE22A1 /* FileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

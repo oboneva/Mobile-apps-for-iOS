@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Utilities/FileManager.h"
 
 @interface AppDelegate ()
 
@@ -49,6 +50,10 @@
     [self saveContext];
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    [FileManager copyURLToDocuments:url];
+    return false;
+}
 
 #pragma mark - Core Data stack
 
