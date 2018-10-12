@@ -174,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE6F7D8216B67FC00DE22A1 /* ImageDataRequester.h */,
+				FAE6F7D9216B67FC00DE22A1 /* ImageDataRequester.m */,
 				FACD9602215E46BE00E38BD3 /* Protocols.h */,
 				FACD95E5215B7D2B00E38BD3 /* Utilities.h */,
 				FACD95E6215B7D2B00E38BD3 /* Utilities.m */,

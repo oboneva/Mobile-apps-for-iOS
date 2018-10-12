@@ -22,12 +22,17 @@
 @property (strong, nonatomic)NSURLSession *session;
 @property (assign)int page;
 
+@property (assign) BOOL areImageIDsLoading;
 
 @end
 
 @implementation ImageDataRequester
 
 - (void)getImageLinksWithCompletionHandler:(void(^)(NSArray<NSString *> *))handler {
+    if (self.areImageIDsLoading) {
+        return;
+    }
+    
     self.areImageIDsLoading = TRUE;
     self.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.imgur.com/3/gallery/hot/viral/day/%d?showViral=true&mature=false&album_previews=false", self.page]];
     [self updateRequest];
@@ -61,20 +66,16 @@
 }
 
 - (void)getImageDataWithLink:(NSString *)imageLink andCompletionHandler:(void(^)(NSData *))handler {
-    self.isImageDataLoading = TRUE;
     self.url = [NSURL URLWithString:[self URLStringForSmallThumbnailWithURLString:imageLink]];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithURL:self.url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        self.isImageDataLoading = FALSE;
         handler(data);
     }];
     [task resume];
 }
 
 - (NSString *)URLStringForSmallThumbnailWithURLString:(NSString *)string {
-    //NSArray<NSString *> *parts = [string componentsSeparatedByString:@"."];
-    //NSString *imageID = [parts[2] componentsSeparatedByString:@"/"][1];
-    return string;//[string stringByReplacingOccurrencesOfString:imageID withString:[imageID stringByAppendingString:SUFFIX_SMALL_THUMBNAIL]];
+    return string;
 }
 
 - (void)updateRequest {
