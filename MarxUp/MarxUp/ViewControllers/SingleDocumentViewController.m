@@ -7,11 +7,13 @@
 //
 
 #import "SingleDocumentViewController.h"
-#import "Constants.h"
-#import "ChangesHistory.h"
-#import "ToolboxInitializer.h"
 #import "ToolboxItemViewController.h"
 #import "LineWidthViewController.h"
+
+#import "Constants.h"
+
+#import "ChangesHistory.h"
+#import "ToolboxInitializer.h"
 #import "Annotator.h"
 
 @interface SingleDocumentViewController ()
@@ -85,9 +87,9 @@
 }
 
 - (void)configureToolbox {
-    ToolboxInitializer *initializer = [ToolboxInitializer newToolboxInitializer];
-    [initializer addToolboxItemsToView:self.toolboxScrollView withTarget:self andSelector:@selector(toolboxItemPressed:)];
-    [self.toolboxScrollView setHidden:YES];
+//    ToolboxInitializer *initializer = [ToolboxInitializer newToolboxInitializer];
+//    [initializer addToolboxItemsToView:self.toolboxScrollView withTarget:self andSelector:@selector(toolboxItemPressed:)];f.data
+//    [self.toolboxScrollView setHidden:YES];
 }
 
 - (void)annotationRelatedButtonsSetHidden:(BOOL)hidden {

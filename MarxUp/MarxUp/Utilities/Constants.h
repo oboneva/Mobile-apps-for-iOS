@@ -12,6 +12,7 @@
 #define IDENTIFIER_TOOLBOX_ITEM_OPTIONS_CELL   @"ToolboxItemOptionsCell"
 #define IDENTIFIER_DOCUMENT_PREVIEW_CELL       @"DocumentPreviewCell"
 #define IDENTIFIER_IMAGE_PREVIEW_CELL          @"ImagePreviewCell"
+#define IDENTIFIER_TABS_CELL                   @"TabsCell"
 
 #define ID_LINE_WIDTH_VIEW_CONTROLLER          @"LineWidthViewControllerID"
 #define ID_TOOLBOX_ITEM_VIEW_CONTROLLER        @"ToolboxItemViewControllerID"
@@ -43,5 +44,11 @@ typedef enum : NSUInteger {
     ArrowEndLineTypeClosed,
     ArrowEndLineTypeOpen,
 } ArrowEndLineType;
+
+typedef enum : NSUInteger {
+    ImagesSortViral,
+    ImagesSortTop,
+    ImagesSortDate,
+} ImagesSort;
 
 #endif /* Constants_h */

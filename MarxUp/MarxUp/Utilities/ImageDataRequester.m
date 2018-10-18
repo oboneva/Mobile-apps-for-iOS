@@ -21,6 +21,7 @@
 @property (strong, nonatomic)NSMutableURLRequest *request;
 @property (strong, nonatomic)NSURLSession *session;
 @property (assign)int page;
+@property (assign)ImagesSort sort;
 
 @property (assign) BOOL areImageIDsLoading;
 
@@ -28,23 +29,34 @@
 
 @implementation ImageDataRequester
 
-- (void)getImageLinksWithCompletionHandler:(void(^)(NSArray<NSString *> *))handler {
-    if (self.areImageIDsLoading) {
-        return;
++ (instancetype)newRequester {
+    ImageDataRequester *new = [ImageDataRequester new];
+    new.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    new.page = 1;
+    return new;
+}
+
+- (void)getImageLinksSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(NSArray<NSString *> *))handler {
+    if (sort != self.sort) {
+        self.page = 1;
     }
     
     self.areImageIDsLoading = TRUE;
-    self.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.imgur.com/3/gallery/hot/viral/day/%d?showViral=true&mature=false&album_previews=false", self.page]];
+    self.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.imgur.com/3/gallery/hot/%@/day/%d?showViral=true&mature=false&album_previews=false", [self sortEnumToString:sort], self.page]];
     [self updateRequest];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:self.request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSArray<NSString *> *imageLinks = [self linksFromJSONDict:dataDict];
-        self.areImageIDsLoading = FALSE;
+        NSArray<NSString *> *imageLinks = nil;
+        if ([dataDict[@"status"] intValue] == 200) {
+            imageLinks = [self linksFromJSONDict:dataDict];
+        }
         
+        self.areImageIDsLoading = FALSE;
         handler(imageLinks);
     }];
     [task resume];
+    
     self.page++;
 }
 
@@ -84,11 +96,14 @@
     [self.request addValue:@"Client-ID YOUR-ID" forHTTPHeaderField:@"Authorization"];
 }
 
-+ (instancetype)newRequester {
-    ImageDataRequester *new = [ImageDataRequester new];
-    new.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    new.page = 1;
-    return new;
+- (NSString *)sortEnumToString:(ImagesSort)sort {
+    if (sort == ImagesSortViral) {
+        return @"viral";
+    }
+    else if (sort == ImagesSortTop) {
+        return @"top";
+    }
+    return @"time";
 }
 
 @end

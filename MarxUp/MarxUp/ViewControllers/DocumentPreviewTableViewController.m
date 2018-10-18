@@ -6,13 +6,17 @@
 //  Copyright © 2018 Ognyanka Boneva. All rights reserved.
 //
 
+#import <PDFKit/PDFKit.h>
+
 #import "DocumentPreviewTableViewController.h"
-#import "DocumentPreviewTableViewCell.h"
 #import "SingleDocumentViewController.h"
+
+#import "DocumentPreviewTableViewCell.h"
+
 #import "Constants.h"
 #import "Utilities.h"
 #import "FileManager.h"
-#import <PDFKit/PDFKit.h>
+
 
 @interface DocumentPreviewTableViewController ()
 
