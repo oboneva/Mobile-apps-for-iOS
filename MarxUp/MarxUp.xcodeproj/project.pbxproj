@@ -18,6 +18,7 @@
 		FA53C1102150EFF30039390F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C10F2150EFF30039390F /* main.m */; };
 		FA53C1192150F0480039390F /* SingleDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA53C1182150F0480039390F /* SingleDocumentViewController.m */; };
 		FA53C11B215114E00039390F /* Manifesto.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FA53C11A215114DF0039390F /* Manifesto.pdf */; };
+		FAA412AD2179C22C009DB7BF /* SingleImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA412AC2179C22C009DB7BF /* SingleImageViewController.m */; };
 		FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95CF21526AA100E38BD3 /* ChangesHistory.m */; };
 		FACD95E3215B7AB300E38BD3 /* ToolboxItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */; };
 		FACD95E7215B7D2B00E38BD3 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95E6215B7D2B00E38BD3 /* Utilities.m */; };
@@ -30,6 +31,9 @@
 		FACD9601215D00B200E38BD3 /* ToolboxInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */; };
 		FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD96042161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m */; };
 		FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */; };
+		FAD85FC92180590C0074F314 /* ToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FC82180590C0074F314 /* ToolboxView.m */; };
+		FAD85FCD218059700074F314 /* ToolboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCC218059700074F314 /* ToolboxViewController.m */; };
+		FAD85FD02180655C0074F314 /* ToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCF2180655C0074F314 /* ToolbarViewController.m */; };
 		FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */; };
 		FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CD21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m */; };
 		FAE6F7D121663D4A00DE22A1 /* DocumentPreviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */; };
@@ -61,6 +65,8 @@
 		FA53C1172150F0480039390F /* SingleDocumentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleDocumentViewController.h; sourceTree = "<group>"; };
 		FA53C1182150F0480039390F /* SingleDocumentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleDocumentViewController.m; sourceTree = "<group>"; };
 		FA53C11A215114DF0039390F /* Manifesto.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Manifesto.pdf; sourceTree = "<group>"; };
+		FAA412AB2179C22C009DB7BF /* SingleImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleImageViewController.h; sourceTree = "<group>"; };
+		FAA412AC2179C22C009DB7BF /* SingleImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleImageViewController.m; sourceTree = "<group>"; };
 		FACD95CE21526AA100E38BD3 /* ChangesHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangesHistory.h; sourceTree = "<group>"; };
 		FACD95CF21526AA100E38BD3 /* ChangesHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangesHistory.m; sourceTree = "<group>"; };
 		FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxItemViewController.h; sourceTree = "<group>"; };
@@ -87,6 +93,12 @@
 		FACD96042161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsCollectionViewDataSource.m; sourceTree = "<group>"; };
 		FACD96062161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrowsCollectionViewDataSource.h; sourceTree = "<group>"; };
 		FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrowsCollectionViewDataSource.m; sourceTree = "<group>"; };
+		FAD85FC72180590C0074F314 /* ToolboxView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxView.h; sourceTree = "<group>"; };
+		FAD85FC82180590C0074F314 /* ToolboxView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxView.m; sourceTree = "<group>"; };
+		FAD85FCB218059700074F314 /* ToolboxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxViewController.h; sourceTree = "<group>"; };
+		FAD85FCC218059700074F314 /* ToolboxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxViewController.m; sourceTree = "<group>"; };
+		FAD85FCE2180655C0074F314 /* ToolbarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolbarViewController.h; sourceTree = "<group>"; };
+		FAD85FCF2180655C0074F314 /* ToolbarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolbarViewController.m; sourceTree = "<group>"; };
 		FAE6F7C92163A04500DE22A1 /* LineWidthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineWidthViewController.h; sourceTree = "<group>"; };
 		FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineWidthViewController.m; sourceTree = "<group>"; };
 		FAE6F7CC21663D0A00DE22A1 /* DocumentPreviewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentPreviewTableViewCell.h; sourceTree = "<group>"; };
@@ -139,11 +151,12 @@
 		FA53C0FC2150EFF10039390F /* MarxUp */ = {
 			isa = PBXGroup;
 			children = (
+				FACD95F3215B9C1500E38BD3 /* Models */,
+				FAD85FCA218059160074F314 /* Views */,
+				FA53C1162150F0080039390F /* ViewControllers */,
 				FACD95FE215CF7C700E38BD3 /* DataSources */,
 				FACD95F7215BA4A800E38BD3 /* Cells */,
-				FACD95F3215B9C1500E38BD3 /* Models */,
 				FACD95EB215B7FA800E38BD3 /* Utilities */,
-				FA53C1162150F0080039390F /* ViewControllers */,
 				06B1D4C321622C60004B552E /* Annotator.h */,
 				06B1D4C421622C60004B552E /* Annotator.m */,
 				FACD95FF215D00B200E38BD3 /* ToolboxInitializer.h */,
@@ -166,14 +179,11 @@
 		FA53C1162150F0080039390F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				FAE6F7E42175C1B500DE22A1 /* ImagePreviewViewController.h */,
-				FAE6F7E52175C1B500DE22A1 /* ImagePreviewViewController.m */,
-				FAE6F7CF21663D4A00DE22A1 /* DocumentPreviewTableViewController.h */,
-				FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */,
+				FAD85FD121806BAE0074F314 /* MenusViewControllers */,
+				FAD85FC6217EF2790074F314 /* PDFsViewControllers */,
+				FAD85FC5217EF2550074F314 /* ImagesViewControllers */,
 				FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */,
 				FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */,
-				FA53C1172150F0480039390F /* SingleDocumentViewController.h */,
-				FA53C1182150F0480039390F /* SingleDocumentViewController.m */,
 				FAE6F7C92163A04500DE22A1 /* LineWidthViewController.h */,
 				FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */,
 				FA53C1002150EFF10039390F /* ViewController.h */,
@@ -244,11 +254,53 @@
 			isa = PBXGroup;
 			children = (
 				FAE6F7EA217600FB00DE22A1 /* ImagesPreviewDataSorce */,
+				FACD95EC215B804F00E38BD3 /* ToolboxItemCollectionDataSource */,
 				FACD95FB215CF7A800E38BD3 /* ToolboxDataSource.h */,
 				FACD95FC215CF7A800E38BD3 /* ToolboxDataSource.m */,
-				FACD95EC215B804F00E38BD3 /* ToolboxItemCollectionDataSource */,
 			);
 			path = DataSources;
+			sourceTree = "<group>";
+		};
+		FAD85FC5217EF2550074F314 /* ImagesViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FAA412AB2179C22C009DB7BF /* SingleImageViewController.h */,
+				FAA412AC2179C22C009DB7BF /* SingleImageViewController.m */,
+				FAE6F7E42175C1B500DE22A1 /* ImagePreviewViewController.h */,
+				FAE6F7E52175C1B500DE22A1 /* ImagePreviewViewController.m */,
+			);
+			path = ImagesViewControllers;
+			sourceTree = "<group>";
+		};
+		FAD85FC6217EF2790074F314 /* PDFsViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA53C1172150F0480039390F /* SingleDocumentViewController.h */,
+				FA53C1182150F0480039390F /* SingleDocumentViewController.m */,
+				FAE6F7CF21663D4A00DE22A1 /* DocumentPreviewTableViewController.h */,
+				FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */,
+			);
+			path = PDFsViewControllers;
+			sourceTree = "<group>";
+		};
+		FAD85FCA218059160074F314 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAD85FC72180590C0074F314 /* ToolboxView.h */,
+				FAD85FC82180590C0074F314 /* ToolboxView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FAD85FD121806BAE0074F314 /* MenusViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FAD85FCE2180655C0074F314 /* ToolbarViewController.h */,
+				FAD85FCF2180655C0074F314 /* ToolbarViewController.m */,
+				FAD85FCB218059700074F314 /* ToolboxViewController.h */,
+				FAD85FCC218059700074F314 /* ToolboxViewController.m */,
+			);
+			path = MenusViewControllers;
 			sourceTree = "<group>";
 		};
 		FAE6F7EA217600FB00DE22A1 /* ImagesPreviewDataSorce */ = {
@@ -335,6 +387,7 @@
 			files = (
 				FA53C1022150EFF10039390F /* ViewController.m in Sources */,
 				FACD95F2215B9C0600E38BD3 /* ShapeModel.m in Sources */,
+				FAD85FC92180590C0074F314 /* ToolboxView.m in Sources */,
 				06B1D4C521622C60004B552E /* Annotator.m in Sources */,
 				FAE6F7F321760B1700DE22A1 /* TabsCollectionViewCell.m in Sources */,
 				FACD95EF215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m in Sources */,
@@ -351,11 +404,14 @@
 				06B1D4C8216271BD004B552E /* ArrowModel.m in Sources */,
 				FAE6F7E62175C1B500DE22A1 /* ImagePreviewViewController.m in Sources */,
 				FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */,
+				FAA412AD2179C22C009DB7BF /* SingleImageViewController.m in Sources */,
 				FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */,
 				FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */,
 				FAE6F7DD216B6C4900DE22A1 /* ImagePreviewTableViewCell.m in Sources */,
 				FACD95EA215B7F5F00E38BD3 /* CollectionViewDataSource.m in Sources */,
+				FAD85FCD218059700074F314 /* ToolboxViewController.m in Sources */,
 				FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */,
+				FAD85FD02180655C0074F314 /* ToolbarViewController.m in Sources */,
 				FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */,
 				FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */,
 				FACD96052161FD0B00E38BD3 /* ColorsCollectionViewDataSource.m in Sources */,

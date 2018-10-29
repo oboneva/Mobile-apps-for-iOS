@@ -21,7 +21,7 @@
 
 + (instancetype)newDataSource {
     TabsCollectionViewDataSource *newDataSource = [TabsCollectionViewDataSource new];
-    newDataSource.tabs = @[@"TOP", @"VIRAL", @"LATEST"];
+    newDataSource.tabs = @[@"TOP", @"VIRAL", @"LATEST", @"YOUR IMAGES"];
     return newDataSource;
 }
 

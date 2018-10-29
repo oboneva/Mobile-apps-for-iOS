@@ -18,7 +18,7 @@
 
 @implementation ToolboxDataSource
 
-+ (instancetype)newDataSource {
++ (instancetype)newDataSourceForAnnotatingContentFromType:(ContentType)contentType {
     ToolboxDataSource *newSource = [ToolboxDataSource new];
     if (newSource) {
         ToolboxItemModel *pen = [ToolboxItemModel newItemFromType:ToolboxItemTypePen];
@@ -27,14 +27,18 @@
         ToolboxItemModel *width = [ToolboxItemModel newItemFromType:ToolboxItemTypeWidth];
         ToolboxItemModel *arrow = [ToolboxItemModel newItemFromType:ToolboxItemTypeArrow];
         
-        ToolboxItemModel *underline = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextUnderline];
-        ToolboxItemModel *strike = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextStrikeThrough];
-        ToolboxItemModel *highlight = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextHighlight];
-        
         ToolboxItemModel *undo = [ToolboxItemModel newItemFromType:ToolboxItemTypeUndo];
         ToolboxItemModel *redo = [ToolboxItemModel newItemFromType:ToolboxItemTypeRedo];
         
-        newSource.toolboxItems = @[pen, shape, arrow, color, width, underline, strike, highlight, undo, redo];
+        newSource.toolboxItems = @[pen, shape, arrow, color, width, undo, redo];
+        
+        if (contentType == ContentTypePDF) {
+            ToolboxItemModel *underline = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextUnderline];
+            ToolboxItemModel *strike = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextStrikeThrough];
+            ToolboxItemModel *highlight = [ToolboxItemModel newItemFromType:ToolboxItemTypeTextHighlight];
+            
+            newSource.toolboxItems = @[pen, shape, arrow, color, width, underline, strike, highlight, undo, redo];
+        }
     }
     
     return newSource;

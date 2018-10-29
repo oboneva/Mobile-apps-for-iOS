@@ -39,10 +39,11 @@
 - (void)getImageLinksSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(NSArray<NSString *> *))handler {
     if (sort != self.sort) {
         self.page = 1;
+        self.sort = sort;
     }
     
     self.areImageIDsLoading = TRUE;
-    self.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.imgur.com/3/gallery/hot/%@/day/%d?showViral=true&mature=false&album_previews=false", [self sortEnumToString:sort], self.page]];
+    self.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.imgur.com/3/gallery/hot/%@/day/%d?showViral=true&mature=false&album_previews=false", [self sortEnumToString:self.sort], self.page]];
     [self updateRequest];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:self.request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -78,7 +79,7 @@
 }
 
 - (void)getImageDataWithLink:(NSString *)imageLink andCompletionHandler:(void(^)(NSData *))handler {
-    self.url = [NSURL URLWithString:[self URLStringForSmallThumbnailWithURLString:imageLink]];
+    self.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [self URLStringForSmallThumbnailWithURLString:imageLink]]];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithURL:self.url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         handler(data);

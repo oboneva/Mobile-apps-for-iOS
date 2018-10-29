@@ -7,6 +7,7 @@
 //
 
 #import "ImagePreviewViewController.h"
+#import "SingleImageViewController.h"
 
 #import "ImagesTableViewDataSource.h"
 #import "TabsCollectionViewDataSource.h"
@@ -14,7 +15,7 @@
 #import "TabsCollectionViewCell.h"
 
 #import "Constants.h"
-
+#import "Utilities.h"
 
 @interface ImagePreviewViewController ()
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) TabsCollectionViewDataSource *tabDataSource;
 
 @property (strong, nonatomic) TabsCollectionViewCell *selectedTab;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIandicatorView;
 
 @end
 
@@ -63,7 +65,7 @@
 }
 
 - (BOOL)shouldLoadNewDataForScrollView:(UIScrollView *)scrollView {
-    if ([scrollView isEqual:self.imagesTableView]) {
+    if (![self.imagesDataSource isDataSourceLocal] && [scrollView isEqual:self.imagesTableView]) {
         return scrollView.contentOffset.y > self.imagesTableView.contentSize.height - self.imagesTableView.bounds.size.height;
     }
     return false;
@@ -71,9 +73,11 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([self shouldLoadNewDataForScrollView:scrollView] && [scrollView isDragging]) {
+        [self.activityIandicatorView startAnimating];
         [self.imagesDataSource addImageURLsWithCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imagesTableView reloadData];
+                [self.activityIandicatorView stopAnimating];
             });
         }];
     }
@@ -81,9 +85,12 @@
 
 - (void)addActivityIndicatorToFooterView {
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator startAnimating];
+    [activityIndicator setHidesWhenStopped:YES];
     activityIndicator.frame = CGRectMake(0, 0, self.imagesTableView.frame.size.width, 60);
-    [self.imagesTableView setTableFooterView:activityIndicator];
+    
+    self.activityIandicatorView = activityIndicator;
+    
+    [self.imagesTableView setTableFooterView:self.activityIandicatorView];
 }
 
 - (void)addRefreshControl {
@@ -137,15 +144,28 @@
     self.selectedTab = (TabsCollectionViewCell *)[self.tabsCollectionView cellForItemAtIndexPath:indexPath];
     self.selectedTab.backgroundColor = UIColor.lightGrayColor;
     
-    [self.imagesDataSource loadDataSortedBy:[self stringToEnum:self.selectedTab.title.text] withCompletionHnadler:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.imagesTableView reloadData];
-        });
-    }];
+    if ([self.selectedTab.title.text isEqualToString:@"YOUR IMAGES"]) { ///////////////////////////////////////////////
+        [self.imagesDataSource loadLocallyStoredDataWithCompletionHandler:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.imagesTableView reloadData];
+            });
+        }];
+    }
+    else {
+        [self.imagesDataSource loadDataSortedBy:[self stringToEnum:self.selectedTab.title.text] withCompletionHnadler:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.imagesTableView reloadData];
+            });
+        }];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SingleImageViewController *imageViewController = (SingleImageViewController *)[Utilities viewControllerWithClass:SingleImageViewController.class];
+    imageViewController.image = [self.imagesDataSource imageAtIndex:indexPath.row];
+    imageViewController.imageURL = [self.imagesDataSource localURLAtIndex:indexPath.row];
     
+    [self presentViewController:imageViewController animated:YES completion:nil];
 }
 
 - (ImagesSort)stringToEnum:(NSString *)string { ///todo
@@ -158,7 +178,9 @@
     return ImagesSortDate;
 }
 
-
+- (void)viewWillAppear:(BOOL)animated {
+    [self.imagesTableView reloadData];
+}
 
 @end
 

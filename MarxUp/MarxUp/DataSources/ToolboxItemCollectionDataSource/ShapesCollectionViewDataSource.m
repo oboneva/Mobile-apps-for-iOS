@@ -47,7 +47,7 @@
     return cell;
 }
 
-- (ShapeType)optionAtIndex:(NSInteger)index {
+- (NSInteger)optionAtIndex:(NSInteger)index {
     return self.shapes[index].type;
 }
 

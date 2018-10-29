@@ -11,11 +11,37 @@
 
 #import "Constants.h"
 
-@protocol ToolboxItemOptionsDelegate <NSObject>
+//@protocol ToolboxItemOptionsDelegate <NSObject>
+//
+//- (void)didChooseOption:(NSInteger)option forItem:(ToolboxItemType)itemType;
+//- (void)didChooseColor:(UIColor *)color;
+//- (void)didChooseLineWidth:(CGFloat)width;
+//
+//@end
 
-- (void)didChooseOption:(NSInteger)option forItem:(ToolboxItemType)itemType;
+@protocol ToolboxItemDelegate <NSObject>
+
+- (void)didChooseTextAnnotationFromType:(ToolboxItemType)type;
+- (void)didChoosePen;
+- (void)didChooseOption:(NSInteger)option forType:(ToolboxItemType)itemType;
 - (void)didChooseColor:(UIColor *)color;
 - (void)didChooseLineWidth:(CGFloat)width;
+
+@end
+
+@protocol ToolbarButtonsDelegate <NSObject>
+
+- (void)didSelectAnnotate;
+- (void)didSelectSave;
+- (void)didSelectReset;
+- (void)didSelectToolbox;
+
+@end
+
+@protocol EditedContentStateDelegate <NSObject>
+
+- (void)didSelectUndo;
+- (void)didSelectRedo;
 
 @end
 

@@ -54,10 +54,7 @@
 }
 
 - (UIImage *)imageForPDFDocument:(PDFDocument *)document withImageRect:(CGRect)cellRect{
-    PDFPage *firstPage = [document pageAtIndex:0];
-    UIImage *image = [firstPage thumbnailOfSize:cellRect.size forBox:kPDFDisplayBoxArtBox];
-
-    return image;
+    return [[document pageAtIndex:0] thumbnailOfSize:cellRect.size forBox:kPDFDisplayBoxArtBox];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

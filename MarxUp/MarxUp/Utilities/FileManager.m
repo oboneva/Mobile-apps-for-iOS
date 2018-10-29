@@ -8,6 +8,8 @@
 
 #import "FileManager.h"
 
+#define DEFAULT_IMAGE_NAME  @"Image"
+
 @implementation FileManager
 
 + (NSArray<NSURL *> *)loadDocumentsOfType:(NSString *)type {
@@ -20,7 +22,7 @@
 }
 
 + (void)copyDefaultDocuments:(NSArray<NSURL *> *)ducumentURLs toDirectoryURL:(NSURL *)dirUrl {
-    NSError *error = [NSError new];
+    NSError *error = nil;
     
     for (NSURL *documentURL in ducumentURLs) {
         if (![FileManager fileWithURL:documentURL existInDirectoryWithURL:dirUrl]) {
@@ -60,6 +62,43 @@
     NSURL *destinationURL = [FileManager getURLOfFile:url inDirectoryWithURL:documentsDirectoryURL];
     
     [fileManager copyItemAtURL:url toURL:destinationURL error:nil];
+}
+
++ (void)saveImage:(NSData *)imageData atImageURL:(NSURL *)url {
+    if (url) {
+        [imageData writeToURL:url atomically:YES];
+    }
+    else {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *documentsDirectoryURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        NSString *imageName = [FileManager unusedNameInDirectory:documentsDirectoryURL];
+        NSURL *fileURL = [documentsDirectoryURL URLByAppendingPathComponent:imageName];
+        fileURL = [fileURL URLByAppendingPathExtension:@"png"];
+        
+        NSError *error = nil;
+        [imageData writeToURL:fileURL options:NSDataWritingAtomic error:&error];
+    }
+}
+
++ (NSString *)unusedNameInDirectory:(NSURL *)dirURL {
+    int number = 1;
+    while ([FileManager isName:[NSString stringWithFormat:@"%@%d.png", DEFAULT_IMAGE_NAME, number]  alreadyUsedInDirectory:dirURL]) {
+        number++;
+    }
+    
+    return [NSString stringWithFormat:@"%@%d", DEFAULT_IMAGE_NAME, number];
+}
+
++ (BOOL)isName:(NSString *)name alreadyUsedInDirectory:(NSURL *)dirURL { //fileManager.fileExists(atPath: path)
+    NSArray<NSURL *> *content = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants error:nil];
+    
+    for(NSURL *fileURL in content) {
+        if ([[fileURL.pathComponents lastObject] isEqualToString:name]) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 @end

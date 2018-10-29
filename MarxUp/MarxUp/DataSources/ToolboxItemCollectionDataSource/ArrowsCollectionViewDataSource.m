@@ -31,7 +31,7 @@
     return newDataSource;
 }
 
-- (ArrowEndLineType)optionAtIndex:(NSInteger)index {
+- (NSInteger)optionAtIndex:(NSInteger)index {
     return self.arrows[index].type;
 }
 

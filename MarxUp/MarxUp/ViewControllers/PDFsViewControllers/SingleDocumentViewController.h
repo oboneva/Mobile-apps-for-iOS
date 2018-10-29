@@ -10,7 +10,7 @@
 #import <PDFKit/PDFKit.h>
 #import "Protocols.h"
 
-@interface SingleDocumentViewController : UIViewController <UIGestureRecognizerDelegate, UIPopoverPresentationControllerDelegate, ToolboxItemOptionsDelegate>
+@interface SingleDocumentViewController : UIViewController <UIGestureRecognizerDelegate, ToolbarButtonsDelegate>
 
 @property (strong, nonatomic) PDFDocument *pdfDocument;
 

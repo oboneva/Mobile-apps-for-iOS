@@ -19,17 +19,17 @@
 
 @implementation ToolboxInitializer
 
-+ (instancetype)newToolboxInitializer {
++ (instancetype)newToolboxInitializerForViewWithContentType:(ContentType)contentType {
     ToolboxInitializer *new = [ToolboxInitializer new];
     if (new) {
-        new.data = [ToolboxDataSource newDataSource];
+        new.data = [ToolboxDataSource newDataSourceForAnnotatingContentFromType:contentType];
     }
     return new;
 }
 
 - (void)addToolboxItemsToView:(UIScrollView *)toolboxView withTarget:(UIViewController *)targetController andSelector:(SEL)selector {
     int buttonY = 0;
-    CGFloat buttonSize = toolboxView.frame.size.width;
+    CGFloat buttonSize = 50;//toolboxView.frame.size.width;
     
     for (int i = 0; i < [self.data numberOfToolboxItems]; i++) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonY, buttonSize, buttonSize)];
@@ -46,13 +46,15 @@
 }
 
 + (void)configUI:(UIScrollView *)view {
-    view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+    view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
+//    view.backgroundColor = UIColor.clearColor;
     
-    view.layer.borderColor = [UIColor orangeColor].CGColor;
-    view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    view.layer.shadowRadius = 1.0;
-    view.layer.shadowOpacity = 0.5;
-    view.layer.borderWidth = 2.0;
+    //view.layer.borderColor = [UIColor orangeColor].CGColor;
+    //view.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    //view.layer.shadowColor = UIColor.clearColor.CGColor;
+    //view.layer.shadowRadius = 1.0;
+    //view.layer.shadowOpacity = 0.5;
+    //view.layer.borderWidth = 2.0;
 }
 
 @end

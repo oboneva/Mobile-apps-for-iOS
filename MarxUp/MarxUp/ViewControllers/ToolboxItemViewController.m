@@ -34,10 +34,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.itemOptionsDataSource isMemberOfClass:ColorsCollectionViewDataSource.class]) {
-        [self.toolboxItemsOptionsDelegate didChooseColor:[self.itemOptionsDataSource colorAtIndex:indexPath.item]];
+        [self.toolboxItemDelegate didChooseColor:[self.itemOptionsDataSource colorAtIndex:indexPath.item]];
     }
     else {
-        [self.toolboxItemsOptionsDelegate didChooseOption:[self.itemOptionsDataSource optionAtIndex:indexPath.item] forItem:self.itemType];
+        [self.toolboxItemDelegate didChooseOption:[self.itemOptionsDataSource optionAtIndex:indexPath.item] forType:self.itemType];
     }
 }
 

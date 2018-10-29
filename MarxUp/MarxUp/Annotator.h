@@ -9,21 +9,25 @@
 #import <UIKit/UIKit.h>
 #import <PDFKit/PDFKit.h>
 #import "Constants.h"
+#import "Protocols.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Annotator : NSObject
+@interface Annotator : NSObject <ToolboxItemDelegate, EditedContentStateDelegate>
 
-@property (assign) CGPoint lastPoint;
++ (instancetype)newForAnnotatingImage:(UIImageView *)imageView;
++ (instancetype)newForAnnotatingPDF:(PDFView *)pdfView;
 
-- (void)updatePropertiesForAnnotation:(PDFAnnotation *)pdfAnnotation;
-- (void)updateBezierPathWithPoint:(CGPoint) point;
-- (void)startDrawingWithBezierPathAtPoint:(CGPoint)point;
-- (void)updatePropertie:(NSInteger)property fromType:(ToolboxItemType)type;
-- (void)updateColor:(UIColor *)color;
-- (void)updateLineWidth:(CGFloat)width;
-- (void)addBezierPathToAnnotation:(PDFAnnotation *)annotation;
-- (void)addShapeWithBezierPathAtPoint:(CGPoint)point;
+- (void)beginAnnotatingAtPoint:(CGPoint)point;
+- (void)endAnnotatingAtPoint:(CGPoint)point;
+- (void)continueAnnotatingAtPoint:(CGPoint)point;
+
+- (UIImage *)getOriginalImage;
+- (UIImage *)getCurrentImage;
+
+- (void)clearChanges;
+- (void)reset;
+
 @end
 
 NS_ASSUME_NONNULL_END

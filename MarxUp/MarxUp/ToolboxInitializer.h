@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Utilities/Constants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ToolboxInitializer : NSObject
 
-+ (instancetype)newToolboxInitializer;
++ (instancetype)newToolboxInitializerForViewWithContentType:(ContentType)contentType;
 - (void)addToolboxItemsToView:(UIScrollView *)toolboxView withTarget:(UIViewController *)targetController andSelector:(SEL)selector;
 
 @end

@@ -27,20 +27,35 @@
     return new;
 }
 
-- (void)undoChange {
+- (BOOL)undoChange {
+    if (self.visibleChanges.count == 0) {
+        return false;
+    }
+    
+    
     id lastChange = [self.visibleChanges lastObject];
     if (lastChange) {
         [self.invisibleChanges addObject:lastChange];
         [self.visibleChanges removeLastObject];
+        return true;
     }
+    
+    return false;
 }
 
-- (void)redoChange {
+- (BOOL)redoChange {
+    if (self.invisibleChanges.count == 0) {
+        return false;
+    }
+    
     id lastDiscardedChange = [self.invisibleChanges lastObject];
     if (lastDiscardedChange) {
         [self.visibleChanges addObject:lastDiscardedChange];
         [self.invisibleChanges removeLastObject];
+        return true;
     }
+    
+    return false;
 }
 
 - (void)cleanAllChanges {
@@ -58,16 +73,12 @@
     return self.visibleChanges;
 }
 
-- (BOOL)couldRedo {
-    return self.invisibleChanges.count > 0;
-}
-
-- (BOOL)couldUndo {
-    return self.visibleChanges.count > 0;
-}
-
 - (id)lastChange {
     return [self.visibleChanges lastObject];
+}
+
+- (id)lastInvisibleChange {
+    return [self.invisibleChanges lastObject];
 }
 
 @end

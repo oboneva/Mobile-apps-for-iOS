@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ToolboxDataSource : NSObject
 
-+ (instancetype)newDataSource;
++ (instancetype)newDataSourceForAnnotatingContentFromType:(ContentType)contentType;
 - (int)numberOfToolboxItems;
 - (void)initItemWithButton:(UIButton *)button atIndex:(int)index;
 

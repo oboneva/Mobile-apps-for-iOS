@@ -16,16 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)newWithChangeType:(Class)changeType;
 
-- (void)undoChange;
-- (void)redoChange;
+- (BOOL)undoChange;
+- (BOOL)redoChange;
 - (void)cleanAllChanges;
 - (void)addChange:(id)change;
 
 - (NSArray *)getAllChanges;
 - (id)lastChange;
-
-- (BOOL)couldRedo;
-- (BOOL)couldUndo;
+- (id)lastInvisibleChange;
 
 @end
 

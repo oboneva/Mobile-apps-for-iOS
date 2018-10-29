@@ -7,13 +7,18 @@
 //
 
 #import "Utilities.h"
+
 #import "ShapesCollectionViewDataSource.h"
 #import "ColorsCollectionViewDataSource.h"
 #import "ArrowsCollectionViewDataSource.h"
+
 #import "DocumentPreviewTableViewController.h"
+#import "ImagePreviewViewController.h"
 #import "ToolboxItemViewController.h"
 #import "SingleDocumentViewController.h"
+#import "SingleImageViewController.h"
 #import "LineWidthViewController.h"
+#import "ToolbarViewController.h"
 
 @implementation Utilities
 
@@ -34,7 +39,7 @@
 }
 
 + (UIViewController *)viewControllerWithClass:(Class)class {
-    NSString *identifier = Utilities.classIdentifiers[class];
+    NSString *identifier = Utilities.classIdentifiers[NSStringFromClass(class)];
     
     UIViewController *viewController;
     if (identifier) {
@@ -47,13 +52,16 @@
     return viewController;
 }
 
-+ (NSDictionary<Class, NSString *> *)classIdentifiers {
-    static NSDictionary<Class, NSString *> *idents = nil;
++ (NSDictionary<NSString *, NSString *> *)classIdentifiers {
+    static NSDictionary<NSString *, NSString *> *idents = nil;
     if (!idents) {
-        idents = @{DocumentPreviewTableViewController.class : ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER,
-                   ToolboxItemViewController.class : ID_TOOLBOX_ITEM_VIEW_CONTROLLER,
-                   SingleDocumentViewController.class : ID_SINGLE_DOCUMENT_VIEW_CONTROLLER,
-                   LineWidthViewController.class : ID_LINE_WIDTH_VIEW_CONTROLLER
+        idents = @{NSStringFromClass(DocumentPreviewTableViewController.class) : ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER,
+                   NSStringFromClass(ImagePreviewViewController.class) : ID_IMAGE_PREVIEW_VIEW_CONTROLLER,
+                   NSStringFromClass(ToolboxItemViewController.class) : ID_TOOLBOX_ITEM_VIEW_CONTROLLER,
+                   NSStringFromClass(SingleDocumentViewController.class) : ID_SINGLE_DOCUMENT_VIEW_CONTROLLER,
+                   NSStringFromClass(SingleImageViewController.class) : ID_SINGLE_IMAGE_VIEW_CONTROLLER,
+                   NSStringFromClass(LineWidthViewController.class) : ID_LINE_WIDTH_VIEW_CONTROLLER,
+                   NSStringFromClass(ToolbarViewController.class) : ID_TOOLBAR_VIEW_CONTROLLER,
                  };
     }
     
@@ -93,5 +101,32 @@
               [NSNumber numberWithInteger:ArrowEndLineTypeOpen] : @"open"
              };
 }
+
++ (CGPoint)convertPoint:(CGPoint)point fromViewWithSize:(CGSize)viewSize andContentInAspectFitModeWithSize:(CGSize)contentSize {
+    CGFloat ratioX = viewSize.width / contentSize.width;
+    CGFloat ratioY = viewSize.height / contentSize.height;
+    
+    CGFloat scale = MIN(ratioX, ratioY);
+    
+    point.x -= (viewSize.width  - contentSize.width  * scale) / 2.0f;
+    point.y -= (viewSize.height - contentSize.height * scale) / 2.0f;
+    
+    point.x /= scale;
+    point.y /= scale;
+    
+    return point;
+}
+
++ (CGRect)rectBetweenPoint:(CGPoint)point andOtherPoint:(CGPoint)otherPoint {
+    CGFloat beginPointX = MIN(otherPoint.x, point.x);
+    CGFloat beginPointY = MIN(otherPoint.y, point.y);
+    CGFloat endPointX = MAX(otherPoint.x, point.x);
+    CGFloat endPointY = MAX(otherPoint.y, point.y);
+    CGFloat width = endPointX - beginPointX;
+    CGFloat height = endPointY - beginPointY;
+    
+    return CGRectMake(beginPointX, beginPointY, width, height);
+}
+
 
 @end
