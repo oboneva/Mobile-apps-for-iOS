@@ -9,7 +9,6 @@
 #import "Utilities.h"
 
 #import "ShapesCollectionViewDataSource.h"
-#import "ColorsCollectionViewDataSource.h"
 #import "ArrowsCollectionViewDataSource.h"
 
 #import "DocumentPreviewTableViewController.h"
@@ -18,6 +17,7 @@
 #import "SingleDocumentViewController.h"
 #import "SingleImageViewController.h"
 #import "LineWidthViewController.h"
+#import "ColorPickerViewController.h"
 #import "ToolbarViewController.h"
 
 @implementation Utilities
@@ -62,6 +62,7 @@
                    NSStringFromClass(SingleImageViewController.class) : ID_SINGLE_IMAGE_VIEW_CONTROLLER,
                    NSStringFromClass(LineWidthViewController.class) : ID_LINE_WIDTH_VIEW_CONTROLLER,
                    NSStringFromClass(ToolbarViewController.class) : ID_TOOLBAR_VIEW_CONTROLLER,
+                   NSStringFromClass(ColorPickerViewController.class) : ID_COLOR_PICKER_VIEW_CONTROLLER,
                  };
     }
     
@@ -69,8 +70,7 @@
 }
 
 + (NSDictionary<NSNumber *, NSString *> *)dataSources {
-   return @{[NSNumber numberWithInteger:ToolboxItemTypeColor] : NSStringFromClass(ColorsCollectionViewDataSource.class),
-            [NSNumber numberWithInteger:ToolboxItemTypeArrow] : NSStringFromClass(ArrowsCollectionViewDataSource.class),
+   return @{[NSNumber numberWithInteger:ToolboxItemTypeArrow] : NSStringFromClass(ArrowsCollectionViewDataSource.class),
             [NSNumber numberWithInteger:ToolboxItemTypeShape] : NSStringFromClass(ShapesCollectionViewDataSource.class)
             };
 }

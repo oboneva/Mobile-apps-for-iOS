@@ -9,7 +9,6 @@
 #import "ToolboxItemViewController.h"
 
 #import "CollectionViewDataSource.h"
-#import "ColorsCollectionViewDataSource.h"
 
 #import "Utilities.h"
 
@@ -33,12 +32,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.itemOptionsDataSource isMemberOfClass:ColorsCollectionViewDataSource.class]) {
-        [self.toolboxItemDelegate didChooseColor:[self.itemOptionsDataSource colorAtIndex:indexPath.item]];
-    }
-    else {
         [self.toolboxItemDelegate didChooseOption:[self.itemOptionsDataSource optionAtIndex:indexPath.item] forType:self.itemType];
-    }
 }
 
 @end

@@ -16,6 +16,7 @@
 
 #define ID_VIEW_CONTROLLER                     @"RootViewControllerID"
 #define ID_LINE_WIDTH_VIEW_CONTROLLER          @"LineWidthViewControllerID"
+#define ID_COLOR_PICKER_VIEW_CONTROLLER        @"ColorPickerViewControllerID"
 #define ID_TOOLBOX_ITEM_VIEW_CONTROLLER        @"ToolboxItemViewControllerID"
 #define ID_DOCUMENT_PREVIEW_VIEW_CONTROLLER    @"DocumentPreviewTableViewControllerID"
 #define ID_IMAGE_PREVIEW_VIEW_CONTROLLER       @"ImagePreviewTableViewControllerID"

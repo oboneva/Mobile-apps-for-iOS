@@ -9,8 +9,10 @@
 #import "ToolboxViewController.h"
 #import "LineWidthViewController.h"
 #import "ToolboxItemViewcontroller.h"
+#import "ColorPickerViewController.h"
 
 #import "ToolboxInitializer.h"
+#import "Utilities.h"
 
 @interface ToolboxViewController ()
 
@@ -57,13 +59,20 @@
 
 - (void)presentOptionsForToolboxItem:(UIButton *)item {
     UIViewController *viewController;
+    CGSize contentSize = CGSizeMake(100, 150);
     if (item.tag == ToolboxItemTypeWidth) {
-        LineWidthViewController *lineWidthControler = (LineWidthViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_LINE_WIDTH_VIEW_CONTROLLER];
+        LineWidthViewController *lineWidthControler = (LineWidthViewController *)[Utilities viewControllerWithClass:LineWidthViewController.class];
         lineWidthControler.toolboxItemDelegate = self.toolboxItemDelegate;
         viewController = lineWidthControler;
     }
+    else if (item.tag == ToolboxItemTypeColor) {
+        ColorPickerViewController *colorPickerController = (ColorPickerViewController *)[Utilities viewControllerWithClass:ColorPickerViewController.class];
+        colorPickerController.toolboxItemDelegate = self.toolboxItemDelegate;
+        viewController = colorPickerController;
+        contentSize = CGSizeMake(220, 220);
+    }
     else {
-        ToolboxItemViewController *itemCollectionViewController = (ToolboxItemViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:ID_TOOLBOX_ITEM_VIEW_CONTROLLER];
+        ToolboxItemViewController *itemCollectionViewController = (ToolboxItemViewController *)[Utilities viewControllerWithClass:ToolboxItemViewController.class];
         itemCollectionViewController.itemType = item.tag;
         itemCollectionViewController.toolboxItemDelegate = self.toolboxItemDelegate;
         viewController = itemCollectionViewController;
@@ -73,7 +82,7 @@
     viewController.popoverPresentationController.delegate = self;
     viewController.popoverPresentationController.sourceView = self.view;
     viewController.popoverPresentationController.sourceRect = item.frame;
-    viewController.preferredContentSize = CGSizeMake(100, 150);
+    viewController.preferredContentSize = contentSize;
     
     [self presentViewController:viewController animated:YES completion:nil];
 }

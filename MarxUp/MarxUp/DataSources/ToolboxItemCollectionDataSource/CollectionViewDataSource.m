@@ -25,8 +25,4 @@
     return (NSInteger)nil;
 }
 
-- (UIColor *)colorAtIndex:(NSInteger)index {
-    return (UIColor *)nil;
-}
-
 @end

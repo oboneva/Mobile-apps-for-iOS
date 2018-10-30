@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CollectionViewDataSource : NSObject <UICollectionViewDataSource>
 
 - (NSInteger)optionAtIndex:(NSInteger)index;
-- (UIColor *)colorAtIndex:(NSInteger)index;
 
 @end
 

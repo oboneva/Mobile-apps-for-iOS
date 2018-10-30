@@ -508,6 +508,37 @@
             </objects>
             <point key="canvasLocation" x="1237" y="264"/>
         </scene>
+        <!--Color Picker View Controller-->
+        <scene sceneID="GSj-3g-lIm">
+            <objects>
+                <viewController storyboardIdentifier="ColorPickerViewControllerID" id="xlp-p7-KNw" customClass="ColorPickerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6on-91-fSI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YMw-bb-ppq">
+                                <rect key="frame" x="87.5" y="243.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="GN9-lW-UAW"/>
+                                    <constraint firstAttribute="height" constant="200" id="J1p-zG-h3E"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YMw-bb-ppq" firstAttribute="centerX" secondItem="f3P-ke-g8a" secondAttribute="centerX" id="HBC-2C-PqM"/>
+                            <constraint firstItem="YMw-bb-ppq" firstAttribute="centerY" secondItem="f3P-ke-g8a" secondAttribute="centerY" id="UWW-TL-pjn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f3P-ke-g8a"/>
+                    </view>
+                    <connections>
+                        <outlet property="colorWheelImageView" destination="YMw-bb-ppq" id="Cxx-u5-8bp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CDe-8Z-Mpc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1884" y="531"/>
+        </scene>
     </scenes>
     <resources>
         <image name="annotate_button_icon" width="32" height="32"/>
