@@ -59,4 +59,9 @@ typedef enum : NSUInteger {
     ContentTypeImage,
 } ContentType;
 
+typedef enum : NSUInteger {
+    EnumCameraFront,
+    EnumCameraBack,
+} EnumCamera;
+
 #endif /* Constants_h */

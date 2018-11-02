@@ -34,6 +34,8 @@
 		FAD85FCD218059700074F314 /* ToolboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCC218059700074F314 /* ToolboxViewController.m */; };
 		FAD85FD02180655C0074F314 /* ToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCF2180655C0074F314 /* ToolbarViewController.m */; };
 		FAD85FD4218717C20074F314 /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FD3218717C20074F314 /* ColorPickerViewController.m */; };
+		FAD85FD7218AF1DC0074F314 /* PhotoCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FD6218AF1DC0074F314 /* PhotoCaptureViewController.m */; };
+		FAD85FDB218AF9BC0074F314 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FDA218AF9BC0074F314 /* Camera.m */; };
 		FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */; };
 		FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7CD21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m */; };
 		FAE6F7D121663D4A00DE22A1 /* DocumentPreviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6F7D021663D4A00DE22A1 /* DocumentPreviewTableViewController.m */; };
@@ -99,6 +101,10 @@
 		FAD85FCF2180655C0074F314 /* ToolbarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolbarViewController.m; sourceTree = "<group>"; };
 		FAD85FD2218717C20074F314 /* ColorPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorPickerViewController.h; sourceTree = "<group>"; };
 		FAD85FD3218717C20074F314 /* ColorPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorPickerViewController.m; sourceTree = "<group>"; };
+		FAD85FD5218AF1DC0074F314 /* PhotoCaptureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoCaptureViewController.h; sourceTree = "<group>"; };
+		FAD85FD6218AF1DC0074F314 /* PhotoCaptureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoCaptureViewController.m; sourceTree = "<group>"; };
+		FAD85FD9218AF9BC0074F314 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		FAD85FDA218AF9BC0074F314 /* Camera.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		FAE6F7C92163A04500DE22A1 /* LineWidthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineWidthViewController.h; sourceTree = "<group>"; };
 		FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineWidthViewController.m; sourceTree = "<group>"; };
 		FAE6F7CC21663D0A00DE22A1 /* DocumentPreviewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentPreviewTableViewCell.h; sourceTree = "<group>"; };
@@ -151,6 +157,8 @@
 		FA53C0FC2150EFF10039390F /* MarxUp */ = {
 			isa = PBXGroup;
 			children = (
+				FAD85FD9218AF9BC0074F314 /* Camera.h */,
+				FAD85FDA218AF9BC0074F314 /* Camera.m */,
 				FACD95F3215B9C1500E38BD3 /* Models */,
 				FAD85FCA218059160074F314 /* Views */,
 				FA53C1162150F0080039390F /* ViewControllers */,
@@ -179,17 +187,14 @@
 		FA53C1162150F0080039390F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FA53C1002150EFF10039390F /* ViewController.h */,
+				FA53C1012150EFF10039390F /* ViewController.m */,
+				FAD85FD5218AF1DC0074F314 /* PhotoCaptureViewController.h */,
+				FAD85FD6218AF1DC0074F314 /* PhotoCaptureViewController.m */,
+				FAD85FD8218AF8640074F314 /* ToolboxItemsViewControllers */,
 				FAD85FD121806BAE0074F314 /* MenusViewControllers */,
 				FAD85FC6217EF2790074F314 /* PDFsViewControllers */,
 				FAD85FC5217EF2550074F314 /* ImagesViewControllers */,
-				FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */,
-				FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */,
-				FAD85FD2218717C20074F314 /* ColorPickerViewController.h */,
-				FAD85FD3218717C20074F314 /* ColorPickerViewController.m */,
-				FAE6F7C92163A04500DE22A1 /* LineWidthViewController.h */,
-				FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */,
-				FA53C1002150EFF10039390F /* ViewController.h */,
-				FA53C1012150EFF10039390F /* ViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -303,6 +308,19 @@
 			path = MenusViewControllers;
 			sourceTree = "<group>";
 		};
+		FAD85FD8218AF8640074F314 /* ToolboxItemsViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FACD95E1215B7AB300E38BD3 /* ToolboxItemViewController.h */,
+				FACD95E2215B7AB300E38BD3 /* ToolboxItemViewController.m */,
+				FAD85FD2218717C20074F314 /* ColorPickerViewController.h */,
+				FAD85FD3218717C20074F314 /* ColorPickerViewController.m */,
+				FAE6F7C92163A04500DE22A1 /* LineWidthViewController.h */,
+				FAE6F7CA2163A04500DE22A1 /* LineWidthViewController.m */,
+			);
+			path = ToolboxItemsViewControllers;
+			sourceTree = "<group>";
+		};
 		FAE6F7EA217600FB00DE22A1 /* ImagesPreviewDataSorce */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,11 +424,13 @@
 				FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */,
 				FAA412AD2179C22C009DB7BF /* SingleImageViewController.m in Sources */,
 				FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */,
+				FAD85FDB218AF9BC0074F314 /* Camera.m in Sources */,
 				FAE6F7CB2163A04500DE22A1 /* LineWidthViewController.m in Sources */,
 				FAE6F7DD216B6C4900DE22A1 /* ImagePreviewTableViewCell.m in Sources */,
 				FACD95EA215B7F5F00E38BD3 /* CollectionViewDataSource.m in Sources */,
 				FAD85FCD218059700074F314 /* ToolboxViewController.m in Sources */,
 				FACD95D021526AA100E38BD3 /* ChangesHistory.m in Sources */,
+				FAD85FD7218AF1DC0074F314 /* PhotoCaptureViewController.m in Sources */,
 				FAD85FD02180655C0074F314 /* ToolbarViewController.m in Sources */,
 				FAE6F7CE21663D0A00DE22A1 /* DocumentPreviewTableViewCell.m in Sources */,
 				FAE6F7DA216B67FC00DE22A1 /* ImageDataRequester.m in Sources */,

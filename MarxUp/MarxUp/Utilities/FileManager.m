@@ -64,7 +64,7 @@
     [fileManager copyItemAtURL:url toURL:destinationURL error:nil];
 }
 
-+ (void)saveImage:(NSData *)imageData atImageURL:(NSURL *)url {
++ (void)saveImage:(NSData *)imageData atImageURL:(nullable NSURL *)url {
     if (url) {
         [imageData writeToURL:url atomically:YES];
     }

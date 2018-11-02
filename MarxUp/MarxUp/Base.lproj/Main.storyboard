@@ -26,17 +26,26 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gnj-iu-36T">
-                                <rect key="frame" x="162" y="386" width="50" height="30"/>
+                                <rect key="frame" x="162.5" y="386" width="50" height="30"/>
                                 <state key="normal" title="Images"/>
                                 <connections>
                                     <segue destination="9O6-qI-Rfh" kind="show" id="nX1-Ej-Q9w"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfq-Ud-D0q">
+                                <rect key="frame" x="160.5" y="273.5" width="54" height="30"/>
+                                <state key="normal" title="Camera"/>
+                                <connections>
+                                    <segue destination="I2a-Di-Lak" kind="show" id="eGK-CD-Fem"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tLh-1c-iMK" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="5Dx-XF-fOA"/>
+                            <constraint firstItem="Sfq-Ud-D0q" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="KKq-cf-kSj"/>
                             <constraint firstItem="tLh-1c-iMK" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="ORZ-xh-QuK"/>
+                            <constraint firstItem="tLh-1c-iMK" firstAttribute="top" secondItem="Sfq-Ud-D0q" secondAttribute="bottom" constant="25" id="gwR-ob-rIq"/>
                             <constraint firstItem="Gnj-iu-36T" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="xdu-vj-7lP"/>
                             <constraint firstItem="Gnj-iu-36T" firstAttribute="top" secondItem="tLh-1c-iMK" secondAttribute="bottom" constant="27.5" id="zL3-VK-i3r"/>
                         </constraints>
@@ -100,7 +109,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N0Q-Vh-D0B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1090.4000000000001" y="1.3493253373313345"/>
+            <point key="canvasLocation" x="-1095" y="-803"/>
         </scene>
         <!--Image Preview View Controller-->
         <scene sceneID="rHa-nb-BrQ">
@@ -197,7 +206,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WDl-kA-YJq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1090" y="750"/>
+            <point key="canvasLocation" x="-1095" y="-10"/>
         </scene>
         <!--Single Document View Controller-->
         <scene sceneID="925-sp-4tj">
@@ -316,6 +325,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9pn-st-Vai" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-191.19999999999999" y="655.32233883058473"/>
+        </scene>
+        <!--Photo Capture View Controller-->
+        <scene sceneID="GLQ-jh-5eP">
+            <objects>
+                <viewController id="I2a-Di-Lak" customClass="PhotoCaptureViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BmG-8l-mgB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVG-Sd-RVF">
+                                <rect key="frame" x="169.5" y="621" width="36" height="36"/>
+                                <state key="normal" image="take_photo_button_icon">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onTakePhotoTap:" destination="I2a-Di-Lak" eventType="touchUpInside" id="46U-sI-TMm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W3q-pd-veN">
+                                <rect key="frame" x="329" y="30" width="36" height="36"/>
+                                <state key="normal" image="camera_front_icon"/>
+                                <connections>
+                                    <action selector="onSwitchCameraTap:" destination="I2a-Di-Lak" eventType="touchUpInside" id="fAU-d0-beX"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bad-J1-Rnx" firstAttribute="trailing" secondItem="W3q-pd-veN" secondAttribute="trailing" constant="10" id="1KO-Op-wF5"/>
+                            <constraint firstItem="pVG-Sd-RVF" firstAttribute="centerX" secondItem="bad-J1-Rnx" secondAttribute="centerX" id="236-Lr-fMO"/>
+                            <constraint firstItem="bad-J1-Rnx" firstAttribute="bottom" secondItem="pVG-Sd-RVF" secondAttribute="bottom" constant="10" id="Iao-L7-cme"/>
+                            <constraint firstItem="W3q-pd-veN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bad-J1-Rnx" secondAttribute="leading" constant="319" id="mT0-Sp-5If"/>
+                            <constraint firstItem="W3q-pd-veN" firstAttribute="top" secondItem="bad-J1-Rnx" secondAttribute="top" constant="10" id="tsD-iI-pKR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bad-J1-Rnx"/>
+                    </view>
+                    <connections>
+                        <outlet property="photoPreviewView" destination="BmG-8l-mgB" id="qVl-A1-K7N"/>
+                        <outlet property="switchCameraButton" destination="W3q-pd-veN" id="LAd-jx-9fj"/>
+                        <outlet property="takePhotoButton" destination="pVG-Sd-RVF" id="sSM-vg-ljR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cKx-z4-mPT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1095" y="750"/>
         </scene>
         <!--Toolbox Item View Controller-->
         <scene sceneID="x3t-Db-XJ1">
@@ -483,6 +537,7 @@
                             <constraint firstItem="FOt-cY-gls" firstAttribute="leading" secondItem="9qq-iE-o2k" secondAttribute="leading" constant="15" id="gKg-Oa-Rhi"/>
                             <constraint firstItem="Vw3-ah-IP3" firstAttribute="leading" secondItem="vqW-PJ-nlA" secondAttribute="trailing" constant="15" id="ifl-lh-Q7k"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="a1r-65-vzC"/>
                     </view>
                     <connections>
                         <outlet property="resetButton" destination="vqW-PJ-nlA" id="zSU-Cc-N4M"/>
@@ -502,6 +557,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="50" height="597"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="iRa-5q-CZr"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1S-fj-XRm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -542,6 +598,8 @@
     </scenes>
     <resources>
         <image name="annotate_button_icon" width="32" height="32"/>
+        <image name="camera_front_icon" width="36" height="36"/>
+        <image name="take_photo_button_icon" width="36" height="36"/>
         <image name="toolbox-toggle" width="96" height="96"/>
     </resources>
     <inferredMetricsTieBreakers>

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<NSURL *> *)loadDocumentsOfType:(NSString *)type;
 + (void)copyURLToDocuments:(NSURL *)url;
-+ (void)saveImage:(NSData *)imageData atImageURL:(NSURL *)url;
++ (void)saveImage:(NSData *)imageData atImageURL:(nullable NSURL *)url;
 
 @end
 

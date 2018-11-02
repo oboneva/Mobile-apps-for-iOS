@@ -45,7 +45,9 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+    if (!self.selectedTab) {
+            [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+    }
 }
 
 - (void)configTabsCollection {
@@ -142,7 +144,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedTab.backgroundColor = UIColor.clearColor;
     self.selectedTab = (TabsCollectionViewCell *)[self.tabsCollectionView cellForItemAtIndexPath:indexPath];
-    self.selectedTab.backgroundColor = UIColor.lightGrayColor;
+    self.selectedTab.backgroundColor = [UIColor.lightGrayColor colorWithAlphaComponent:0.1];
     
     if ([self.selectedTab.title.text isEqualToString:@"YOUR IMAGES"]) { ///////////////////////////////////////////////
         [self.imagesDataSource loadLocallyStoredDataWithCompletionHandler:^{
