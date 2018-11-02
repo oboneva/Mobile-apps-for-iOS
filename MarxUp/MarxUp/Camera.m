@@ -134,4 +134,10 @@
     [FileManager saveImage:imageData atImageURL:nil];
 }
 
+- (void)updateOrientationWithView:(UIView *)view {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.previewLayer.frame = view.bounds;
+    });
+}
+
 @end

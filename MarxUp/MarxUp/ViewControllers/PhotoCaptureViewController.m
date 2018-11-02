@@ -60,4 +60,9 @@
     [self.camera switchCamera];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.camera updateOrientationWithView:self.photoPreviewView];
+}
+
 @end

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)switchCamera;
 - (void)takePhoto;
 - (void)stopCamera;
+- (void)updateOrientationWithView:(UIView *)view;
 
 @end
 
