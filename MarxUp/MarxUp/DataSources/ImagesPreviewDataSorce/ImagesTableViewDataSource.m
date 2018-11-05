@@ -17,7 +17,6 @@
 
 #import "Constants.h"
 
-
 @interface ImagesTableViewDataSource ()
 
 @property (strong, nonatomic) NSMutableArray<NSString *> *imageURLs;
@@ -44,16 +43,18 @@
     return new;
 }
 
-- (void)loadDataSortedBy:(ImagesSort)sort withCompletionHnadler:(void(^)(void))handler {
+- (void)loadDataSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(void))handler {
     self.dataIsStoredLocally = false;
     self.sort = sort;
-    
-    [self.dataRequester getImageLinksSortedBy:sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
-        if (imageIDs) {
-            [self.imageURLs removeAllObjects];
-            [self.imageURLs addObjectsFromArray:imageIDs];
-        }
-        handler();
+
+    [self.dataRequester cancelCurrentRequestsWithCompletionHandler:^{
+        [self.imageURLs removeAllObjects];
+        [self.dataRequester getImageLinksSortedBy:sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
+            if (imageIDs) {
+                [self.imageURLs addObjectsFromArray:imageIDs];
+            }
+            handler();
+        }];
     }];
 }
 
@@ -123,36 +124,40 @@
     }
 }
 
-- (void)addImageURLsWithCompletionHandler:(void(^)(void))handler {///////////////////////////////////////////
-    if (self.dataIsStoredLocally) {
-        handler();
-    }
-    else {
-        [self.dataRequester getImageLinksSortedBy:self.sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
-            if (imageIDs) {
-                [self.imageURLs addObjectsFromArray:imageIDs];
-                [self.imageURLs removeObjectsInArray:self.invalidImageURLs];
-                [self.invalidImageURLs removeAllObjects];
-            }
+- (void)addImageURLsWithCompletionHandler:(void(^)(void))handler {
+    [self.dataRequester cancelCurrentRequestsWithCompletionHandler:^{
+        if (self.dataIsStoredLocally) {
             handler();
-        }];
-    }
+        }
+        else {
+            [self.dataRequester getImageLinksSortedBy:self.sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
+                if (imageIDs) {
+                    [self.imageURLs addObjectsFromArray:imageIDs];
+                    [self.imageURLs removeObjectsInArray:self.invalidImageURLs];
+                    [self.invalidImageURLs removeAllObjects];
+                }
+                handler();
+            }];
+        }
+    }];
 }
 
 - (void)refreshDataWithCompletionHandler:(void(^)(void))handler {//////////////////////////////////////////
-    if (self.dataIsStoredLocally) {
-        handler();
-    }
-    else {
-        [self.dataRequester getImageLinksSortedBy:self.sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
-            if (imageIDs) {
-                [self.imageURLs removeAllObjects];
-                [self.invalidImageURLs removeAllObjects];
-                [self.imageURLs addObjectsFromArray:imageIDs];
-            }
+    [self.dataRequester cancelCurrentRequestsWithCompletionHandler:^{
+        if (self.dataIsStoredLocally) {
             handler();
-        }];
-    }
+        }
+        else {
+            [self.dataRequester getImageLinksSortedBy:self.sort withCompletionHandler:^(NSArray<NSString *> * _Nonnull imageIDs) {
+                if (imageIDs) {
+                    [self.imageURLs removeAllObjects];
+                    [self.invalidImageURLs removeAllObjects];
+                    [self.imageURLs addObjectsFromArray:imageIDs];
+                }
+                handler();
+            }];
+        }
+    }];
 }
 
 - (UIImage *)imageAtIndex:(NSInteger)index {
@@ -160,6 +165,10 @@
         return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", self.imageURLs[index]]]]];
     }
     return [self.imageCache objectForKey:self.imageURLs[index]];
+}
+
+- (NSURL *)URLAtIndex:(NSInteger)index {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@", self.imageURLs[index]]];
 }
 
 - (NSURL *)localURLAtIndex:(NSInteger)index {

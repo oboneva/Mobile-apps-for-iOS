@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getImageDataWithLink:(NSString *)imageLink andCompletionHandler:(void(^)(NSData *))handler;
 - (void)getImageLinksSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(NSArray<NSString *> *))handler;
+- (void)cancelCurrentRequestsWithCompletionHandler:(void(^)(void))handler;
 
 @end
 

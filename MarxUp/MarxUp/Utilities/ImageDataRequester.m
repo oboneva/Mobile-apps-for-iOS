@@ -14,6 +14,7 @@
 #define KEY_LINK               @"link"
 #define KEY_ANIMATED           @"animated"
 #define SUFFIX_SMALL_THUMBNAIL @"t"
+#define IMAGES_IN_CHUNK        50
 
 @interface ImageDataRequester ()
 
@@ -36,6 +37,10 @@
     return new;
 }
 
+//- (void)getImageLinksSortedBy:(ImagesSort)sort withChunkSize:(int)size andCompletionHnadler:(void(^)(NSArray<NSString *> *))handler {
+//
+//}
+
 - (void)getImageLinksSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(NSArray<NSString *> *))handler {
     if (sort != self.sort) {
         self.page = 1;
@@ -47,30 +52,47 @@
     [self updateRequest];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:self.request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSArray<NSString *> *imageLinks = nil;
-        if ([dataDict[@"status"] intValue] == 200) {
-            imageLinks = [self linksFromJSONDict:dataDict];
+        if (!data) {
+            handler(nil);
+        }
+        else {
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            if ([dataDict[@"status"] intValue] == 200) {
+                
+                [self linksFromJSONDict:dataDict withCount:IMAGES_IN_CHUNK andHandler:^(NSArray<NSString *> *links) {
+                    handler(links);
+                }];
+                
+            }
+            else {
+                handler(nil);
+            }
         }
         
+        
         self.areImageIDsLoading = FALSE;
-        handler(imageLinks);
     }];
     [task resume];
     
     self.page++;
 }
 
-- (NSArray<NSString *> *)linksFromJSONDict:(NSDictionary *)dictionary {
+- (void)linksFromJSONDict:(NSDictionary *)dictionary withCount:(int)count andHandler:(void(^)(NSArray<NSString *> *))handler {
     NSMutableArray<NSString *> *links = [NSMutableArray new];
     for (NSDictionary *dict in dictionary[KEY_DATA]) {
         NSDictionary *imageDictionary = [dict[KEY_IMAGES] firstObject];
         if (imageDictionary && [self shouldAddImageWithImageDictionary:imageDictionary]) {
             [links addObject:imageDictionary[KEY_LINK]];
+            if( links.count == count) {
+                handler(links);
+                [links removeAllObjects];
+            }
         }
     }
     
-    return links;
+    if (links.count > 0) {
+        handler(links);
+    }
 }
 
 - (BOOL)shouldAddImageWithImageDictionary:(NSDictionary *)imageDictionary {
@@ -94,7 +116,7 @@
 - (void)updateRequest {
     self.request = [NSMutableURLRequest requestWithURL:self.url];
     [self.request setHTTPMethod:@"GET"];
-    [self.request addValue:@"Client-ID YOUR-ID" forHTTPHeaderField:@"Authorization"];
+    [self.request addValue:@"Client-ID d556ce997e8acab" forHTTPHeaderField:@"Authorization"];
 }
 
 - (NSString *)sortEnumToString:(ImagesSort)sort {
@@ -105,6 +127,18 @@
         return @"top";
     }
     return @"time";
+}
+
+- (void)cancelCurrentRequestsWithCompletionHandler:(void(^)(void))handler {
+    [self.session getAllTasksWithCompletionHandler:^(NSArray<__kindof NSURLSessionTask *> * _Nonnull tasks) {
+        for (NSURLSessionTask *task in tasks) {
+            if (task.currentRequest == self.request){
+                [task cancel];
+                NSLog(@"here");
+            }
+        }
+        handler();
+    }];
 }
 
 @end

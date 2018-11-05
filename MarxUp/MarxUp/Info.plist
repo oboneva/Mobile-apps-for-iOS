@@ -2,12 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>For saving photos</string>
 	<key>NSCameraUsageDescription</key>
 	<string>For taking photos</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
+		<dict>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>png</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+		</dict>
+		<dict>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.jpeg</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>jpeg</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+		</dict>
 		<dict>
 			<key>LSItemContentTypes</key>
 			<array>

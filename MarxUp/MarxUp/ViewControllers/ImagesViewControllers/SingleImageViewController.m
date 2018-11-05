@@ -30,6 +30,9 @@
     [super viewDidLoad];
     
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    if (!self.image) {
+         self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", self.imageURL]]]];
+    }
     self.imageView.image = self.image;
     
     [self addGestureRecognizers];
@@ -92,7 +95,7 @@
 
 - (void)didSelectSave {
     NSData *data = UIImagePNGRepresentation(self.imageView.image);
-    [FileManager saveImage:data atImageURL:self.imageURL];
+    [FileManager saveImage:data atImageURL:self.imageLocalURL];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

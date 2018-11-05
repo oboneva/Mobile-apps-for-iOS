@@ -154,7 +154,7 @@
         }];
     }
     else {
-        [self.imagesDataSource loadDataSortedBy:[self stringToEnum:self.selectedTab.title.text] withCompletionHnadler:^{
+        [self.imagesDataSource loadDataSortedBy:[self stringToEnum:self.selectedTab.title.text] withCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imagesTableView reloadData];
             });
@@ -165,7 +165,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleImageViewController *imageViewController = (SingleImageViewController *)[Utilities viewControllerWithClass:SingleImageViewController.class];
     imageViewController.image = [self.imagesDataSource imageAtIndex:indexPath.row];
-    imageViewController.imageURL = [self.imagesDataSource localURLAtIndex:indexPath.row];
+    imageViewController.imageLocalURL = [self.imagesDataSource localURLAtIndex:indexPath.row];
+    imageViewController.imageURL = [self.imagesDataSource URLAtIndex:indexPath.row];
     
     [self presentViewController:imageViewController animated:YES completion:nil];
 }

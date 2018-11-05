@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSURL *imageURL;
+@property (strong, nonatomic) NSURL *imageLocalURL;
 
 @end
 

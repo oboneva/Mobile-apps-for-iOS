@@ -21,11 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addImageURLsWithCompletionHandler:(void(^)(void))handler;
 - (void)refreshDataWithCompletionHandler:(void(^)(void))handler;
 
-- (void)loadDataSortedBy:(ImagesSort)sort withCompletionHnadler:(void(^)(void))handler;
+- (void)loadDataSortedBy:(ImagesSort)sort withCompletionHandler:(void(^)(void))handler;
 - (void)loadLocallyStoredDataWithCompletionHandler:(void(^)(void))handler;
 
 - (UIImage *)imageAtIndex:(NSInteger)index;
 - (NSURL *)localURLAtIndex:(NSInteger)index;
+- (NSURL *)URLAtIndex:(NSInteger)index;
 
 - (BOOL)isDataSourceLocal;
 
