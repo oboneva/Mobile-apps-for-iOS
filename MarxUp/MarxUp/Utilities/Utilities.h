@@ -23,6 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (CGPoint)convertPoint:(CGPoint)point fromViewWithSize:(CGSize)viewSize andContentInAspectFitModeWithSize:(CGSize)contentSize;
 + (CGRect)rectBetweenPoint:(CGPoint)point andOtherPoint:(CGPoint)otherPoint;
 
++ (NSString *)frontCameraIcon;
++ (NSString *)backCameraIcon;
+
++ (ImagesSort)stringToEnum:(NSString *)string;
+
 @end
 
 NS_ASSUME_NONNULL_END

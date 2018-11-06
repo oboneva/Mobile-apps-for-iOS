@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ToolboxViewController : UIViewController <UIPopoverPresentationControllerDelegate>
 
-@property (weak, nonatomic)id<EditedContentStateDelegate> editedContentStateDelegate;
-@property (weak, nonatomic)id<ToolboxItemDelegate> toolboxItemDelegate;
-@property (assign)ContentType buttonsForContentType;;
+@property (weak, nonatomic) id<EditedContentStateDelegate> editedContentStateDelegate;
+@property (weak, nonatomic) id<ToolboxItemDelegate> toolboxItemDelegate;
+@property (assign) ContentType buttonsForContentType;;
 
 @end
 

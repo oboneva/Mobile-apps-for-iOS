@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ColorPickerViewController : UIViewController <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic)id<ToolboxItemDelegate> toolboxItemDelegate;
+@property (weak, nonatomic) id<ToolboxItemDelegate> toolboxItemDelegate;
 
 @end
 

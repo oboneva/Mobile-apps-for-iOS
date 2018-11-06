@@ -128,5 +128,23 @@
     return CGRectMake(beginPointX, beginPointY, width, height);
 }
 
++ (NSString *)frontCameraIcon {
+    return  @"camera_front_icon";
+
+}
+
++ (NSString *)backCameraIcon {
+    return @"camera_back_icon";
+}
+
++ (ImagesSort)stringToEnum:(NSString *)string {
+    if ([string isEqualToString:@"VIRAL"]) {
+        return ImagesSortViral;
+    }
+    else if ([string isEqualToString:@"TOP"]) {
+        return ImagesSortTop;
+    }
+    return ImagesSortDate;
+}
 
 @end

@@ -16,7 +16,7 @@
 
 @interface ToolboxViewController ()
 
-@property (strong, nonatomic)UIButton *previouslyPressed;
+@property (strong, nonatomic) UIButton *previouslyPressed;
 
 @end
 

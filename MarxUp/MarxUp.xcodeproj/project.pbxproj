@@ -157,8 +157,6 @@
 		FA53C0FC2150EFF10039390F /* MarxUp */ = {
 			isa = PBXGroup;
 			children = (
-				FAD85FD9218AF9BC0074F314 /* Camera.h */,
-				FAD85FDA218AF9BC0074F314 /* Camera.m */,
 				FACD95F3215B9C1500E38BD3 /* Models */,
 				FAD85FCA218059160074F314 /* Views */,
 				FA53C1162150F0080039390F /* ViewControllers */,
@@ -167,6 +165,8 @@
 				FACD95EB215B7FA800E38BD3 /* Utilities */,
 				06B1D4C321622C60004B552E /* Annotator.h */,
 				06B1D4C421622C60004B552E /* Annotator.m */,
+				FAD85FD9218AF9BC0074F314 /* Camera.h */,
+				FAD85FDA218AF9BC0074F314 /* Camera.m */,
 				FACD95FF215D00B200E38BD3 /* ToolboxInitializer.h */,
 				FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */,
 				FACD95CE21526AA100E38BD3 /* ChangesHistory.h */,

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ToolbarViewController : UIViewController
 
-@property (weak, nonatomic)id<ToolbarButtonsDelegate> toolbarButtonsDelegate;
+@property (weak, nonatomic) id<ToolbarButtonsDelegate> toolbarButtonsDelegate;
 
 @end
 

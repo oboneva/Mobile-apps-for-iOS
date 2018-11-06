@@ -14,7 +14,7 @@
 
 @interface ArrowsCollectionViewDataSource ()
 
-@property (strong, nonatomic)NSArray<ArrowModel *> *arrows;
+@property (strong, nonatomic) NSArray<ArrowModel *> *arrows;
 
 @end
 

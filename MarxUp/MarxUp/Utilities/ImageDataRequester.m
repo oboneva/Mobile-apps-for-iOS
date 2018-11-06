@@ -18,11 +18,11 @@
 
 @interface ImageDataRequester ()
 
-@property (strong, nonatomic)NSURL *url;
-@property (strong, nonatomic)NSMutableURLRequest *request;
-@property (strong, nonatomic)NSURLSession *session;
-@property (assign)int page;
-@property (assign)ImagesSort sort;
+@property (strong, nonatomic) NSURL *url;
+@property (strong, nonatomic) NSMutableURLRequest *request;
+@property (strong, nonatomic) NSURLSession *session;
+@property (assign) int page;
+@property (assign) ImagesSort sort;
 
 @property (assign) BOOL areImageIDsLoading;
 
@@ -116,7 +116,7 @@
 - (void)updateRequest {
     self.request = [NSMutableURLRequest requestWithURL:self.url];
     [self.request setHTTPMethod:@"GET"];
-    [self.request addValue:@"Client-ID d556ce997e8acab" forHTTPHeaderField:@"Authorization"];
+    [self.request addValue:@"Client-ID YOUR-ID" forHTTPHeaderField:@"Authorization"];
 }
 
 - (NSString *)sortEnumToString:(ImagesSort)sort {

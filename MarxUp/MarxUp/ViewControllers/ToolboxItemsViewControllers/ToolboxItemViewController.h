@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ToolboxItemViewController : UIViewController <UICollectionViewDelegate>
 
 @property (assign) ToolboxItemType itemType;
-@property (weak, nonatomic)id<ToolboxItemDelegate> toolboxItemDelegate;
+@property (weak, nonatomic) id<ToolboxItemDelegate> toolboxItemDelegate;
 
 @end
 

@@ -10,9 +10,7 @@
 
 #import "Camera.h"
 #import "Constants.h"
-
-#define CAMERA_FRONT  @"camera_front_icon"
-#define CAMERA_BACK   @"camera_back_icon"
+#import "Utilities.h"
 
 @interface PhotoCaptureViewController ()
 
@@ -20,7 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *switchCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;
-
 
 @property (strong, nonatomic) Camera *camera;
 
@@ -31,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.switchCameraButton setImage:[UIImage imageNamed:CAMERA_FRONT] forState:UIControlStateNormal];
+    [self.switchCameraButton setImage:[UIImage imageNamed:[Utilities frontCameraIcon]] forState:UIControlStateNormal];
     self.camera = [Camera newCameraWithOutputView:self.photoPreviewView];
     [self.view bringSubviewToFront:self.switchCameraButton];
     [self.view bringSubviewToFront:self.takePhotoButton];
@@ -49,11 +46,11 @@
 - (IBAction)onSwitchCameraTap:(id)sender {
     UIButton *button = (UIButton *)sender;
     UIImage *buttonImage;
-    if ([self.camera currentCamera] == EnumCameraBack) {
-        buttonImage = [UIImage imageNamed:CAMERA_FRONT];
+    if (self.camera.currentCamera == EnumCameraBack) {
+        buttonImage = [UIImage imageNamed:[Utilities frontCameraIcon]];
     }
     else {
-        buttonImage = [UIImage imageNamed:CAMERA_BACK];
+        buttonImage = [UIImage imageNamed:[Utilities backCameraIcon]];
     }
     [button setImage:buttonImage forState:UIControlStateNormal];
     

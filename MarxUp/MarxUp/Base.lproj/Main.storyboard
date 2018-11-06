@@ -570,7 +570,7 @@
             <objects>
                 <viewController id="2mV-Qm-e9S" customClass="ToolboxViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GSV-Y8-sgN" customClass="UIScrollView">
-                        <rect key="frame" x="0.0" y="0.0" width="50" height="666"/>
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="523"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="iRa-5q-CZr"/>
@@ -619,7 +619,7 @@
         <image name="toolbox-toggle" width="72" height="72"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rfd-3u-n87"/>
-        <segue reference="T0G-Xr-5BM"/>
+        <segue reference="h4r-V2-tSq"/>
+        <segue reference="AyN-zz-JqR"/>
     </inferredMetricsTieBreakers>
 </document>

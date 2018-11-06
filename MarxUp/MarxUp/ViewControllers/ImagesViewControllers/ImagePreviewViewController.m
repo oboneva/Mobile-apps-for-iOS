@@ -25,7 +25,7 @@
 @property (strong, nonatomic) ImagesTableViewDataSource *imagesDataSource;
 @property (strong, nonatomic) TabsCollectionViewDataSource *tabDataSource;
 
-@property (strong, nonatomic) TabsCollectionViewCell *selectedTab;
+@property (assign) NSInteger selectedTabIndex;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIandicatorView;
 
 @end
@@ -45,8 +45,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (!self.selectedTab) {
-            [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+    if (!self.selectedTabIndex) {
+        [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
     }
 }
 
@@ -76,10 +76,12 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([self shouldLoadNewDataForScrollView:scrollView] && [scrollView isDragging]) {
         [self.activityIandicatorView startAnimating];
+        
+        __weak __typeof__(self) weakSelf = self;
         [self.imagesDataSource addImageURLsWithCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.imagesTableView reloadData];
-                [self.activityIandicatorView stopAnimating];
+                [weakSelf.imagesTableView reloadData];
+                [weakSelf.activityIandicatorView stopAnimating];
             });
         }];
     }
@@ -116,7 +118,7 @@
 
 - (void)handleLeftSwipeWithGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        NSIndexPath *nextIndex = [NSIndexPath indexPathForItem:[self.tabsCollectionView indexPathForCell:self.selectedTab].item + 1 inSection:0];
+        NSIndexPath *nextIndex = [NSIndexPath indexPathForItem:self.selectedTabIndex + 1 inSection:0];
         if (nextIndex && nextIndex.item >= 0 && nextIndex.item<= [self.tabsCollectionView numberOfItemsInSection:0]) {
                 [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:nextIndex];
         }
@@ -125,7 +127,7 @@
 
 - (void)handleRightSwipeWithGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        NSIndexPath *nextIndex = [NSIndexPath indexPathForItem:[self.tabsCollectionView indexPathForCell:self.selectedTab].item - 1 inSection:0];
+        NSIndexPath *nextIndex = [NSIndexPath indexPathForItem:self.selectedTabIndex - 1 inSection:0];
         if (nextIndex && nextIndex.item >= 0 && nextIndex.item<= [self.tabsCollectionView numberOfItemsInSection:0]) {
             [self collectionView:self.tabsCollectionView didSelectItemAtIndexPath:nextIndex];
         }
@@ -142,11 +144,12 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedTab.backgroundColor = UIColor.clearColor;
-    self.selectedTab = (TabsCollectionViewCell *)[self.tabsCollectionView cellForItemAtIndexPath:indexPath];
-    self.selectedTab.backgroundColor = [UIColor.lightGrayColor colorWithAlphaComponent:0.1];
+    TabsCollectionViewCell *previousSelected = (TabsCollectionViewCell *)[self.tabsCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedTabIndex inSection:0]];
+    previousSelected.backgroundColor = UIColor.clearColor;
+    TabsCollectionViewCell *currentSelected = (TabsCollectionViewCell *)[self.tabsCollectionView cellForItemAtIndexPath:indexPath];
+    currentSelected.backgroundColor = [UIColor.lightGrayColor colorWithAlphaComponent:0.1];
     
-    if ([self.selectedTab.title.text isEqualToString:@"YOUR IMAGES"]) { ///////////////////////////////////////////////
+    if ([currentSelected.title.text isEqualToString:@"YOUR IMAGES"]) { ///////////////////////////////////////////////
         [self.imagesDataSource loadLocallyStoredDataWithCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imagesTableView reloadData];
@@ -154,7 +157,7 @@
         }];
     }
     else {
-        [self.imagesDataSource loadDataSortedBy:[self stringToEnum:self.selectedTab.title.text] withCompletionHandler:^{
+        [self.imagesDataSource loadDataSortedBy:[Utilities stringToEnum:currentSelected.title.text] withCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imagesTableView reloadData];
             });
@@ -171,20 +174,8 @@
     [self presentViewController:imageViewController animated:YES completion:nil];
 }
 
-- (ImagesSort)stringToEnum:(NSString *)string { ///todo
-    if ([string isEqualToString:@"VIRAL"]) {
-        return ImagesSortViral;
-    }
-    else if ([string isEqualToString:@"TOP"]) {
-        return ImagesSortTop;
-    }
-    return ImagesSortDate;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [self.imagesTableView reloadData];
 }
 
 @end
-
-

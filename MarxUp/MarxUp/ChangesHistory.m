@@ -10,8 +10,8 @@
 
 @interface ChangesHistory ()
 
-@property (strong, nonatomic)NSMutableArray *visibleChanges;
-@property (strong, nonatomic)NSMutableArray *invisibleChanges;
+@property (strong, nonatomic) NSMutableArray *visibleChanges;
+@property (strong, nonatomic) NSMutableArray *invisibleChanges;
 
 @end
 
