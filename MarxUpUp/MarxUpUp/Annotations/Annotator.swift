@@ -141,20 +141,12 @@ class Annotator: NSObject {
     }
     
     func addArrowWithBezierPath(atPoint point: CGPoint) {
-        let capSize = CGFloat(20)
-        let rect = CGRect(x: point.x - 10, y: point.y, width: capSize, height: capSize)
-
         let dx = point.x - startPoint.x
         let dy = point.y - startPoint.y
 
         let angle = CGFloat(atan2(dy, dx))
-        if endLineStyle == .Closed {
-            path = ArrowBezierPath.endLineClosed(withRect: rect)
-        }
-        else {
-            path = ArrowBezierPath.endLineOpen(withRect: rect)
-        }
-        
+        path = ArrowBezierPath.endLine(atPoint: point, fromType: endLineStyle)
+            
         path.apply(CGAffineTransform(translationX: -point.x, y: -point.y))
         path.apply(CGAffineTransform(rotationAngle: angle + .pi / 2))
         path.apply(CGAffineTransform(translationX: point.x, y:  point.y))
