@@ -101,6 +101,12 @@
     self.lastPoint = point;
 }
 
+- (void)strokePath {
+    [self.color setStroke];
+    self.path.lineWidth = self.lineWidth;
+    [self.path stroke];
+}
+
 - (void)strokePathOverImage {
     [self strokePath];
     self.annotatedImage.image = UIGraphicsGetImageFromCurrentImageContext();
@@ -196,10 +202,10 @@
     CGPoint pointForVerticalLine = CGPointMake(point.x, self.startPoint.y + (point.y - self.startPoint.y) * 0.3);
     CGPoint pointforHorizontalLine = CGPointMake(self.startPoint.x + (point.x - self.startPoint.x) * 0.3, point.y);
     if (point.y < self.startPoint.y) {
-            pointForVerticalLine = CGPointMake(point.x, point.y + (self.startPoint.y - point.y) * 0.3);
+        pointForVerticalLine = CGPointMake(point.x, point.y + (self.startPoint.y - point.y) * 0.3);
     }
-    if(point.x < self.startPoint.x) {
-            pointforHorizontalLine = CGPointMake(point.x + (self.startPoint.x - point.x) * 0.3, point.y);
+    if (point.x < self.startPoint.x) {
+        pointforHorizontalLine = CGPointMake(point.x + (self.startPoint.x - point.x) * 0.3, point.y);
     }
     
     [self.path moveToPoint:point];
@@ -232,12 +238,6 @@
         [self.annotatedPDF.currentPage addAnnotation:self.annotation];
         [self.annotationsHistory addChange:self.annotation];
     }
-}
-
-- (void)strokePath {
-    [self.color setStroke];
-    self.path.lineWidth = self.lineWidth;
-    [self.path stroke];
 }
 
 - (UIImage *)getOriginalImage {

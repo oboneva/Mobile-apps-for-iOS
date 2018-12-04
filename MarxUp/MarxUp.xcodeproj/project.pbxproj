@@ -30,7 +30,6 @@
 		FACD95FD215CF7A800E38BD3 /* ToolboxDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD95FC215CF7A800E38BD3 /* ToolboxDataSource.m */; };
 		FACD9601215D00B200E38BD3 /* ToolboxInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD9600215D00B200E38BD3 /* ToolboxInitializer.m */; };
 		FACD96082161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */; };
-		FAD85FC92180590C0074F314 /* ToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FC82180590C0074F314 /* ToolboxView.m */; };
 		FAD85FCD218059700074F314 /* ToolboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCC218059700074F314 /* ToolboxViewController.m */; };
 		FAD85FD02180655C0074F314 /* ToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FCF2180655C0074F314 /* ToolbarViewController.m */; };
 		FAD85FD4218717C20074F314 /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD85FD3218717C20074F314 /* ColorPickerViewController.m */; };
@@ -93,8 +92,6 @@
 		FACD9602215E46BE00E38BD3 /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
 		FACD96062161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrowsCollectionViewDataSource.h; sourceTree = "<group>"; };
 		FACD96072161FD9B00E38BD3 /* ArrowsCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrowsCollectionViewDataSource.m; sourceTree = "<group>"; };
-		FAD85FC72180590C0074F314 /* ToolboxView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxView.h; sourceTree = "<group>"; };
-		FAD85FC82180590C0074F314 /* ToolboxView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxView.m; sourceTree = "<group>"; };
 		FAD85FCB218059700074F314 /* ToolboxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolboxViewController.h; sourceTree = "<group>"; };
 		FAD85FCC218059700074F314 /* ToolboxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolboxViewController.m; sourceTree = "<group>"; };
 		FAD85FCE2180655C0074F314 /* ToolbarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolbarViewController.h; sourceTree = "<group>"; };
@@ -158,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				FACD95F3215B9C1500E38BD3 /* Models */,
-				FAD85FCA218059160074F314 /* Views */,
 				FA53C1162150F0080039390F /* ViewControllers */,
 				FACD95FE215CF7C700E38BD3 /* DataSources */,
 				FACD95F7215BA4A800E38BD3 /* Cells */,
@@ -288,15 +284,6 @@
 			path = PDFsViewControllers;
 			sourceTree = "<group>";
 		};
-		FAD85FCA218059160074F314 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FAD85FC72180590C0074F314 /* ToolboxView.h */,
-				FAD85FC82180590C0074F314 /* ToolboxView.m */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		FAD85FD121806BAE0074F314 /* MenusViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,7 +392,6 @@
 			files = (
 				FA53C1022150EFF10039390F /* ViewController.m in Sources */,
 				FACD95F2215B9C0600E38BD3 /* ShapeModel.m in Sources */,
-				FAD85FC92180590C0074F314 /* ToolboxView.m in Sources */,
 				06B1D4C521622C60004B552E /* Annotator.m in Sources */,
 				FAE6F7F321760B1700DE22A1 /* TabsCollectionViewCell.m in Sources */,
 				FACD95EF215B9A9800E38BD3 /* ShapesCollectionViewDataSource.m in Sources */,

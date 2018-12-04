@@ -125,7 +125,7 @@
     return image;
 }
 
--(void)handlePanWithGestureRecognizer:(UIPanGestureRecognizer *)recognizer {
+- (void)handlePanWithGestureRecognizer:(UIPanGestureRecognizer *)recognizer {
     CGPoint point = [recognizer locationInView:self.colorWheelImageView];
     
     if (recognizer.state == UIGestureRecognizerStateBegan && [self.blankSpacePath containsPoint:point])
