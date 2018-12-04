@@ -12,9 +12,7 @@ class ToolboxDataSource: NSObject {
 
     private let toolboxItems: [ToolboxItemModel]
     var itemsCount: Int {
-        get {
-            return toolboxItems.count
-        }
+        return toolboxItems.count
     }
     
     init(forItemsFromType type: ContentType) {

@@ -28,15 +28,11 @@ class Annotator: NSObject {
     private var annotatedImage: UIImage?
     private var annotatedImageView: UIImageView?
     private var currentImage: UIImage? {
-        get {
-            return UIGraphicsGetImageFromCurrentImageContext()
-        }
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
     private var shouldAnnotate: Bool {
-        get {
-            return (content == ContentType.Image && annotatedImage != nil && originalImage != nil) ||
-                   (content == ContentType.PDF && annotatedPDFView != nil)
-        }
+        return (content == ContentType.Image && annotatedImage != nil && originalImage != nil) ||
+                (content == ContentType.PDF && annotatedPDFView != nil)
     }
     
     private var startPoint: CGPoint!

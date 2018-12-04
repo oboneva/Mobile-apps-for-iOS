@@ -20,12 +20,10 @@ final class ImagePreviewTableViewDataSource: NSObject {
     var selectedModelIndexForUpdate: Int?
     
     var imagesCount: Int {
-        get {
-            if filter.isDataLocal {
-                return localImages.count
-            }
-            return imageURLs.count
+        if filter.isDataLocal {
+            return localImages.count
         }
+        return imageURLs.count
     }
     
     init(withImagesFilteredBy filter: DataFilter) {

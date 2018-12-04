@@ -15,21 +15,15 @@ class ToolboxItemModel: NSObject {
     private let imageNamePrefix: String = "toolbox-item-"
     
     var containsOptions: Bool {
-        get {
-            return type == ToolboxItemType.Arrow || type == ToolboxItemType.Color || type == ToolboxItemType.Shape || type == ToolboxItemType.Width
-        }
+        return type == ToolboxItemType.Arrow || type == ToolboxItemType.Color || type == ToolboxItemType.Shape || type == ToolboxItemType.Width
     }
     
     var isTextRelated: Bool {
-        get {
-            return type == ToolboxItemType.TextHighlight || type == ToolboxItemType.TextUnderline || type == ToolboxItemType.TextStrikeThrough
-        }
+        return type == ToolboxItemType.TextHighlight || type == ToolboxItemType.TextUnderline || type == ToolboxItemType.TextStrikeThrough
     }
     
     var isForDrawing: Bool {
-        get {
-            return type == ToolboxItemType.Arrow || type == ToolboxItemType.Shape || type == ToolboxItemType.Pen
-        }
+        return type == ToolboxItemType.Arrow || type == ToolboxItemType.Shape || type == ToolboxItemType.Pen
     }
     
     init(fromType type: ToolboxItemType) {

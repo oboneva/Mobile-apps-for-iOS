@@ -16,13 +16,11 @@ enum ArrowEndLineType: Int {
     case Open, Closed
     
     var description: String {
-        get {
-            switch self {
-            case .Open:
-                return "open"
-            case .Closed:
-                return "closed"
-            }
+        switch self {
+        case .Open:
+            return "open"
+        case .Closed:
+            return "closed"
         }
     }
 }

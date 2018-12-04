@@ -19,7 +19,7 @@ class ColorPickerViewController: UIViewController {
     var pickerPath: UIBezierPath!
     
     var colorWheelCenter: CGPoint!
-    var colorWheelSize: CGFloat { get { return 20 }}
+    var colorWheelSize: CGFloat { return 20 }
     
     var hue = CGFloat(0.75)
     var saturation = CGFloat(1.0)

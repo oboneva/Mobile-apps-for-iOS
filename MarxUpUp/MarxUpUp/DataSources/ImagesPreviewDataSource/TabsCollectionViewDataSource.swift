@@ -15,9 +15,7 @@ class TabsCollectionViewDataSource: NSObject {
                 TabModel(title: "YOUR IMAGES", filter: DataFilter(local: true, sort: ImageSort.None))]
 
     var defaultSelectedTabIndex : IndexPath {
-        get {
-            return IndexPath(item: 1, section: 1)
-        }
+        return IndexPath(item: 1, section: 1)
     }
     
     func filter(atIndex index: Int) -> DataFilter {

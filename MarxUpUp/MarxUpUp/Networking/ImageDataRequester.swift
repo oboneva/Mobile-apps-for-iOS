@@ -11,26 +11,20 @@ import UIKit
 class ImageDataRequester: NSObject {
     
     private var url: URL? {
-        get {
-            return URL(string: "https://api.imgur.com/3/gallery/hot/" + sort.description + "/day/" + page.description + "?showViral=true&mature=false&album_previews=false")
-        }
+        return URL(string: "https://api.imgur.com/3/gallery/hot/" + sort.description + "/day/" + page.description + "?showViral=true&mature=false&album_previews=false")
     }
     private var request : URLRequest? {
-        get {
-            guard let unwrappedURL = url else {
-                return  nil
-            }
-            var request = URLRequest(url: unwrappedURL)
-            request.httpMethod = HTTPMethod
-            request.addValue(authorizationValue, forHTTPHeaderField: authorizationKey)
-            
-            return request
+        guard let unwrappedURL = url else {
+            return  nil
         }
+        var request = URLRequest(url: unwrappedURL)
+        request.httpMethod = HTTPMethod
+        request.addValue(authorizationValue, forHTTPHeaderField: authorizationKey)
+        
+        return request
     }
     private var chunkSize: Int {
-        get {
-            return 100
-        }
+        return 100
     }
     
     let session = URLSession(configuration: URLSessionConfiguration.default)

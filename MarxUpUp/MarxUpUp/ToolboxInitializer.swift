@@ -11,9 +11,7 @@ import UIKit
 class ToolboxInitializer: NSObject {
 
     static var buttonSize: Int {
-        get {
-            return 50
-        }
+        return 50
     }
     
     static func addToolboxItems(toView scrollView: UIScrollView?, withTarget targetController: UIViewController, _ selector: Selector, andDataSource dataSource: ToolboxDataSource) {
