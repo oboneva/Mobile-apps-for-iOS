@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoCaptureViewController: ViewController {
+class PhotoCaptureViewController: UIViewController {
 
     @IBOutlet weak var photoPreviewView: UIView!
     

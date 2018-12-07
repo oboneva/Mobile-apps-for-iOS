@@ -11,25 +11,20 @@ import AVFoundation
 
 class CameraInput: NSObject {
 
-    private var captureDevice: AVCaptureDevice!
-    var deviceInput: AVCaptureDeviceInput!
+    private var captureDevice: AVCaptureDevice?
+    var deviceInput: AVCaptureDeviceInput?
     
-    var position: AVCaptureDevice.Position {
+    var position: AVCaptureDevice.Position? {
         get {
-            return captureDevice.position
+            return captureDevice?.position
         }
         set(newPosition) {
-            captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: newPosition)
-            do {
-                try captureDevice.lockForConfiguration()
-                if (captureDevice.isFocusModeSupported(AVCaptureDevice.FocusMode.autoFocus)) {
-                    captureDevice.focusMode = AVCaptureDevice.FocusMode.autoFocus
-                }
-                captureDevice.unlockForConfiguration()
-                try deviceInput = AVCaptureDeviceInput(device: captureDevice)
-            } catch {
-                print("Error: " + error.localizedDescription)
+            guard let position = newPosition else {
+                return
             }
+            let new = CameraInput(withPosition: position)
+            captureDevice = new.captureDevice
+            deviceInput = new.deviceInput
         }
     }
     
