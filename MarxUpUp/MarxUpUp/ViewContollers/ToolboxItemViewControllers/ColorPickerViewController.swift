@@ -11,22 +11,22 @@ import UIKit
 class ColorPickerViewController: UIViewController {
 
     @IBOutlet weak var colorImageView: UIImageView!
-    var pickerImageView: UIImageView!
-    var finalColorImageView: UIImageView!
+    private var pickerImageView: UIImageView!
+    private var finalColorImageView: UIImageView!
     
-    var blankSpacePath: UIBezierPath!
-    var finalColorPath: UIBezierPath!
-    var pickerPath: UIBezierPath!
+    private var blankSpacePath: UIBezierPath!
+    private var finalColorPath: UIBezierPath!
+    private var pickerPath: UIBezierPath!
     
-    var colorWheelCenter: CGPoint!
-    var colorWheelSize: CGFloat { return 20 }
+    private var colorWheelCenter: CGPoint!
+    private var colorWheelSize: CGFloat { return 20 }
     
-    var hue = CGFloat(0.75)
-    var saturation = CGFloat(1.0)
-    var brightness = CGFloat(1.0)
-    let alpha = CGFloat(1)
-    let defaultColorAttributeValue = CGFloat(1)
-    let colorSectors = CGFloat(360)
+    private var hue = CGFloat(0.75)
+    private var saturation = CGFloat(1.0)
+    private var brightness = CGFloat(1.0)
+    private let alpha = CGFloat(1)
+    private let defaultColorAttributeValue = CGFloat(1)
+    private let colorSectors = CGFloat(360)
     
     let saturationSlider = UISlider()
     let brightnessSlider = UISlider()
@@ -54,8 +54,20 @@ class ColorPickerViewController: UIViewController {
         configSaturationSlider()
     }
     
+    private func addGestureRecognizers() {
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(withGestureRecognizer:)))
+        panRecognizer.delegate = self
+        colorImageView.addGestureRecognizer(panRecognizer)
+        colorImageView.isUserInteractionEnabled = true
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(withGestureRecognizer:)))
+        tapRecognizer.delegate = self
+        finalColorImageView.addGestureRecognizer(tapRecognizer)
+        finalColorImageView.isUserInteractionEnabled = true
+    }
+    
     //MARK: - Create color picker
-    func createColorWheelImage() -> UIImage {
+    private func createColorWheelImage() -> UIImage {
         let size = colorImageView.frame.size
         UIGraphicsBeginImageContext(size)
         
@@ -84,17 +96,17 @@ class ColorPickerViewController: UIViewController {
         return image
     }
 
-    func createPickerImage(withColor color: UIColor, andSize size: CGSize) -> UIImage {
+    private func createPickerImage(withColor color: UIColor, andSize size: CGSize) -> UIImage {
         pickerPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         return createImage(pickerPath, color, size)
     }
     
-    func createFinalColorImage(withColor color: UIColor, andSize size:CGSize) -> UIImage {
+    private func createFinalColorImage(withColor color: UIColor, andSize size:CGSize) -> UIImage {
         finalColorPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         return createImage(finalColorPath, color, size)
     }
     
-    func createImage(_ path: UIBezierPath, _ color: UIColor, _ size: CGSize) -> UIImage {
+    private func createImage(_ path: UIBezierPath, _ color: UIColor, _ size: CGSize) -> UIImage {
         defer {
             UIGraphicsEndImageContext()
         }
@@ -107,7 +119,7 @@ class ColorPickerViewController: UIViewController {
     }
     
     //MARK: - Render Bezier paths
-    func set(_ color: UIColor, toImageView imageView: UIImageView, withPath path: UIBezierPath) {
+    private func set(_ color: UIColor, toImageView imageView: UIImageView, withPath path: UIBezierPath) {
         guard let size = imageView.image?.size else {
             return
         }
@@ -117,7 +129,7 @@ class ColorPickerViewController: UIViewController {
         UIGraphicsEndImageContext()
     }
     
-    func fillAndStrokePath(_ path: UIBezierPath, color: UIColor) {
+    private func fillAndStrokePath(_ path: UIBezierPath, color: UIColor) {
         color.setFill()
         color.setStroke()
         path.fill()
@@ -127,18 +139,6 @@ class ColorPickerViewController: UIViewController {
 
 //MARK: - Handle Tap and Pan gestures
 extension ColorPickerViewController: UIGestureRecognizerDelegate {
-    func addGestureRecognizers() {
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(withGestureRecognizer:)))
-        panRecognizer.delegate = self
-        colorImageView.addGestureRecognizer(panRecognizer)
-        colorImageView.isUserInteractionEnabled = true
-        
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(withGestureRecognizer:)))
-        tapRecognizer.delegate = self
-        finalColorImageView.addGestureRecognizer(tapRecognizer)
-        finalColorImageView.isUserInteractionEnabled = true
-    }
-    
     @objc func handlePan(withGestureRecognizer recognizer: UIPanGestureRecognizer) {
         let point = recognizer.location(in: colorImageView)
         
@@ -175,19 +175,19 @@ extension ColorPickerViewController: UIGestureRecognizerDelegate {
 
 //MARK: - Saturation and Brightness Sliders Methods
 extension ColorPickerViewController {
-    func configSaturationSlider() {
+    private func configSaturationSlider() {
         setUpSlider(saturationSlider, withValue:Float(saturation), andAction: #selector(didChangeSaturationSlider))
         colorImageView.addSubview(saturationSlider)
         saturationSlider.center = CGPoint(x: colorWheelCenter.x, y: colorWheelCenter.y * 0.5)
     }
     
-    func configBrightnessSlider() {
+    private func configBrightnessSlider() {
         setUpSlider(brightnessSlider, withValue:Float(brightness), andAction:#selector(didChangeBrightnessSlider))
         colorImageView.addSubview(brightnessSlider)
         brightnessSlider.center = CGPoint(x: colorWheelCenter.x, y: colorWheelCenter.y * 1.5 + 2)
     }
     
-    func setUpSlider(_ slider: UISlider, withValue value: Float, andAction selector:Selector) {
+    private func setUpSlider(_ slider: UISlider, withValue value: Float, andAction selector:Selector) {
         slider.minimumValue = 0
         slider.maximumValue = 1
         slider.value = value
@@ -198,7 +198,7 @@ extension ColorPickerViewController {
         slider.thumbTintColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
     
-    func updateSliderColor() {
+    private func updateSliderColor() {
         let saturationColor = UIColor(hue: hue, saturation: saturation, brightness: defaultColorAttributeValue, alpha: defaultColorAttributeValue)
         saturationSlider.thumbTintColor = saturationColor
         saturationSlider.tintColor = saturationColor
@@ -208,13 +208,13 @@ extension ColorPickerViewController {
         brightnessSlider.tintColor = brightnessColor
     }
     
-    @objc func didChangeBrightnessSlider() {
+    @objc private func didChangeBrightnessSlider() {
         brightness = CGFloat(brightnessSlider.value)
         brightnessSlider.thumbTintColor = UIColor(hue: hue, saturation: defaultColorAttributeValue, brightness: brightness, alpha: defaultColorAttributeValue)
         set(UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: defaultColorAttributeValue), toImageView: finalColorImageView, withPath: finalColorPath)
     }
     
-    @objc func didChangeSaturationSlider() {
+    @objc private func didChangeSaturationSlider() {
         saturation = CGFloat(saturationSlider.value)
         saturationSlider.thumbTintColor = UIColor(hue: hue, saturation: saturation, brightness: defaultColorAttributeValue, alpha: defaultColorAttributeValue)
         set(UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: defaultColorAttributeValue), toImageView: finalColorImageView, withPath: finalColorPath)

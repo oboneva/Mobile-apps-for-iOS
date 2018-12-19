@@ -71,7 +71,7 @@ extension ImagePreviewTableViewDataSource: UpdateDatabaseDelegate {
             databaseManager.updateImage(imageModel(atIndex: index), withData: data)
         }
         else {
-            databaseManager.save(imageWithData: data)
+            databaseManager.saveImageWithData(data)
         }
     }
     

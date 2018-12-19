@@ -14,7 +14,7 @@ class ChangesManager: NSObject {
     private var undoCommands = [Command]()
     private var redoCommands = [Command]()
     
-    func redo(withCompletionHandler handler: () -> ()) {
+    func redo(withCompletionHandler handler: () -> Void) {
         guard redoCommands.count > 0, let command = redoCommands.popLast() else {
             return
         }
@@ -24,7 +24,7 @@ class ChangesManager: NSObject {
         handler()
     }
     
-    func undo(withCompletionHandler handler: () -> ()) {
+    func undo(withCompletionHandler handler: () -> Void) {
         guard undoCommands.count > 0, let command = undoCommands.popLast() else {
             return
         }

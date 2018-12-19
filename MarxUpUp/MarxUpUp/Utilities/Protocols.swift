@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ToolboxItemDelegate: class {
+protocol ToolboxItemDelegate: AnyObject {
     func didChoose(textAnnotationFromType type: ToolboxItemType)
     func didChoosePen()
     func didChoose(_ option: Int, forToolboxItem type: ToolboxItemType)
@@ -16,23 +16,23 @@ protocol ToolboxItemDelegate: class {
     func didChooseColor(_ color: UIColor)
 }
 
-protocol ToolbarButtonsDelegate: class {
+protocol ToolbarButtonsDelegate: AnyObject {
     func didSelectAnnotate()
     func didSelectSave()
     func didSelectReset()
     func didSelectToolbox()
 }
 
-protocol EditedContentStateDelegate: class {
+protocol EditedContentStateDelegate: AnyObject {
     func didSelectUndo()
     func didSelectRedo()
 }
 
-protocol UpdateDatabaseDelegate: class {
+protocol UpdateDatabaseDelegate: AnyObject {
     func updatePDF(withData data: Data)
     func updateImage(withData data: Data)
 }
 
-protocol DrawDelegate: class {
+protocol DrawDelegate: AnyObject {
     func willBeginDrawing()
 }

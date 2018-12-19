@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let data = FileManager.getDataFromURL(url) else {
             return false
         }
-        DatabaseManager().save(pdfWithData: data)
+        DatabaseManager().savePDFWithData(data)
         return false
     }
     

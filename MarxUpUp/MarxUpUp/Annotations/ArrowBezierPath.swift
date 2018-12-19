@@ -10,7 +10,7 @@ import UIKit
 
 class ArrowBezierPath: NSObject {
     
-    class func endLine(atPoint point: CGPoint, fromType type: ArrowEndLineType) -> UIBezierPath {
+    static func endLine(atPoint point: CGPoint, fromType type: ArrowEndLineType) -> UIBezierPath {
         let capSize = CGFloat(20)
         let rect = CGRect(x: point.x - capSize / 2, y: point.y, width: capSize, height: capSize)
         
@@ -21,11 +21,11 @@ class ArrowBezierPath: NSObject {
         return path
     }
 
-    private class func tipForTriangleInRect(_ rect: CGRect) -> CGPoint {
+     private static func tipForTriangleInRect(_ rect: CGRect) -> CGPoint {
         return CGPoint(x: rect.minX + (rect.maxX - rect.minX) / 2, y: rect.minY)
     }
     
-    private class func pointsForTriangleInRect(_ rect: CGRect) -> [CGPoint] {
+     private static func pointsForTriangleInRect(_ rect: CGRect) -> [CGPoint] {
         return [CGPoint(x: rect.minX, y: rect.maxY), ArrowBezierPath.tipForTriangleInRect(rect), CGPoint(x: rect.maxX, y: rect.maxY)]
     }
 }
