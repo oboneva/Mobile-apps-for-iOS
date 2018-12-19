@@ -36,3 +36,10 @@ protocol UpdateDatabaseDelegate: AnyObject {
 protocol DrawDelegate: AnyObject {
     func willBeginDrawing()
 }
+protocol CameraInterface: AnyObject {
+    func switchPosition()
+    func stop()
+    func takePhoto()
+    func updateOrientation(forView view: UIView)
+    var isSupportedByTheDevice: Bool { get }
+}

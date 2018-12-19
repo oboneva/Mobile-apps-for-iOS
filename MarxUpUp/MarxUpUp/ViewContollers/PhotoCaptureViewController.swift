@@ -15,7 +15,7 @@ class PhotoCaptureViewController: UIViewController {
     @IBOutlet weak var switchCameraButton: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
     
-    var camera: Camera!
+    private var camera: CameraInterface!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,22 +27,31 @@ class PhotoCaptureViewController: UIViewController {
         
         view.bringSubviewToFront(self.switchCameraButton)
         view.bringSubviewToFront(self.takePhotoButton)
-        
-        guard camera.cameraInput.deviceInput != nil else {
-            let alertController = UIAlertController(title: "Camera is not supported by this device!", message: "", preferredStyle: UIAlertController.Style.alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+
+        presentAlertIfNeeded()
+    }
+    
+    func presentAlertIfNeeded() {
+        if camera.isSupportedByTheDevice {
             return
         }
+        
+        let alertController = UIAlertController(title: "Camera is not supported by this device!", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func setCustomCamera(_ camera: CameraInterface) {
+        self.camera = camera
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        camera.stopCamera()
+        camera.stop()
     }
     
     @IBAction func onSwitchCameraTap(_ sender: UIButton) {
-        camera.switchCamera()
+        camera.switchPosition()
     }
     
     @IBAction func onTakePhotoTap(_ sender: UIButton) {

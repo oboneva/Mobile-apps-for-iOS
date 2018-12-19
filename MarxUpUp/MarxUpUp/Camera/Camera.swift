@@ -46,8 +46,30 @@ class Camera: NSObject {
             }
         }
     }
+}
+
+//MARK: - AVCapturePhotoCaptureDelegate Methods
+extension Camera: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard error == nil else {
+            print("Error while capturing photo: " + error!.localizedDescription)
+            return
+        }
+        
+        guard let imageData = photo.fileDataRepresentation() else {
+            print("Error: fileDataRepresentation for photo failed")
+            return
+        }
+        DatabaseManager().saveImageWithData(imageData)
+    }
+}
+
+extension Camera: CameraInterface {
+    var isSupportedByTheDevice: Bool {
+        return cameraInput.deviceInput != nil
+    }
     
-    func stopCamera() {
+    func stop() {
         captureSession.stopRunning()
     }
     
@@ -64,9 +86,9 @@ class Camera: NSObject {
         captureOutput.capturePhoto(with: photoSetings, delegate: self)
     }
     
-    func switchCamera() {
+    func switchPosition() {
         guard cameraInput.deviceInput != nil else {
-                return
+            return
         }
         
         captureSession.removeInput(cameraInput.deviceInput!)
@@ -87,21 +109,5 @@ class Camera: NSObject {
         DispatchQueue.main.async {
             self.previewLayer.frame = view.bounds
         }
-    }
-}
-
-//MARK: - AVCapturePhotoCaptureDelegate Methods
-extension Camera: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard error == nil else {
-            print("Error while capturing photo: " + error!.localizedDescription)
-            return
-        }
-        
-        guard let imageData = photo.fileDataRepresentation() else {
-            print("Error: fileDataRepresentation for photo failed")
-            return
-        }
-        DatabaseManager().save(imageWithData: imageData)
     }
 }
