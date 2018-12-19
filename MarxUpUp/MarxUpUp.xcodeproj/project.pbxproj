@@ -128,6 +128,7 @@
 		FA90CDFB21999901009D6DE9 /* TabsCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		FA90CDFF21999CE6009D6DE9 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA90CE0121999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPreviewTableViewCell.swift; sourceTree = "<group>"; };
+		FA92AA8C21C93D100094C64B /* NetworkProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocols.swift; sourceTree = "<group>"; };
 		FAD6AE71219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAD6AE73219AB10B0029C301 /* ToolboxItemOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsViewController.swift; sourceTree = "<group>"; };
 		FAD6AE76219AB3F70029C301 /* LineWidthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineWidthViewController.swift; sourceTree = "<group>"; };
@@ -563,6 +564,7 @@
 				FA1BAA9121958DD400B13AB0 /* SingleDocumentViewController.swift in Sources */,
 				FA2654012193303D003514F9 /* ArrowModel.swift in Sources */,
 				FA26542121947F8B003514F9 /* DocsPreviewViewController.swift in Sources */,
+				FA92AA8D21C93D100094C64B /* NetworkProtocols.swift in Sources */,
 				FAD6AE85219C3F8E0029C301 /* ShapesCollectionViewDataSource.swift in Sources */,
 				FA26542A21948562003514F9 /* Cell.swift in Sources */,
 				FAD6AE8F219EC9BD0029C301 /* TabModel.swift in Sources */,

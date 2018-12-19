@@ -27,7 +27,7 @@ class ImageDataRequester: NSObject {
         return 100
     }
     
-    let session = URLSession(configuration: URLSessionConfiguration.default)
+    let session: NetworkSession
     private let HTTPMethod = "GET"
     private let authorizationKey = "Authorization"
     private let authorizationValue = "Client-ID *YOUR-ID*"
@@ -43,6 +43,10 @@ class ImageDataRequester: NSObject {
     private let key_animated = "animated"
     private let key_status = "status"
     
+    
+    init(withSession session: NetworkSession = URLSession(configuration: URLSessionConfiguration.default)) {
+        self.session = session
+    }
     
     func imageData(withLink link: String, andCompletion handler: @escaping (Data?) -> Void) {
         guard let url = URL(string: link) else {
@@ -70,7 +74,8 @@ class ImageDataRequester: NSObject {
     }
     
     func getImageLinks(sortedBy sort: ImageSort, withCompletion handler: @escaping ([String]?) -> Void) {
-        guard areImageIDsLoading == false else {
+        guard (areImageIDsLoading == false || session.imagesDataTaskCurrentlyInProgress == false) else {
+            print("here")
             return
         }
 
@@ -85,45 +90,29 @@ class ImageDataRequester: NSObject {
             return
         }
         
-        let task = session.dataTask(with: request!) { (data, response, error) in
-            guard let unwrappedData = data, error == nil else {
-                print("Error: No data or error")
+        let task = session.dataTask(with: request!) { (data, _, error) in
+            guard let unwrappedData = data, error == nil, let dataDict = try? JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject] else {
+                print("Error: No data, error or unwrapping failed")
                 handler(nil)
                 return
             }
-            guard let dataDict = try? JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject] else {
-                print("Error: Unwrapping")
+
+            guard let unwrappedDict = dataDict else {
+                print("Error: Unwrapping data response to image links request")
                 handler(nil)
                 return
             }
-            let statusCode = dataDict?[self.key_status] as? Int
-            guard statusCode != nil else {
-                print("Error: Status code is nil")
-                handler(nil)
-                return
+            self.linksFromJSONDict(unwrappedDict, withCount: self.chunkSize) { links in
+                handler(links)
             }
             
-            if statusCode == 200 {
-                guard let unwrappedDict = dataDict else {
-                    print("Error: Unwrapping data response to image links request")
-                    handler(nil)
-                    return
-                }
-                self.linksFromJSONDict(unwrappedDict, withCount: self.chunkSize) { links in
-                    handler(links)
-                }
-            }
-            else {
-                print("Error: Status code is not 200")
-                handler(nil)
-            }
             self.areImageIDsLoading = false
         }
         task.resume()
         page = page + 1
     }
     
-    func linksFromJSONDict(_ dictionary: [String:AnyObject], withCount count: Int, andCompletion handler:([String]) -> Void) {
+    private func linksFromJSONDict(_ dictionary: [String:AnyObject], withCount count: Int, andCompletion handler:([String]) -> Void) {
         guard let data = dictionary[key_data] as? [[String: AnyObject]] else {
             return
         }
@@ -136,20 +125,20 @@ class ImageDataRequester: NSObject {
                     handler(links)
                     links.removeAll()
                 }
+            }
         }
-    }
+        
         if links.count > 0 {
             handler(links)
         }
+    }
     
-    
-    func shouldAddImage(withDictionary dict: [String: AnyObject]) -> Bool {
+    private func shouldAddImage(withDictionary dict: [String: AnyObject]) -> Bool {
         guard let link = dict[key_link] as? String, let animated = dict[key_animated] as? Bool else {
             return false
         }
         return !link.contains("http:") && !animated
     }
-}
 
     func setPageToFirst() {
         page = 1;
