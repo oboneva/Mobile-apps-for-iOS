@@ -16,6 +16,7 @@ class LineWidthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLineWidth(width: widthSlider.value)
     }
     
     @IBAction func onSlide(_ sender: UISlider) {
@@ -23,15 +24,16 @@ class LineWidthViewController: UIViewController {
         toolboxItemDelegate?.didChoose(lineWidth: sender.value)
     }
     
-    func setLineWidth(width : Float) {
+    private func setLineWidth(width: Float) {
         UIGraphicsBeginImageContext(widthImageView.frame.size)
-        let context = UIGraphicsGetCurrentContext()
-        context?.setLineWidth(CGFloat(width))
-        context?.setStrokeColor(UIColor.black.cgColor)
-        context?.beginPath()
-        context?.move(to: CGPoint(x:0, y:widthImageView.frame.origin.y / 2))
-        context?.addLine(to: CGPoint(x:widthImageView.frame.size.width, y:widthImageView.frame.origin.y / 2))
-        context?.strokePath()
+        
+        let path = UIBezierPath()
+        path.lineWidth = CGFloat(width)
+        path.move(to: CGPoint(x: 0, y: widthImageView.frame.height / 2))
+        path.addLine(to: CGPoint(x: widthImageView.frame.width, y: widthImageView.frame.height / 2))
+        UIColor.black.setStroke()
+        path.stroke()
+        
         widthImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
     }
