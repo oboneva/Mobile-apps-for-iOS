@@ -19,6 +19,9 @@ class TabsCollectionViewDataSource: NSObject {
     }
     
     func filter(atIndex index: Int) -> DataFilter {
+        guard index < tabs.count else {
+            return tabs[defaultSelectedTabIndex.item].filter
+        }
         return tabs[index].filter
     }
 }

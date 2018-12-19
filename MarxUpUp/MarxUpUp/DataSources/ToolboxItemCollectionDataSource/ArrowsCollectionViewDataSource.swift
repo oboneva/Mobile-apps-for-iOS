@@ -26,6 +26,10 @@ extension ArrowsCollectionViewDataSource: ToolboxItemCollectionDataSource {
     }
     
     func option(atIndex index: Int) -> Int {
+        if index >= arrows.count || index < 0 {
+            print("Error: Index out of bounds")
+            return -1
+        }
         return arrows[index].type.rawValue
     }
     
