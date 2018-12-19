@@ -20,12 +20,12 @@ class Annotator: NSObject {
     private var shape: ShapeType = ShapeType.Circle
     private var path: UIBezierPath = UIBezierPath()
     
-    var annotation: PDFAnnotation?
+    private var annotation: PDFAnnotation?
     private var isAnnotationAdded: Bool = false
-    private var annotatedPDFView: PDFView?
+    var annotatedPDFView: PDFView?
     
     var originalImage: UIImage?
-    private var annotatedImage: UIImage?
+    var annotatedImage: UIImage?
     private var annotatedImageView: UIImageView?
     private var currentImage: UIImage? {
         return UIGraphicsGetImageFromCurrentImageContext()
@@ -109,7 +109,8 @@ class Annotator: NSObject {
         continueAnnotating(atPoint: point)
         
         if content == ContentType.Image {
-            changesManager.addInkImageAnnotation(withLines: path, forImage: annotatedImage!)
+            let fill = (endLineStyle == .Closed)
+            changesManager.addInkImageAnnotation(withLines: path, forImage: annotatedImage!, andFill: fill)
             annotatedImage = currentImage
             UIGraphicsEndImageContext()
         }
@@ -122,13 +123,13 @@ class Annotator: NSObject {
     }
     
     //MARK: - BezierPaths based annotating
-    func beginDrawingWithBezierPath(atPoint point: CGPoint) {
+    private func beginDrawingWithBezierPath(atPoint point: CGPoint) {
         path = UIBezierPath()
         path.lineWidth = lineWidth
         path.move(to: point)
     }
     
-    func updateBezierPath(withPoint point: CGPoint) {
+    private func updateBezierPath(withPoint point: CGPoint) {
         if choosenItem == ToolboxItemType.Pen {
             path.addLine(to: point)
         }
@@ -140,16 +141,10 @@ class Annotator: NSObject {
         }
     }
     
-    func addArrowWithBezierPath(atPoint point: CGPoint) {
-        let dx = point.x - startPoint.x
-        let dy = point.y - startPoint.y
-
-        let angle = CGFloat(atan2(dy, dx))
+    private func addArrowWithBezierPath(atPoint point: CGPoint) {
+        let angle = Utilities.angleBetweenPoint(point, andOtherPoint: startPoint)
         path = ArrowBezierPath.endLine(atPoint: point, fromType: endLineStyle)
-            
-        path.apply(CGAffineTransform(translationX: -point.x, y: -point.y))
-        path.apply(CGAffineTransform(rotationAngle: angle + .pi / 2))
-        path.apply(CGAffineTransform(translationX: point.x, y:  point.y))
+        Utilities.rotateBezierPath(path, aroundPoint: point, withAngle: angle)
         
         path.move(to: startPoint)
         path.addLine(to: CGPoint(x: point.x, y: point.y))
@@ -157,7 +152,7 @@ class Annotator: NSObject {
         path.lineWidth = lineWidth
     }
     
-    func addShapeWithBezierPath(atPoint point: CGPoint) {
+    private func addShapeWithBezierPath(atPoint point: CGPoint) {
         let shapeRect = Utilities.rectBetween(point, startPoint)
         
         if shape == ShapeType.RegularRectangle {
@@ -173,7 +168,7 @@ class Annotator: NSObject {
         path.lineWidth = lineWidth
     }
     
-    func addAnnotationWithCurrentBezierPath() {
+    private func addAnnotationWithCurrentBezierPath() {
         guard let annotationBounds = annotatedPDFView?.currentPage?.bounds(for: PDFDisplayBox.mediaBox) else {
             return
         }
@@ -186,7 +181,7 @@ class Annotator: NSObject {
     }
     
     //MARK: - Updating properties
-    func updateProperty(_ property: Int, fromType itemType: ToolboxItemType) {
+    private func updateProperty(_ property: Int, fromType itemType: ToolboxItemType) {
         if itemType == ToolboxItemType.Width {
             lineWidth = CGFloat(property)
         }
@@ -204,13 +199,13 @@ class Annotator: NSObject {
         }
     }
     
-    func updatePropertiesForAnnotation() {
+    private func updatePropertiesForAnnotation() {
         annotation?.color = color
         annotation?.border?.lineWidth = lineWidth
     }
     
     //MARK: - Visualize annotation
-    func strokePath() {
+    private func strokePath() {
         color.setStroke()
         color.setFill()
         path.lineWidth = lineWidth;
@@ -223,7 +218,8 @@ class Annotator: NSObject {
         }
     }
     
-    func addAnnotation(_ sybtype: PDFAnnotationSubtype, markUpType: PDFMarkupType) {
+    
+    private func addAnnotation(_ sybtype: PDFAnnotationSubtype, markUpType: PDFMarkupType) {
         var annotations = [PDFAnnotation]()
         annotatedPDFView?.currentSelection?.selectionsByLine().forEach({ selection in
             if annotatedPDFView != nil, annotatedPDFView!.currentPage != nil {
@@ -242,7 +238,7 @@ class Annotator: NSObject {
     }
     
     //MARK: - Others
-    func removePreviousVersionOfAnnotation(withPoint point: CGPoint) {
+    private func removePreviousVersionOfAnnotation(withPoint point: CGPoint) {
         if content == ContentType.PDF, isAnnotationAdded, annotation != nil {
             annotatedPDFView?.currentPage?.removeAnnotation(annotation!)
         }
@@ -300,6 +296,8 @@ extension Annotator: EditedContentStateDelegate {
         if UIGraphicsGetCurrentContext() == nil, let size = annotatedImage?.size {
             UIGraphicsBeginImageContext(size)
         }
+        color.setStroke()
+        color.setFill()
         changesManager.redo() {
             annotatedImageView?.image = currentImage
         }

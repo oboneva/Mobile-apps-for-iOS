@@ -12,10 +12,12 @@ class ImageInkAnnotation: NSObject {
 
     let lines: UIBezierPath
     var image: UIImage
+    let fill: Bool
     
-    init(withLines lines: UIBezierPath, forImage image: UIImage) {
+    init(withLines lines: UIBezierPath, forImage image: UIImage, andFill fill: Bool) {
         self.lines = lines
         self.image = image
+        self.fill = fill
     }
 }
 
@@ -23,6 +25,9 @@ class ImageInkAnnotation: NSObject {
 extension ImageInkAnnotation: Command {
     func execute() {
         image.draw(at: CGPoint.zero)
+        if fill {
+            lines.fill()
+        }
         lines.stroke()
     }
     

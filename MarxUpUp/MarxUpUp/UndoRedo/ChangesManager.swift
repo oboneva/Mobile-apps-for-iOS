@@ -34,8 +34,8 @@ class ChangesManager: NSObject {
         handler()
     }
     
-    func addInkImageAnnotation(withLines lines: UIBezierPath, forImage image: UIImage) {
-        let change = ImageInkAnnotation(withLines: lines, forImage: image)
+    func addInkImageAnnotation(withLines lines: UIBezierPath, forImage image: UIImage, andFill fill: Bool) {
+        let change = ImageInkAnnotation(withLines: lines, forImage: image, andFill: fill)
         undoCommands.append(change)
     }
     
