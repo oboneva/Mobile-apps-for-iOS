@@ -15,7 +15,8 @@ enum Storyboard: String {
     case Camera = "Camera"
     case PreviewContent = "PreviewContent"
     case Annotate = "Annotate"
-    case Menu = "Menu"
+    case Toolbar = "Toolbar"
+    case Toolbox = "Toolbox"
     case ToolboxItem = "ToolboxItem"
     
     var instance: UIStoryboard {
