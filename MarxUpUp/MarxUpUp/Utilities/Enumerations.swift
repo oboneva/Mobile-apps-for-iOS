@@ -61,10 +61,6 @@ enum ToolboxItemType {
             return ArrowsCollectionViewDataSource()
         }
     }
-    
-    func fromInt(type: Int) -> ToolboxItemType {
-        return ToolboxItemType.Arrow
-    }
 }
 
 enum ShapeType: Int {

@@ -14,7 +14,7 @@ class ToolboxItemOptionsViewController: UIViewController {
     var itemType : ToolboxItemType = ToolboxItemType.Shape
     private var dataSource : ToolboxItemCollectionDataSource?
     weak var toolboxItemDelegate : ToolboxItemDelegate?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

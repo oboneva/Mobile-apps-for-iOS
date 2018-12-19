@@ -11,14 +11,6 @@ import UIKit
 class ImagesPreviewTableViewCell: UITableViewCell {
     @IBOutlet weak var URLImageView: UIImageView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         URLImageView.image = nil

@@ -31,7 +31,6 @@
 		FA4F0AE121B56C85009AB689 /* ImageInkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AE021B56C85009AB689 /* ImageInkAnnotation.swift */; };
 		FA4F0AE321B56CDB009AB689 /* PDFInkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AE221B56CDB009AB689 /* PDFInkAnnotation.swift */; };
 		FA8B861A2191A1660020E6CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B86192191A1660020E6CC /* AppDelegate.swift */; };
-		FA8B861C2191A1660020E6CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B861B2191A1660020E6CC /* ViewController.swift */; };
 		FA8B861F2191A1660020E6CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8B861D2191A1660020E6CC /* Main.storyboard */; };
 		FA8B86212191A1690020E6CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8B86202191A1690020E6CC /* Assets.xcassets */; };
 		FA8B86242191A1690020E6CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8B86222191A1690020E6CC /* LaunchScreen.storyboard */; };
