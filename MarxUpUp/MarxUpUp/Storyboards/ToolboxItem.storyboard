@@ -35,7 +35,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nJA-yF-bHS">
-                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -77,7 +77,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="1hV-e4-i6p">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="15" translatesAutoresizingMaskIntoConstraints="NO" id="1hV-e4-i6p">
                                 <rect key="frame" x="128.5" y="328.5" width="118" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="MpZ-ph-0Gk"/>
