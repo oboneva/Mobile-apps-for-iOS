@@ -43,9 +43,12 @@ class ImageDataRequester: NSObject {
     private let key_animated = "animated"
     private let key_status = "status"
     
+    private let parser: Parsable
     
-    init(withSession session: NetworkSession = URLSession(configuration: URLSessionConfiguration.default)) {
+    
+    init(withSession session: NetworkSession = URLSession(configuration: URLSessionConfiguration.default), andParser parser: Parsable = NetworkResponseParser()) {
         self.session = session
+        self.parser = parser
     }
     
     func imageData(withLink link: String, andCompletion handler: @escaping (Data?) -> Void) {
@@ -66,7 +69,7 @@ class ImageDataRequester: NSObject {
     }
     
     func cancelCurrentRequests(WithCompletion handler: @escaping () -> Void) {
-        session.getAllTasks { (tasks) in
+        session.allTasks { (tasks) in
             let filtered = tasks.filter({ $0.currentRequest == self.request})
             filtered.forEach({ (task) in task.cancel() })
             handler()
@@ -75,7 +78,6 @@ class ImageDataRequester: NSObject {
     
     func getImageLinks(sortedBy sort: ImageSort, withCompletion handler: @escaping ([String]?) -> Void) {
         guard (areImageIDsLoading == false || session.imagesDataTaskCurrentlyInProgress == false) else {
-            print("here")
             return
         }
 
@@ -102,7 +104,7 @@ class ImageDataRequester: NSObject {
                 handler(nil)
                 return
             }
-            self.linksFromJSONDict(unwrappedDict, withCount: self.chunkSize) { links in
+            self.parser.linksFromJSONDict(unwrappedDict, countPerPage: self.chunkSize) { links in
                 handler(links)
             }
             
@@ -111,36 +113,24 @@ class ImageDataRequester: NSObject {
         task.resume()
         page = page + 1
     }
-    
-    private func linksFromJSONDict(_ dictionary: [String:AnyObject], withCount count: Int, andCompletion handler:([String]) -> Void) {
-        guard let data = dictionary[key_data] as? [[String: AnyObject]] else {
-            return
-        }
-        var links = [String]()
-        
-        data.forEach { (subDict) in
-             if let arrayOfImageDicts = subDict[key_images] as? [[String: AnyObject]], let imageDict = arrayOfImageDicts.first, shouldAddImage(withDictionary: imageDict), let link = imageDict[key_link] as? String {
-                links.append(link)
-                if links.count > chunkSize {
-                    handler(links)
-                    links.removeAll()
-                }
-            }
-        }
-        
-        if links.count > 0 {
-            handler(links)
-        }
-    }
-    
-    private func shouldAddImage(withDictionary dict: [String: AnyObject]) -> Bool {
-        guard let link = dict[key_link] as? String, let animated = dict[key_animated] as? Bool else {
-            return false
-        }
-        return !link.contains("http:") && !animated
-    }
 
     func setPageToFirst() {
         page = 1;
     }
 }
+
+extension URLSession: NetworkSession {
+    var imagesDataTaskCurrentlyInProgress: Bool? { return nil }
+    
+    func dataTask(with: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkSessionDataTask {
+        return (dataTask(with: with, completionHandler: completionHandler) as URLSessionDataTask) as NetworkSessionDataTask
+    }
+    
+    func allTasks(completionHandler: @escaping ([NetworkSessionDataTask]) -> Void) {
+        getAllTasks { (tasks) in
+            completionHandler(tasks.filter({ $0.isMember(of: URLSessionDataTask.self)}) as! [NetworkSessionDataTask])
+        }
+    }
+}
+
+extension URLSessionDataTask: NetworkSessionDataTask {  }

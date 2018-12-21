@@ -11,21 +11,16 @@ import UIKit
 protocol NetworkSession: AnyObject {
     var imagesDataTaskCurrentlyInProgress: Bool? { get }
     func dataTask(with: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkSessionDataTask
-    func getAllTasks(completionHandler: @escaping ([URLSessionTask]) -> Void)
+    func allTasks(completionHandler: @escaping ([NetworkSessionDataTask]) -> Void)
 }
 
 protocol NetworkSessionDataTask: AnyObject {
     func resume()
     func cancel()
+    
+    var currentRequest: URLRequest? { get }
 }
 
-extension URLSession: NetworkSession {
-    
-    var imagesDataTaskCurrentlyInProgress: Bool? { return nil }
-    
-    func dataTask(with: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkSessionDataTask {
-        return (dataTask(with: with, completionHandler: completionHandler) as URLSessionDataTask) as NetworkSessionDataTask
-    }
+protocol Parsable: AnyObject {
+    func linksFromJSONDict(_ dictionary: [String:AnyObject], countPerPage count: Int, andCompletion handler:([String]) -> Void)
 }
-
-extension URLSessionDataTask: NetworkSessionDataTask {  }
