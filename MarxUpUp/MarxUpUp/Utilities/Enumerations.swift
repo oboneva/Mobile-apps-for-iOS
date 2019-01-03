@@ -107,3 +107,7 @@ enum ImageSort: Int {
         }
     }
 }
+
+enum SplitError: Error {
+    case NoResultFound
+}

@@ -57,14 +57,13 @@ class ImageDataRequester: NSObject {
         }
     
         let request = URLRequest(url: url)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                print("Error:")
-                return
-            }
-            
-            handler(data)
-        }
+        let task = session.dataTask(with: request, completion: completion(
+            onResult: { (result) in
+                handler(result.data)
+        },
+            onError: { (error) in
+                print(error)
+        }))
         task.resume()
     }
     
@@ -92,24 +91,24 @@ class ImageDataRequester: NSObject {
             return
         }
         
-        let task = session.dataTask(with: request!) { (data, _, error) in
-            guard let unwrappedData = data, error == nil, let dataDict = try? JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject] else {
-                print("Error: No data, error or unwrapping failed")
+        let task = session.dataTask(with: request!, completion: completion(
+            onResult: { (result) in
+                guard let dataDict = try? JSONSerialization.jsonObject(with: result.data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject], let unwrappedDict = dataDict else {
+                    print("Error: Unwrapping failed")
+                    handler(nil)
+                    return
+                }
+                
+                self.parser.linksFromJSONDict(unwrappedDict, countPerPage: self.chunkSize) { links in
+                    handler(links)
+                }
+                
+                self.areImageIDsLoading = false
+        },
+            onError: { (error) in
+                print(error)
                 handler(nil)
-                return
-            }
-
-            guard let unwrappedDict = dataDict else {
-                print("Error: Unwrapping data response to image links request")
-                handler(nil)
-                return
-            }
-            self.parser.linksFromJSONDict(unwrappedDict, countPerPage: self.chunkSize) { links in
-                handler(links)
-            }
-            
-            self.areImageIDsLoading = false
-        }
+        }))
         task.resume()
         page = page + 1
     }
@@ -119,11 +118,35 @@ class ImageDataRequester: NSObject {
     }
 }
 
+extension ImageDataRequester {
+    func completion<Result>(onResult: @escaping (Result) -> Void, onError: @escaping (Error) -> Void) -> ((Result?, Error?) -> Void) {
+        return { (result, error) in
+            if let unwrappedResult = result {
+                onResult(unwrappedResult)
+            }
+            else if let unwrappedError = error {
+                onError(unwrappedError)
+            }
+            else {
+                onError(SplitError.NoResultFound)
+            }
+        }
+    }
+}
+
 extension URLSession: NetworkSession {
+    
     var imagesDataTaskCurrentlyInProgress: Bool? { return nil }
     
-    func dataTask(with: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkSessionDataTask {
-        return (dataTask(with: with, completionHandler: completionHandler) as URLSessionDataTask) as NetworkSessionDataTask
+    func dataTask(with request: URLRequest, completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask {
+        return (dataTask(with: request, completionHandler: { (data, response, error) in
+            if let unwrappedData = data {
+                completion(Response(data: unwrappedData, response: response), nil)
+            }
+            else if let unwrappedError = error {
+                completion(nil, unwrappedError)
+            }
+        }) as URLSessionDataTask) as NetworkSessionDataTask
     }
     
     func allTasks(completionHandler: @escaping ([NetworkSessionDataTask]) -> Void) {
@@ -134,3 +157,8 @@ extension URLSession: NetworkSession {
 }
 
 extension URLSessionDataTask: NetworkSessionDataTask {  }
+
+struct Response {
+    let data: Data
+    let response: URLResponse?
+}
