@@ -8,14 +8,15 @@
 
 import UIKit
 
-final class ImagePreviewTableViewDataSource: NSObject {
+class ImagePreviewTableViewDataSource: NSObject {
 
     private var imageURLs = [String]()
-    private var localImages: [Image]
-    private var imageCache = NSCache<NSString, UIImage>()
+    private var localImages: [LocalContentModel]
+    private var imageCache: NSCache<NSString, UIImage>
     private var filter: DataFilter
-    private let imageDataRequester = ImageDataRequester()
-    private let databaseManager = DatabaseManager()
+    private let imageDataRequester: ImageDataRequester
+    private let databaseManager: LocalContentManaging
+    var mutableSourceDelegate: MutableDataSource?
     
     var selectedModelIndexForUpdate: Int?
     
@@ -26,10 +27,14 @@ final class ImagePreviewTableViewDataSource: NSObject {
         return imageURLs.count
     }
     
-    init(withImagesFilteredBy filter: DataFilter) {
+    init(withImagesFilteredBy filter: DataFilter, _ requester: ImageDataRequester = ImageDataRequester(), _ cache: NSCache<NSString, UIImage> = NSCache<NSString, UIImage>(), _ databaseManager: LocalContentManaging = DatabaseManager()) {
         self.filter = filter
+        self.imageDataRequester = requester
+        self.databaseManager = databaseManager
+        imageCache = cache
         localImages = databaseManager.loadImages()
         super.init()
+        mutableSourceDelegate = self
     }
     
     func getImage(atIndex index: Int) -> UIImage {
@@ -39,13 +44,13 @@ final class ImagePreviewTableViewDataSource: NSObject {
         return image
     }
     
-    private func imageModel(atIndex index: Int) -> Image {
+    private func localImage(atIndex index: Int) -> LocalContentModel {
         return localImages[index]
     }
     
     private func image(atIndex index: Int) -> UIImage? {
         if filter.isDataLocal {
-            guard let data = imageModel(atIndex: index).imageData, let localImage = UIImage(data: data) else {
+            guard let localImage = UIImage(data: localImage(atIndex: index).data) else {
                 return nil
             }
             return localImage
@@ -68,7 +73,8 @@ final class ImagePreviewTableViewDataSource: NSObject {
 extension ImagePreviewTableViewDataSource: UpdateDatabaseDelegate {
     func updateImage(withData data: Data) {
         if filter.isDataLocal, let index = selectedModelIndexForUpdate {
-            databaseManager.updateImage(imageModel(atIndex: index), withData: data)
+            databaseManager.updateImage(localImage(atIndex: index).id, withData: data)
+            localImages[index].update(data)
         }
         else {
             databaseManager.saveImageWithData(data)
@@ -106,7 +112,7 @@ extension ImagePreviewTableViewDataSource: UITableViewDataSource {
     }
 }
 
-extension ImagePreviewTableViewDataSource {
+extension ImagePreviewTableViewDataSource: MutableDataSource {
     private func loadImage(forCell cell: ImagesPreviewTableViewCell, withIndexPath indexPath: IndexPath, fromTableView table: UITableView) {
         guard let url = URL(string: imageURLs[indexPath.row]) else {
             print("Error: URL init from String")

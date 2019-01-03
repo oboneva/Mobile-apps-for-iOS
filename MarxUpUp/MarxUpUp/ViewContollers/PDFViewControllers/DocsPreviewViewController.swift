@@ -11,10 +11,15 @@ import UIKit
 class DocsPreviewViewController: UIViewController {
 
     @IBOutlet weak var PDFTableView: UITableView!
-    let dataSource: DocsPreviewTableViewDataSource = DocsPreviewTableViewDataSource()
+    var dataSource: DocsPreviewTableViewDataSource!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if dataSource == nil {
+            dataSource = DocsPreviewTableViewDataSource()
+        }
+        
         PDFTableView.dataSource = dataSource
         PDFTableView.delegate = self
     }
@@ -40,5 +45,11 @@ extension DocsPreviewViewController: UITableViewDelegate {
         controller.updateDatabaseDelegate = dataSource
         dataSource.selectedModelIndexForUpdate = indexPath.row
         present(controller, animated: true, completion: nil)
+    }
+}
+
+extension DocsPreviewViewController {
+    func setDependencies(_ dataSource: DocsPreviewTableViewDataSource) {
+        self.dataSource = dataSource
     }
 }

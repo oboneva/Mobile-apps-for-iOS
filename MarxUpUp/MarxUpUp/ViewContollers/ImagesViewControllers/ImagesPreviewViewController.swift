@@ -15,11 +15,17 @@ class ImagesPreviewViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private let imagesDataSource = ImagePreviewTableViewDataSource(withImagesFilteredBy: DataFilter(local: false, sort: ImageSort.Viral))
+    private var imagesDataSource: ImagePreviewTableViewDataSource!
     private let tabsDataSource = TabsCollectionViewDataSource()
+    
+    var initialDataFilter = DataFilter(local: false, sort: ImageSort.Viral)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if imagesDataSource == nil {
+            imagesDataSource = ImagePreviewTableViewDataSource(withImagesFilteredBy: initialDataFilter)
+        }
         
         configImagesTable()
         configTabsCollection()
@@ -55,7 +61,7 @@ class ImagesPreviewViewController: UIViewController {
     }
     
     @objc func refreshImagesTableViewData(_ refreshControl: UIRefreshControl) {
-        imagesDataSource.refreshData { _ in
+        imagesDataSource.mutableSourceDelegate?.refreshData { _ in
             DispatchQueue.main.async {
                 self.imagesTableView.reloadData()
                 self.imagesTableView.refreshControl?.endRefreshing()
@@ -70,7 +76,7 @@ class ImagesPreviewViewController: UIViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if shouldLoadNewData(forScrollView: scrollView) && scrollView.isDragging {
             activityIndicator.startAnimating()
-            imagesDataSource.addData { newDataCount in
+            imagesDataSource.mutableSourceDelegate?.addData { newDataCount in
                 if let count = newDataCount {
                     let allDataCount = self.imagesDataSource.imagesCount
                     let newIndexPaths = Array((allDataCount - count)..<allDataCount).map {IndexPath(item: $0, section: 0)}
@@ -94,7 +100,7 @@ class ImagesPreviewViewController: UIViewController {
 
 extension ImagesPreviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        imagesDataSource.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { _ in
+        imagesDataSource.mutableSourceDelegate?.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { _ in
             DispatchQueue.main.async {
                 self.imagesTableView.reloadData()
             }
@@ -112,4 +118,13 @@ extension ImagesPreviewViewController: UITableViewDelegate {
         imagesDataSource.selectedModelIndexForUpdate = indexPath.row
         present(annotateImageController, animated: true, completion: nil)
     }
+}
+
+extension ImagesPreviewViewController{
+
+    func setDependencies(_ mutableDataSourceDelegate: MutableDataSource) {
+        imagesDataSource = ImagePreviewTableViewDataSource.init(withImagesFilteredBy: initialDataFilter)
+        imagesDataSource.mutableSourceDelegate = mutableDataSourceDelegate
+    }
+    
 }

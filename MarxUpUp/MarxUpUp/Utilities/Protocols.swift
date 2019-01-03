@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol ToolboxItemDelegate: AnyObject {
     func didChoose(textAnnotationFromType type: ToolboxItemType)
@@ -36,10 +37,34 @@ protocol UpdateDatabaseDelegate: AnyObject {
 protocol DrawDelegate: AnyObject {
     func willBeginDrawing()
 }
+
+protocol LocalContentManaging: ContentLoading, ContentSaving, ContentUpdating {}
+
+protocol ContentLoading {
+    func loadPDFs() -> [LocalContentModel]
+    func loadImages() -> [LocalContentModel]
+}
+
+protocol ContentSaving {
+    func saveImageWithData(_ data: Data)
+    func savePDFWithData(_ data: Data)
+}
+
+protocol ContentUpdating {
+    func updatePDF(_ id: URL, withData data: Data)
+    func updateImage(_ id: URL, withData data: Data)
+}
+
 protocol CameraInterface: AnyObject {
     func switchPosition()
     func stop()
     func takePhoto()
     func updateOrientation(forView view: UIView)
     var isSupportedByTheDevice: Bool { get }
+}
+
+protocol MutableDataSource: AnyObject {
+    func refreshData(withCompletion handler: @escaping (Int?) -> Void)
+    func addData(withCompletion handler: @escaping (Int?) -> Void)
+    func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void)
 }
