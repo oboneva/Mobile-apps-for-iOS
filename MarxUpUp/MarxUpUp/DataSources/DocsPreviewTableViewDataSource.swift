@@ -10,13 +10,14 @@ import UIKit
 import PDFKit
 
 class DocsPreviewTableViewDataSource: NSObject {
-    private let databaseManager = DatabaseManager()
-    private var documents: [PDF]
+    private let databaseManager: LocalContentManaging
+    private var documents: [LocalContentModel]
     private let cachedThumbnails = NSCache<NSNumber, UIImage>()
     
     var selectedModelIndexForUpdate: Int?
     
-    override init() {
+    init(withDatabaseManager DBManager: LocalContentManaging = DatabaseManager()) {
+        databaseManager = DBManager
         documents = databaseManager.loadPDFs()
         super.init()
     }
@@ -39,10 +40,7 @@ class DocsPreviewTableViewDataSource: NSObject {
     }
     
     func document(atIndex index: Int) -> PDFDocument? {
-        guard let data = documents[index].pdfData else {
-            return nil
-        }
-        return PDFDocument(data: data)
+        return PDFDocument(data: documents[index].data)
     }
 }
 
@@ -57,7 +55,7 @@ extension DocsPreviewTableViewDataSource: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(fromClass: PDFTableViewCell.self, forIndexPath: indexPath)
-        guard let data = documents[indexPath.row].pdfData, let document = PDFDocument(data: data) else {
+        guard let document = PDFDocument(data: documents[indexPath.row].data) else {
             return cell
         }
         
@@ -71,7 +69,8 @@ extension DocsPreviewTableViewDataSource: UITableViewDataSource {
     }
 }
 
-extension DocsPreviewTableViewDataSource: UpdateDatabaseDelegate {    
+extension DocsPreviewTableViewDataSource: UpdateDatabaseDelegate {
+    
     func updateImage(withData data: Data) {
         //stub
         print("Error: This shouldn't be called")
@@ -84,6 +83,7 @@ extension DocsPreviewTableViewDataSource: UpdateDatabaseDelegate {
         
         let NSIndex = NSNumber(integerLiteral: index)
         cachedThumbnails.removeObject(forKey: NSIndex)
-        databaseManager.updatePDF(documents[index], withData: data)
+        documents[index].update(data)
+        databaseManager.updatePDF(documents[index].id, withData: data)
     }
 }

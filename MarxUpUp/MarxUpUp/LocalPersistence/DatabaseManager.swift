@@ -7,33 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
-class DatabaseManager: NSObject {
+class DatabaseManager: NSObject, LocalContentManaging {
+    private var context: NSManagedObjectContext
     
-    private var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-    func save(pdfWithData data: Data) {
-        let pdf = PDF(context: context)
-        pdf.pdfData = data
-        
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-    }
-    
-    func save(imageWithData data: Data) {
-        let image = Image(context: context)
-        image.imageData = data
-        
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-    }
-    
-    func updatePDF(_ pdf: PDF, withData data: Data) {
-        pdf.pdfData = data
-        saveChanges()
-    }
-    
-    func updateImage(_ image: Image, withData data: Data) {
-        image.imageData = data
-        saveChanges()
+    init(withContainer container: NSPersistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer) {
+        context = container.viewContext
     }
     
     private func saveChanges() {
@@ -44,36 +24,79 @@ class DatabaseManager: NSObject {
             print("Error: Saving changes failed")
         }
     }
-    
-    func loadImages() -> [Image] {
+}
+
+extension DatabaseManager: ContentUpdating {
+    func updatePDF(_ id: URL, withData data: Data) {
+        guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
+            print("Error: ")
+            return
+        }
+        let pdf = context.object(with: objectID) as? PDF
+        pdf?.pdfData = data
+        
+        saveChanges()
+    }
+
+    func updateImage(_ id: URL, withData data: Data) {
+        guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
+            print("Error: ")
+            return
+        }
+        let image = context.object(with: objectID) as? Image
+        image?.imageData = data
+        
+        saveChanges()
+    }
+}
+
+extension DatabaseManager: ContentSaving {
+    func savePDFWithData(_ data: Data) {
+        let pdf = PDF(context: context)
+        pdf.pdfData = data
+        saveChanges()
+    }
+
+    func saveImageWithData(_ data: Data) {
+        let image = Image(context: context)
+        image.imageData = data
+        saveChanges()
+    }
+}
+
+extension DatabaseManager: ContentLoading {
+    func loadImages() -> [LocalContentModel] {
         do {
             guard let images = try context.fetch(Image.fetchRequest()) as? [Image] else {
-                return [Image]()
+                return [LocalContentModel]()
             }
-//            return images.map { $0.imageData ?? Data() }.filter{ !$0.isEmpty }
-            return images
+            
+            return images.map { (image) -> LocalContentModel in
+                LocalContentModel(image.imageData ?? Data(), image.objectID.uriRepresentation())
+            }
         }
         catch {
             print("Error: Fetching images failed")
         }
-        return [Image]()
+        return [LocalContentModel]()
     }
-    
-    func loadPDFs() -> [PDF] {
+
+    func loadPDFs() -> [LocalContentModel] {
         do {
-            guard let PDFs = try context.fetch(PDF.fetchRequest()) as? [PDF] else {
-                return [PDF]()
+            guard let docs = try context.fetch(PDF.fetchRequest()) as? [PDF] else {
+                return [LocalContentModel]()
             }
-            
-            if PDFs.count == 0 {
-                FileManager.getDataFromDefaultDocuments().forEach { save(pdfWithData: $0) }
+
+            if docs.count == 0 {
+                FileManager.getDataFromDefaultDocuments().forEach { savePDFWithData($0) }
             }
-//            return PDFs.map{ $0.pdfData ?? Data() }.filter{ !$0.isEmpty }
-            return PDFs
+            return docs.map { (doc) -> LocalContentModel in
+                LocalContentModel(doc.pdfData ?? Data(), doc.objectID.uriRepresentation())
+            }
         }
         catch {
             print("Error: Fetching documents failed")
         }
-        return [PDF]()
+        return [LocalContentModel]()
     }
 }
