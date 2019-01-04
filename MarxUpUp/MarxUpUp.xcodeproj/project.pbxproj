@@ -28,13 +28,33 @@
 		FA26542E2194A0D1003514F9 /* ImagePreviewTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26542D2194A0D1003514F9 /* ImagePreviewTableViewDataSource.swift */; };
 		FA265434219569F0003514F9 /* Annotator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA265433219569F0003514F9 /* Annotator.swift */; };
 		FA265436219576E7003514F9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA265435219576E7003514F9 /* Utilities.swift */; };
+		FA3B1B9121BA9AFB0092637E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FADE88D721AD7DBF00D7970B /* Model.xcdatamodeld */; };
+		FA3B1B9821BAB4430092637E /* test-image in Resources */ = {isa = PBXBuildFile; fileRef = FA4F0B1821BA69FD009AB689 /* test-image */; };
+		FA3B1B9A21BEA7590092637E /* test-document.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FA3B1B9921BEA7590092637E /* test-document.pdf */; };
+		FA3B1B9B21BEA7590092637E /* test-document.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FA3B1B9921BEA7590092637E /* test-document.pdf */; };
+		FA3B1B9D21BF91640092637E /* ToolboxItemOptionsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B1B9C21BF91640092637E /* ToolboxItemOptionsControllerTests.swift */; };
+		FA3B1B9F21BFBE900092637E /* LineWidthViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B1B9E21BFBE900092637E /* LineWidthViewControllerTests.swift */; };
+		FA3B1BA621C10EE20092637E /* ToolboxViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B1BA521C10EE20092637E /* ToolboxViewControllerTests.swift */; };
+		FA3B1BA821C295EA0092637E /* DocsPreviewTableViewDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B1BA721C295EA0092637E /* DocsPreviewTableViewDataSourceTests.swift */; };
 		FA4F0AE121B56C85009AB689 /* ImageInkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AE021B56C85009AB689 /* ImageInkAnnotation.swift */; };
 		FA4F0AE321B56CDB009AB689 /* PDFInkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AE221B56CDB009AB689 /* PDFInkAnnotation.swift */; };
+		FA4F0AF521B6B2B8009AB689 /* AnnotatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AF421B6B2B8009AB689 /* AnnotatorUtilsTests.swift */; };
+		FA4F0AF721B6C172009AB689 /* ArrowEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AF621B6C172009AB689 /* ArrowEndTests.swift */; };
+		FA4F0AFB21B7FADF009AB689 /* ShapesDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AFA21B7FADF009AB689 /* ShapesDataSourceTests.swift */; };
+		FA4F0AFD21B800B0009AB689 /* ArrowsDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0AFC21B800B0009AB689 /* ArrowsDataSourceTests.swift */; };
+		FA4F0B0121B8042A009AB689 /* ToolboxDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0021B8042A009AB689 /* ToolboxDataSourceTests.swift */; };
+		FA4F0B0321B80B81009AB689 /* ChangesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0221B80B81009AB689 /* ChangesManagerTests.swift */; };
+		FA4F0B0521B82889009AB689 /* CameraInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0421B82889009AB689 /* CameraInputTests.swift */; };
+		FA4F0B0721B831A0009AB689 /* TabsDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0621B831A0009AB689 /* TabsDataSourceTests.swift */; };
+		FA4F0B0921B83551009AB689 /* CellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0821B83551009AB689 /* CellTests.swift */; };
+		FA4F0B0B21B8429B009AB689 /* AnnotatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0A21B8429B009AB689 /* AnnotatorTests.swift */; };
+		FA4F0B0D21B95C93009AB689 /* ToolbarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0C21B95C93009AB689 /* ToolbarTests.swift */; };
+		FA4F0B0F21B97B0B009AB689 /* LocalPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4F0B0E21B97B0B009AB689 /* LocalPersistenceTests.swift */; };
+		FA4F0B1921BA69FD009AB689 /* test-image in Resources */ = {isa = PBXBuildFile; fileRef = FA4F0B1821BA69FD009AB689 /* test-image */; };
 		FA8B861A2191A1660020E6CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B86192191A1660020E6CC /* AppDelegate.swift */; };
 		FA8B861F2191A1660020E6CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8B861D2191A1660020E6CC /* Main.storyboard */; };
 		FA8B86212191A1690020E6CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8B86202191A1690020E6CC /* Assets.xcassets */; };
 		FA8B86242191A1690020E6CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8B86222191A1690020E6CC /* LaunchScreen.storyboard */; };
-		FA8B862F2191A1690020E6CC /* MarxUpUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B862E2191A1690020E6CC /* MarxUpUpTests.swift */; };
 		FA8B863A2191A1690020E6CC /* MarxUpUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B86392191A1690020E6CC /* MarxUpUpUITests.swift */; };
 		FA8B86482191A8900020E6CC /* PhotoCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B86472191A8900020E6CC /* PhotoCaptureViewController.swift */; };
 		FA8B864A2191ADB40020E6CC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B86492191ADB40020E6CC /* Camera.swift */; };
@@ -43,6 +63,17 @@
 		FA90CDFC21999901009D6DE9 /* TabsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90CDFB21999901009D6DE9 /* TabsCollectionViewDataSource.swift */; };
 		FA90CE0021999CE6009D6DE9 /* TabsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90CDFF21999CE6009D6DE9 /* TabsCollectionViewCell.swift */; };
 		FA90CE0221999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90CE0121999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift */; };
+		FA92AA8721C7E17D0094C64B /* PhotoCaptureViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA8621C7E17D0094C64B /* PhotoCaptureViewControllerTests.swift */; };
+		FA92AA8B21C8F1B90094C64B /* ImageDataRequesterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA8A21C8F1B90094C64B /* ImageDataRequesterTests.swift */; };
+		FA92AA8D21C93D100094C64B /* NetworkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA8C21C93D100094C64B /* NetworkProtocols.swift */; };
+		FA92AA9321CB9A690094C64B /* NetworkResponseParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9221CB9A690094C64B /* NetworkResponseParserTests.swift */; };
+		FA92AA9521CB9AB30094C64B /* NetworkResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9421CB9AB30094C64B /* NetworkResponseParser.swift */; };
+		FA92AA9721CBBB9A0094C64B /* SingleImageViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9621CBBB9A0094C64B /* SingleImageViewControllerTests.swift */; };
+		FA92AA9921CBCD690094C64B /* SingleDocViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9821CBCD690094C64B /* SingleDocViewControllerTests.swift */; };
+		FA92AA9B21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9A21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift */; };
+		FA92AA9D21CD184F0094C64B /* ImagePreviewDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AA9C21CD184F0094C64B /* ImagePreviewDataSourceTests.swift */; };
+		FA92AAA121DCB38F0094C64B /* LocalContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AAA021DCB38F0094C64B /* LocalContentModel.swift */; };
+		FA92AAA521DD01680094C64B /* DocsPreviewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92AAA421DD01680094C64B /* DocsPreviewControllerTests.swift */; };
 		FAD6AE72219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE71219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift */; };
 		FAD6AE74219AB10B0029C301 /* ToolboxItemOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE73219AB10B0029C301 /* ToolboxItemOptionsViewController.swift */; };
 		FAD6AE77219AB3F70029C301 /* LineWidthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE76219AB3F70029C301 /* LineWidthViewController.swift */; };
@@ -68,6 +99,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FA4F0AED21B6B116009AB689 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA8B860E2191A1660020E6CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA8B86152191A1660020E6CC;
+			remoteInfo = MarxUpUp;
+		};
 		FA8B862B2191A1690020E6CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA8B860E2191A1660020E6CC /* Project object */;
@@ -106,17 +144,34 @@
 		FA26542D2194A0D1003514F9 /* ImagePreviewTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewTableViewDataSource.swift; sourceTree = "<group>"; };
 		FA265433219569F0003514F9 /* Annotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotator.swift; sourceTree = "<group>"; };
 		FA265435219576E7003514F9 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		FA3B1B9921BEA7590092637E /* test-document.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "test-document.pdf"; sourceTree = "<group>"; };
+		FA3B1B9C21BF91640092637E /* ToolboxItemOptionsControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsControllerTests.swift; sourceTree = "<group>"; };
+		FA3B1B9E21BFBE900092637E /* LineWidthViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineWidthViewControllerTests.swift; sourceTree = "<group>"; };
+		FA3B1BA521C10EE20092637E /* ToolboxViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxViewControllerTests.swift; sourceTree = "<group>"; };
+		FA3B1BA721C295EA0092637E /* DocsPreviewTableViewDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsPreviewTableViewDataSourceTests.swift; sourceTree = "<group>"; };
 		FA4F0AE021B56C85009AB689 /* ImageInkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInkAnnotation.swift; sourceTree = "<group>"; };
 		FA4F0AE221B56CDB009AB689 /* PDFInkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFInkAnnotation.swift; sourceTree = "<group>"; };
+		FA4F0AE821B6B116009AB689 /* AnnotatorUtilitiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnnotatorUtilitiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA4F0AF421B6B2B8009AB689 /* AnnotatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatorUtilsTests.swift; sourceTree = "<group>"; };
+		FA4F0AF621B6C172009AB689 /* ArrowEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowEndTests.swift; sourceTree = "<group>"; };
+		FA4F0AFA21B7FADF009AB689 /* ShapesDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapesDataSourceTests.swift; sourceTree = "<group>"; };
+		FA4F0AFC21B800B0009AB689 /* ArrowsDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowsDataSourceTests.swift; sourceTree = "<group>"; };
+		FA4F0B0021B8042A009AB689 /* ToolboxDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxDataSourceTests.swift; sourceTree = "<group>"; };
+		FA4F0B0221B80B81009AB689 /* ChangesManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesManagerTests.swift; sourceTree = "<group>"; };
+		FA4F0B0421B82889009AB689 /* CameraInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInputTests.swift; sourceTree = "<group>"; };
+		FA4F0B0621B831A0009AB689 /* TabsDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsDataSourceTests.swift; sourceTree = "<group>"; };
+		FA4F0B0821B83551009AB689 /* CellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellTests.swift; sourceTree = "<group>"; };
+		FA4F0B0A21B8429B009AB689 /* AnnotatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatorTests.swift; sourceTree = "<group>"; };
+		FA4F0B0C21B95C93009AB689 /* ToolbarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarTests.swift; sourceTree = "<group>"; };
+		FA4F0B0E21B97B0B009AB689 /* LocalPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPersistenceTests.swift; sourceTree = "<group>"; };
+		FA4F0B1821BA69FD009AB689 /* test-image */ = {isa = PBXFileReference; lastKnownFileType = file; path = "test-image"; sourceTree = "<group>"; };
 		FA8B86162191A1660020E6CC /* MarxUpUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarxUpUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8B86192191A1660020E6CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA8B861B2191A1660020E6CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FA8B861E2191A1660020E6CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA8B86202191A1690020E6CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA8B86232191A1690020E6CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA8B86252191A1690020E6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA8B862A2191A1690020E6CC /* MarxUpUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarxUpUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA8B862E2191A1690020E6CC /* MarxUpUpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarxUpUpTests.swift; sourceTree = "<group>"; };
 		FA8B86302191A1690020E6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA8B86352191A1690020E6CC /* MarxUpUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarxUpUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8B86392191A1690020E6CC /* MarxUpUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarxUpUpUITests.swift; sourceTree = "<group>"; };
@@ -128,7 +183,17 @@
 		FA90CDFB21999901009D6DE9 /* TabsCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		FA90CDFF21999CE6009D6DE9 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA90CE0121999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPreviewTableViewCell.swift; sourceTree = "<group>"; };
+		FA92AA8621C7E17D0094C64B /* PhotoCaptureViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureViewControllerTests.swift; sourceTree = "<group>"; };
+		FA92AA8A21C8F1B90094C64B /* ImageDataRequesterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataRequesterTests.swift; sourceTree = "<group>"; };
 		FA92AA8C21C93D100094C64B /* NetworkProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocols.swift; sourceTree = "<group>"; };
+		FA92AA9221CB9A690094C64B /* NetworkResponseParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseParserTests.swift; sourceTree = "<group>"; };
+		FA92AA9421CB9AB30094C64B /* NetworkResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseParser.swift; sourceTree = "<group>"; };
+		FA92AA9621CBBB9A0094C64B /* SingleImageViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewControllerTests.swift; sourceTree = "<group>"; };
+		FA92AA9821CBCD690094C64B /* SingleDocViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDocViewControllerTests.swift; sourceTree = "<group>"; };
+		FA92AA9A21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPreviewViewControllerTests.swift; sourceTree = "<group>"; };
+		FA92AA9C21CD184F0094C64B /* ImagePreviewDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewDataSourceTests.swift; sourceTree = "<group>"; };
+		FA92AAA021DCB38F0094C64B /* LocalContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentModel.swift; sourceTree = "<group>"; };
+		FA92AAA421DD01680094C64B /* DocsPreviewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsPreviewControllerTests.swift; sourceTree = "<group>"; };
 		FAD6AE71219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAD6AE73219AB10B0029C301 /* ToolboxItemOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsViewController.swift; sourceTree = "<group>"; };
 		FAD6AE76219AB3F70029C301 /* LineWidthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineWidthViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +219,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FA4F0AE521B6B116009AB689 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8B86132191A1660020E6CC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +258,7 @@
 				FA2654002193303D003514F9 /* ArrowModel.swift */,
 				FA26540221933057003514F9 /* ToolboxItemModel.swift */,
 				FA2654042193306A003514F9 /* ShapeModel.swift */,
+				FA92AAA021DCB38F0094C64B /* LocalContentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -197,7 +270,6 @@
 				FAD6AE75219AB2F60029C301 /* ToolboxItemViewControllers */,
 				FAD6AE6F2199B6580029C301 /* PDFViewControllers */,
 				FAD6AE6E2199B6410029C301 /* ImagesViewControllers */,
-				FA8B861B2191A1660020E6CC /* ViewController.swift */,
 				FA8B86472191A8900020E6CC /* PhotoCaptureViewController.swift */,
 			);
 			path = ViewContollers;
@@ -233,10 +305,10 @@
 			isa = PBXGroup;
 			children = (
 				FA26542921948562003514F9 /* Cell.swift */,
-				FAD6AE71219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift */,
-				FA90CE0121999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift */,
-				FA90CDFF21999CE6009D6DE9 /* TabsCollectionViewCell.swift */,
 				FA26541B21947B0B003514F9 /* PDFTableViewCell.swift */,
+				FA90CE0121999D4C009D6DE9 /* ImagesPreviewTableViewCell.swift */,
+				FAD6AE71219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift */,
+				FA90CDFF21999CE6009D6DE9 /* TabsCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -259,6 +331,44 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		FA3B1BA321BFCF0E0092637E /* ViewControllersTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA92AAA421DD01680094C64B /* DocsPreviewControllerTests.swift */,
+				FA92AA9A21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift */,
+				FA92AA9821CBCD690094C64B /* SingleDocViewControllerTests.swift */,
+				FA92AA9621CBBB9A0094C64B /* SingleImageViewControllerTests.swift */,
+				FA92AA8621C7E17D0094C64B /* PhotoCaptureViewControllerTests.swift */,
+				FA3B1BA521C10EE20092637E /* ToolboxViewControllerTests.swift */,
+				FA3B1B9E21BFBE900092637E /* LineWidthViewControllerTests.swift */,
+				FA3B1B9C21BF91640092637E /* ToolboxItemOptionsControllerTests.swift */,
+				FA4F0B0C21B95C93009AB689 /* ToolbarTests.swift */,
+			);
+			path = ViewControllersTests;
+			sourceTree = "<group>";
+		};
+		FA3B1BA421BFCF600092637E /* DataSourcesTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA3B1BA721C295EA0092637E /* DocsPreviewTableViewDataSourceTests.swift */,
+				FA4F0B0621B831A0009AB689 /* TabsDataSourceTests.swift */,
+				FA4F0B0021B8042A009AB689 /* ToolboxDataSourceTests.swift */,
+				FA4F0AFC21B800B0009AB689 /* ArrowsDataSourceTests.swift */,
+				FA4F0AFA21B7FADF009AB689 /* ShapesDataSourceTests.swift */,
+				FA92AA9C21CD184F0094C64B /* ImagePreviewDataSourceTests.swift */,
+			);
+			path = DataSourcesTests;
+			sourceTree = "<group>";
+		};
+		FA4F0B1721BA69DF009AB689 /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				FA3B1B9921BEA7590092637E /* test-document.pdf */,
+				FA4F0B1821BA69FD009AB689 /* test-image */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
 		FA8B860D2191A1660020E6CC = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +385,7 @@
 				FA8B86162191A1660020E6CC /* MarxUpUp.app */,
 				FA8B862A2191A1690020E6CC /* MarxUpUpTests.xctest */,
 				FA8B86352191A1690020E6CC /* MarxUpUpUITests.xctest */,
+				FA4F0AE821B6B116009AB689 /* AnnotatorUtilitiesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -307,7 +418,18 @@
 		FA8B862D2191A1690020E6CC /* MarxUpUpTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA8B862E2191A1690020E6CC /* MarxUpUpTests.swift */,
+				FA92AA9221CB9A690094C64B /* NetworkResponseParserTests.swift */,
+				FA92AA8A21C8F1B90094C64B /* ImageDataRequesterTests.swift */,
+				FA3B1BA421BFCF600092637E /* DataSourcesTests */,
+				FA3B1BA321BFCF0E0092637E /* ViewControllersTests */,
+				FA4F0B1721BA69DF009AB689 /* TestData */,
+				FA4F0B0E21B97B0B009AB689 /* LocalPersistenceTests.swift */,
+				FA4F0B0A21B8429B009AB689 /* AnnotatorTests.swift */,
+				FA4F0B0821B83551009AB689 /* CellTests.swift */,
+				FA4F0B0421B82889009AB689 /* CameraInputTests.swift */,
+				FA4F0B0221B80B81009AB689 /* ChangesManagerTests.swift */,
+				FA4F0AF621B6C172009AB689 /* ArrowEndTests.swift */,
+				FA4F0AF421B6B2B8009AB689 /* AnnotatorUtilsTests.swift */,
 				FA8B86302191A1690020E6CC /* Info.plist */,
 			);
 			path = MarxUpUpTests;
@@ -391,6 +513,8 @@
 			isa = PBXGroup;
 			children = (
 				FA90CDF92199987F009D6DE9 /* ImageDataRequester.swift */,
+				FA92AA8C21C93D100094C64B /* NetworkProtocols.swift */,
+				FA92AA9421CB9AB30094C64B /* NetworkResponseParser.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -420,6 +544,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FA4F0AE721B6B116009AB689 /* AnnotatorUtilitiesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA4F0AEF21B6B116009AB689 /* Build configuration list for PBXNativeTarget "AnnotatorUtilitiesTests" */;
+			buildPhases = (
+				FA4F0AE421B6B116009AB689 /* Sources */,
+				FA4F0AE521B6B116009AB689 /* Frameworks */,
+				FA4F0AE621B6B116009AB689 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA4F0AEE21B6B116009AB689 /* PBXTargetDependency */,
+			);
+			name = AnnotatorUtilitiesTests;
+			productName = AnnotatorUtilitiesTests;
+			productReference = FA4F0AE821B6B116009AB689 /* AnnotatorUtilitiesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FA8B86152191A1660020E6CC /* MarxUpUp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA8B863E2191A1690020E6CC /* Build configuration list for PBXNativeTarget "MarxUpUp" */;
@@ -479,10 +621,14 @@
 		FA8B860E2191A1660020E6CC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Ognyanka Boneva";
 				TargetAttributes = {
+					FA4F0AE721B6B116009AB689 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = FA8B86152191A1660020E6CC;
+					};
 					FA8B86152191A1660020E6CC = {
 						CreatedOnToolsVersion = 10.0;
 					};
@@ -512,11 +658,19 @@
 				FA8B86152191A1660020E6CC /* MarxUpUp */,
 				FA8B86292191A1690020E6CC /* MarxUpUpTests */,
 				FA8B86342191A1690020E6CC /* MarxUpUpUITests */,
+				FA4F0AE721B6B116009AB689 /* AnnotatorUtilitiesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FA4F0AE621B6B116009AB689 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8B86142191A1660020E6CC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -525,10 +679,12 @@
 				FAD6AE9921A806F60029C301 /* Toolbox.storyboard in Resources */,
 				FA26540F21946FF5003514F9 /* Camera.storyboard in Resources */,
 				FA26541321947030003514F9 /* Annotate.storyboard in Resources */,
+				FA3B1B9A21BEA7590092637E /* test-document.pdf in Resources */,
 				FAD6AE9721A806C80029C301 /* Toolbar.storyboard in Resources */,
 				FA2654152194703F003514F9 /* ToolboxItem.storyboard in Resources */,
 				FA8B86212191A1690020E6CC /* Assets.xcassets in Resources */,
 				FA1BAA952195A59800B13AB0 /* Manifesto.pdf in Resources */,
+				FA3B1B9821BAB4430092637E /* test-image in Resources */,
 				FA26541121947018003514F9 /* PreviewContent.storyboard in Resources */,
 				FA8B861F2191A1660020E6CC /* Main.storyboard in Resources */,
 			);
@@ -538,6 +694,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA4F0B1921BA69FD009AB689 /* test-image in Resources */,
+				FA3B1B9B21BEA7590092637E /* test-document.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +709,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FA4F0AE421B6B116009AB689 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8B86122191A1660020E6CC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -562,11 +727,13 @@
 				FAD6AE8D219DE1040029C301 /* DataFilter.swift in Sources */,
 				FA26540D21946E85003514F9 /* Storyboard.swift in Sources */,
 				FA1BAA9121958DD400B13AB0 /* SingleDocumentViewController.swift in Sources */,
+				FA92AAA121DCB38F0094C64B /* LocalContentModel.swift in Sources */,
 				FA2654012193303D003514F9 /* ArrowModel.swift in Sources */,
 				FA26542121947F8B003514F9 /* DocsPreviewViewController.swift in Sources */,
 				FA92AA8D21C93D100094C64B /* NetworkProtocols.swift in Sources */,
 				FAD6AE85219C3F8E0029C301 /* ShapesCollectionViewDataSource.swift in Sources */,
 				FA26542A21948562003514F9 /* Cell.swift in Sources */,
+				FA92AA9521CB9AB30094C64B /* NetworkResponseParser.swift in Sources */,
 				FAD6AE8F219EC9BD0029C301 /* TabModel.swift in Sources */,
 				FA90CE0021999CE6009D6DE9 /* TabsCollectionViewCell.swift in Sources */,
 				FA26542C21949C42003514F9 /* ImagesPreviewViewController.swift in Sources */,
@@ -590,7 +757,6 @@
 				FAD6AE7B219AB8D70029C301 /* ToolbarViewController.swift in Sources */,
 				FADE88D921AD7DBF00D7970B /* Model.xcdatamodeld in Sources */,
 				FA90CDFC21999901009D6DE9 /* TabsCollectionViewDataSource.swift in Sources */,
-				FA8B861C2191A1660020E6CC /* ViewController.swift in Sources */,
 				FAD6AE72219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift in Sources */,
 				FADE88DD21ADA5BF00D7970B /* FileManager.swift in Sources */,
 				FA8B861A2191A1660020E6CC /* AppDelegate.swift in Sources */,
@@ -610,7 +776,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA8B862F2191A1690020E6CC /* MarxUpUpTests.swift in Sources */,
+				FA4F0AF521B6B2B8009AB689 /* AnnotatorUtilsTests.swift in Sources */,
+				FA4F0B0F21B97B0B009AB689 /* LocalPersistenceTests.swift in Sources */,
+				FA3B1B9121BA9AFB0092637E /* Model.xcdatamodeld in Sources */,
+				FA92AA8B21C8F1B90094C64B /* ImageDataRequesterTests.swift in Sources */,
+				FA92AA9321CB9A690094C64B /* NetworkResponseParserTests.swift in Sources */,
+				FA3B1B9F21BFBE900092637E /* LineWidthViewControllerTests.swift in Sources */,
+				FA4F0AFB21B7FADF009AB689 /* ShapesDataSourceTests.swift in Sources */,
+				FA4F0AF721B6C172009AB689 /* ArrowEndTests.swift in Sources */,
+				FA4F0B0D21B95C93009AB689 /* ToolbarTests.swift in Sources */,
+				FA4F0B0321B80B81009AB689 /* ChangesManagerTests.swift in Sources */,
+				FA4F0B0B21B8429B009AB689 /* AnnotatorTests.swift in Sources */,
+				FA4F0B0521B82889009AB689 /* CameraInputTests.swift in Sources */,
+				FA92AA9B21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift in Sources */,
+				FA4F0B0921B83551009AB689 /* CellTests.swift in Sources */,
+				FA92AA9721CBBB9A0094C64B /* SingleImageViewControllerTests.swift in Sources */,
+				FA3B1B9D21BF91640092637E /* ToolboxItemOptionsControllerTests.swift in Sources */,
+				FA92AA9D21CD184F0094C64B /* ImagePreviewDataSourceTests.swift in Sources */,
+				FA3B1BA821C295EA0092637E /* DocsPreviewTableViewDataSourceTests.swift in Sources */,
+				FA4F0AFD21B800B0009AB689 /* ArrowsDataSourceTests.swift in Sources */,
+				FA4F0B0121B8042A009AB689 /* ToolboxDataSourceTests.swift in Sources */,
+				FA92AA9921CBCD690094C64B /* SingleDocViewControllerTests.swift in Sources */,
+				FA92AAA521DD01680094C64B /* DocsPreviewControllerTests.swift in Sources */,
+				FA92AA8721C7E17D0094C64B /* PhotoCaptureViewControllerTests.swift in Sources */,
+				FA3B1BA621C10EE20092637E /* ToolboxViewControllerTests.swift in Sources */,
+				FA4F0B0721B831A0009AB689 /* TabsDataSourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +815,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FA4F0AEE21B6B116009AB689 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA8B86152191A1660020E6CC /* MarxUpUp */;
+			targetProxy = FA4F0AED21B6B116009AB689 /* PBXContainerItemProxy */;
+		};
 		FA8B862C2191A1690020E6CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA8B86152191A1660020E6CC /* MarxUpUp */;
@@ -657,6 +852,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		FA4F0AF021B6B116009AB689 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z2C9R92NA2;
+				INFOPLIST_FILE = AnnotatorUtilitiesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = n.AnnotatorUtilitiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarxUpUp.app/MarxUpUp";
+			};
+			name = Debug;
+		};
+		FA4F0AF121B6B116009AB689 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z2C9R92NA2;
+				INFOPLIST_FILE = AnnotatorUtilitiesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = n.AnnotatorUtilitiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarxUpUp.app/MarxUpUp";
+			};
+			name = Release;
+		};
 		FA8B863C2191A1690020E6CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -707,6 +944,8 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -762,6 +1001,8 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -894,6 +1135,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FA4F0AEF21B6B116009AB689 /* Build configuration list for PBXNativeTarget "AnnotatorUtilitiesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA4F0AF021B6B116009AB689 /* Debug */,
+				FA4F0AF121B6B116009AB689 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FA8B86112191A1660020E6CC /* Build configuration list for PBXProject "MarxUpUp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
