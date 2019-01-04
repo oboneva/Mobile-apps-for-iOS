@@ -62,9 +62,3 @@ protocol CameraInterface: AnyObject {
     func updateOrientation(forView view: UIView)
     var isSupportedByTheDevice: Bool { get }
 }
-
-protocol MutableDataSource: AnyObject {
-    func refreshData(withCompletion handler: @escaping (Int?) -> Void)
-    func addData(withCompletion handler: @escaping (Int?) -> Void)
-    func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void)
-}
