@@ -12,7 +12,7 @@ class SingleImageViewController: UIViewController {
 
     @IBOutlet weak var annotatedImageView: UIImageView!
     var toolboxView: UIView?
-    var image: UIImage?
+    var image = UIImage()
     private var annotator: Annotator!
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
 
@@ -22,9 +22,6 @@ class SingleImageViewController: UIViewController {
         annotatedImageView.contentMode = UIImageView.ContentMode.scaleAspectFit
         annotatedImageView.isUserInteractionEnabled = false
         
-        if image == nil {
-            //load image
-        }
         annotatedImageView.image = image
         annotator = Annotator(forAnnotating: annotatedImageView)
         toolboxView?.isHidden = true
@@ -107,7 +104,6 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
         }
         updateDatabaseDelegate?.updateImage(withData: data)
         toolboxView?.isHidden = true
-        annotator.reset()
         dismiss(animated: true, completion: nil)
     }
 }

@@ -26,13 +26,8 @@ class ToolboxItemOptionsViewController: UIViewController {
 }
 
 extension ToolboxItemOptionsViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard toolboxItemDelegate != nil else {
-            print("Error: ToolboxItemDelegate is nil")
-            return
-        }
-        
-        guard let option = dataSource?.option(atIndex: indexPath.item) else {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
+        guard let option = dataSource?.option(atIndex: indexPath.item), option >= 0 else {
             print("Error: No data source")
             return
         }

@@ -23,7 +23,7 @@ enum Storyboard: String {
         return  UIStoryboard(name: self.rawValue, bundle: Bundle.main)
     }
     
-    func viewController<T : UIViewController>(fromClass viewControllerClass: T.Type) -> UIViewController {
+    func viewController<T : UIViewController>(fromClass viewControllerClass: T.Type) -> T {
         let id = (viewControllerClass as UIViewController.Type).storyboardID
         return instance.instantiateViewController(withIdentifier: id) as! T
     }

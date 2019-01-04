@@ -16,7 +16,6 @@ class ImagePreviewTableViewDataSource: NSObject {
     private var filter: DataFilter
     private let imageDataRequester: ImageDataRequester
     private let databaseManager: LocalContentManaging
-    var mutableSourceDelegate: MutableDataSource?
     
     var selectedModelIndexForUpdate: Int?
     
@@ -34,7 +33,6 @@ class ImagePreviewTableViewDataSource: NSObject {
         imageCache = cache
         localImages = databaseManager.loadImages()
         super.init()
-        mutableSourceDelegate = self
     }
     
     func getImage(atIndex index: Int) -> UIImage {
@@ -67,6 +65,11 @@ class ImagePreviewTableViewDataSource: NSObject {
                 cell.URLImageView.image = image
             }
         }
+    }
+    
+    func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void) {
+        self.filter = filter
+        addData(byKeepingTheOldOne: false, withCompletion: handler)
     }
 }
 
@@ -112,7 +115,7 @@ extension ImagePreviewTableViewDataSource: UITableViewDataSource {
     }
 }
 
-extension ImagePreviewTableViewDataSource: MutableDataSource {
+extension ImagePreviewTableViewDataSource {
     private func loadImage(forCell cell: ImagesPreviewTableViewCell, withIndexPath indexPath: IndexPath, fromTableView table: UITableView) {
         guard let url = URL(string: imageURLs[indexPath.row]) else {
             print("Error: URL init from String")
@@ -135,11 +138,6 @@ extension ImagePreviewTableViewDataSource: MutableDataSource {
         else {
             imageDataRequester.imageData(withLink: imageURLs[indexPath.row], andCompletion: imageDataHandler)
         }
-    }
-    
-    func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void) {
-        self.filter = filter
-        addData(byKeepingTheOldOne: false, withCompletion: handler)
     }
     
     func addData(withCompletion handler: @escaping (Int?) -> Void) {

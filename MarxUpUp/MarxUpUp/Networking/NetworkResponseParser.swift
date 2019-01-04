@@ -19,7 +19,7 @@ class NetworkResponseParser: NSObject, Parsable {
         data.forEach { (subDict) in
             if let arrayOfImageDicts = subDict["images"] as? [[String: AnyObject]], let imageDict = arrayOfImageDicts.first, shouldAddImage(withDictionary: imageDict), let link = imageDict["link"] as? String {
                 links.append(link)
-                if links.count > count {
+                if links.count >= count {
                     handler(links)
                     links.removeAll()
                 }
