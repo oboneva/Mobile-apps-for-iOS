@@ -27,7 +27,7 @@ class ToolboxViewController: UIViewController {
     
     private func presentOptions(forItem item: ToolboxItemModel, _ button: UIButton) {
         var viewController: UIViewController
-        var contentSize = CGSize(width: 100, height: 150)
+        var contentSize: CGSize
 
         if item.type == ToolboxItemType.Width {
             guard let lineWidthController = LineWidthViewController.instantiateFromStoryboard(storyborad: Storyboard.ToolboxItem) as? LineWidthViewController else {
@@ -36,6 +36,7 @@ class ToolboxViewController: UIViewController {
             }
             lineWidthController.toolboxItemDelegate = toolboxItemDelegate
             viewController = lineWidthController
+            contentSize = CGSize(width: 130, height: 150)
         }
         else if item.type == ToolboxItemType.Color {
             guard let colorPickerViewController = ColorPickerViewController.instantiateFromStoryboard(storyborad: Storyboard.ToolboxItem) as? ColorPickerViewController else {
@@ -54,6 +55,7 @@ class ToolboxViewController: UIViewController {
             itemCollectionViewController.itemType = item.type
             itemCollectionViewController.toolboxItemDelegate = toolboxItemDelegate
             viewController = itemCollectionViewController
+            contentSize = CGSize(width: 100, height: 150)
         }
         
         viewController.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -94,7 +96,7 @@ class ToolboxViewController: UIViewController {
     }
 }
 
-extension ToolboxViewController: UIPopoverPresentationControllerDelegate {    
+extension ToolboxViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }

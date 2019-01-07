@@ -78,9 +78,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="15" translatesAutoresizingMaskIntoConstraints="NO" id="1hV-e4-i6p">
-                                <rect key="frame" x="128.5" y="328.5" width="118" height="31"/>
+                                <rect key="frame" x="128" y="328.5" width="119" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="114" id="MpZ-ph-0Gk"/>
+                                    <constraint firstAttribute="width" constant="115" id="MpZ-ph-0Gk"/>
                                 </constraints>
                                 <connections>
                                     <action selector="onSlide:" destination="onM-4l-Iv9" eventType="valueChanged" id="Quk-5p-xAR"/>
