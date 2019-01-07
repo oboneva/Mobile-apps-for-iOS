@@ -16,6 +16,7 @@ class LineWidthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.clear
         setLineWidth(width: widthSlider.value)
     }
     
