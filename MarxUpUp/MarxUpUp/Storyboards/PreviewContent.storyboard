@@ -207,6 +207,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="gvy-uj-bNF" id="0YB-yZ-4uF"/>
+                        <outlet property="imagesFooterView" destination="ll2-e9-Nx4" id="ySw-9Y-5Cu"/>
                         <outlet property="imagesTableView" destination="Mah-US-QP2" id="YNo-7M-8Rt"/>
                         <outlet property="tabsCollectionView" destination="OE2-5H-6DH" id="9rM-0F-fRK"/>
                     </connections>

@@ -14,6 +14,7 @@ class ImagesPreviewViewController: UIViewController {
     @IBOutlet weak var imagesTableView: UITableView!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var imagesFooterView: UIView!
     
     private var imagesDataSource: ImagePreviewTableViewDataSource!
     private let tabsDataSource = TabsCollectionViewDataSource()
@@ -30,8 +31,10 @@ class ImagesPreviewViewController: UIViewController {
         configImagesTable()
         configTabsCollection()
         addRefreshControl()
+        addDefaultLabel()
         
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,6 +61,15 @@ class ImagesPreviewViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshImagesTableViewData(_:)), for: UIControl.Event.valueChanged)
         imagesTableView.insertSubview(refreshControl, at: 0)
         imagesTableView.refreshControl = refreshControl
+    }
+    
+    private func addDefaultLabel() {
+        let label = UILabel()
+        label.text = "No images found :("
+        label.sizeToFit()
+        self.imagesFooterView.addSubview(label)
+        label.isHidden = true
+        label.center = self.imagesFooterView.center
     }
     
     @objc func refreshImagesTableViewData(_ refreshControl: UIRefreshControl) {
@@ -104,9 +116,14 @@ class ImagesPreviewViewController: UIViewController {
 
 extension ImagesPreviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        imagesDataSource.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { _ in
+        activityIndicator.startAnimating()
+        let cell = collectionView.cellForItem(at: indexPath)
+        collectionView.scrollRectToVisible(cell?.frame ?? CGRect.zero, animated: true)
+        imagesDataSource.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { newImagesCount in
             DispatchQueue.main.async {
                 self.imagesTableView.reloadData()
+                self.activityIndicator.stopAnimating()
+                newImagesCount == 0 ? (self.imagesFooterView.subviews.last?.isHidden = false) : (self.imagesFooterView.subviews.last?.isHidden = true)
             }
         }
     }
