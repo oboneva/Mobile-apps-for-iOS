@@ -18,6 +18,7 @@ protocol ToolboxItemDelegate: AnyObject {
 }
 
 protocol ToolbarButtonsDelegate: AnyObject {
+    func didSelectGoBack()
     func didSelectAnnotate()
     func didSelectSave()
     func didSelectReset()

@@ -106,6 +106,22 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
         toolboxView?.isHidden = true
         dismiss(animated: true, completion: nil)
     }
+    
+    func didSelectGoBack() {
+        if annotator.isThereUnsavedWork() {
+            let alertController = UIAlertController(title: "Unsaved changes", message: "Do you want to save your work before going back?", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction.init(title: "Yes", style: .default) { (action) in
+                self.didSelectSave()
+            })
+            alertController.addAction(UIAlertAction(title: "No", style: .destructive) { (action) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            present(alertController, animated: true)
+        }
+        else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
 //MARK: - UIGestureRecognizerDelegate Methods

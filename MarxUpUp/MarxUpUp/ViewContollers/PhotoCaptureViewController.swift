@@ -57,7 +57,12 @@ class PhotoCaptureViewController: UIViewController {
     @IBAction func onTakePhotoTap(_ sender: UIButton) {
         camera.takePhoto()
     }
-
+    
+    @IBAction func onBackTap(_ sender: Any) {
+        camera.stop()
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         camera.updateOrientation(forView: photoPreviewView)

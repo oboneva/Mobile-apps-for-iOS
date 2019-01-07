@@ -34,13 +34,26 @@
                                             <action selector="onSwitchCameraTap:" destination="BbE-qB-dlw" eventType="touchUpInside" id="MkN-D6-8ed"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U84-mI-xjh">
+                                        <rect key="frame" x="0.0" y="5" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="Pv4-AO-koJ"/>
+                                            <constraint firstAttribute="height" constant="35" id="mH2-qC-d6X"/>
+                                        </constraints>
+                                        <state key="normal" image="button-navigation-back"/>
+                                        <connections>
+                                            <action selector="onBackTap:" destination="BbE-qB-dlw" eventType="touchUpInside" id="eep-eC-Osf"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Ysx-uF-B5b" secondAttribute="bottom" constant="10" id="4PF-Ak-bM9"/>
+                                    <constraint firstItem="U84-mI-xjh" firstAttribute="leading" secondItem="YyG-vu-CjM" secondAttribute="leading" id="6Q6-zi-gEI"/>
                                     <constraint firstItem="Ysx-uF-B5b" firstAttribute="centerX" secondItem="YyG-vu-CjM" secondAttribute="centerX" id="M5Q-vu-gAe"/>
                                     <constraint firstAttribute="trailing" secondItem="dmE-lZ-jBk" secondAttribute="trailing" constant="10" id="YQY-kZ-xdT"/>
                                     <constraint firstItem="dmE-lZ-jBk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="YyG-vu-CjM" secondAttribute="leading" constant="264" id="ayf-PK-zQY"/>
+                                    <constraint firstItem="U84-mI-xjh" firstAttribute="top" secondItem="YyG-vu-CjM" secondAttribute="top" constant="5" id="mAL-sK-jiI"/>
                                     <constraint firstItem="dmE-lZ-jBk" firstAttribute="top" secondItem="YyG-vu-CjM" secondAttribute="top" constant="10" id="v2w-da-gFh"/>
                                 </constraints>
                             </view>
@@ -67,6 +80,7 @@
     </scenes>
     <resources>
         <image name="button-camera-front" width="36" height="36"/>
+        <image name="button-navigation-back" width="48" height="48"/>
         <image name="button-take-photo" width="36" height="36"/>
     </resources>
 </document>

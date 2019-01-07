@@ -14,6 +14,10 @@ class ChangesManager: NSObject {
     private var undoCommands = [Command]()
     private var redoCommands = [Command]()
     
+    var unsavedWork: Bool {
+        return undoCommands.count > 0
+    }
+    
     func redo(withCompletionHandler handler: () -> Void) {
         guard redoCommands.count > 0, let command = redoCommands.popLast() else {
             return

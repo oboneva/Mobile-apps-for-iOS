@@ -96,6 +96,10 @@ class ImagesPreviewViewController: UIViewController {
         super.viewWillAppear(animated)
         imagesTableView.reloadData()
     }
+    
+    @IBAction func onBackTap(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension ImagesPreviewViewController: UICollectionViewDelegate {

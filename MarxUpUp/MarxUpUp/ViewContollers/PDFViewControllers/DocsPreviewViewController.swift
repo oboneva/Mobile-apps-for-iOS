@@ -32,6 +32,10 @@ class DocsPreviewViewController: UIViewController {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 430
     }
+    
+    @IBAction func onBackTap(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension DocsPreviewViewController: UITableViewDelegate {

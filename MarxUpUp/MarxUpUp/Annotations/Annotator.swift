@@ -254,6 +254,10 @@ class Annotator: NSObject {
     func reset() {
         changesManager.reset()
     }
+    
+    func isThereUnsavedWork() -> Bool {
+        return changesManager.unsavedWork
+    }
 }
 
 //MARK: - ToolboxItemDelegate Methods

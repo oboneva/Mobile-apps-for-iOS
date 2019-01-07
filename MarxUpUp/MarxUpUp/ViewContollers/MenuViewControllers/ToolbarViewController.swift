@@ -27,6 +27,10 @@ class ToolbarViewController: UIViewController {
         toolboxButton.isHidden = hidden
     }
     
+    @IBAction func onBackTap(_ sender: Any) {
+        toolbarButtonsDelegate?.didSelectGoBack()
+    }
+    
     @IBAction func onAnnotateTap(_ sender: Any) {
         setAnnotationButtons(false)
         toolbarButtonsDelegate?.didSelectAnnotate()
