@@ -94,8 +94,8 @@ class ToolboxViewController: UIViewController {
     }
 }
 
-extension ToolboxViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+extension ToolboxViewController: UIPopoverPresentationControllerDelegate {    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
 }
