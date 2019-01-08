@@ -24,14 +24,13 @@ class Annotator: NSObject {
     private var isAnnotationAdded: Bool = false
     var annotatedPDFView: PDFView?
     
-    var originalImage: UIImage?
     var annotatedImage: UIImage?
     private var annotatedImageView: UIImageView?
     private var currentImage: UIImage? {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     private var shouldAnnotate: Bool {
-        return (content == ContentType.Image && annotatedImage != nil && originalImage != nil) ||
+        return (content == ContentType.Image && annotatedImage != nil) ||
                 (content == ContentType.PDF && annotatedPDFView != nil)
     }
     
@@ -48,7 +47,6 @@ class Annotator: NSObject {
             return
         }
         annotatedImageView = imageView
-        originalImage = imageView.image
         annotatedImage = imageView.image
     }
     
@@ -252,7 +250,12 @@ class Annotator: NSObject {
     }
     
     func reset() {
+        if UIGraphicsGetCurrentContext() == nil, let size = annotatedImage?.size {
+            UIGraphicsBeginImageContext(size)
+        }
         changesManager.reset()
+        annotatedImageView?.image = currentImage
+        annotatedImage = currentImage
     }
     
     func isThereUnsavedWork() -> Bool {
@@ -304,6 +307,7 @@ extension Annotator: EditedContentStateDelegate {
         color.setFill()
         changesManager.redo() {
             annotatedImageView?.image = currentImage
+            annotatedImage = currentImage
         }
     }
     
@@ -313,6 +317,7 @@ extension Annotator: EditedContentStateDelegate {
         }
         changesManager.undo() {
             annotatedImageView?.image = currentImage
+            annotatedImage = currentImage
         }
     }
 }

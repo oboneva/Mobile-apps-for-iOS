@@ -83,7 +83,6 @@ class SingleImageViewController: UIViewController {
 //MARK: - ToolbarButtonsDelegate Methods
 extension SingleImageViewController: ToolbarButtonsDelegate {
     func didSelectReset() {
-        annotatedImageView.image = annotator.originalImage
         annotator.reset()
     }
     
@@ -114,6 +113,7 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
                 self.didSelectSave()
             })
             alertController.addAction(UIAlertAction(title: "No", style: .destructive) { (action) in
+                self.annotator.reset()
                 self.dismiss(animated: true, completion: nil)
             })
             present(alertController, animated: true)
