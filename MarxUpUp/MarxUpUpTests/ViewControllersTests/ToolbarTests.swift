@@ -52,6 +52,11 @@ class ToolbarTests: XCTestCase {
         XCTAssertTrue(delegate.annotateIsCalled)
     }
     
+    func testGoBackIsCalled() {
+        toolbarController.onBackTap(self)
+        XCTAssertTrue(delegate.goBackIsCalled)
+    }
+    
 }
 
 class FakeToolbarButtonsTarget: ToolbarButtonsDelegate {
@@ -60,6 +65,7 @@ class FakeToolbarButtonsTarget: ToolbarButtonsDelegate {
     var resetIsCalled = false
     var toolboxIsCalled = false
     var annotateIsCalled = false
+    var goBackIsCalled = false
 
     func didSelectSave() {
         saveIsCalled = true
@@ -75,5 +81,9 @@ class FakeToolbarButtonsTarget: ToolbarButtonsDelegate {
     
     func didSelectAnnotate() {
         annotateIsCalled = true
+    }
+    
+    func didSelectGoBack() {
+        goBackIsCalled = true
     }
 }
