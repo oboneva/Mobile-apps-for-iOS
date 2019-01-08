@@ -86,13 +86,14 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageInkPen() {
-        imageAnnotator.didChoosePen()
-        annotateImage()
-        
-        guard var expected = imageAnnotator.originalImage else {
+        guard var expected = imageAnnotator.annotatedImage else {
             XCTFail("Error: No image")
             return
         }
+        
+        imageAnnotator.didChoosePen()
+        annotateImage()
+        
         let path = UIBezierPath()
         path.move(to: points[0])
         path.addLine(to: points[1])
@@ -103,14 +104,15 @@ class AnnotatorTests: XCTestCase {
     }
 
     func testAnnotatorImageInkShapeOval() {
+        guard var expected = imageAnnotator.annotatedImage else {
+            XCTFail("Error: No image to annotate")
+            return
+        }
+        
         imageAnnotator.didChoose(ShapeType.Circle.rawValue, forToolboxItem: .Shape)
         annotateImage()
         let result = imageAnnotator.annotatedImage
         
-        guard var expected = imageAnnotator.originalImage else {
-            XCTFail("Error: No image to annotate")
-            return
-        }
         let path = UIBezierPath(ovalIn: CGRect(x: points[0].x, y: points[0].y, width: points[2].x, height: points[2].y))
         
         expected = customAnnotateWithDefaultColorAndLineWidth(expected, withPath: path) ?? UIImage()
@@ -118,14 +120,14 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageInkShapeRectangle() {
-        imageAnnotator.didChoose(ShapeType.RegularRectangle.rawValue, forToolboxItem: .Shape)
-        annotateImage()
-        let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
+        guard var expected = imageAnnotator.annotatedImage else {
             XCTFail("Error: No image to annotate.")
             return
         }
+        
+        imageAnnotator.didChoose(ShapeType.RegularRectangle.rawValue, forToolboxItem: .Shape)
+        annotateImage()
+        let result = imageAnnotator.annotatedImage
         
         let path = UIBezierPath(rect: CGRect(x: points[0].x, y: points[0].y, width: points[2].x, height: points[2].y))
         expected = customAnnotateWithDefaultColorAndLineWidth(expected, withPath: path) ?? UIImage()
@@ -133,14 +135,14 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageInkShapeRoundedRectangle() {
-        imageAnnotator.didChoose(ShapeType.RoundedRectangle.rawValue, forToolboxItem: .Shape)
-        annotateImage()
-        let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
+        guard var expected = imageAnnotator.annotatedImage else {
             XCTFail("Error: No image to annotate.")
             return
         }
+        
+        imageAnnotator.didChoose(ShapeType.RoundedRectangle.rawValue, forToolboxItem: .Shape)
+        annotateImage()
+        let result = imageAnnotator.annotatedImage
         
         let path = UIBezierPath(roundedRect: CGRect(x: points[0].x, y: points[0].y, width: points[2].x, height: points[2].y), cornerRadius: 2)
         expected = customAnnotateWithDefaultColorAndLineWidth(expected, withPath: path) ?? UIImage()
@@ -148,14 +150,14 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageInkArrowOpen() {
-        imageAnnotator.didChoose(ArrowEndLineType.Open.rawValue, forToolboxItem: .Arrow)
-        annotateImage()
-        let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
+        guard var expected = imageAnnotator.annotatedImage else {
             XCTFail("Error: No image to annotate")
             return
         }
+        
+        imageAnnotator.didChoose(ArrowEndLineType.Open.rawValue, forToolboxItem: .Arrow)
+        annotateImage()
+        let result = imageAnnotator.annotatedImage
         
         let path = ArrowBezierPath.endLine(atPoint: points[2], fromType: .Open)
         let angle = Utilities.angleBetweenPoint(points[2], andOtherPoint: points[0])
@@ -168,14 +170,14 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageInkArrowClosed() {
-        imageAnnotator.didChoose(ArrowEndLineType.Closed.rawValue, forToolboxItem: .Arrow)
-        annotateImage()
-        let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
+        guard var expected = imageAnnotator.annotatedImage else {
             XCTFail("Error: No image to annotate")
             return
         }
+        
+        imageAnnotator.didChoose(ArrowEndLineType.Closed.rawValue, forToolboxItem: .Arrow)
+        annotateImage()
+        let result = imageAnnotator.annotatedImage
         
         let path = ArrowBezierPath.endLine(atPoint: points[2], fromType: .Closed)
         let angle = Utilities.angleBetweenPoint(points[2], andOtherPoint: points[0])
@@ -198,16 +200,16 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageLineWidth() {
+        guard var expected = imageAnnotator.annotatedImage else {
+            XCTFail("Error: No image to annotate")
+            return
+        }
+        
         let width = Float(10)
         imageAnnotator.didChoosePen()
         imageAnnotator.didChoose(lineWidth: width)
         annotateImage()
         let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
-            XCTFail("Error: No image to annotate")
-            return
-        }
         
         let path = UIBezierPath()
         path.move(to: points[0])
@@ -219,16 +221,16 @@ class AnnotatorTests: XCTestCase {
     }
     
     func testAnnotatorImageColor() {
+        guard var expected = imageAnnotator.annotatedImage else {
+            XCTFail("Error: No image to annotate")
+            return
+        }
+        
         let color = UIColor.purple
         imageAnnotator.didChooseColor(color)
         imageAnnotator.didChoosePen()
         annotateImage()
         let result = imageAnnotator.annotatedImage
-        
-        guard var expected = imageAnnotator.originalImage else {
-            XCTFail("Error: No image to annotate")
-            return
-        }
         
         let path = UIBezierPath()
         path.move(to: points[0])
@@ -252,6 +254,37 @@ class AnnotatorTests: XCTestCase {
         XCTAssertEqual(expected?.pngData(), result?.pngData())
     }
     
+    func testAnnotatorReset() {
+        imageAnnotator.didChoosePen()
+
+        UIGraphicsBeginImageContext(imageAnnotator.annotatedImage?.size ?? CGSize.zero)
+        imageAnnotator.annotatedImage?.draw(at: CGPoint.zero)
+        let expected = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        annotateImage()
+        annotateMore()
+        imageAnnotator.reset()
+
+        let result = imageAnnotator.annotatedImage
+        XCTAssertEqual(expected?.pngData(), result?.pngData())
+    }
+
+    func testAnnotatorImageUndo() {
+        imageAnnotator.didChoosePen()
+
+        UIGraphicsBeginImageContext(imageAnnotator.annotatedImage?.size ?? CGSize.zero)
+        imageAnnotator.annotatedImage?.draw(at: CGPoint.zero)
+        let expected = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        annotateImage()
+        imageAnnotator.didSelectUndo()
+        
+        let result = imageAnnotator.annotatedImage
+        XCTAssertEqual(expected?.pngData(), result?.pngData())
+    }
+
     func testAnnotatorPDFInkPen() {
         pdfAnnotator.didChoosePen()
         annotatePDF()
