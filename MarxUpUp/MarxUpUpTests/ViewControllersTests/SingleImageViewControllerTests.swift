@@ -13,12 +13,16 @@ class SingleImageViewControllerTests: XCTestCase {
     
     var controller: SingleImageViewController!
     let delegate = FakeUpdateDatabaseDelegate()
+    let annotator = MockAnnotator()
     let testImage = UIImage(named: "test-image")
 
     override func setUp() {
         super.setUp()
         controller = Storyboard.Annotate.viewController(fromClass: SingleImageViewController.self)
+        controller.setDependancies(annotator)
         controller.updateDatabaseDelegate = delegate
+        controller.image = testImage ?? UIImage()
+        _ = controller.view
     }
 
     override func tearDown() {
@@ -27,7 +31,6 @@ class SingleImageViewControllerTests: XCTestCase {
     }
 
     func testAnnotateButton() {
-        _ = controller.view
         XCTAssertFalse(controller.annotatedImageView.isUserInteractionEnabled)
         
         controller.didSelectAnnotate()
@@ -35,7 +38,6 @@ class SingleImageViewControllerTests: XCTestCase {
     }
     
     func testToolboxButton() {
-        _ = controller.view
         XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
         controller.didSelectToolbox()
         XCTAssertFalse(controller.toolboxView?.isHidden ?? true)
@@ -44,25 +46,45 @@ class SingleImageViewControllerTests: XCTestCase {
     }
     
     func testResetButton() {
-        controller.image = testImage ?? UIImage()
-        _ = controller.view
-        
-        controller.annotatedImageView.image = nil
         controller.didSelectReset()
-        XCTAssertEqual(controller.annotatedImageView.image, testImage)
+        XCTAssertTrue(annotator.resetIsCalled)
     }
 
     func testSaveButton() {
-        controller.image = testImage ?? UIImage()
-        _ = controller.view
         controller.didSelectSave()
         
         XCTAssertTrue(delegate.updateImageIsCalled)
         XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
     }
     
+    func testNavigationGoBackWithoutUnsavedWork() {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = controller
+        window.makeKeyAndVisible()
+
+        annotator.unsavedWork = false
+        
+        controller.didSelectGoBack()
+        
+        let presentedController = controller.presentedViewController
+        XCTAssertNil(presentedController)
+    }
+    
+    func testNavigationGoBackWithUnsavedWork() {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = controller
+        window.makeKeyAndVisible()
+
+        annotator.unsavedWork = true
+        controller.didSelectGoBack()
+        
+        guard let _ = controller.presentedViewController as? UIAlertController else {
+            XCTFail()
+            return
+        }
+    }
+    
     func testOnTapToolboxIsHidden() {
-        _ = controller.view
         controller.handleTapWithGestureRecognizer(UITapGestureRecognizer())
         
         XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
@@ -80,5 +102,23 @@ class FakeUpdateDatabaseDelegate: UpdateDatabaseDelegate {
     
     func updatePDF(withData data: Data) {
         updateDocIsCalled = true
+    }
+}
+
+class MockAnnotator: Annotating {
+    
+    var resetIsCalled = false
+    
+    var unsavedWork = false
+    var isThereUnsavedWork: Bool {
+        return unsavedWork
+    }
+    
+    func beginAnnotating(atPoint point: CGPoint) {}
+    func continueAnnotating(atPoint point: CGPoint) {}
+    func endAnnotating(atPoint point: CGPoint) {}
+    
+    func reset() {
+        resetIsCalled = true
     }
 }
