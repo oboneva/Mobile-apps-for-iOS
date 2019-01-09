@@ -17,7 +17,7 @@ class SingleDocumentViewController: UIViewController {
     var document: PDFDocument?
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
     
-    var annotator: Annotator!
+    private var annotator: Annotating!
     private lazy var databaseManager = DatabaseManager()
     
     //MARK: - View Lifecycle Methods
@@ -25,12 +25,15 @@ class SingleDocumentViewController: UIViewController {
         super.viewDidLoad()
         configurePDFView()
         configurePDFThumbnailView()
-        annotator = Annotator(forAnnotating: PDFDocumentView)
+        
+        if annotator == nil {
+            annotator = Annotator(forAnnotating: PDFDocumentView)
+        }
         
         children.forEach {
             if let toolboxController = $0 as? ToolboxViewController {
-                toolboxController.toolboxItemDelegate = annotator
-                toolboxController.editedContentStateDelegate = annotator
+                toolboxController.toolboxItemDelegate = annotator as? ToolboxItemDelegate
+                toolboxController.editedContentStateDelegate = annotator as? EditedContentStateDelegate
             }
         }
         
@@ -140,7 +143,7 @@ extension SingleDocumentViewController: ToolbarButtonsDelegate {
     }
     
     func didSelectGoBack() {
-        if annotator.isThereUnsavedWork() {
+        if annotator.isThereUnsavedWork {
             let alertController = UIAlertController(title: "Unsaved changes", message: "Do you want to save your work before going back?", preferredStyle: .alert)
             alertController.addAction(UIAlertAction.init(title: "Yes", style: .default) { (action) in
                 self.didSelectSave()
@@ -148,6 +151,10 @@ extension SingleDocumentViewController: ToolbarButtonsDelegate {
             alertController.addAction(UIAlertAction(title: "No", style: .destructive) { (action) in
                 self.dismiss(animated: true, completion: nil)
             })
+            present(alertController, animated: true, completion: nil)
+        }
+        else {
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -163,6 +170,30 @@ extension SingleDocumentViewController: DrawDelegate {
 //MARK: - UIGestureRecognizerDelegate Methods
 extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     @objc func handleTapGestureWithRecogniser(_ recognizer: UITapGestureRecognizer) {
-        toolboxView?.isHidden = true
+        guard toolboxView?.isHidden == true else {
+            toolboxView?.isHidden = true
+            return
+        }
+//        let point = recognizer.location(in: PDFDocumentView.documentView)
+//        guard let annotation = PDFDocumentView.currentPage?.annotation(at: point) else {
+//            return
+//        }
+//        
+//        annotation.border = PDFBorder()
+//        annotation.border?.style = PDFBorderStyle.dashed
+//        annotation.border?.lineWidth = 2
+//        let b = annotation.bounds
+//        
+//        UIColor.black.setStroke()
+//        annotation.border?.draw(in: CGRect(x: b.minX - 2, y: b.minY - 2, width: b.width + 2, height: b.height + 2))
+        
+//        let a = PDFAnnotation(bounds: CGRect(x: 0, y: 0, width: 50, height: 50), forType: PDFAnnotationSubtype.highlight, withProperties: nil)
+//        a.isHighlighted = true
+    }
+}
+
+extension SingleDocumentViewController {
+    func setDependancies(_ annotator: Annotating){
+        self.annotator = annotator
     }
 }

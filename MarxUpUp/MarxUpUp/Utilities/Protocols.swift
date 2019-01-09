@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 protocol ToolboxItemDelegate: AnyObject {
     func didChoose(textAnnotationFromType type: ToolboxItemType)
@@ -62,4 +61,14 @@ protocol CameraInterface: AnyObject {
     func takePhoto()
     func updateOrientation(forView view: UIView)
     var isSupportedByTheDevice: Bool { get }
+}
+
+protocol Annotating: AnyObject {
+    
+    var isThereUnsavedWork: Bool { get }
+    
+    func beginAnnotating(atPoint point: CGPoint)
+    func continueAnnotating(atPoint point: CGPoint)
+    func endAnnotating(atPoint point: CGPoint)
+    func reset()
 }

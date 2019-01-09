@@ -60,66 +60,6 @@ class Annotator: NSObject {
         annotatedPDFView = PDFView
     }
     
-    //MARK: - Annotating
-    func beginAnnotating(atPoint point:CGPoint) {
-        if !shouldAnnotate {
-            return
-        }
-        
-        lastPoint = point
-        startPoint = point
-        
-        if content == ContentType.Image {
-            guard let size = annotatedImageView?.image?.size else {
-                return
-            }
-            UIGraphicsBeginImageContext(size)
-            annotatedImage?.draw(at: CGPoint.zero)
-        }
-        if choosenItem != ToolboxItemType.Arrow {
-            beginDrawingWithBezierPath(atPoint: point)
-        }
-        
-        isAnnotationAdded = false
-    }
-    
-    func continueAnnotating(atPoint point: CGPoint ) {
-        if !shouldAnnotate {
-            return
-        }
-        
-        updateBezierPath(withPoint: point)
-        removePreviousVersionOfAnnotation(withPoint: point)
-        
-        if content == ContentType.PDF{
-            addAnnotationWithCurrentBezierPath()
-        }
-        
-        strokePath()
-        lastPoint = point
-    }
-    
-    func endAnnotating(atPoint point: CGPoint) {
-        if !shouldAnnotate {
-            return
-        }
-        
-        continueAnnotating(atPoint: point)
-        
-        if content == ContentType.Image {
-            let fill = (endLineStyle == .Closed)
-            changesManager.addInkImageAnnotation(withLines: path, forImage: annotatedImage!, andFill: fill)
-            annotatedImage = currentImage
-            UIGraphicsEndImageContext()
-        }
-        else {
-            guard let page = annotatedPDFView?.currentPage, annotation != nil else {
-                return
-            }
-            changesManager.addInkPDFAnnotation(annotation!, forPage: page)
-        }
-    }
-    
     //MARK: - BezierPaths based annotating
     private func beginDrawingWithBezierPath(atPoint point: CGPoint) {
         path = UIBezierPath()
@@ -248,6 +188,73 @@ class Annotator: NSObject {
             annotatedImage?.draw(at: CGPoint.zero)
         }
     }
+}
+
+//MARK: - Annotating Methods
+extension Annotator: Annotating {
+    
+    var isThereUnsavedWork: Bool {
+        return changesManager.unsavedWork
+    }
+    
+    func beginAnnotating(atPoint point:CGPoint) {
+        if !shouldAnnotate {
+            return
+        }
+        
+        lastPoint = point
+        startPoint = point
+        
+        if content == ContentType.Image {
+            guard let size = annotatedImageView?.image?.size else {
+                return
+            }
+            UIGraphicsBeginImageContext(size)
+            annotatedImage?.draw(at: CGPoint.zero)
+        }
+        if choosenItem != ToolboxItemType.Arrow {
+            beginDrawingWithBezierPath(atPoint: point)
+        }
+        
+        isAnnotationAdded = false
+    }
+    
+    func continueAnnotating(atPoint point: CGPoint ) {
+        if !shouldAnnotate {
+            return
+        }
+        
+        updateBezierPath(withPoint: point)
+        removePreviousVersionOfAnnotation(withPoint: point)
+        
+        if content == ContentType.PDF{
+            addAnnotationWithCurrentBezierPath()
+        }
+        
+        strokePath()
+        lastPoint = point
+    }
+    
+    func endAnnotating(atPoint point: CGPoint) {
+        if !shouldAnnotate {
+            return
+        }
+        
+        continueAnnotating(atPoint: point)
+        
+        if content == ContentType.Image {
+            let fill = (endLineStyle == .Closed)
+            changesManager.addInkImageAnnotation(withLines: path, forImage: annotatedImage!, andFill: fill)
+            annotatedImage = currentImage
+            UIGraphicsEndImageContext()
+        }
+        else {
+            guard let page = annotatedPDFView?.currentPage, annotation != nil else {
+                return
+            }
+            changesManager.addInkPDFAnnotation(annotation!, forPage: page)
+        }
+    }
     
     func reset() {
         if UIGraphicsGetCurrentContext() == nil, let size = annotatedImage?.size {
@@ -256,10 +263,6 @@ class Annotator: NSObject {
         changesManager.reset()
         annotatedImageView?.image = currentImage
         annotatedImage = currentImage
-    }
-    
-    func isThereUnsavedWork() -> Bool {
-        return changesManager.unsavedWork
     }
 }
 

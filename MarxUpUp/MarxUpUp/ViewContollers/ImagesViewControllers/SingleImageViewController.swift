@@ -13,7 +13,7 @@ class SingleImageViewController: UIViewController {
     @IBOutlet weak var annotatedImageView: UIImageView!
     var toolboxView: UIView?
     var image = UIImage()
-    private var annotator: Annotator!
+    private var annotator: Annotating!
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
 
     
@@ -23,13 +23,17 @@ class SingleImageViewController: UIViewController {
         annotatedImageView.isUserInteractionEnabled = false
         
         annotatedImageView.image = image
-        annotator = Annotator(forAnnotating: annotatedImageView)
+        
+        if annotator == nil {
+            annotator = Annotator(forAnnotating: annotatedImageView)
+        }
+        
         toolboxView?.isHidden = true
         
         children.forEach { (viewController) in
             if let toolboxController = viewController as? ToolboxViewController {
-                toolboxController.toolboxItemDelegate = annotator
-                toolboxController.editedContentStateDelegate = annotator
+                toolboxController.toolboxItemDelegate = annotator as? ToolboxItemDelegate
+                toolboxController.editedContentStateDelegate = annotator as? EditedContentStateDelegate
             }
         }
         
@@ -107,7 +111,7 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
     }
     
     func didSelectGoBack() {
-        if annotator.isThereUnsavedWork() {
+        if annotator.isThereUnsavedWork {
             let alertController = UIAlertController(title: "Unsaved changes", message: "Do you want to save your work before going back?", preferredStyle: .alert)
             alertController.addAction(UIAlertAction.init(title: "Yes", style: .default) { (action) in
                 self.didSelectSave()
@@ -128,5 +132,11 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
 extension SingleImageViewController: UIGestureRecognizerDelegate {
     @objc func handleTapWithGestureRecognizer(_ recognizer: UITapGestureRecognizer) {
         toolboxView?.isHidden = true
+    }
+}
+
+extension SingleImageViewController {
+    func setDependancies(_ annotator: Annotating){
+        self.annotator = annotator
     }
 }
