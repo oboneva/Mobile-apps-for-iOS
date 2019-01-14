@@ -127,7 +127,7 @@ extension ImagesPreviewViewController: UICollectionViewDelegate {
             return
         }
         setSelectedTab(atIndexPath: indexPath)
-        tabsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        tabsCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         
         activityIndicator.startAnimating()
         imagesDataSource.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { newImagesCount in
