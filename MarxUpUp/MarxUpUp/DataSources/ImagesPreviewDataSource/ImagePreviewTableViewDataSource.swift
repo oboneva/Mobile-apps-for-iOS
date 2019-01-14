@@ -127,7 +127,7 @@ extension ImagePreviewTableViewDataSource {
         }
         
         let imageDataHandler : (Data?) -> Void = { data in
-            guard let unwrappedData = data, let image = UIImage(data: unwrappedData) else {
+            guard let unwrappedData = data, let image = UIImage(data: unwrappedData), indexPath.row < self.imageURLs.count else {
                 print("Error: Unwrapping data or UIImage init from Data")
                 return
             }

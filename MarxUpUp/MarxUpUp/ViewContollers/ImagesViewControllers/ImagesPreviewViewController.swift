@@ -86,7 +86,7 @@ class ImagesPreviewViewController: UIViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if shouldLoadNewData(forScrollView: scrollView) && scrollView.isDragging {
+        if !activityIndicator.isAnimating && shouldLoadNewData(forScrollView: scrollView) && scrollView.isDragging {
             activityIndicator.startAnimating()
             imagesDataSource.addData { newDataCount in
                 if let count = newDataCount {
