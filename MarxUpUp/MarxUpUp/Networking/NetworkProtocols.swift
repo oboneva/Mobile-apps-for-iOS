@@ -12,6 +12,7 @@ protocol NetworkSession: AnyObject {
     var imagesDataTaskCurrentlyInProgress: Bool? { get }
     func dataTask(with request: URLRequest, completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask
     func allTasks(completionHandler: @escaping ([NetworkSessionDataTask]) -> Void)
+    func invalidateAndCancel()
 }
 
 protocol NetworkSessionDataTask: AnyObject {

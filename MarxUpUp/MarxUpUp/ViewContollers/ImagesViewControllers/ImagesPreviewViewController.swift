@@ -110,6 +110,7 @@ class ImagesPreviewViewController: UIViewController {
     }
     
     @IBAction func onBackTap(_ sender: Any) {
+        imagesDataSource.viewContainerControllerWillBeDismissed()
         dismiss(animated: true, completion: nil)
     }
     

@@ -116,6 +116,10 @@ class ImageDataRequester: NSObject {
     func setPageToFirst() {
         page = 1;
     }
+    
+    func invalidateSession() {
+        session.invalidateAndCancel()
+    }
 }
 
 extension ImageDataRequester {

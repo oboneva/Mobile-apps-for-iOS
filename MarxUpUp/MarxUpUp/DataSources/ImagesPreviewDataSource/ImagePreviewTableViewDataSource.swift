@@ -35,6 +35,10 @@ class ImagePreviewTableViewDataSource: NSObject {
         super.init()
     }
     
+    func viewContainerControllerWillBeDismissed() {
+        imageDataRequester.invalidateSession()
+    }
+    
     func getImage(atIndex index: Int) -> UIImage {
         guard let image = image(atIndex: index) else {
             return UIImage()
