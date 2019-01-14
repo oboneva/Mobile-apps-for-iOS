@@ -18,6 +18,8 @@ class TabsCollectionViewDataSource: NSObject {
         return IndexPath(item: 1, section: 0)
     }
     
+    var selectedTabIndex = IndexPath(item: 0, section: 0)
+    
     func filter(atIndex index: Int) -> DataFilter {
         guard index < tabs.count else {
             return tabs[defaultSelectedTabIndex.item].filter
@@ -29,6 +31,12 @@ class TabsCollectionViewDataSource: NSObject {
 extension TabsCollectionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(fromClass: TabsCollectionViewCell.self, forIndexPath: indexPath)
+        
+        cell.backgroundColor = UIColor.clear
+        if indexPath == selectedTabIndex {
+            cell.backgroundColor = UIColor.orange.withAlphaComponent(0.1)
+        }
+        
         cell.tabLabel.text = tabs[indexPath.item].title
         cell.tabLabel.textColor = UIColor.orange
         

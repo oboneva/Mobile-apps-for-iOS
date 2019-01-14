@@ -112,13 +112,23 @@ class ImagesPreviewViewController: UIViewController {
     @IBAction func onBackTap(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    func setSelectedTab(atIndexPath indexPath: IndexPath) {
+        let prevIndexPath = tabsDataSource.selectedTabIndex
+        tabsDataSource.selectedTabIndex = indexPath
+        tabsCollectionView.reloadItems(at: [prevIndexPath, indexPath])
+    }
 }
 
 extension ImagesPreviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if tabsDataSource.selectedTabIndex == indexPath {
+            return
+        }
+        setSelectedTab(atIndexPath: indexPath)
+        tabsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
         activityIndicator.startAnimating()
-        let cell = collectionView.cellForItem(at: indexPath)
-        collectionView.scrollRectToVisible(cell?.frame ?? CGRect.zero, animated: true)
         imagesDataSource.loadData(withFilter: tabsDataSource.filter(atIndex: indexPath.item)) { newImagesCount in
             DispatchQueue.main.async {
                 self.imagesTableView.reloadData()
