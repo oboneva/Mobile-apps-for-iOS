@@ -48,7 +48,9 @@ extension DocsPreviewViewController: UITableViewDelegate {
         controller.document = dataSource.document(atIndex: indexPath.row)
         controller.updateDatabaseDelegate = dataSource
         dataSource.selectedModelIndexForUpdate = indexPath.row
-        present(controller, animated: true, completion: nil)
+        present(controller, animated: true) {
+            self.PDFTableView.scrollToRow(at: indexPath, at: .none, animated: false)
+        }
     }
 }
 

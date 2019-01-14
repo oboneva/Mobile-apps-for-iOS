@@ -148,7 +148,9 @@ extension ImagesPreviewViewController: UITableViewDelegate {
         annotateImageController.image = imagesDataSource.getImage(atIndex: indexPath.row)
         annotateImageController.updateDatabaseDelegate = imagesDataSource
         imagesDataSource.selectedModelIndexForUpdate = indexPath.row
-        present(annotateImageController, animated: true, completion: nil)
+        present(annotateImageController, animated: true) {
+            self.imagesTableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+        }
     }
 }
 
