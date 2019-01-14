@@ -97,11 +97,11 @@ enum ImageSort: Int {
     var description: String {
         switch self {
         case .Viral:
-            return "Viral"
+            return "viral"
         case .Top:
-            return "Top"
+            return "top"
         case .Date:
-            return "Date"
+            return "time"
         case .None:
             return ""
         }
