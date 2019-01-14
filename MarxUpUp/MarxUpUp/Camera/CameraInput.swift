@@ -18,8 +18,8 @@ class CameraInput: NSObject {
         get {
             return captureDevice?.position
         }
-        set(newPosition) {
-            guard let position = newPosition else {
+        set {
+            guard let position = newValue else {
                 return
             }
             let new = CameraInput(withPosition: position)
