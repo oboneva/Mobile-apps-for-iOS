@@ -83,6 +83,7 @@ class ImagesPreviewViewController: UIViewController {
     
     private func shouldLoadNewData(forScrollView scrollView: UIScrollView) -> Bool {
         return scrollView == imagesTableView && scrollView.contentOffset.y > imagesTableView.contentSize.height - imagesTableView.bounds.size.height
+        return scrollView.panGestureRecognizer.velocity(in: scrollView).y <= 0 && scrollView == imagesTableView && scrollView.contentOffset.y > imagesTableView.contentSize.height - imagesTableView.bounds.size.height
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

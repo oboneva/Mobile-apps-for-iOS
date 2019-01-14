@@ -156,6 +156,7 @@ extension ImagePreviewTableViewDataSource {
     private func addData(byKeepingTheOldOne keep: Bool, withCompletion handler: @escaping (Int?) -> Void) {
         imageDataRequester.cancelCurrentRequests {
             if self.filter.isDataLocal {
+                self.imageDataRequester.setPageToFirst()
                 self.localImages = self.databaseManager.loadImages()
                 handler(self.localImages.count)
             }
@@ -163,6 +164,7 @@ extension ImagePreviewTableViewDataSource {
                 if !keep {
                     self.imageURLs.removeAll()
                     handler(0)
+                    handler(nil)
                 }
                 self.imageDataRequester.getImageLinks(sortedBy: self.filter.sort) { links in
                     guard let unwrappedLinks = links else {
