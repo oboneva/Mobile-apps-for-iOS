@@ -163,7 +163,6 @@ extension ImagePreviewTableViewDataSource {
             else {
                 if !keep {
                     self.imageURLs.removeAll()
-                    handler(0)
                     handler(nil)
                 }
                 self.imageDataRequester.getImageLinks(sortedBy: self.filter.sort) { links in
