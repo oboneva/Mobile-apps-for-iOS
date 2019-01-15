@@ -31,6 +31,7 @@ class ImagePreviewTableViewDataSource: NSObject {
         self.imageDataRequester = requester
         self.databaseManager = databaseManager
         imageCache = cache
+        imageCache.countLimit = 5
         localImages = databaseManager.loadImages()
         super.init()
     }
