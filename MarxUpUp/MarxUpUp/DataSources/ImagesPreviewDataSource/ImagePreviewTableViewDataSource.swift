@@ -26,6 +26,10 @@ class ImagePreviewTableViewDataSource: NSObject {
         return imageURLs.count
     }
     
+    var couldDeleteImage: Bool {
+        return filter.isDataLocal
+    }
+    
     init(withImagesFilteredBy filter: DataFilter, _ requester: ImageDataRequester = ImageDataRequester(), _ cache: NSCache<NSString, UIImage> = NSCache<NSString, UIImage>(), _ databaseManager: LocalContentManaging = DatabaseManager()) {
         self.filter = filter
         self.imageDataRequester = requester
@@ -75,6 +79,15 @@ class ImagePreviewTableViewDataSource: NSObject {
     func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void) {
         self.filter = filter
         addData(byKeepingTheOldOne: false, withCompletion: handler)
+    }
+    
+    func removeObjectAtIndex(_ index: IndexPath) {
+        guard filter.isDataLocal else {
+            return
+        }
+        
+        databaseManager.deleteImage(localImages[index.row].id)
+        localImages.remove(at: index.row)
     }
 }
 

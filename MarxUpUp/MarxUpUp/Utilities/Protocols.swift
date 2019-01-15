@@ -38,7 +38,7 @@ protocol DrawDelegate: AnyObject {
     func willBeginDrawing()
 }
 
-protocol LocalContentManaging: ContentLoading, ContentSaving, ContentUpdating {}
+protocol LocalContentManaging: ContentLoading, ContentSaving, ContentUpdating, ContentDeleting {}
 
 protocol ContentLoading {
     func loadPDFs() -> [LocalContentModel]
@@ -53,6 +53,11 @@ protocol ContentSaving {
 protocol ContentUpdating {
     func updatePDF(_ id: URL, withData data: Data)
     func updateImage(_ id: URL, withData data: Data)
+}
+
+protocol ContentDeleting {
+    func deleteImage(_ id: URL)
+    func deletePDF(_ id: URL)
 }
 
 protocol CameraInterface: AnyObject {

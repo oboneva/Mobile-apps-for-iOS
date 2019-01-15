@@ -42,6 +42,11 @@ class DocsPreviewTableViewDataSource: NSObject {
     func document(atIndex index: Int) -> PDFDocument? {
         return PDFDocument(data: documents[index].data)
     }
+    
+    func removeObjectAtIndexPath(_ indexPath: IndexPath) {
+        databaseManager.deletePDF(documents[indexPath.row].id)
+        documents.remove(at: indexPath.row)
+    }
 }
 
 extension DocsPreviewTableViewDataSource: UITableViewDataSource {

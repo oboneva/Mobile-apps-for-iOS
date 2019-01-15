@@ -24,26 +24,26 @@ class DatabaseManager: NSObject, LocalContentManaging {
             print("Error: Saving changes failed")
         }
     }
+    
+    private func objectWithID(_ id: URL) -> NSManagedObject? {
+        guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
+            print("Error: Creation of ID from URL failed")
+            return nil
+        }
+        return context.object(with: objectID)
+    }
 }
 
 extension DatabaseManager: ContentUpdating {
     func updatePDF(_ id: URL, withData data: Data) {
-        guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
-            print("Error: ")
-            return
-        }
-        let pdf = context.object(with: objectID) as? PDF
+        let pdf = objectWithID(id) as? PDF
         pdf?.pdfData = data
         
         saveChanges()
     }
 
     func updateImage(_ id: URL, withData data: Data) {
-        guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
-            print("Error: ")
-            return
-        }
-        let image = context.object(with: objectID) as? Image
+        let image = objectWithID(id) as? Image
         image?.imageData = data
         
         saveChanges()
@@ -98,5 +98,25 @@ extension DatabaseManager: ContentLoading {
             print("Error: Fetching documents failed")
         }
         return [LocalContentModel]()
+    }
+}
+
+extension DatabaseManager : ContentDeleting {
+    func deleteImage(_ id: URL) {
+        guard let image = objectWithID(id) as? Image else {
+            return
+        }
+        
+        context.delete(image)
+        saveChanges()
+    }
+    
+    func deletePDF(_ id: URL) {
+        guard let pdf = objectWithID(id) as? PDF else {
+            return
+        }
+        
+        context.delete(pdf)
+        saveChanges()
     }
 }

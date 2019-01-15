@@ -52,6 +52,16 @@ extension DocsPreviewViewController: UITableViewDelegate {
             self.PDFTableView.scrollToRow(at: indexPath, at: .none, animated: false)
         }
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.dataSource.removeObjectAtIndexPath(indexPath)
+            self.PDFTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        return [delete]
+    }
+    
 }
 
 extension DocsPreviewViewController {

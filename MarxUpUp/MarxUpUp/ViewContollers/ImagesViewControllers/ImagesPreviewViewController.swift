@@ -119,6 +119,20 @@ class ImagesPreviewViewController: UIViewController {
         tabsDataSource.selectedTabIndex = indexPath
         tabsCollectionView.reloadItems(at: [prevIndexPath, indexPath])
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard imagesDataSource.couldDeleteImage else {
+            return []
+        }
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.imagesDataSource.removeObjectAtIndex(indexPath)
+            self.imagesTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        return [delete]
+    }
+    
 }
 
 extension ImagesPreviewViewController: UICollectionViewDelegate {
