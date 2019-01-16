@@ -46,7 +46,17 @@ class DocsPreviewControllerTests: XCTestCase {
         
         XCTAssertTrue(presented.updateDatabaseDelegate != nil)
         XCTAssertEqual(dataSource.selectedModelIndexForUpdate ?? 100, index.row)
-//        XCTAssertEqual(presented.document?.dataRepresentation(), dataSource.doc?.dataRepresentation())
+        XCTAssertEqual(presented.document?.dataRepresentation(), dataSource.doc?.dataRepresentation())
+    }
+    
+    func testRowActions() {
+        let actions = controller.tableView(controller.PDFTableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertEqual(actions?.count, 1)
+        
+        let action = actions?.first
+        
+        XCTAssertEqual(action?.title, "Delete")
+        XCTAssertEqual(action?.style, UITableViewRowAction.Style.destructive)
     }
 }
 

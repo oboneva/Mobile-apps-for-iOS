@@ -89,19 +89,49 @@ class ImagePreviewDataSourceTests: XCTestCase {
     }
     
     func testLoadData() {
+        var counter = 0
+        
         dataSource.loadData(withFilter: dataFilter) { (dataCount) in
-            XCTAssertEqual(self.dataSource.imagesCount , dataCount)
+            if counter == 0 {
+                XCTAssertNil(dataCount)
+                XCTAssertEqual(self.dataSource.imagesCount , 0)
+                counter += 1
+            }
+            else {
+                XCTAssertEqual(self.dataSource.imagesCount , dataCount)
+            }
         }
     }
     
     func testRefreshData() {
         dataSource.loadData(withFilter: dataFilter) { _ in }
         
+        var counter = 0
         dataSource.refreshData { (dataCount) in
-            XCTAssertEqual(self.dataSource.imagesCount , dataCount)
+            if counter == 0 {
+                XCTAssertNil(dataCount)
+                XCTAssertEqual(self.dataSource.imagesCount , 0)
+                counter += 1
+            }
+            else  {
+                XCTAssertEqual(self.dataSource.imagesCount , dataCount)
+            }
         }
     }
     
+    func testRemoveObjectFromNonLocalData() {
+        dataSource.loadData(withFilter: DataFilter(local: false, sort: .Date)) { _ in
+            self.dataSource.removeObjectAtIndex(IndexPath(row: 0, section: 0))
+            XCTAssertFalse(self.DBManager.deleteImageIsCalled)
+        }
+    }
+    
+    func testRemoveObjectFromLocalData() {
+        dataSource.loadData(withFilter: DataFilter(local: true, sort: .Date)) { _ in
+            self.dataSource.removeObjectAtIndex(IndexPath(row: 0, section: 0))
+            XCTAssertTrue(self.DBManager.deleteImageIsCalled)
+        }
+    }
 }
 
 class MockParserImages: NSObject, Parsable {
@@ -119,6 +149,7 @@ class MockDatabaseManagerImages: NSObject, LocalContentManaging {
     
     var updateImageIsCalled = false
     var saveImageIsCalled = false
+    var deleteImageIsCalled = false
     
     func loadPDFs() -> [LocalContentModel] {
         return [LocalContentModel]()
@@ -143,4 +174,10 @@ class MockDatabaseManagerImages: NSObject, LocalContentManaging {
     func updateImage(_ id: URL, withData data: Data) {
         updateImageIsCalled = true
     }
+    
+    func deleteImage(_ id: URL) {
+        deleteImageIsCalled = true
+    }
+    
+    func deletePDF(_ id: URL) { }
 }

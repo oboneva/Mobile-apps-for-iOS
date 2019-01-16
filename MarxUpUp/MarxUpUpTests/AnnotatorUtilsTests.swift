@@ -71,4 +71,18 @@ class AnnotatorUtilsTests: XCTestCase {
         
         XCTAssertEqual(path, expected)
     }
+    
+    func testRotateBezierPathBy90DegreesAroundPoint() {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 5))
+        path.addLine(to: CGPoint(x: 5, y: 5))
+        
+        Utilities.rotateBezierPath(path, aroundPoint: CGPoint(x: 5, y: 5), withAngle: -.pi / 2)
+        
+        let expected = UIBezierPath()
+        expected.move(to: CGPoint(x: 0, y: 5))
+        expected.addLine(to: CGPoint(x: 5, y: 5))
+        
+        XCTAssertEqual(expected, path)
+    }
 }

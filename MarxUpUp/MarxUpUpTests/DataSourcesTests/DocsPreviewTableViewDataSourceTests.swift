@@ -29,24 +29,31 @@ class DocsPreviewTableViewDataSourceTests: XCTestCase {
         XCTAssertEqual(3, dataSource.tableView(tableView, numberOfRowsInSection: 0))
     }
     
-    
     func testUpdatePDF() {
         let newData = "sdfgfdgh".data(using: .ascii) ?? Data()
         dataSource.selectedModelIndexForUpdate = 1
         dataSource.updatePDF(withData: newData)
         
-        guard let id = URL(string: "1"), let result = DBManager.pdfWithID(id) else {
+        guard let id = URL(string: "2") else {
             XCTFail()
             return
         }
         
-        XCTAssertEqual(String.init(data: result.data, encoding: .ascii), "sdfgfdgh")
+        XCTAssertTrue(DBManager.updatePDFIsCalled)
+        XCTAssertEqual(DBManager.updateWithPDF?.data, newData)
+        XCTAssertEqual(DBManager.updateWithPDF?.id, id)
     }
 }
 
 class MockDatabaseManager: NSObject, LocalContentManaging {
     var images = [URL : LocalContentModel]()
     var docs = [URL : LocalContentModel]()
+    
+    var updatePDFIsCalled = false
+    var updateImageISCalled = false
+    
+    var updateWithPDF: LocalContentModel?
+    var updateWithImage: LocalContentModel?
 
     override init() {
         super.init()
@@ -101,9 +108,23 @@ extension MockDatabaseManager: ContentSaving {
 extension MockDatabaseManager: ContentUpdating {
     func updatePDF(_ id: URL, withData data: Data) {
         docs.updateValue(LocalContentModel(data, id), forKey: id)
+        updateWithPDF = LocalContentModel(data, id)
+        updatePDFIsCalled = true
     }
     
     func updateImage(_ id: URL, withData data: Data) {
         images.updateValue(LocalContentModel(data, id), forKey: id)
+        updateWithImage = LocalContentModel(data, id)
+        updateImageISCalled = true
+    }
+}
+
+extension MockDatabaseManager: ContentDeleting {
+    func deletePDF(_ id: URL) {
+        images.removeValue(forKey: id)
+    }
+    
+    func deleteImage(_ id: URL) {
+        images.removeValue(forKey: id)
     }
 }

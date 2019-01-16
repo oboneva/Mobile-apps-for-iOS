@@ -26,7 +26,7 @@ class ImageDataRequesterTests: XCTestCase {
     }
 
     func testTheURLIsRequested() {
-        let url = "https://api.imgur.com/3/gallery/hot/Viral/day/1?showViral=true&mature=false&album_previews=false"
+        let url = "https://api.imgur.com/3/gallery/hot/viral/day/1?showViral=true&mature=false&album_previews=false"
 
         requester.getImageLinks(sortedBy: ImageSort.Viral){ (_) in }
 
@@ -42,7 +42,7 @@ class ImageDataRequesterTests: XCTestCase {
     }
 
     func testAllTasksAreCancelled() {
-        guard let url = URL(string: "https://api.imgur.com/3/gallery/hot/Viral/day/1?showViral=true&mature=false&album_previews=false") else {
+        guard let url = URL(string: "https://api.imgur.com/3/gallery/hot/viral/day/1?showViral=true&mature=false&album_previews=false") else {
             print("fck")
             return
         }
@@ -64,7 +64,7 @@ class ImageDataRequesterTests: XCTestCase {
         requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
         requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
 
-        XCTAssertEqual(session.url?.absoluteString , "https://api.imgur.com/3/gallery/hot/Viral/day/3?showViral=true&mature=false&album_previews=false")
+        XCTAssertEqual(session.url?.absoluteString , "https://api.imgur.com/3/gallery/hot/viral/day/3?showViral=true&mature=false&album_previews=false")
 
     }
 
@@ -73,7 +73,7 @@ class ImageDataRequesterTests: XCTestCase {
         requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
         requester.getImageLinks(sortedBy: .Date, withCompletion: { (_) in })
 
-        XCTAssertEqual(session.url?.absoluteString, "https://api.imgur.com/3/gallery/hot/Date/day/1?showViral=true&mature=false&album_previews=false")
+        XCTAssertEqual(session.url?.absoluteString, "https://api.imgur.com/3/gallery/hot/time/day/1?showViral=true&mature=false&album_previews=false")
     }
 
     func testResponseContainsError() {
@@ -140,7 +140,7 @@ class MockNetworkSession: NetworkSession {
             completion(nil, mockError)
         }
         else {
-                completion(Response(data: mockDataResponse ?? Data(), response: nil), nil)
+            completion(Response(data: mockDataResponse ?? Data(), response: nil), nil)
         }
         
         return mockDataTask
@@ -149,6 +149,8 @@ class MockNetworkSession: NetworkSession {
     func allTasks(completionHandler: ([NetworkSessionDataTask]) -> Void) {
         completionHandler(mockAllDataTasks ?? [NetworkSessionDataTask]())
     }
+    
+    func invalidateAndCancel() { }
 }
 
 class MockNetworkSessionDataTask: NetworkSessionDataTask {

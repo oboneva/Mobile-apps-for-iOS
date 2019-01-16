@@ -34,8 +34,15 @@ class ImagesPreviewViewControllerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDidSelectContentSortTab() {
-        let index = IndexPath(item: 0, section: 0)
+    func testDidSelectSameContentSortTab() {
+        let index = IndexPath(item:0, section: 0)
+
+        controller.collectionView(controller.tabsCollectionView, didSelectItemAt:index)
+        XCTAssertFalse(dataSource.loadDataIsCalled)
+    }
+    
+    func testDidSelectDifferentContentSortTab() {
+        let index = IndexPath(item:1, section: 0)
         guard let tabsDataSource = controller.tabsCollectionView.dataSource as? TabsCollectionViewDataSource else {
             XCTFail()
             return
@@ -65,11 +72,28 @@ class ImagesPreviewViewControllerTests: XCTestCase {
         XCTAssertEqual(presentedController.image.pngData(), UIImage(named: "test-image")?.pngData())
     }
    
+    func testRowActionsOnLocalContent() {
+        dataSource.filter = DataFilter(local: true, sort: .Date)
+        let actions = controller.tableView(controller.imagesTableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertEqual(actions?.count, 1)
+        XCTAssertEqual(actions?.first?.title, "Delete")
+    }
+    
+    func testRowActionsOnNonLocalContent() {
+        dataSource.filter = DataFilter(local: false, sort: .Date)
+        let actions = controller.tableView(controller.imagesTableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertEqual(actions?.count, 0)
+    }
+    
 }
 
 class MockImagePreviewTableViewDataSource: ImagePreviewTableViewDataSource {
     var loadDataIsCalled = false
     var filter: DataFilter?
+    
+    override var couldDeleteImage: Bool {
+        return filter?.isDataLocal ?? false
+    }
     
     override func loadData(withFilter filter: DataFilter, withCompletion handler: @escaping (Int?) -> Void) {
         self.filter = filter
