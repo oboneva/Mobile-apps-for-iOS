@@ -42,7 +42,7 @@ extension DocsPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let controller = SingleDocumentViewController.instantiateFromStoryboard(storyborad: Storyboard.Annotate) as? SingleDocumentViewController else {
-            print("Error: SingleDocumentViewController cannnot be instantiated from storyboard")
+            print("Error: SingleDocumentViewController cannot be instantiated from storyboard")
             return
         }
         controller.document = dataSource.document(atIndex: indexPath.row)
