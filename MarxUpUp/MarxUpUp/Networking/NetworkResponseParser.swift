@@ -12,6 +12,7 @@ import UIKit
 class NetworkResponseParser: NSObject, Parsable {
     func linksFromJSONDict(_ dictionary: [String:AnyObject], countPerPage count: Int, andCompletion handler:([String]) -> Void) {
         guard let data = dictionary["data"] as? [[String: AnyObject]] else {
+            handler([])
             return
         }
         var links = [String]()
