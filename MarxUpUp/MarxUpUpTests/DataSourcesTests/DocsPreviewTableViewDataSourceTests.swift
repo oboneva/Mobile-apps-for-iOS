@@ -46,8 +46,8 @@ class DocsPreviewTableViewDataSourceTests: XCTestCase {
 }
 
 class MockDatabaseManager: NSObject, LocalContentManaging {
-    var images = [URL : LocalContentModel]()
-    var docs = [URL : LocalContentModel]()
+    var images = [LocalContentModel]()
+    var docs = [LocalContentModel]()
     
     var updatePDFIsCalled = false
     var updateImageISCalled = false
@@ -73,17 +73,17 @@ class MockDatabaseManager: NSObject, LocalContentManaging {
 
 extension MockDatabaseManager: ContentLoading {
     func loadPDFs() -> [LocalContentModel] {
-        return Array(docs.values)
+        return docs
     }
     
     func loadImages() -> [LocalContentModel] {
-        return Array(images.values)
+        return images
     }
     
     func pdfWithID(_ id: URL) -> LocalContentModel? {
-        return docs.filter({ (k,v) -> Bool in
-            k == id
-        }).first?.value
+        return docs.filter({ (v) -> Bool in
+            v.id == id
+        }).first
     }
 }
 
@@ -92,28 +92,34 @@ extension MockDatabaseManager: ContentSaving {
         guard let id = URL(string: "\(images.count + 1)") else {
             return
         }
-        let image = LocalContentModel(data, id)
-        images[id] = image
+        images.append(LocalContentModel(data, id))
     }
     
     func savePDFWithData(_ data: Data) {
         guard let id = URL(string: "\(docs.count + 1)") else {
             return
         }
-        let doc = LocalContentModel(data, id)
-        docs[id] = doc
+        docs.append(LocalContentModel(data, id))
     }
 }
 
 extension MockDatabaseManager: ContentUpdating {
     func updatePDF(_ id: URL, withData data: Data) {
-        docs.updateValue(LocalContentModel(data, id), forKey: id)
+        for doc in docs {
+            if doc.id == id {
+                doc.data = data
+            }
+        }
         updateWithPDF = LocalContentModel(data, id)
         updatePDFIsCalled = true
     }
     
     func updateImage(_ id: URL, withData data: Data) {
-        images.updateValue(LocalContentModel(data, id), forKey: id)
+        for image in images {
+            if image.id == id {
+                image.data = data
+            }
+        }
         updateWithImage = LocalContentModel(data, id)
         updateImageISCalled = true
     }
@@ -121,10 +127,10 @@ extension MockDatabaseManager: ContentUpdating {
 
 extension MockDatabaseManager: ContentDeleting {
     func deletePDF(_ id: URL) {
-        images.removeValue(forKey: id)
+        images = images.filter { $0.id != id }
     }
     
     func deleteImage(_ id: URL) {
-        images.removeValue(forKey: id)
+        docs = docs.filter { $0.id != id }
     }
 }
