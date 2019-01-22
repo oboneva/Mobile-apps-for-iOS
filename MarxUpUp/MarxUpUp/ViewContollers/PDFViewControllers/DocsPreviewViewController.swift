@@ -22,19 +22,21 @@ class DocsPreviewViewController: UIViewController {
         
         PDFTableView.dataSource = dataSource
         PDFTableView.delegate = self
+        
+        title = ""
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.PDFTableView.reloadData()
+        guard dataSource.selectedModelIndexForUpdate != nil else {
+            return
+        }
+        self.PDFTableView.scrollToRow(at: IndexPath(row: dataSource.selectedModelIndexForUpdate!, section: 0), at: .none, animated: false)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 430
-    }
-    
-    @IBAction func onBackTap(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -48,9 +50,7 @@ extension DocsPreviewViewController: UITableViewDelegate {
         controller.document = dataSource.document(atIndex: indexPath.row)
         controller.updateDatabaseDelegate = dataSource
         dataSource.selectedModelIndexForUpdate = indexPath.row
-        present(controller, animated: true) {
-            self.PDFTableView.scrollToRow(at: indexPath, at: .none, animated: false)
-        }
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

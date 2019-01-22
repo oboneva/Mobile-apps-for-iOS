@@ -16,6 +16,8 @@ class SingleImageViewController: UIViewController {
     private var annotator: Annotating!
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
 
+    @IBOutlet weak var toolboxStackView: UIStackView!
+    var toolboxDelegate: ToolboxStackController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,27 +30,30 @@ class SingleImageViewController: UIViewController {
             annotator = Annotator(forAnnotating: annotatedImageView)
         }
         
-        toolboxView?.isHidden = true
-        
-        children.forEach { (viewController) in
-            if let toolboxController = viewController as? ToolboxViewController {
-                toolboxController.toolboxItemDelegate = annotator as? ToolboxItemDelegate
-                toolboxController.editedContentStateDelegate = annotator as? EditedContentStateDelegate
-            }
-        }
+        configureToolboxView()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapWithGestureRecognizer(_:)))
         tapRecognizer.delegate = self
         annotatedImageView.addGestureRecognizer(tapRecognizer)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let toolbarController = segue.destination as? ToolbarViewController {
             toolbarController.toolbarButtonsDelegate = self
         }
-        else if let toolboxController = segue.destination as? ToolboxViewController {
-            toolboxController.contentType = ContentType.Image
-            self.toolboxView = toolboxController.view
+    }
+    
+    private func configureToolboxView() {
+        toolboxDelegate = ToolboxStackController(withStackView: toolboxStackView, andParentController: self)
+        toolboxDelegate?.toolboxItemDelegate = annotator as? ToolboxItemDelegate
+        toolboxDelegate?.editedContentStateDelegate = annotator as? EditedContentStateDelegate
+        toolboxDelegate?.drawDelegate = self as? DrawDelegate
+        toolboxStackView.superview?.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        toolboxStackView.superview?.isHidden = true
+        toolboxStackView.isHidden = true
+        if toolboxStackView.superview != nil {
+            view.bringSubviewToFront(toolboxStackView.superview!)
         }
     }
     
@@ -82,26 +87,13 @@ class SingleImageViewController: UIViewController {
             annotator.endAnnotating(atPoint: point)
         }
     }
-}
-
-//MARK: - ToolbarButtonsDelegate Methods
-extension SingleImageViewController: ToolbarButtonsDelegate {
-    func didSelectReset() {
+    
+//MARK: - On Button Tap Methods
+    @IBAction func onResetTap(_ sender: Any) {
         annotator.reset()
     }
     
-    func didSelectToolbox() {
-        guard let view = toolboxView else {
-            return
-        }
-        view.isHidden = !view.isHidden
-    }
-    
-    func didSelectAnnotate() {
-        annotatedImageView.isUserInteractionEnabled = true
-    }
-    
-    func didSelectSave() {
+    @IBAction func onSaveTap(_ sender: Any) {
         guard let data = annotatedImageView.image?.pngData() else {
             return
         }
@@ -110,22 +102,11 @@ extension SingleImageViewController: ToolbarButtonsDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func didSelectGoBack() {
-        if annotator.isThereUnsavedWork {
-            let alertController = UIAlertController(title: "Unsaved changes", message: "Do you want to save your work before going back?", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction.init(title: "Yes", style: .default) { (action) in
-                self.didSelectSave()
-            })
-            alertController.addAction(UIAlertAction(title: "No", style: .destructive) { (action) in
-                self.annotator.reset()
-                self.dismiss(animated: true, completion: nil)
-            })
-            present(alertController, animated: true)
-        }
-        else {
-            self.dismiss(animated: true, completion: nil)
-        }
+    @IBAction func onToolboxTap(_ sender: Any) {
+        toolboxStackView.superview?.isHidden = !toolboxStackView.isHidden
+        toolboxStackView.isHidden = !toolboxStackView.isHidden
     }
+    
 }
 
 //MARK: - UIGestureRecognizerDelegate Methods

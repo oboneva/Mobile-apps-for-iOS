@@ -16,14 +16,6 @@ protocol ToolboxItemDelegate: AnyObject {
     func didChooseColor(_ color: UIColor)
 }
 
-protocol ToolbarButtonsDelegate: AnyObject {
-    func didSelectGoBack()
-    func didSelectAnnotate()
-    func didSelectSave()
-    func didSelectReset()
-    func didSelectToolbox()
-}
-
 protocol EditedContentStateDelegate: AnyObject {
     func didSelectUndo()
     func didSelectRedo()

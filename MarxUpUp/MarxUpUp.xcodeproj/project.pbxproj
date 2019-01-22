@@ -78,8 +78,7 @@
 		FAD6AE74219AB10B0029C301 /* ToolboxItemOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE73219AB10B0029C301 /* ToolboxItemOptionsViewController.swift */; };
 		FAD6AE77219AB3F70029C301 /* LineWidthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE76219AB3F70029C301 /* LineWidthViewController.swift */; };
 		FAD6AE79219AB40A0029C301 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE78219AB40A0029C301 /* ColorPickerViewController.swift */; };
-		FAD6AE7B219AB8D70029C301 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE7A219AB8D70029C301 /* ToolbarViewController.swift */; };
-		FAD6AE7D219AB8E30029C301 /* ToolboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE7C219AB8E30029C301 /* ToolboxViewController.swift */; };
+		FAD6AE7D219AB8E30029C301 /* ToolboxStackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE7C219AB8E30029C301 /* ToolboxStackController.swift */; };
 		FAD6AE80219AC1200029C301 /* ToolboxItemCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE7F219AC1200029C301 /* ToolboxItemCollectionDataSource.swift */; };
 		FAD6AE85219C3F8E0029C301 /* ShapesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE84219C3F8E0029C301 /* ShapesCollectionViewDataSource.swift */; };
 		FAD6AE87219C3FA90029C301 /* ArrowsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE86219C3FA90029C301 /* ArrowsCollectionViewDataSource.swift */; };
@@ -87,8 +86,6 @@
 		FAD6AE8D219DE1040029C301 /* DataFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE8C219DE1040029C301 /* DataFilter.swift */; };
 		FAD6AE8F219EC9BD0029C301 /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE8E219EC9BD0029C301 /* TabModel.swift */; };
 		FAD6AE9321A464310029C301 /* ToolboxInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6AE9221A464310029C301 /* ToolboxInitializer.swift */; };
-		FAD6AE9721A806C80029C301 /* Toolbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAD6AE9621A806C70029C301 /* Toolbar.storyboard */; };
-		FAD6AE9921A806F60029C301 /* Toolbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAD6AE9821A806F60029C301 /* Toolbox.storyboard */; };
 		FADE88D921AD7DBF00D7970B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FADE88D721AD7DBF00D7970B /* Model.xcdatamodeld */; };
 		FADE88DB21AD800A00D7970B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE88DA21AD800A00D7970B /* DatabaseManager.swift */; };
 		FADE88DD21ADA5BF00D7970B /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE88DC21ADA5BF00D7970B /* FileManager.swift */; };
@@ -198,8 +195,7 @@
 		FAD6AE73219AB10B0029C301 /* ToolboxItemOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemOptionsViewController.swift; sourceTree = "<group>"; };
 		FAD6AE76219AB3F70029C301 /* LineWidthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineWidthViewController.swift; sourceTree = "<group>"; };
 		FAD6AE78219AB40A0029C301 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
-		FAD6AE7A219AB8D70029C301 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
-		FAD6AE7C219AB8E30029C301 /* ToolboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxViewController.swift; sourceTree = "<group>"; };
+		FAD6AE7C219AB8E30029C301 /* ToolboxStackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxStackController.swift; sourceTree = "<group>"; };
 		FAD6AE7F219AC1200029C301 /* ToolboxItemCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxItemCollectionDataSource.swift; sourceTree = "<group>"; };
 		FAD6AE84219C3F8E0029C301 /* ShapesCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapesCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		FAD6AE86219C3FA90029C301 /* ArrowsCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowsCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -207,12 +203,10 @@
 		FAD6AE8C219DE1040029C301 /* DataFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFilter.swift; sourceTree = "<group>"; };
 		FAD6AE8E219EC9BD0029C301 /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 		FAD6AE9221A464310029C301 /* ToolboxInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxInitializer.swift; sourceTree = "<group>"; };
-		FAD6AE9621A806C70029C301 /* Toolbar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Toolbar.storyboard; sourceTree = "<group>"; };
-		FAD6AE9821A806F60029C301 /* Toolbox.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Toolbox.storyboard; sourceTree = "<group>"; };
 		FADE88D821AD7DBF00D7970B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		FADE88DA21AD800A00D7970B /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		FADE88DC21ADA5BF00D7970B /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
-		FADE88DE21AEE55700D7970B /* ArrowBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArrowBezierPath.swift; path = MarxUpUp/Annotations/ArrowBezierPath.swift; sourceTree = SOURCE_ROOT; };
+		FADE88DE21AEE55700D7970B /* ArrowBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArrowBezierPath.swift; path = MarxUpUp/Annotations/ArrowBezierPath.swift; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FADE88E221B0523700D7970B /* ChangesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesManager.swift; sourceTree = "<group>"; };
 		FADE88E921B12C7100D7970B /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		FADE88EC21B136DE00D7970B /* TextAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnnotation.swift; sourceTree = "<group>"; };
@@ -294,8 +288,6 @@
 				FA26540E21946FF5003514F9 /* Camera.storyboard */,
 				FA26541021947018003514F9 /* PreviewContent.storyboard */,
 				FA26541221947030003514F9 /* Annotate.storyboard */,
-				FAD6AE9621A806C70029C301 /* Toolbar.storyboard */,
-				FAD6AE9821A806F60029C301 /* Toolbox.storyboard */,
 				FA2654142194703F003514F9 /* ToolboxItem.storyboard */,
 			);
 			path = Storyboards;
@@ -484,8 +476,7 @@
 		FAD6AE7E219AB8FC0029C301 /* MenuViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				FAD6AE7A219AB8D70029C301 /* ToolbarViewController.swift */,
-				FAD6AE7C219AB8E30029C301 /* ToolboxViewController.swift */,
+				FAD6AE7C219AB8E30029C301 /* ToolboxStackController.swift */,
 			);
 			path = MenuViewControllers;
 			sourceTree = "<group>";
@@ -676,11 +667,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8B86242191A1690020E6CC /* LaunchScreen.storyboard in Resources */,
-				FAD6AE9921A806F60029C301 /* Toolbox.storyboard in Resources */,
 				FA26540F21946FF5003514F9 /* Camera.storyboard in Resources */,
 				FA26541321947030003514F9 /* Annotate.storyboard in Resources */,
 				FA3B1B9A21BEA7590092637E /* test-document.pdf in Resources */,
-				FAD6AE9721A806C80029C301 /* Toolbar.storyboard in Resources */,
 				FA2654152194703F003514F9 /* ToolboxItem.storyboard in Resources */,
 				FA8B86212191A1690020E6CC /* Assets.xcassets in Resources */,
 				FA1BAA952195A59800B13AB0 /* Manifesto.pdf in Resources */,
@@ -754,7 +743,6 @@
 				FA26542E2194A0D1003514F9 /* ImagePreviewTableViewDataSource.swift in Sources */,
 				FAD6AE79219AB40A0029C301 /* ColorPickerViewController.swift in Sources */,
 				FA4F0AE121B56C85009AB689 /* ImageInkAnnotation.swift in Sources */,
-				FAD6AE7B219AB8D70029C301 /* ToolbarViewController.swift in Sources */,
 				FADE88D921AD7DBF00D7970B /* Model.xcdatamodeld in Sources */,
 				FA90CDFC21999901009D6DE9 /* TabsCollectionViewDataSource.swift in Sources */,
 				FAD6AE72219AB09F0029C301 /* ToolboxItemOptionsCollectionViewCell.swift in Sources */,
@@ -763,7 +751,7 @@
 				FA2654052193306A003514F9 /* ShapeModel.swift in Sources */,
 				FA4F0AE321B56CDB009AB689 /* PDFInkAnnotation.swift in Sources */,
 				FAD6AE9321A464310029C301 /* ToolboxInitializer.swift in Sources */,
-				FAD6AE7D219AB8E30029C301 /* ToolboxViewController.swift in Sources */,
+				FAD6AE7D219AB8E30029C301 /* ToolboxStackController.swift in Sources */,
 				FAD6AE87219C3FA90029C301 /* ArrowsCollectionViewDataSource.swift in Sources */,
 				FAD6AE77219AB3F70029C301 /* LineWidthViewController.swift in Sources */,
 				FADE88DB21AD800A00D7970B /* DatabaseManager.swift in Sources */,

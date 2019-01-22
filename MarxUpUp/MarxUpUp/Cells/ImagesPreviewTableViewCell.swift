@@ -15,4 +15,8 @@ class ImagesPreviewTableViewCell: UITableViewCell {
         super.prepareForReuse()
         URLImageView.image = nil
     }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(false, animated: false)
+    }
 }

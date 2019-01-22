@@ -73,6 +73,16 @@ extension Camera: CameraInterface {
         captureSession.stopRunning()
     }
     
+    func start() {
+        guard cameraInput.deviceInput != nil else {
+            return
+        }
+        
+        DispatchQueue.global().async {
+            self.captureSession.startRunning()
+        }
+    }
+    
     func takePhoto() {
         guard cameraInput.deviceInput != nil else {
             return

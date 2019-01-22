@@ -20,6 +20,9 @@ class PhotoCaptureViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         camera = Camera(outputView: self.photoPreviewView)
+        presentAlertIfNeeded()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -27,8 +30,8 @@ class PhotoCaptureViewController: UIViewController {
         
         view.bringSubviewToFront(self.switchCameraButton)
         view.bringSubviewToFront(self.takePhotoButton)
-
-        presentAlertIfNeeded()
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     func presentAlertIfNeeded() {
@@ -45,8 +48,8 @@ class PhotoCaptureViewController: UIViewController {
         self.camera = camera
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         camera.stop()
     }
     
@@ -56,11 +59,6 @@ class PhotoCaptureViewController: UIViewController {
     
     @IBAction func onTakePhotoTap(_ sender: UIButton) {
         camera.takePhoto()
-    }
-    
-    @IBAction func onBackTap(_ sender: Any) {
-        camera.stop()
-        dismiss(animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -8,21 +8,22 @@
 
 import UIKit
 
-class ToolboxViewController: UIViewController {
+class ToolboxStackController {
 
-    private var dataSource: ToolboxDataSource?
+    private let dataSource: ToolboxDataSource
     weak var editedContentStateDelegate : EditedContentStateDelegate?
     weak var toolboxItemDelegate: ToolboxItemDelegate?
     weak var drawDelegate: DrawDelegate?
     var contentType = ContentType.Image
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    weak var view: UIStackView?
+    weak var controller: UIViewController?
+    
+    init(withStackView view: UIStackView, andParentController controller: UIViewController) {
+        self.controller = controller
+        self.view = view
         dataSource = ToolboxDataSource(forItemsFromType: contentType)
-        if let unwrappedDataSource = dataSource {
-            ToolboxInitializer.addToolboxItems(toView: view as? UIScrollView, withTarget: self, #selector(toolboxItemPressed(_:)), andDataSource: unwrappedDataSource)
-        }
+        ToolboxInitializer.addToolboxItems(toView: view, withTarget: self, #selector(toolboxItemPressed(_:)), andDataSource: dataSource)
     }
     
     private func presentOptions(forItem item: ToolboxItemModel, _ button: UIButton) {
@@ -59,18 +60,16 @@ class ToolboxViewController: UIViewController {
         }
         
         viewController.modalPresentationStyle = UIModalPresentationStyle.popover
-        viewController.popoverPresentationController?.delegate = self
+        viewController.popoverPresentationController?.delegate = controller as? UIPopoverPresentationControllerDelegate
         viewController.popoverPresentationController?.sourceView = view
         viewController.popoverPresentationController?.sourceRect = button.frame
         viewController.preferredContentSize = contentSize
         
-        present(viewController, animated: true, completion: nil)
+        controller?.present(viewController, animated: true, completion: nil)
     }
     
     @objc private func toolboxItemPressed(_ button: UIButton) {
-        guard let item = dataSource?.item(atIndex: button.tag) else {
-            return
-        }
+        let item = dataSource.item(atIndex: button.tag)
         
         if item.type == ToolboxItemType.Undo {
             editedContentStateDelegate?.didSelectUndo()
@@ -80,11 +79,11 @@ class ToolboxViewController: UIViewController {
         }
         else if item.type == ToolboxItemType.Pen {
             toolboxItemDelegate?.didChoosePen()
-            view.isHidden = true
+            view?.isHidden = true
         }
         else if item.isTextRelated {
             toolboxItemDelegate?.didChoose(textAnnotationFromType: item.type)
-            view.isHidden = true
+            view?.isHidden = true
         }
         else if item.containsOptions {
             presentOptions(forItem: item, button)
@@ -93,11 +92,5 @@ class ToolboxViewController: UIViewController {
         if item.isForDrawing {
             drawDelegate?.willBeginDrawing()
         }
-    }
-}
-
-extension ToolboxViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
     }
 }

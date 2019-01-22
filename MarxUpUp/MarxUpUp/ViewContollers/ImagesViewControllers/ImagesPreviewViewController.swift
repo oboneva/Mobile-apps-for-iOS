@@ -35,6 +35,9 @@ class ImagesPreviewViewController: UIViewController {
         
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
+        
+//        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        title = ""
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,12 +109,28 @@ class ImagesPreviewViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        imagesTableView.reloadData()
+        guard imagesDataSource.selectedModelIndexForUpdate != nil else {
+            return
+        }
+        if !tabsDataSource.filter(atIndex: tabsDataSource.selectedTabIndex.item).isDataLocal {
+            self.imagesTableView.scrollToRow(at: IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0), at: .middle, animated: false)
+            return
+        }
+        
+        self.imagesDataSource.refreshData { (_) in
+            let indexForRefresh = IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0)
+            DispatchQueue.main.async {
+                self.imagesTableView.reloadRows(at: [indexForRefresh], with: .none)
+                 self.imagesTableView.scrollToRow(at: indexForRefresh, at: .middle, animated: false)
+            }
+        }
     }
     
-    @IBAction func onBackTap(_ sender: Any) {
-        imagesDataSource.viewContainerControllerWillBeDismissed()
-        dismiss(animated: true, completion: nil)
+    override func viewDidDisappear(_ animated: Bool) {
+        if isMovingFromParent {
+            imagesDataSource.viewContainerControllerWillBeDismissed()
+        }
+        super.viewDidDisappear(animated)
     }
     
     func setSelectedTab(atIndexPath indexPath: IndexPath) {
@@ -162,9 +181,7 @@ extension ImagesPreviewViewController: UITableViewDelegate {
         annotateImageController.image = imagesDataSource.getImage(atIndex: indexPath.row)
         annotateImageController.updateDatabaseDelegate = imagesDataSource
         imagesDataSource.selectedModelIndexForUpdate = indexPath.row
-        present(annotateImageController, animated: true) {
-            self.imagesTableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-        }
+        navigationController?.pushViewController(annotateImageController, animated: true)
     }
 }
 

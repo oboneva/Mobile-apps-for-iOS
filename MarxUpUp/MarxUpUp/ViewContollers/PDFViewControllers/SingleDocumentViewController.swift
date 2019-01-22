@@ -13,35 +13,36 @@ class SingleDocumentViewController: UIViewController {
 
     @IBOutlet weak var PDFDocumentView: PDFView!
     @IBOutlet weak var PDFDocumentThumbnailView: PDFThumbnailView!
-    var toolboxView: UIView?
+    @IBOutlet weak var currentPageLabel: UILabel!
+    @IBOutlet weak var toolboxStackView: UIStackView!
+    
+    var toolboxDelegate: ToolboxStackController?
+    
     var document: PDFDocument?
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
     
     private var annotator: Annotating!
     private lazy var databaseManager = DatabaseManager()
     
-    //MARK: - View Lifecycle Methods
+//MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configurePDFView()
         configurePDFThumbnailView()
+        configureCurrentPageLabel()
         
         if annotator == nil {
             annotator = Annotator(forAnnotating: PDFDocumentView)
         }
         
-        children.forEach {
-            if let toolboxController = $0 as? ToolboxViewController {
-                toolboxController.toolboxItemDelegate = annotator as? ToolboxItemDelegate
-                toolboxController.editedContentStateDelegate = annotator as? EditedContentStateDelegate
-            }
-        }
-        
-        toolboxView?.isHidden = true
+        configureToolboxView()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGestureWithRecogniser(_:)))
         tapRecognizer.delegate = self
         PDFDocumentView.addGestureRecognizer(tapRecognizer)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(pageChanged(_:)), name: .PDFViewPageChanged, object: PDFDocumentView)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,19 +50,9 @@ class SingleDocumentViewController: UIViewController {
         PDFDocumentView.documentView?.isUserInteractionEnabled = false
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let toolbarController = segue.destination as? ToolbarViewController {
-            toolbarController.toolbarButtonsDelegate = self
-        }
-        else if let toolboxController = segue.destination as? ToolboxViewController {
-            toolboxController.contentType = ContentType.PDF
-            self.toolboxView = toolboxController.view
-            toolboxController.drawDelegate = self
-        }
-    }
-    
-    //MARK: - Handle Touch Events
+//MARK: - Handle Touch Events
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         if touches.count == 1 {
             PDFDocumentView.isUserInteractionEnabled = true
         }
@@ -76,6 +67,7 @@ class SingleDocumentViewController: UIViewController {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         if let touch = touches.first {
             guard let page = PDFDocumentView.currentPage else {
                 return
@@ -86,6 +78,7 @@ class SingleDocumentViewController: UIViewController {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         if let touch = touches.first {
             guard let page = PDFDocumentView.currentPage else {
                 return
@@ -95,7 +88,27 @@ class SingleDocumentViewController: UIViewController {
         }
     }
     
-    //MARK: - Configure PDF Views
+//MARK: - On Button Tap Methods
+    @IBAction func onResetTap(_ sender: Any) {
+        annotator?.reset()
+    }
+    
+    @IBAction func onSaveTap(_ sender: Any) {
+        guard let data = PDFDocumentView.document?.dataRepresentation() else {
+            return
+        }
+        updateDatabaseDelegate?.updatePDF(withData: data)
+        
+        toolboxStackView?.isHidden = true
+        annotator.reset()
+        dismiss(animated: true, completion: nil)
+    }
+    @IBAction func onToolboxTap(_ sender: Any) {
+        toolboxStackView.superview?.isHidden = !toolboxStackView.isHidden
+        toolboxStackView.isHidden = !toolboxStackView.isHidden
+    }
+    
+//MARK: - Configure Views
     private func configurePDFView() {
         PDFDocumentView.document = document
         PDFDocumentView.displayMode = PDFDisplayMode.singlePage
@@ -111,51 +124,47 @@ class SingleDocumentViewController: UIViewController {
         PDFDocumentThumbnailView.layoutMode = PDFThumbnailLayoutMode.horizontal
         PDFDocumentThumbnailView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-}
-
-//MARK: - ToolbarButtonsDelegate Methods
-extension SingleDocumentViewController: ToolbarButtonsDelegate {
-    func didSelectAnnotate() {
-        PDFDocumentView.documentView?.isUserInteractionEnabled = true
-        PDFDocumentView.isUserInteractionEnabled = false
-    }
     
-    func didSelectToolbox() {
-        guard let view = toolboxView else {
-            return
-        }
-        view.isHidden = !view.isHidden
-    }
-    
-    func didSelectReset() {
-        annotator?.reset()
-    }
-    
-    func didSelectSave() {
-        guard let data = PDFDocumentView.document?.dataRepresentation() else {
-            return
-        }
-        updateDatabaseDelegate?.updatePDF(withData: data)
+    private func configureCurrentPageLabel() {
+        currentPageLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.6)
+        currentPageLabel.layer.cornerRadius = 4
+        currentPageLabel.alpha = 1
         
-        toolboxView?.isHidden = true
-        annotator.reset()
-        dismiss(animated: true, completion: nil)
+        updatePageCount()
+        fadeLabel()
     }
     
-    func didSelectGoBack() {
-        if annotator.isThereUnsavedWork {
-            let alertController = UIAlertController(title: "Unsaved changes", message: "Do you want to save your work before going back?", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction.init(title: "Yes", style: .default) { (action) in
-                self.didSelectSave()
-            })
-            alertController.addAction(UIAlertAction(title: "No", style: .destructive) { (action) in
-                self.dismiss(animated: true, completion: nil)
-            })
-            present(alertController, animated: true, completion: nil)
+    private func configureToolboxView() {
+        toolboxDelegate = ToolboxStackController(withStackView: toolboxStackView, andParentController: self)
+        toolboxDelegate?.toolboxItemDelegate = annotator as? ToolboxItemDelegate
+        toolboxDelegate?.editedContentStateDelegate = annotator as? EditedContentStateDelegate
+        toolboxDelegate?.drawDelegate = self
+        toolboxStackView.superview?.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        toolboxStackView.superview?.isHidden = true
+        toolboxStackView.isHidden = true
+        if toolboxStackView.superview != nil {
+            view.bringSubviewToFront(toolboxStackView.superview!)
         }
-        else {
-            self.dismiss(animated: true, completion: nil)
-        }
+    }
+    
+//MARK: - Current page label methods
+    @objc func pageChanged(_ notif: NSNotification) {
+        updatePageCount()
+        currentPageLabel.sizeToFit()
+        currentPageLabel.alpha = 1
+    }
+    
+    func fadeLabel() {
+        UIView.animate(withDuration: 8, delay: 5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: [],
+                       animations: {
+                        self.currentPageLabel.alpha = 0
+        }, completion: nil)
+    }
+    
+    func updatePageCount() {
+        let current = 1 + ((document?.index(for: PDFDocumentView.currentPage ?? PDFPage())) ?? 0)
+        let all = document?.pageCount ?? 0
+        currentPageLabel.text = "  \(current) / \(all)  "
     }
 }
 
@@ -170,8 +179,8 @@ extension SingleDocumentViewController: DrawDelegate {
 //MARK: - UIGestureRecognizerDelegate Methods
 extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     @objc func handleTapGestureWithRecogniser(_ recognizer: UITapGestureRecognizer) {
-        guard toolboxView?.isHidden == true else {
-            toolboxView?.isHidden = true
+        guard toolboxStackView?.isHidden == true else {
+            toolboxStackView?.isHidden = true
             return
         }
 //        let point = recognizer.location(in: PDFDocumentView.documentView)
@@ -195,5 +204,11 @@ extension SingleDocumentViewController: UIGestureRecognizerDelegate {
 extension SingleDocumentViewController {
     func setDependancies(_ annotator: Annotating){
         self.annotator = annotator
+    }
+}
+
+extension SingleDocumentViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
 }
