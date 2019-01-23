@@ -260,7 +260,18 @@ extension Annotator: Annotating {
         if UIGraphicsGetCurrentContext() == nil, let size = annotatedImage?.size {
             UIGraphicsBeginImageContext(size)
         }
+        annotatedImage?.draw(at: CGPoint.zero)
         changesManager.reset()
+        annotatedImageView?.image = currentImage
+        annotatedImage = currentImage
+    }
+    
+    func save() {
+        changesManager.clear()
+        if UIGraphicsGetCurrentContext() == nil, let size = annotatedImage?.size {
+            UIGraphicsBeginImageContext(size)
+        }
+        annotatedImage?.draw(at: CGPoint.zero)
         annotatedImageView?.image = currentImage
         annotatedImage = currentImage
     }

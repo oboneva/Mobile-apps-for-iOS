@@ -69,4 +69,5 @@ protocol Annotating: AnyObject {
     func continueAnnotating(atPoint point: CGPoint)
     func endAnnotating(atPoint point: CGPoint)
     func reset()
+    func save()
 }

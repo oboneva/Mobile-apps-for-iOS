@@ -35,7 +35,7 @@ class SingleImageViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapWithGestureRecognizer(_:)))
         tapRecognizer.delegate = self
         annotatedImageView.addGestureRecognizer(tapRecognizer)
-        
+        navigationController?.isNavigationBarHidden = false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -98,8 +98,9 @@ class SingleImageViewController: UIViewController {
             return
         }
         updateDatabaseDelegate?.updateImage(withData: data)
-        toolboxView?.isHidden = true
-        dismiss(animated: true, completion: nil)
+        annotator.save()
+        toolboxStackView.isHidden = true
+        toolboxStackView.superview?.isHidden = true
     }
     
     @IBAction func onToolboxTap(_ sender: Any) {
@@ -107,6 +108,13 @@ class SingleImageViewController: UIViewController {
         toolboxStackView.isHidden = !toolboxStackView.isHidden
     }
     
+}
+
+//MARK: - UIPopoverPresentationControllerDelegate Methods
+extension SingleImageViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
 }
 
 //MARK: - UIGestureRecognizerDelegate Methods

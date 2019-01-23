@@ -13,11 +13,7 @@
         <scene sceneID="uBX-MV-VwI">
             <objects>
                 <navigationController id="Kr0-X9-t0K" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Documents" image="tab-docs" id="mR0-bO-pTN">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="selected" value="YES"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Documents" image="tab-docs" id="mR0-bO-pTN"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OYg-qy-Rb8">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -44,10 +40,15 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
+                        <segue destination="Dob-23-5wQ" kind="relationship" relationship="viewControllers" id="R1L-0C-Qgo"/>
                         <segue destination="Kr0-X9-t0K" kind="relationship" relationship="viewControllers" id="b6Z-g3-A1p"/>
                         <segue destination="yoM-Ku-paF" kind="relationship" relationship="viewControllers" id="VFl-Yo-Ma6"/>
-                        <segue destination="Dob-23-5wQ" kind="relationship" relationship="viewControllers" id="R1L-0C-Qgo"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gsD-pW-Sf8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -224,21 +225,21 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesPreviewTableViewCellID" rowHeight="431" id="Qng-7c-iYE" customClass="ImagesPreviewTableViewCell" customModule="MarxUpUp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="431"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qng-7c-iYE" id="FgR-SG-jhD">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qng-7c-iYE" id="FgR-SG-jhD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="430.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s9J-12-M6y">
-                                                    <rect key="frame" x="0.0" y="5" width="375" height="410.5"/>
+                                                    <rect key="frame" x="0.0" y="10" width="375" height="410.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="410.5" id="omj-Z0-grB"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="s9J-12-M6y" secondAttribute="bottom" constant="5" id="WUk-ms-x7g"/>
+                                                <constraint firstAttribute="bottom" secondItem="s9J-12-M6y" secondAttribute="bottom" constant="10" id="WUk-ms-x7g"/>
                                                 <constraint firstAttribute="trailing" secondItem="s9J-12-M6y" secondAttribute="trailing" id="ZPw-6T-5Gj"/>
-                                                <constraint firstItem="s9J-12-M6y" firstAttribute="top" secondItem="FgR-SG-jhD" secondAttribute="top" constant="5" id="tPm-49-z5b"/>
+                                                <constraint firstItem="s9J-12-M6y" firstAttribute="top" secondItem="FgR-SG-jhD" secondAttribute="top" constant="10" id="tPm-49-z5b"/>
                                                 <constraint firstItem="s9J-12-M6y" firstAttribute="leading" secondItem="FgR-SG-jhD" secondAttribute="leading" id="yGH-no-8EE"/>
                                             </constraints>
                                         </tableViewCellContentView>

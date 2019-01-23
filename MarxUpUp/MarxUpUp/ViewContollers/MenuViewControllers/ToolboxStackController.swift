@@ -83,10 +83,12 @@ class ToolboxStackController {
         else if item.type == ToolboxItemType.Pen {
             toolboxItemDelegate?.didChoosePen()
             view?.isHidden = true
+            view?.superview?.isHidden = true
         }
         else if item.isTextRelated {
             toolboxItemDelegate?.didChoose(textAnnotationFromType: item.type)
             view?.isHidden = true
+            view?.superview?.isHidden = true
         }
         else if item.containsOptions {
             presentOptions(forItem: item, button)

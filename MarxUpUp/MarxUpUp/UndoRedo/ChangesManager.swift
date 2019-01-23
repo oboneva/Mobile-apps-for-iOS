@@ -55,6 +55,10 @@ class ChangesManager: NSObject {
     
     func reset() {
         undoCommands.reversed().forEach({ $0.unexecute() })
+        clear()
+    }
+    
+    func clear() {
         undoCommands.removeAll()
         redoCommands.removeAll()
     }

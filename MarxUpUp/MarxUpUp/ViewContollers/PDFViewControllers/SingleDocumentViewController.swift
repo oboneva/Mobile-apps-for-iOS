@@ -48,7 +48,8 @@ class SingleDocumentViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        PDFDocumentView.documentView?.isUserInteractionEnabled = false
+        PDFDocumentView.documentView?.isUserInteractionEnabled = true
+        PDFDocumentView.isUserInteractionEnabled = false
     }
     
 //MARK: - Handle Touch Events
@@ -99,11 +100,10 @@ class SingleDocumentViewController: UIViewController {
             return
         }
         updateDatabaseDelegate?.updatePDF(withData: data)
-        
+        annotator.save()
         toolboxStackView?.isHidden = true
-        annotator.reset()
-        dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func onToolboxTap(_ sender: Any) {
         toolboxStackView.superview?.isHidden = !toolboxStackView.isHidden
         toolboxStackView.isHidden = !toolboxStackView.isHidden
@@ -182,6 +182,7 @@ extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     @objc func handleTapGestureWithRecogniser(_ recognizer: UITapGestureRecognizer) {
         guard toolboxStackView?.isHidden == true else {
             toolboxStackView?.isHidden = true
+            toolboxStackView?.superview?.isHidden = true
             return
         }
 //        let point = recognizer.location(in: PDFDocumentView.documentView)
@@ -199,17 +200,22 @@ extension SingleDocumentViewController: UIGestureRecognizerDelegate {
         
 //        let a = PDFAnnotation(bounds: CGRect(x: 0, y: 0, width: 50, height: 50), forType: PDFAnnotationSubtype.highlight, withProperties: nil)
 //        a.isHighlighted = true
+        PDFDocumentView.clearSelection()
+        willBeginDrawing()
     }
 }
 
+//MARK: - UIPopoverPresentationControllerDelegate Methods
+extension SingleDocumentViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+}
+
+//MARK: - Set Dependacies For Unit Tests
 extension SingleDocumentViewController {
     func setDependancies(_ annotator: Annotating){
         self.annotator = annotator
     }
 }
 
-extension SingleDocumentViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
-}

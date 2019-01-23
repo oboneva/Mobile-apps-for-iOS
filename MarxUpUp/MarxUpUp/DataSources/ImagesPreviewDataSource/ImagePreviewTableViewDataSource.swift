@@ -68,9 +68,9 @@ class ImagePreviewTableViewDataSource: NSObject {
         return image
     }
     
-    private func set(_ image: UIImage, toCell cell: ImagesPreviewTableViewCell, fromTableView table: UITableView) {
+    private func set(_ image: UIImage, toCell cell: ImagesPreviewTableViewCell, fromTableView table: UITableView, atIndexPath indexPath: IndexPath) {
         DispatchQueue.main.async {
-            if table.visibleCells.contains(cell) {
+            if table.indexPathsForVisibleRows?.contains(indexPath) ?? false {
                 cell.URLImageView.image = image
             }
         }
@@ -98,7 +98,18 @@ extension ImagePreviewTableViewDataSource: UpdateDatabaseDelegate {
             localImages[index].update(data)
         }
         else {
-            databaseManager.saveImageWithData(data)
+            let count = localImages.count
+            localImages = databaseManager.loadImages()
+            if localImages.count > count {
+                guard let imageForUpdate = localImages.last else {
+                    return
+                }
+                databaseManager.updateImage(imageForUpdate.id, withData: data)
+                imageForUpdate.data = data
+            }
+            else {
+                databaseManager.saveImageWithData(data)
+            }
         }
     }
     
@@ -123,7 +134,7 @@ extension ImagePreviewTableViewDataSource: UITableViewDataSource {
         let image = self.image(atIndex: indexPath.row)
         
         if image != nil {
-            set(image!, toCell: cell, fromTableView: tableView)
+            set(image!, toCell: cell, fromTableView: tableView, atIndexPath: indexPath)
         }
         else {
             loadImage(forCell: cell, withIndexPath: indexPath, fromTableView: tableView)
@@ -146,7 +157,7 @@ extension ImagePreviewTableViewDataSource {
                 return
             }
             self.imageCache.setObject(image, forKey: NSString(string: self.imageURLs[indexPath.row]))
-            self.set(image, toCell: cell, fromTableView: table)
+            self.set(image, toCell: cell, fromTableView: table, atIndexPath: indexPath)
         }
         
         if filter.isDataLocal {
