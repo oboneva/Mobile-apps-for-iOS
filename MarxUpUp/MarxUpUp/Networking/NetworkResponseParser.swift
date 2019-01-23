@@ -10,15 +10,20 @@
 import UIKit
 
 class NetworkResponseParser: NSObject, Parsable {
+    private let key_animated = "animated"
+    private let key_images = "images"
+    private let key_link = "link"
+    private let key_data = "data"
+    
     func linksFromJSONDict(_ dictionary: [String:AnyObject], countPerPage count: Int, andCompletion handler:([String]) -> Void) {
-        guard let data = dictionary["data"] as? [[String: AnyObject]] else {
+        guard let data = dictionary[key_data] as? [[String: AnyObject]] else {
             handler([])
             return
         }
         var links = [String]()
         
         data.forEach { (subDict) in
-            if let arrayOfImageDicts = subDict["images"] as? [[String: AnyObject]], let imageDict = arrayOfImageDicts.first, shouldAddImage(withDictionary: imageDict), let link = imageDict["link"] as? String {
+            if let arrayOfImageDicts = subDict[key_images] as? [[String: AnyObject]], let imageDict = arrayOfImageDicts.first, shouldAddImage(withDictionary: imageDict), let link = imageDict[key_link] as? String {
                 links.append(link)
                 if links.count >= count {
                     handler(links)
@@ -33,7 +38,7 @@ class NetworkResponseParser: NSObject, Parsable {
     }
     
     private func shouldAddImage(withDictionary dict: [String: AnyObject]) -> Bool {
-        guard let link = dict["link"] as? String, let animated = dict["animated"] as? Bool else {
+        guard let link = dict[key_link] as? String, let animated = dict[key_animated] as? Bool else {
             return false
         }
         return !link.contains("http:") && !animated

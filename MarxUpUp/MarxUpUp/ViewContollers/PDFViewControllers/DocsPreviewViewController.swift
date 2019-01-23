@@ -22,8 +22,6 @@ class DocsPreviewViewController: UIViewController {
         
         PDFTableView.dataSource = dataSource
         PDFTableView.delegate = self
-        
-        title = ""
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +30,17 @@ class DocsPreviewViewController: UIViewController {
         guard dataSource.selectedModelIndexForUpdate != nil else {
             return
         }
-        self.PDFTableView.scrollToRow(at: IndexPath(row: dataSource.selectedModelIndexForUpdate!, section: 0), at: .none, animated: false)
+        let indexForRefresh = IndexPath(row: dataSource.selectedModelIndexForUpdate!, section: 0)
+        
+        DispatchQueue.main.async {
+            self.PDFTableView.reloadRows(at: [indexForRefresh], with: .none)
+            self.PDFTableView.scrollToRow(at: indexForRefresh, at: .top, animated: false)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

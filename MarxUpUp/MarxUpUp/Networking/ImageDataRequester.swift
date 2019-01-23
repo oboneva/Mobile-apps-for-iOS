@@ -36,13 +36,6 @@ class ImageDataRequester: NSObject {
     private var sort = ImageSort.Viral
     private var areImageIDsLoading = false
     
-    private let key_id = "id"
-    private let key_images = "images"
-    private let key_link = "link"
-    private let key_data = "data"
-    private let key_animated = "animated"
-    private let key_status = "status"
-    
     private let parser: Parsable
     
     

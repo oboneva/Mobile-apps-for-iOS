@@ -43,6 +43,7 @@ class SingleDocumentViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(pageChanged(_:)), name: .PDFViewPageChanged, object: PDFDocumentView)
         
+        navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

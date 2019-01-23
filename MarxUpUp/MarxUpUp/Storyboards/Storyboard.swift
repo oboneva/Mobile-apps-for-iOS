@@ -12,8 +12,6 @@ import UIKit
 enum Storyboard: String {
     
     case Main = "Main"
-    case Camera = "Camera"
-    case PreviewContent = "PreviewContent"
     case Annotate = "Annotate"
     case ToolboxItem = "ToolboxItem"
     

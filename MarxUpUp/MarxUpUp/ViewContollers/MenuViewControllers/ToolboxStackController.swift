@@ -22,6 +22,9 @@ class ToolboxStackController {
     init(withStackView view: UIStackView, andParentController controller: UIViewController) {
         self.controller = controller
         self.view = view
+        if controller.isMember(of: SingleDocumentViewController.self) {
+            contentType = .PDF
+        }
         dataSource = ToolboxDataSource(forItemsFromType: contentType)
         ToolboxInitializer.addToolboxItems(toView: view, withTarget: self, #selector(toolboxItemPressed(_:)), andDataSource: dataSource)
     }

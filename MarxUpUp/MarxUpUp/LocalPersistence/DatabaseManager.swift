@@ -89,6 +89,7 @@ extension DatabaseManager: ContentLoading {
 
             if docs.count == 0 {
                 FileManager.getDataFromDefaultDocuments().forEach { savePDFWithData($0) }
+                return loadPDFs()
             }
             return docs.map { (doc) -> LocalContentModel in
                 LocalContentModel(doc.pdfData ?? Data(), doc.objectID.uriRepresentation())

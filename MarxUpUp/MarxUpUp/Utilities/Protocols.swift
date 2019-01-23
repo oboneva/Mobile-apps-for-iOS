@@ -55,6 +55,7 @@ protocol ContentDeleting {
 protocol CameraInterface: AnyObject {
     func switchPosition()
     func stop()
+    func start()
     func takePhoto()
     func updateOrientation(forView view: UIView)
     var isSupportedByTheDevice: Bool { get }

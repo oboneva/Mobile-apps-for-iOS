@@ -21,6 +21,12 @@ class ImagesPreviewViewController: UIViewController {
     
     var initialDataFilter = DataFilter(local: false, sort: ImageSort.Viral)
     
+    var tabSize: CGSize {
+        get {
+            return CGSize(width: tabsCollectionView.frame.size.width * 0.33, height: tabsCollectionView.frame.size.height)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,13 +41,11 @@ class ImagesPreviewViewController: UIViewController {
         
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
-        
-//        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        title = ""
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.isNavigationBarHidden = true
         if tabsCollectionView.indexPathsForSelectedItems?.count == 0 {
             collectionView(tabsCollectionView, didSelectItemAt: tabsDataSource.defaultSelectedTabIndex)
         }
@@ -151,10 +155,10 @@ class ImagesPreviewViewController: UIViewController {
         
         return [delete]
     }
-    
+
 }
 
-extension ImagesPreviewViewController: UICollectionViewDelegate {
+extension ImagesPreviewViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if tabsDataSource.selectedTabIndex == indexPath {
             return
@@ -170,6 +174,10 @@ extension ImagesPreviewViewController: UICollectionViewDelegate {
                 newImagesCount == 0 ? (self.imagesFooterView.subviews.last?.isHidden = false) : (self.imagesFooterView.subviews.last?.isHidden = true)
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return tabSize
     }
 }
 

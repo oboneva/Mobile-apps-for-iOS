@@ -21,17 +21,17 @@ class PhotoCaptureViewController: UIViewController {
         super.viewDidLoad()
         camera = Camera(outputView: self.photoPreviewView)
         presentAlertIfNeeded()
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        view.bringSubviewToFront(self.switchCameraButton)
-        view.bringSubviewToFront(self.takePhotoButton)
+        camera.start()
+        photoPreviewView.bringSubviewToFront(self.switchCameraButton)
+        photoPreviewView.bringSubviewToFront(self.takePhotoButton)
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.isNavigationBarHidden = true
     }
     
     func presentAlertIfNeeded() {
@@ -63,6 +63,8 @@ class PhotoCaptureViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        camera.updateOrientation(forView: photoPreviewView)
+        if isViewLoaded {
+                camera.updateOrientation(forView: photoPreviewView)
+        }
     }
 }
