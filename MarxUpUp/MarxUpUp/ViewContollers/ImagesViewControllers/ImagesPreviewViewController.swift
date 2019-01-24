@@ -179,6 +179,14 @@ extension ImagesPreviewViewController: UITableViewDelegate {
             return
         }
         annotateImageController.image = imagesDataSource.getImage(atIndex: indexPath.row)
+        if annotateImageController.image?.pngData() == nil {
+            imagesDataSource.reloadImage(atIndexPath: indexPath) { (data) in
+                guard data != nil, let image = UIImage(data: data!) else {
+                    return
+                }
+                annotateImageController.imageIsLoaded(image)
+            }
+        }
         annotateImageController.updateDatabaseDelegate = imagesDataSource
         imagesDataSource.selectedModelIndexForUpdate = indexPath.row
         navigationController?.pushViewController(annotateImageController, animated: true)

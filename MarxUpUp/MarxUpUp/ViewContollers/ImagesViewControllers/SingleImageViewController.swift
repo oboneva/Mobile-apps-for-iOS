@@ -12,7 +12,7 @@ class SingleImageViewController: UIViewController {
 
     @IBOutlet weak var annotatedImageView: UIImageView!
     var toolboxView: UIView?
-    var image = UIImage()
+    var image: UIImage?
     private var annotator: Annotating!
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
 
@@ -26,7 +26,7 @@ class SingleImageViewController: UIViewController {
         
         annotatedImageView.image = image
         
-        if annotator == nil {
+        if annotator == nil, image != nil {
             annotator = Annotator(forAnnotating: annotatedImageView)
         }
         
@@ -62,8 +62,22 @@ class SingleImageViewController: UIViewController {
         }
     }
     
+    func imageIsLoaded(_ image: UIImage) {
+        if annotatedImageView != nil {
+            DispatchQueue.main.async {
+                self.image = image
+                self.annotatedImageView.image = image
+                self.annotator = Annotator(forAnnotating: self.annotatedImageView)
+            }
+        }
+    }
+    
     //MARK: - Handle Touches
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard image != nil else {
+            return
+        }
+        
         if let touch = touches.first {
             guard let imageSize = annotatedImageView.image?.size else {
                 return
@@ -74,6 +88,10 @@ class SingleImageViewController: UIViewController {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard image != nil else {
+            return
+        }
+        
         if let touch = touches.first {
             guard let imageSize = annotatedImageView.image?.size else {
                 return
@@ -84,6 +102,10 @@ class SingleImageViewController: UIViewController {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard image != nil else {
+            return
+        }
+        
         if let touch = touches.first {
             guard let imageSize = annotatedImageView.image?.size else {
                 return

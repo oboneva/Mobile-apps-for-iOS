@@ -169,6 +169,10 @@ extension ImagePreviewTableViewDataSource {
         }
     }
     
+    func reloadImage(atIndexPath indexPath: IndexPath, withCompletionHandler handler: @escaping (Data?) -> Void) {
+        imageDataRequester.imageData(withLink: imageURLs[indexPath.row], andCompletion: handler)
+    }
+    
     func addData(withCompletion handler: @escaping (Int?) -> Void) {
         if filter.isDataLocal {
             handler(nil)
