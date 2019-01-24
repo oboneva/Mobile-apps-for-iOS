@@ -128,10 +128,11 @@ extension Camera: CameraInterface {
         captureSession.addInput(cameraInput.deviceInput!)
     }
     
-    func updateOrientation(forView view: UIView) {
+    func updateOrientation(forView view: UIView, withSize size: CGSize) {
         DispatchQueue.main.async {
             self.previewLayer.connection?.videoOrientation = self.currentVideoOrientation
             self.previewLayer.frame = view.bounds
+            self.previewLayer.frame.size = size
         }
     }
     

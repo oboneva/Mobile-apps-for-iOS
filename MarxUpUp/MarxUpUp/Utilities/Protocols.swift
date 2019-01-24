@@ -57,7 +57,7 @@ protocol CameraInterface: AnyObject {
     func stop()
     func start()
     func takePhoto()
-    func updateOrientation(forView view: UIView)
+    func updateOrientation(forView view: UIView, withSize size: CGSize)
     var isSupportedByTheDevice: Bool { get }
 }
 

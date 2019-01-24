@@ -64,7 +64,8 @@ class PhotoCaptureViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if isViewLoaded {
-                camera.updateOrientation(forView: photoPreviewView)
+            print(size)
+                camera.updateOrientation(forView: photoPreviewView, withSize: size)
         }
     }
 }
