@@ -208,7 +208,7 @@
                                 <rect key="frame" x="0.0" y="124" width="375" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="qAi-Kh-gXX">
-                                    <rect key="frame" x="0.0" y="459" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="458" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pYT-L1-8Zd">
@@ -222,17 +222,17 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesPreviewTableViewCellID" rowHeight="431" id="Qng-7c-iYE" customClass="ImagesPreviewTableViewCell" customModule="MarxUpUp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="431"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesPreviewTableViewCellID" rowHeight="430" id="Qng-7c-iYE" customClass="ImagesPreviewTableViewCell" customModule="MarxUpUp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="430"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qng-7c-iYE" id="FgR-SG-jhD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="430.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="429.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s9J-12-M6y">
-                                                    <rect key="frame" x="0.0" y="10" width="375" height="410.5"/>
+                                                    <rect key="frame" x="0.0" y="10" width="375" height="409.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="410.5" id="omj-Z0-grB"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="410" id="omj-Z0-grB"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -308,7 +308,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5z-TX-wpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1078" y="-634"/>
+            <point key="canvasLocation" x="1077.5999999999999" y="-634.632683658171"/>
         </scene>
         <!--Images-->
         <scene sceneID="B2n-5M-ZEu">
