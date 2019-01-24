@@ -44,6 +44,11 @@ class SingleImageViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIGraphicsEndImageContext()
+    }
+    
     private func configureToolboxView() {
         toolboxDelegate = ToolboxStackController(withStackView: toolboxStackView, andParentController: self)
         toolboxDelegate?.toolboxItemDelegate = annotator as? ToolboxItemDelegate
