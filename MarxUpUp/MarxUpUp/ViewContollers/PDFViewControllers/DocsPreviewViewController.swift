@@ -13,6 +13,7 @@ class DocsPreviewViewController: UIViewController {
     @IBOutlet weak var PDFTableView: UITableView!
     var dataSource: DocsPreviewTableViewDataSource!
     
+//MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +35,7 @@ class DocsPreviewViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.PDFTableView.reloadRows(at: [indexForRefresh], with: .none)
-            self.PDFTableView.scrollToRow(at: indexForRefresh, at: .top, animated: false)
+            self.PDFTableView.scrollToRow(at: indexForRefresh, at: .none, animated: false)
         }
     }
     
@@ -42,12 +43,9 @@ class DocsPreviewViewController: UIViewController {
         super.viewDidAppear(animated)
         navigationController?.isNavigationBarHidden = true
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 430
-    }
 }
 
+//MARK: - UITableViewDelegate Methods
 extension DocsPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
@@ -70,8 +68,12 @@ extension DocsPreviewViewController: UITableViewDelegate {
         return [delete]
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 430
+    }
 }
 
+//MARK: - Set Dependacies For Unit Tests
 extension DocsPreviewViewController {
     func setDependencies(_ dataSource: DocsPreviewTableViewDataSource) {
         self.dataSource = dataSource

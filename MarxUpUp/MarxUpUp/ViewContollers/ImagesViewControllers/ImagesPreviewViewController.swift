@@ -27,6 +27,7 @@ class ImagesPreviewViewController: UIViewController {
         }
     }
     
+//MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +52,33 @@ class ImagesPreviewViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard imagesDataSource.selectedModelIndexForUpdate != nil else {
+            return
+        }
+        if !tabsDataSource.filter(atIndex: tabsDataSource.selectedTabIndex.item).isDataLocal {
+            self.imagesTableView.scrollToRow(at: IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0), at: .none, animated: false)
+            return
+        }
+        
+        self.imagesDataSource.refreshData { (_) in
+            let indexForRefresh = IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0)
+            DispatchQueue.main.async {
+                self.imagesTableView.reloadRows(at: [indexForRefresh], with: .none)
+                self.imagesTableView.scrollToRow(at: indexForRefresh, at: .none, animated: false)
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if isMovingFromParent {
+            imagesDataSource.viewContainerControllerWillBeDismissed()
+        }
+        super.viewDidDisappear(animated)
+    }
+    
+//MARK: - Configure Views
     private func configTabsCollection() {
         tabsCollectionView.dataSource = tabsDataSource
         tabsCollectionView.delegate = self
@@ -63,22 +91,7 @@ class ImagesPreviewViewController: UIViewController {
         imagesTableView.delegate = self
     }
     
-    private func addRefreshControl() {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshImagesTableViewData(_:)), for: UIControl.Event.valueChanged)
-        imagesTableView.insertSubview(refreshControl, at: 0)
-        imagesTableView.refreshControl = refreshControl
-    }
-    
-    private func addDefaultLabel() {
-        let label = UILabel()
-        label.text = "No images found :("
-        label.sizeToFit()
-        self.imagesFooterView.addSubview(label)
-        label.isHidden = true
-        label.center = self.imagesFooterView.center
-    }
-    
+//MARK: - Manage Data
     @objc func refreshImagesTableViewData(_ refreshControl: UIRefreshControl) {
         imagesDataSource.refreshData { _ in
             DispatchQueue.main.async {
@@ -110,31 +123,22 @@ class ImagesPreviewViewController: UIViewController {
             }
         }
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard imagesDataSource.selectedModelIndexForUpdate != nil else {
-            return
-        }
-        if !tabsDataSource.filter(atIndex: tabsDataSource.selectedTabIndex.item).isDataLocal {
-            self.imagesTableView.scrollToRow(at: IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0), at: .middle, animated: false)
-            return
-        }
-        
-        self.imagesDataSource.refreshData { (_) in
-            let indexForRefresh = IndexPath(row: self.imagesDataSource.selectedModelIndexForUpdate!, section: 0)
-            DispatchQueue.main.async {
-                self.imagesTableView.reloadRows(at: [indexForRefresh], with: .none)
-                 self.imagesTableView.scrollToRow(at: indexForRefresh, at: .middle, animated: false)
-            }
-        }
+    
+//MARK: - Other Methods
+    private func addRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshImagesTableViewData(_:)), for: UIControl.Event.valueChanged)
+        imagesTableView.insertSubview(refreshControl, at: 0)
+        imagesTableView.refreshControl = refreshControl
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        if isMovingFromParent {
-            imagesDataSource.viewContainerControllerWillBeDismissed()
-        }
-        super.viewDidDisappear(animated)
+    private func addDefaultLabel() {
+        let label = UILabel()
+        label.text = "No images found :("
+        label.sizeToFit()
+        self.imagesFooterView.addSubview(label)
+        label.isHidden = true
+        label.center = self.imagesFooterView.center
     }
     
     func setSelectedTab(atIndexPath indexPath: IndexPath) {
@@ -142,22 +146,9 @@ class ImagesPreviewViewController: UIViewController {
         tabsDataSource.selectedTabIndex = indexPath
         tabsCollectionView.reloadItems(at: [prevIndexPath, indexPath])
     }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard imagesDataSource.couldDeleteImage else {
-            return []
-        }
-        
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            self.imagesDataSource.removeObjectAtIndex(indexPath)
-            self.imagesTableView.deleteRows(at: [indexPath], with: .fade)
-        }
-        
-        return [delete]
-    }
-
 }
 
+//MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout Methods
 extension ImagesPreviewViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if tabsDataSource.selectedTabIndex == indexPath {
@@ -181,6 +172,7 @@ extension ImagesPreviewViewController: UICollectionViewDelegate, UICollectionVie
     }
 }
 
+//MARK: - UITableViewDelegate Methods
 extension ImagesPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let annotateImageController = SingleImageViewController.instantiateFromStoryboard(storyborad: Storyboard.Annotate) as? SingleImageViewController else {
@@ -191,8 +183,22 @@ extension ImagesPreviewViewController: UITableViewDelegate {
         imagesDataSource.selectedModelIndexForUpdate = indexPath.row
         navigationController?.pushViewController(annotateImageController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard imagesDataSource.couldDeleteImage else {
+            return []
+        }
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.imagesDataSource.removeObjectAtIndex(indexPath)
+            self.imagesTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        return [delete]
+    }
 }
 
+//MARK: - Set Dependacies For Unit Tests
 extension ImagesPreviewViewController{
     func setDependencies(_ imagesDataSource: ImagePreviewTableViewDataSource) {
         self.imagesDataSource = imagesDataSource
