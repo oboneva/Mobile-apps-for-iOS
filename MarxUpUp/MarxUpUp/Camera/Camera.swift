@@ -20,6 +20,12 @@ class Camera: NSObject {
             return output
     }()
     private var previewLayer: AVCaptureVideoPreviewLayer
+    var position = AVCaptureDevice.Position.back
+    let device = UIDevice.current
+    
+    private var currentVideoOrientation: AVCaptureVideoOrientation {
+        return AVCaptureVideoOrientation(rawValue: device.orientation.rawValue) ?? .portrait
+    }
     
     init(outputView view: UIView) {
         captureSession = AVCaptureSession()
@@ -27,7 +33,7 @@ class Camera: NSObject {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         super.init()
         
-        cameraInput = CameraInput(withPosition: AVCaptureDevice.Position.back)
+        cameraInput = CameraInput(withPosition: position)
         guard cameraInput.deviceInput != nil else {
             return
         }
@@ -39,9 +45,12 @@ class Camera: NSObject {
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspect
         view.layer.addSublayer(previewLayer)
         
+        device.beginGeneratingDeviceOrientationNotifications()
+        
         DispatchQueue.global().async {
             self.captureSession.startRunning()
             DispatchQueue.main.async {
+                self.previewLayer.connection?.videoOrientation = self.currentVideoOrientation
                 self.previewLayer.frame = view.bounds
             }
         }
@@ -88,6 +97,10 @@ extension Camera: CameraInterface {
             return
         }
         
+        if let connection = captureOutput.connection(with: .video) {
+            connection.videoOrientation = currentVideoOrientation
+        }
+        
         let photoSetings = AVCapturePhotoSettings()
         photoSetings.isHighResolutionPhotoEnabled = true
         photoSetings.flashMode = .off
@@ -100,14 +113,14 @@ extension Camera: CameraInterface {
         guard cameraInput.deviceInput != nil else {
             return
         }
-        
         captureSession.removeInput(cameraInput.deviceInput!)
-        if cameraInput.position == AVCaptureDevice.Position.back {
-            cameraInput = CameraInput(withPosition: AVCaptureDevice.Position.front)
+        if position == .back {
+            position = .front
         }
         else {
-            cameraInput = CameraInput(withPosition: AVCaptureDevice.Position.back)
+            position = .back
         }
+        cameraInput.position = position
         
         guard cameraInput.deviceInput != nil else {
             return
@@ -117,7 +130,9 @@ extension Camera: CameraInterface {
     
     func updateOrientation(forView view: UIView) {
         DispatchQueue.main.async {
+            self.previewLayer.connection?.videoOrientation = self.currentVideoOrientation
             self.previewLayer.frame = view.bounds
         }
     }
+    
 }
