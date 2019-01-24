@@ -130,6 +130,7 @@ class SingleDocumentViewController: UIViewController {
         currentPageLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.6)
         currentPageLabel.layer.cornerRadius = 4
         currentPageLabel.alpha = 1
+        view.bringSubviewToFront(currentPageLabel)
         
         updatePageCount()
         fadeLabel()
@@ -152,11 +153,14 @@ class SingleDocumentViewController: UIViewController {
     @objc func pageChanged(_ notif: NSNotification) {
         updatePageCount()
         currentPageLabel.sizeToFit()
-        currentPageLabel.alpha = 1
+        DispatchQueue.main.async {
+            self.currentPageLabel.alpha = 1
+            self.fadeLabel()
+        }
     }
     
     func fadeLabel() {
-        UIView.animate(withDuration: 8, delay: 5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: [],
+        UIView.animate(withDuration: 3, delay: 2, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: [],
                        animations: {
                         self.currentPageLabel.alpha = 0
         }, completion: nil)
@@ -165,7 +169,7 @@ class SingleDocumentViewController: UIViewController {
     func updatePageCount() {
         let current = 1 + ((document?.index(for: PDFDocumentView.currentPage ?? PDFPage())) ?? 0)
         let all = document?.pageCount ?? 0
-        currentPageLabel.text = "  \(current) / \(all)  "
+        currentPageLabel.text = "  \(current) | \(all)  "
     }
 }
 
