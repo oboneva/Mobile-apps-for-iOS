@@ -30,7 +30,7 @@ class ToolboxInitializer: NSObject {
             view.addArrangedSubview(button)
         }
         
-        view.layer.cornerRadius = 10
+        view.superview?.layer.cornerRadius = 10
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
 }

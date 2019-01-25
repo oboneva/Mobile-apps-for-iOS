@@ -184,28 +184,16 @@ extension SingleDocumentViewController: DrawDelegate {
 //MARK: - UIGestureRecognizerDelegate Methods
 extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     @objc func handleTapGestureWithRecogniser(_ recognizer: UITapGestureRecognizer) {
-        guard toolboxStackView?.isHidden == true else {
-            toolboxStackView?.isHidden = true
-            toolboxStackView?.superview?.isHidden = true
-            return
+        let touch = recognizer.location(in: view)
+        if toolboxStackView.superview?.point(inside: touch, with: nil) != nil {
+                toolboxStackView?.isHidden = true
+                toolboxStackView?.superview?.isHidden = true
         }
-//        let point = recognizer.location(in: PDFDocumentView.documentView)
-//        guard let annotation = PDFDocumentView.currentPage?.annotation(at: point) else {
-//            return
-//        }
-//        
-//        annotation.border = PDFBorder()
-//        annotation.border?.style = PDFBorderStyle.dashed
-//        annotation.border?.lineWidth = 2
-//        let b = annotation.bounds
-//        
-//        UIColor.black.setStroke()
-//        annotation.border?.draw(in: CGRect(x: b.minX - 2, y: b.minY - 2, width: b.width + 2, height: b.height + 2))
         
-//        let a = PDFAnnotation(bounds: CGRect(x: 0, y: 0, width: 50, height: 50), forType: PDFAnnotationSubtype.highlight, withProperties: nil)
-//        a.isHighlighted = true
-        PDFDocumentView.clearSelection()
-        willBeginDrawing()
+        if PDFDocumentView.documentView?.point(inside: touch, with: nil) ?? false {
+            PDFDocumentView.clearSelection()
+            willBeginDrawing()
+        }
     }
 }
 
