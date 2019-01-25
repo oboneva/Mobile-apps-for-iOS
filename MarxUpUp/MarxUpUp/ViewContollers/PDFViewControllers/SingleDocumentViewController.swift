@@ -121,7 +121,7 @@ class SingleDocumentViewController: UIViewController {
     private func configurePDFThumbnailView() {
         PDFDocumentThumbnailView.pdfView = PDFDocumentView
         let thumbnailViewHeight = PDFDocumentThumbnailView.frame.size.height
-        PDFDocumentThumbnailView.thumbnailSize = CGSize(width: 100, height: thumbnailViewHeight * 0.8)
+        PDFDocumentThumbnailView.thumbnailSize = CGSize(width: 40, height: thumbnailViewHeight * 0.8)
         PDFDocumentThumbnailView.layoutMode = PDFThumbnailLayoutMode.horizontal
         PDFDocumentThumbnailView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
