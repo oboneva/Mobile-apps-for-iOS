@@ -28,7 +28,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TIw-gA-czc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="248.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="217" y="609"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="vXJ-xR-fiG">
@@ -48,7 +48,6 @@
                     <connections>
                         <segue destination="Dob-23-5wQ" kind="relationship" relationship="viewControllers" id="R1L-0C-Qgo"/>
                         <segue destination="Kr0-X9-t0K" kind="relationship" relationship="viewControllers" id="b6Z-g3-A1p"/>
-                        <segue destination="yoM-Ku-paF" kind="relationship" relationship="viewControllers" id="VFl-Yo-Ma6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gsD-pW-Sf8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -108,26 +107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eir-Bh-or4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1079" y="922"/>
-        </scene>
-        <!--Camera-->
-        <scene sceneID="tRC-Um-GsU">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yoM-Ku-paF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Camera" image="tab-camera" id="rFC-cK-mxN"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NOn-5j-O6B">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="EQy-Ue-asp" kind="relationship" relationship="rootViewController" id="pnd-q9-hyI"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bqu-P5-3ej" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="249" y="922"/>
+            <point key="canvasLocation" x="2006" y="-66"/>
         </scene>
         <!--Docs Preview View Controller-->
         <scene sceneID="S0T-bj-WGS">
@@ -194,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gsa-GH-ESy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1078" y="134"/>
+            <point key="canvasLocation" x="1025" y="619"/>
         </scene>
         <!--Images Preview View Controller-->
         <scene sceneID="qBu-sw-baR">
@@ -298,7 +278,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6lP-R6-95V"/>
                     </view>
-                    <navigationItem key="navigationItem" id="c6T-o2-g7m"/>
+                    <navigationItem key="navigationItem" id="c6T-o2-g7m">
+                        <barButtonItem key="rightBarButtonItem" image="tab-camera" id="YSU-ml-cna">
+                            <connections>
+                                <segue destination="EQy-Ue-asp" kind="show" id="Mxu-a2-RRz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="pYT-L1-8Zd" id="Lg6-pz-Z8Z"/>
                         <outlet property="imagesFooterView" destination="qAi-Kh-gXX" id="kom-ou-alS"/>
@@ -308,7 +294,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5z-TX-wpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077.5999999999999" y="-634.632683658171"/>
+            <point key="canvasLocation" x="1026" y="-66"/>
         </scene>
         <!--Images-->
         <scene sceneID="B2n-5M-ZEu">
@@ -327,7 +313,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tkf-cE-Bpq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="249" y="-634"/>
+            <point key="canvasLocation" x="217" y="-66"/>
         </scene>
     </scenes>
     <resources>

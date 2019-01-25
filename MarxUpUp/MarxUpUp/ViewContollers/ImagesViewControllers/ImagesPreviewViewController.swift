@@ -46,7 +46,6 @@ class ImagesPreviewViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.isNavigationBarHidden = true
         if tabsCollectionView.indexPathsForSelectedItems?.count == 0 {
             collectionView(tabsCollectionView, didSelectItemAt: tabsDataSource.defaultSelectedTabIndex)
         }
