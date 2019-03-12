@@ -8,3 +8,5 @@ Tic-Tac-Toe/Tic-Tac-ToeUITests
 .DS_Store
 MarxUp/MarxUp/.DS_Store
 MarxUpUp/MarxUpUpTests/MarxUpUpTests.swift
+*.yml
+.DS_Store
