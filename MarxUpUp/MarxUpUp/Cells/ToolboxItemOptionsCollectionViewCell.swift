@@ -9,6 +9,6 @@
 import UIKit
 
 class ToolboxItemOptionsCollectionViewCell: UICollectionViewCell {
-    
+
     @IBOutlet weak var itemImageView: UIImageView!
 }

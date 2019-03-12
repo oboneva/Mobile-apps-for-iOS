@@ -11,7 +11,7 @@ import XCTest
 @testable import MarxUpUp
 
 class ArrowsDataSourceTests: XCTestCase {
-    
+
     var dataSource: ArrowsCollectionViewDataSource!
     let collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
 
@@ -29,19 +29,19 @@ class ArrowsDataSourceTests: XCTestCase {
     func testNumberOfSections() {
         XCTAssertEqual(dataSource.numberOfSections(in: collectionView), 1)
     }
-    
+
     func testNumberOfItemsInTheSection() {
         XCTAssertEqual(dataSource.collectionView(collectionView, numberOfItemsInSection: 0), 2)
     }
-    
+
     func testOptionAtIndex() {
-        XCTAssertEqual(ArrowEndLineType.Open.rawValue, dataSource.option(atIndex: 0))
-        XCTAssertEqual(ArrowEndLineType.Closed.rawValue, dataSource.option(atIndex: 1))
+        XCTAssertEqual(ArrowEndLineType.open.rawValue, dataSource.option(atIndex: 0))
+        XCTAssertEqual(ArrowEndLineType.closed.rawValue, dataSource.option(atIndex: 1))
     }
-    
+
     func testOptionAtIndexOutOfBounds() {
         XCTAssertEqual(-1, dataSource.option(atIndex: -5))
         XCTAssertEqual(-1, dataSource.option(atIndex: 10))
     }
-    
+
 }

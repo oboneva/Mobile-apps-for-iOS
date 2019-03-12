@@ -11,20 +11,19 @@ import CoreData
 
 class DatabaseManager: NSObject, LocalContentManaging {
     private var context: NSManagedObjectContext
-    
+
     init(withContainer container: NSPersistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer) {
         context = container.viewContext
     }
-    
+
     private func saveChanges() {
         do {
             try context.save()
-        }
-        catch {
+        } catch {
             print("Error: Saving changes failed")
         }
     }
-    
+
     private func objectWithID(_ id: URL) -> NSManagedObject? {
         guard let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: id) else {
             print("Error: Creation of ID from URL failed")
@@ -38,14 +37,14 @@ extension DatabaseManager: ContentUpdating {
     func updatePDF(_ id: URL, withData data: Data) {
         let pdf = objectWithID(id) as? PDF
         pdf?.pdfData = data
-        
+
         saveChanges()
     }
 
     func updateImage(_ id: URL, withData data: Data) {
         let image = objectWithID(id) as? Image
         image?.imageData = data
-        
+
         saveChanges()
     }
 }
@@ -70,12 +69,11 @@ extension DatabaseManager: ContentLoading {
             guard let images = try context.fetch(Image.fetchRequest()) as? [Image] else {
                 return [LocalContentModel]()
             }
-            
+
             return images.map { (image) -> LocalContentModel in
                 LocalContentModel(image.imageData ?? Data(), image.objectID.uriRepresentation())
             }
-        }
-        catch {
+        } catch {
             print("Error: Fetching images failed")
         }
         return [LocalContentModel]()
@@ -94,29 +92,28 @@ extension DatabaseManager: ContentLoading {
             return docs.map { (doc) -> LocalContentModel in
                 LocalContentModel(doc.pdfData ?? Data(), doc.objectID.uriRepresentation())
             }
-        }
-        catch {
+        } catch {
             print("Error: Fetching documents failed")
         }
         return [LocalContentModel]()
     }
 }
 
-extension DatabaseManager : ContentDeleting {
+extension DatabaseManager: ContentDeleting {
     func deleteImage(_ id: URL) {
         guard let image = objectWithID(id) as? Image else {
             return
         }
-        
+
         context.delete(image)
         saveChanges()
     }
-    
+
     func deletePDF(_ id: URL) {
         guard let pdf = objectWithID(id) as? PDF else {
             return
         }
-        
+
         context.delete(pdf)
         saveChanges()
     }

@@ -12,15 +12,15 @@ class DocsPreviewViewController: UIViewController {
 
     @IBOutlet weak var PDFTableView: UITableView!
     var dataSource: DocsPreviewTableViewDataSource!
-    
-//MARK: - View Lifecycle Methods
+
+// MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if dataSource == nil {
             dataSource = DocsPreviewTableViewDataSource()
         }
-        
+
         PDFTableView.dataSource = dataSource
         PDFTableView.delegate = self
     }
@@ -32,24 +32,25 @@ class DocsPreviewViewController: UIViewController {
             return
         }
         let indexForRefresh = IndexPath(row: dataSource.selectedModelIndexForUpdate!, section: 0)
-        
+
         DispatchQueue.main.async {
             self.PDFTableView.reloadRows(at: [indexForRefresh], with: .none)
             self.PDFTableView.scrollToRow(at: indexForRefresh, at: .none, animated: false)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.isNavigationBarHidden = true
     }
 }
 
-//MARK: - UITableViewDelegate Methods
+// MARK: - UITableViewDelegate Methods
 extension DocsPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let controller = SingleDocumentViewController.instantiateFromStoryboard(storyborad: Storyboard.Annotate) as? SingleDocumentViewController else {
+        guard let controller = SingleDocumentViewController.instantiateFromStoryboard(
+            storyborad: Storyboard.annotate) as? SingleDocumentViewController else {
             print("Error: SingleDocumentViewController cannot be instantiated from storyboard")
             return
         }
@@ -58,22 +59,22 @@ extension DocsPreviewViewController: UITableViewDelegate {
         dataSource.selectedModelIndexForUpdate = indexPath.row
         navigationController?.pushViewController(controller, animated: true)
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (_, indexPath) in
             self.dataSource.removeObjectAtIndexPath(indexPath)
             self.PDFTableView.deleteRows(at: [indexPath], with: .fade)
         }
-        
+
         return [delete]
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 430
     }
 }
 
-//MARK: - Set Dependacies For Unit Tests
+// MARK: - Set Dependacies For Unit Tests
 extension DocsPreviewViewController {
     func setDependencies(_ dataSource: DocsPreviewTableViewDataSource) {
         self.dataSource = dataSource

@@ -10,12 +10,12 @@ import UIKit
 
 class ImagesPreviewTableViewCell: UITableViewCell {
     @IBOutlet weak var URLImageView: UIImageView!
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         URLImageView.image = nil
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(false, animated: false)
     }

@@ -10,7 +10,8 @@ import UIKit
 
 protocol NetworkSession: AnyObject {
     var imagesDataTaskCurrentlyInProgress: Bool? { get }
-    func dataTask(with request: URLRequest, completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask
+    func dataTask(with request: URLRequest,
+                  completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask
     func allTasks(completionHandler: @escaping ([NetworkSessionDataTask]) -> Void)
     func invalidateAndCancel()
 }
@@ -18,10 +19,11 @@ protocol NetworkSession: AnyObject {
 protocol NetworkSessionDataTask: AnyObject {
     func resume()
     func cancel()
-    
+
     var currentRequest: URLRequest? { get }
 }
 
 protocol Parsable: AnyObject {
-    func linksFromJSONDict(_ dictionary: [String:AnyObject], countPerPage count: Int, andCompletion handler:([String]) -> Void)
+    func linksFromJSONDict(_ dictionary: [String: AnyObject], countPerPage count: Int,
+                           andCompletion handler: ([String]) -> Void)
 }

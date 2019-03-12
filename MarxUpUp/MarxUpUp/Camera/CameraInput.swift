@@ -13,7 +13,6 @@ class CameraInput: NSObject {
 
     private var captureDevice: AVCaptureDevice?
     var deviceInput: AVCaptureDeviceInput?
-    
     var position: AVCaptureDevice.Position? {
         get {
             return captureDevice?.position
@@ -27,14 +26,14 @@ class CameraInput: NSObject {
             deviceInput = new.deviceInput
         }
     }
-    
-    init(withPosition position:AVCaptureDevice.Position) {
-        guard let captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: position) else {
+    init(withPosition position: AVCaptureDevice.Position) {
+        guard let captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera,
+                                                          for: AVMediaType.video, position: position) else {
             return
         }
         do {
             try captureDevice.lockForConfiguration()
-            if (captureDevice.isFocusModeSupported(AVCaptureDevice.FocusMode.autoFocus)) {
+            if captureDevice.isFocusModeSupported(AVCaptureDevice.FocusMode.autoFocus) {
                 captureDevice.focusMode = AVCaptureDevice.FocusMode.autoFocus
             }
             captureDevice.unlockForConfiguration()

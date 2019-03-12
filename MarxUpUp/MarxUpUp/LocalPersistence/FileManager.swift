@@ -16,8 +16,7 @@ class FileManager: NSObject {
                 do {
                     let data = try Data(contentsOf: url)
                     return data
-                }
-                catch {
+                } catch {
                     print("Error: Initializing data from url failed")
                     return Data()
                 }
@@ -25,13 +24,12 @@ class FileManager: NSObject {
         }
         return [Data]()
     }
-    
+
     static func getDataFromURL(_ url: URL) -> Data? {
         do {
             let data = try Data(contentsOf: url)
             return data
-        }
-        catch {
+        } catch {
             print("Error: Initializing data from url failed")
         }
         return nil

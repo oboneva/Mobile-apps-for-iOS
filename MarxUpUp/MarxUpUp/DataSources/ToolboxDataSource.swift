@@ -14,22 +14,29 @@ class ToolboxDataSource: NSObject {
     var itemsCount: Int {
         return toolboxItems.count
     }
-    
+
     init(forItemsFromType type: ContentType) {
-        var content = [ToolboxItemModel(fromType: .Pen), ToolboxItemModel(fromType: .Color), ToolboxItemModel(fromType: .Shape), ToolboxItemModel(fromType: .Width), ToolboxItemModel(fromType: .Arrow), ToolboxItemModel(fromType: .Undo), ToolboxItemModel(fromType: .Redo)]
-        
-        if type == ContentType.PDF {
-            content = [ToolboxItemModel(fromType: .Pen), ToolboxItemModel(fromType: .Color), ToolboxItemModel(fromType: .Shape), ToolboxItemModel(fromType: .Width), ToolboxItemModel(fromType: .Arrow), ToolboxItemModel(fromType: .TextUnderline), ToolboxItemModel(fromType: .TextHighlight), ToolboxItemModel(fromType: .TextStrikeThrough), ToolboxItemModel(fromType: .Undo), ToolboxItemModel(fromType: .Redo)]
+        var content = [ToolboxItemModel(fromType: .pen), ToolboxItemModel(fromType: .color),
+                       ToolboxItemModel(fromType: .shape), ToolboxItemModel(fromType: .width),
+                       ToolboxItemModel(fromType: .arrow), ToolboxItemModel(fromType: .undo),
+                       ToolboxItemModel(fromType: .redo)]
+
+        if type == ContentType.pdf {
+            content = [ToolboxItemModel(fromType: .pen), ToolboxItemModel(fromType: .color),
+                       ToolboxItemModel(fromType: .shape), ToolboxItemModel(fromType: .width),
+                       ToolboxItemModel(fromType: .textUnderline), ToolboxItemModel(fromType: .textHighlight),
+                       ToolboxItemModel(fromType: .textStrikeThrough), ToolboxItemModel(fromType: .undo),
+                       ToolboxItemModel(fromType: .redo)]
         }
-        
+
         toolboxItems = content
         super.init()
     }
-    
+
     func item(atIndex index: Int) -> ToolboxItemModel {
         return toolboxItems[index]
     }
-    
+
     func type(atIndex index: Int) -> ToolboxItemType {
         return item(atIndex: index).type
     }

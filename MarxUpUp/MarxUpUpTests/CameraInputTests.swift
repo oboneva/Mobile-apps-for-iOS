@@ -20,5 +20,5 @@ class CameraInputTests: XCTestCase {
         let input = CameraInput(withPosition: .back)
         XCTAssert(input.deviceInput == nil)
     }
-    
+
 }

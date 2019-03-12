@@ -9,26 +9,30 @@
 import UIKit
 
 final class ShapesCollectionViewDataSource: NSObject {
-    private let shapes = [ShapeModel(withShapeType: ShapeType.Circle), ShapeModel(withShapeType: ShapeType.RoundedRectangle), ShapeModel(withShapeType: ShapeType.RegularRectangle)]
+    private let shapes = [ShapeModel(withShapeType: ShapeType.circle),
+                          ShapeModel(withShapeType: ShapeType.roundedRectangle),
+                          ShapeModel(withShapeType: ShapeType.regularRectangle)]
 }
 
-extension ShapesCollectionViewDataSource : ToolboxItemCollectionDataSource {
+extension ShapesCollectionViewDataSource: ToolboxItemCollectionDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return shapes.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(fromClass: ToolboxItemOptionsCollectionViewCell.self, forIndexPath: indexPath)
-        
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(fromClass: ToolboxItemOptionsCollectionViewCell.self,
+                                                      forIndexPath: indexPath)
+
         cell.itemImageView.image = shapes[indexPath.item].image
-        
+
         return cell
     }
-    
+
     func option(atIndex index: Int) -> Int {
         return shapes[index].type.rawValue
     }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }

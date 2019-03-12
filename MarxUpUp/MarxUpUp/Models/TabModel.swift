@@ -12,7 +12,7 @@ class TabModel: NSObject {
 
     let title: String
     let filter: DataFilter
-    
+
     init(title: String, filter: DataFilter) {
         self.title = title
         self.filter = filter

@@ -11,13 +11,13 @@ import UIKit
 class ToolboxItemOptionsViewController: UIViewController {
 
     @IBOutlet weak var itemOptionsCollectionView: UICollectionView!
-    var itemType : ToolboxItemType = ToolboxItemType.Shape
-    private var dataSource : ToolboxItemCollectionDataSource?
-    weak var toolboxItemDelegate : ToolboxItemDelegate?
+    var itemType: ToolboxItemType = ToolboxItemType.shape
+    private var dataSource: ToolboxItemCollectionDataSource?
+    weak var toolboxItemDelegate: ToolboxItemDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         dataSource = itemType.dataSource()
         itemOptionsCollectionView.dataSource = dataSource
         itemOptionsCollectionView.delegate = self
@@ -26,12 +26,12 @@ class ToolboxItemOptionsViewController: UIViewController {
 }
 
 extension ToolboxItemOptionsViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let option = dataSource?.option(atIndex: indexPath.item), option >= 0 else {
             print("Error: No data source")
             return
         }
-        
+
         toolboxItemDelegate?.didChoose(option, forToolboxItem: itemType)
     }
 }

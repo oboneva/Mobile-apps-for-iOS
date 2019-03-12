@@ -11,7 +11,7 @@ import XCTest
 @testable import MarxUpUp
 
 class ShapesDataSourceTests: XCTestCase {
-    
+
     var dataSource = ShapesCollectionViewDataSource()
     let collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
 
@@ -22,10 +22,10 @@ class ShapesDataSourceTests: XCTestCase {
     func testNumberOfItemsInSection() {
         XCTAssertEqual(dataSource.collectionView(collectionView, numberOfItemsInSection: 0), 3)
     }
-    
+
     func testOptionAtIndex() {
-        XCTAssertEqual(dataSource.option(atIndex: 0), ShapeType.Circle.rawValue)
-        XCTAssertEqual(dataSource.option(atIndex: 1), ShapeType.RoundedRectangle.rawValue)
-        XCTAssertEqual(dataSource.option(atIndex: 2), ShapeType.RegularRectangle.rawValue)
+        XCTAssertEqual(dataSource.option(atIndex: 0), ShapeType.circle.rawValue)
+        XCTAssertEqual(dataSource.option(atIndex: 1), ShapeType.roundedRectangle.rawValue)
+        XCTAssertEqual(dataSource.option(atIndex: 2), ShapeType.regularRectangle.rawValue)
     }
 }

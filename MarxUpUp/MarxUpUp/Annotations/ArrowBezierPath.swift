@@ -9,24 +9,26 @@
 import UIKit
 
 class ArrowBezierPath: NSObject {
-    
+
     static func endLine(atPoint point: CGPoint, fromType type: ArrowEndLineType) -> UIBezierPath {
         let capSize = CGFloat(20)
         let rect = CGRect(x: point.x - capSize / 2, y: point.y, width: capSize, height: capSize)
-        
+
         let points = ArrowBezierPath.pointsForTriangleInRect(rect)
         let path = UIBezierPath(byConnectingThePoints: points)
-        if type == .Closed { path.close() }
-        
+        if type == .closed { path.close() }
+
         return path
     }
 
      private static func tipForTriangleInRect(_ rect: CGRect) -> CGPoint {
         return CGPoint(x: rect.minX + (rect.maxX - rect.minX) / 2, y: rect.minY)
     }
-    
+
      private static func pointsForTriangleInRect(_ rect: CGRect) -> [CGPoint] {
-        return [CGPoint(x: rect.minX, y: rect.maxY), ArrowBezierPath.tipForTriangleInRect(rect), CGPoint(x: rect.maxX, y: rect.maxY)]
+        return [CGPoint(x: rect.minX, y: rect.maxY),
+                ArrowBezierPath.tipForTriangleInRect(rect),
+                CGPoint(x: rect.maxX, y: rect.maxY)]
     }
 }
 

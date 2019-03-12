@@ -9,22 +9,24 @@
 import UIKit
 
 final class ArrowsCollectionViewDataSource: NSObject {
-    private let arrows = [ArrowModel(withType: ArrowEndLineType.Open), ArrowModel(withType: ArrowEndLineType.Closed)]
+    private let arrows = [ArrowModel(withType: ArrowEndLineType.open), ArrowModel(withType: ArrowEndLineType.closed)]
 }
 
 extension ArrowsCollectionViewDataSource: ToolboxItemCollectionDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrows.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(fromClass: ToolboxItemOptionsCollectionViewCell.self, forIndexPath: indexPath)
-        
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(fromClass: ToolboxItemOptionsCollectionViewCell.self,
+                                                      forIndexPath: indexPath)
+
         cell.itemImageView.image = arrows[indexPath.item].image
-        
+
         return cell
     }
-    
+
     func option(atIndex index: Int) -> Int {
         if index >= arrows.count || index < 0 {
             print("Error: Index out of bounds")
@@ -32,7 +34,7 @@ extension ArrowsCollectionViewDataSource: ToolboxItemCollectionDataSource {
         }
         return arrows[index].type.rawValue
     }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }

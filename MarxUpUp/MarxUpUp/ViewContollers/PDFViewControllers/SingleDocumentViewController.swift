@@ -15,44 +15,45 @@ class SingleDocumentViewController: UIViewController {
     @IBOutlet weak var PDFDocumentThumbnailView: PDFThumbnailView!
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var toolboxStackView: UIStackView!
-    
+
     var toolboxDelegate: ToolboxStackController?
-    
+
     var document: PDFDocument?
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
-    
+
     private var annotator: Annotating!
     private lazy var databaseManager = DatabaseManager()
-    
-//MARK: - View Lifecycle Methods
+
+// MARK: View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configurePDFView()
         configurePDFThumbnailView()
         configureCurrentPageLabel()
-        
+
         if annotator == nil {
             annotator = Annotator(forAnnotating: PDFDocumentView)
         }
-        
+
         configureToolboxView()
-        
+
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGestureWithRecogniser(_:)))
         tapRecognizer.delegate = self
         PDFDocumentView.addGestureRecognizer(tapRecognizer)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(pageChanged(_:)), name: .PDFViewPageChanged, object: PDFDocumentView)
-        
+
+        NotificationCenter.default.addObserver(self, selector: #selector(pageChanged(_:)),
+                                               name: .PDFViewPageChanged, object: PDFDocumentView)
+
         navigationController?.isNavigationBarHidden = false
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         PDFDocumentView.documentView?.isUserInteractionEnabled = true
         PDFDocumentView.isUserInteractionEnabled = false
     }
-    
-//MARK: - Handle Touch Events
+
+// MARK: Handle Touch Events
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         if touches.count == 1 {
@@ -78,7 +79,7 @@ class SingleDocumentViewController: UIViewController {
             self.annotator.continueAnnotating(atPoint: point)
         }
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         if let touch = touches.first {
@@ -89,12 +90,12 @@ class SingleDocumentViewController: UIViewController {
             self.annotator.endAnnotating(atPoint: point)
         }
     }
-    
-//MARK: - On Button Tap Methods
+
+// MARK: On Button Tap Methods
     @IBAction func onResetTap(_ sender: Any) {
         annotator?.reset()
     }
-    
+
     @IBAction func onSaveTap(_ sender: Any) {
         guard let data = PDFDocumentView.document?.dataRepresentation() else {
             return
@@ -103,13 +104,13 @@ class SingleDocumentViewController: UIViewController {
         annotator.save()
         toolboxStackView?.isHidden = true
     }
-    
+
     @IBAction func onToolboxTap(_ sender: Any) {
         toolboxStackView.superview?.isHidden = !toolboxStackView.isHidden
         toolboxStackView.isHidden = !toolboxStackView.isHidden
     }
-    
-//MARK: - Configure Views
+
+// MARK: Configure Views
     private func configurePDFView() {
         PDFDocumentView.document = document
         PDFDocumentView.displayMode = PDFDisplayMode.singlePage
@@ -117,7 +118,7 @@ class SingleDocumentViewController: UIViewController {
         PDFDocumentView.autoScales = true
         PDFDocumentView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
     }
-    
+
     private func configurePDFThumbnailView() {
         PDFDocumentThumbnailView.pdfView = PDFDocumentView
         let thumbnailViewHeight = PDFDocumentThumbnailView.frame.size.height
@@ -125,17 +126,17 @@ class SingleDocumentViewController: UIViewController {
         PDFDocumentThumbnailView.layoutMode = PDFThumbnailLayoutMode.horizontal
         PDFDocumentThumbnailView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-    
+
     private func configureCurrentPageLabel() {
         currentPageLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.6)
         currentPageLabel.layer.cornerRadius = 4
         currentPageLabel.alpha = 1
         view.bringSubviewToFront(currentPageLabel)
-        
+
         updatePageCount()
         fadeLabel()
     }
-    
+
     private func configureToolboxView() {
         toolboxDelegate = ToolboxStackController(withStackView: toolboxStackView, andParentController: self)
         toolboxDelegate?.toolboxItemDelegate = annotator as? ToolboxItemDelegate
@@ -148,8 +149,8 @@ class SingleDocumentViewController: UIViewController {
             view.bringSubviewToFront(toolboxStackView.superview!)
         }
     }
-    
-//MARK: - Current page label methods
+
+// MARK: Current page label methods
     @objc func pageChanged(_ notif: NSNotification) {
         updatePageCount()
         currentPageLabel.sizeToFit()
@@ -158,14 +159,14 @@ class SingleDocumentViewController: UIViewController {
             self.fadeLabel()
         }
     }
-    
+
     func fadeLabel() {
         UIView.animate(withDuration: 3, delay: 2, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: [],
                        animations: {
                         self.currentPageLabel.alpha = 0
         }, completion: nil)
     }
-    
+
     func updatePageCount() {
         let current = 1 + ((document?.index(for: PDFDocumentView.currentPage ?? PDFPage())) ?? 0)
         let all = document?.pageCount ?? 0
@@ -173,7 +174,7 @@ class SingleDocumentViewController: UIViewController {
     }
 }
 
-//MARK: - DrawDelegate Methods
+// MARK: DrawDelegate Methods
 extension SingleDocumentViewController: DrawDelegate {
     func willBeginDrawing() {
         PDFDocumentView.documentView?.isUserInteractionEnabled = true
@@ -181,7 +182,7 @@ extension SingleDocumentViewController: DrawDelegate {
     }
 }
 
-//MARK: - UIGestureRecognizerDelegate Methods
+// MARK: UIGestureRecognizerDelegate Methods
 extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     @objc func handleTapGestureWithRecogniser(_ recognizer: UITapGestureRecognizer) {
         let touch = recognizer.location(in: view)
@@ -189,7 +190,7 @@ extension SingleDocumentViewController: UIGestureRecognizerDelegate {
                 toolboxStackView?.isHidden = true
                 toolboxStackView?.superview?.isHidden = true
         }
-        
+
         if PDFDocumentView.documentView?.point(inside: touch, with: nil) ?? false {
             PDFDocumentView.clearSelection()
             willBeginDrawing()
@@ -197,17 +198,17 @@ extension SingleDocumentViewController: UIGestureRecognizerDelegate {
     }
 }
 
-//MARK: - UIPopoverPresentationControllerDelegate Methods
+// MARK: UIPopoverPresentationControllerDelegate Methods
 extension SingleDocumentViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+    func adaptivePresentationStyle(for controller: UIPresentationController,
+                                   traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
 }
 
-//MARK: - Set Dependacies For Unit Tests
+// MARK: Set Dependacies For Unit Tests
 extension SingleDocumentViewController {
-    func setDependancies(_ annotator: Annotating){
+    func setDependancies(_ annotator: Annotating) {
         self.annotator = annotator
     }
 }
-

@@ -9,105 +9,104 @@
 import Foundation
 
 enum ContentType {
-    case PDF, Image
+    case pdf, image
 }
 
 enum ArrowEndLineType: Int {
-    case Open, Closed
-    
+    case open, closed
+
     var description: String {
         switch self {
-        case .Open:
+        case .open:
             return "open"
-        case .Closed:
+        case .closed:
             return "closed"
         }
     }
 }
 
-enum ToolboxItemType {
-    case Color, Shape, Pen, Arrow, Width, TextUnderline, TextHighlight, TextStrikeThrough, Undo, Redo
-    
+enum ToolboxItemType: Int {
+    case color, shape, pen, arrow, width, textUnderline, textHighlight, textStrikeThrough, undo, redo
+
     var description: String {
         switch self {
-        case .Color:
+        case .color:
             return "color"
-        case .Pen:
+        case .pen:
             return "pen"
-        case .Arrow:
+        case .arrow:
             return "arrow"
-        case .Shape:
+        case .shape:
             return "shape"
-        case .Width:
+        case .width:
             return "width"
-        case .TextUnderline:
+        case .textUnderline:
             return "textUnderline"
-        case .TextHighlight:
+        case .textHighlight:
             return "textHighlight"
-        case .TextStrikeThrough:
+        case .textStrikeThrough:
             return "textStrikeThrough"
-        case .Undo:
+        case .undo:
             return "undo"
-        case .Redo:
+        case .redo:
             return "redo"
         }
     }
-    
+
     func dataSource() -> ToolboxItemCollectionDataSource {
-        if self == ToolboxItemType.Shape {
+        if self == ToolboxItemType.shape {
             return ShapesCollectionViewDataSource()
-        }
-        else {
+        } else {
             return ArrowsCollectionViewDataSource()
         }
     }
 }
 
 enum ShapeType: Int {
-    case Circle, RoundedRectangle, RegularRectangle
-    
+    case circle, roundedRectangle, regularRectangle
+
     var description: String {
         switch self {
-        case .Circle:
+        case .circle:
             return "circle"
-        case .RoundedRectangle:
+        case .roundedRectangle:
             return "roundedRectangle"
-        case .RegularRectangle:
+        case .regularRectangle:
             return "regularRectangle"
         }
     }
 }
 
 enum ImageSort: Int {
-    case Viral, Top, Date, None
-    
+    case viral, top, date, none
+
     var title: String {
         switch self {
-        case .Viral:
+        case .viral:
             return "VIRAL"
-        case .Top:
+        case .top:
             return "TOP"
-        case .Date:
+        case .date:
             return "LATEST"
-        case .None:
+        case .none:
             return "NONE"
         }
     }
-    
+
     var description: String {
         switch self {
-        case .Viral:
+        case .viral:
             return "viral"
-        case .Top:
+        case .top:
             return "top"
-        case .Date:
+        case .date:
             return "time"
-        case .None:
+        case .none:
             return ""
         }
     }
 }
 
 enum SplitError: Error {
-    case NoResultFound
+    case noResultFound
 }

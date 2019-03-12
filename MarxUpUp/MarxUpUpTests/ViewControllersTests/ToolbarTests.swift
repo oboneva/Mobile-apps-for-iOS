@@ -13,7 +13,7 @@ class ToolbarTests: XCTestCase {
 
     var toolbarController: ToolbarViewController!
     let delegate = FakeToolbarButtonsTarget()
-    
+
     override func setUp() {
         super.setUp()
         toolbarController = Storyboard.Toolbar.initialViewController() as? ToolbarViewController
@@ -31,36 +31,36 @@ class ToolbarTests: XCTestCase {
         XCTAssert(toolbarController.resetButton.isHidden == true)
         XCTAssert(toolbarController.toolboxButton.isHidden == true)
     }
-    
+
     func testSaveIsCalled() {
         toolbarController.onSaveTap(self)
         XCTAssertTrue(delegate.saveIsCalled)
     }
-    
+
     func testResetIsCalled() {
         toolbarController.onResetTap(self)
         XCTAssertTrue(delegate.resetIsCalled)
     }
-    
+
     func testToolboxIsCalled() {
         toolbarController.onToolboxTap(self)
         XCTAssertTrue(delegate.toolboxIsCalled)
     }
-    
+
     func testAnnotateIsCalled() {
         toolbarController.onAnnotateTap(self)
         XCTAssertTrue(delegate.annotateIsCalled)
     }
-    
+
     func testGoBackIsCalled() {
         toolbarController.onBackTap(self)
         XCTAssertTrue(delegate.goBackIsCalled)
     }
-    
+
 }
 
 class FakeToolbarButtonsTarget: ToolbarButtonsDelegate {
-    
+
     var saveIsCalled = false
     var resetIsCalled = false
     var toolboxIsCalled = false
@@ -70,19 +70,19 @@ class FakeToolbarButtonsTarget: ToolbarButtonsDelegate {
     func didSelectSave() {
         saveIsCalled = true
     }
-    
+
     func didSelectReset() {
         resetIsCalled = true
     }
-    
+
     func didSelectToolbox() {
         toolboxIsCalled = true
     }
-    
+
     func didSelectAnnotate() {
         annotateIsCalled = true
     }
-    
+
     func didSelectGoBack() {
         goBackIsCalled = true
     }

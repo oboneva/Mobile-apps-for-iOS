@@ -13,7 +13,7 @@ class ShapeModel: NSObject {
     let type: ShapeType!
     let image: UIImage!
     let imageNamePrefix: String = "toolbox-shape-"
-    
+
     init(withShapeType type: ShapeType) {
         self.type = type
         image = UIImage(named: imageNamePrefix + type.description)

@@ -17,9 +17,9 @@ class LocalContentModel: NSObject {
         self.data = data
         self.id = id
     }
-    
+
     func update(_ data: Data) {
         self.data = data
     }
-    
+
 }

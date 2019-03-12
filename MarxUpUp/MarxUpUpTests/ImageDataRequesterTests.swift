@@ -28,7 +28,7 @@ class ImageDataRequesterTests: XCTestCase {
     func testTheURLIsRequested() {
         let url = "https://api.imgur.com/3/gallery/hot/viral/day/1?showViral=true&mature=false&album_previews=false"
 
-        requester.getImageLinks(sortedBy: ImageSort.Viral){ (_) in }
+        requester.getImageLinks(sortedBy: ImageSort.viral) { (_) in }
 
         XCTAssertEqual(session.url?.absoluteString ?? "", url)
     }
@@ -37,12 +37,13 @@ class ImageDataRequesterTests: XCTestCase {
         let dataTask = MockNetworkSessionDataTask()
         session.mockDataTask = dataTask
 
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
         XCTAssertTrue(dataTask.resumeIsCalled)
     }
 
     func testAllTasksAreCancelled() {
-        guard let url = URL(string: "https://api.imgur.com/3/gallery/hot/viral/day/1?showViral=true&mature=false&album_previews=false") else {
+        guard let url = URL(
+            string: "https://api.imgur.com/3/gallery/hot/viral/day/1?showViral=true&mature=false&album_previews=false") else {
             print("fck")
             return
         }
@@ -60,18 +61,18 @@ class ImageDataRequesterTests: XCTestCase {
     }
 
     func testPagePropertyIsUpdated() {
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
 
-        XCTAssertEqual(session.url?.absoluteString , "https://api.imgur.com/3/gallery/hot/viral/day/3?showViral=true&mature=false&album_previews=false")
+        XCTAssertEqual(session.url?.absoluteString, "https://api.imgur.com/3/gallery/hot/viral/day/3?showViral=true&mature=false&album_previews=false")
 
     }
 
     func testPageIsReset() {
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
-        requester.getImageLinks(sortedBy: .Viral, withCompletion: { (_) in })
-        requester.getImageLinks(sortedBy: .Date, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .viral, withCompletion: { (_) in })
+        requester.getImageLinks(sortedBy: .date, withCompletion: { (_) in })
 
         XCTAssertEqual(session.url?.absoluteString, "https://api.imgur.com/3/gallery/hot/time/day/1?showViral=true&mature=false&album_previews=false")
     }
@@ -80,7 +81,7 @@ class ImageDataRequesterTests: XCTestCase {
         session.mockError = NSError.init(domain: "zxcv", code: 132, userInfo: nil)
         session.mockDataResponse = nil
 
-        requester.getImageLinks(sortedBy: .Viral) { (links) in
+        requester.getImageLinks(sortedBy: .viral) { (links) in
             if links != nil {
                 XCTFail()
             }
@@ -88,7 +89,7 @@ class ImageDataRequesterTests: XCTestCase {
     }
 
     func testHandlerIsCalledWhenLinksAreAvailable() {
-        requester.getImageLinks(sortedBy: .Date) { (links) in
+        requester.getImageLinks(sortedBy: .date) { (links) in
             if links == nil {
                 XCTFail()
             }
@@ -124,7 +125,7 @@ class MockNetworkSession: NetworkSession {
     var mockDataTask = MockNetworkSessionDataTask()
     var mockAllDataTasks: [MockNetworkSessionDataTask]?
     var mockDataResponse: Data? = {
-        let dict = ["linky" : "sdfgsfdg", "linkr": "s", "link": "sdfgsg"]
+        let dict = ["linky": "sdfgsfdg", "linkr": "s", "link": "sdfgsg"]
         let data = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
         return data
     }()
@@ -132,24 +133,24 @@ class MockNetworkSession: NetworkSession {
     var mockResponseStatusCode: Int?
 
     var imagesDataTaskCurrentlyInProgress: Bool? { return false }
-    
-    func dataTask(with request: URLRequest, completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask {
+
+    func dataTask(with request: URLRequest,
+                  completion: @escaping ((Response?, Error?) -> Void)) -> NetworkSessionDataTask {
         usedRequest = request
         url = request.url
         if mockError != nil {
             completion(nil, mockError)
-        }
-        else {
+        } else {
             completion(Response(data: mockDataResponse ?? Data(), response: nil), nil)
         }
-        
+
         return mockDataTask
     }
 
     func allTasks(completionHandler: ([NetworkSessionDataTask]) -> Void) {
         completionHandler(mockAllDataTasks ?? [NetworkSessionDataTask]())
     }
-    
+
     func invalidateAndCancel() { }
 }
 
@@ -176,7 +177,9 @@ class MockNetworkSessionDataTask: NetworkSessionDataTask {
 class MockParser: NSObject, Parsable {
     var handlerIsCalled = false
 
-    func linksFromJSONDict(_ dictionary: [String : AnyObject], countPerPage count: Int, andCompletion handler: ([String]) -> Void) {
+    func linksFromJSONDict(_ dictionary: [String: AnyObject],
+                           countPerPage count: Int,
+                           andCompletion handler: ([String]) -> Void) {
         let links = ["link", "sdfgsfdg", "link"]
         handler(links)
         handlerIsCalled = true

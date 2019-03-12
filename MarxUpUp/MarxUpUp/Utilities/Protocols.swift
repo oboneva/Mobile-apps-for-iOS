@@ -62,9 +62,9 @@ protocol CameraInterface: AnyObject {
 }
 
 protocol Annotating: AnyObject {
-    
+
     var isThereUnsavedWork: Bool { get }
-    
+
     func beginAnnotating(atPoint point: CGPoint)
     func continueAnnotating(atPoint point: CGPoint)
     func endAnnotating(atPoint point: CGPoint)

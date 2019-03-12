@@ -10,20 +10,20 @@ import Foundation
 import UIKit
 
 enum Storyboard: String {
-    
-    case Main = "Main"
-    case Annotate = "Annotate"
-    case ToolboxItem = "ToolboxItem"
-    
+
+    case main = "Main"
+    case annotate = "Annotate"
+    case toolboxItem = "ToolboxItem"
+
     var instance: UIStoryboard {
         return  UIStoryboard(name: self.rawValue, bundle: Bundle.main)
     }
-    
-    func viewController<T : UIViewController>(fromClass viewControllerClass: T.Type) -> T {
+
+    func viewController<T: UIViewController>(fromClass viewControllerClass: T.Type) -> T {
         let id = (viewControllerClass as UIViewController.Type).storyboardID
         return instance.instantiateViewController(withIdentifier: id) as! T
     }
-    
+
     func initialViewController() -> UIViewController? {
         return instance.instantiateInitialViewController()
     }
@@ -33,7 +33,7 @@ extension UIViewController {
     class var storyboardID: String {
         return "\(self)" + "ID"
     }
-    
+
     static func instantiateFromStoryboard(storyborad: Storyboard) -> UIViewController {
         return storyborad.viewController(fromClass: self)
     }

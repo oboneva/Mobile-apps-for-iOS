@@ -15,8 +15,6 @@
 		FA2654052193306A003514F9 /* ShapeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2654042193306A003514F9 /* ShapeModel.swift */; };
 		FA26540B219344F2003514F9 /* ToolboxDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26540A219344F2003514F9 /* ToolboxDataSource.swift */; };
 		FA26540D21946E85003514F9 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26540C21946E85003514F9 /* Storyboard.swift */; };
-		FA26540F21946FF5003514F9 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA26540E21946FF5003514F9 /* Camera.storyboard */; };
-		FA26541121947018003514F9 /* PreviewContent.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA26541021947018003514F9 /* PreviewContent.storyboard */; };
 		FA26541321947030003514F9 /* Annotate.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA26541221947030003514F9 /* Annotate.storyboard */; };
 		FA2654152194703F003514F9 /* ToolboxItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA2654142194703F003514F9 /* ToolboxItem.storyboard */; };
 		FA26541C21947B0B003514F9 /* PDFTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26541B21947B0B003514F9 /* PDFTableViewCell.swift */; };
@@ -128,8 +126,6 @@
 		FA2654042193306A003514F9 /* ShapeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeModel.swift; sourceTree = "<group>"; };
 		FA26540A219344F2003514F9 /* ToolboxDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxDataSource.swift; sourceTree = "<group>"; };
 		FA26540C21946E85003514F9 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
-		FA26540E21946FF5003514F9 /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
-		FA26541021947018003514F9 /* PreviewContent.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PreviewContent.storyboard; sourceTree = "<group>"; };
 		FA26541221947030003514F9 /* Annotate.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Annotate.storyboard; sourceTree = "<group>"; };
 		FA2654142194703F003514F9 /* ToolboxItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ToolboxItem.storyboard; sourceTree = "<group>"; };
 		FA26541B21947B0B003514F9 /* PDFTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTableViewCell.swift; sourceTree = "<group>"; };
@@ -285,8 +281,6 @@
 			children = (
 				FA26540C21946E85003514F9 /* Storyboard.swift */,
 				FA8B861D2191A1660020E6CC /* Main.storyboard */,
-				FA26540E21946FF5003514F9 /* Camera.storyboard */,
-				FA26541021947018003514F9 /* PreviewContent.storyboard */,
 				FA26541221947030003514F9 /* Annotate.storyboard */,
 				FA2654142194703F003514F9 /* ToolboxItem.storyboard */,
 			);
@@ -667,14 +661,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8B86242191A1690020E6CC /* LaunchScreen.storyboard in Resources */,
-				FA26540F21946FF5003514F9 /* Camera.storyboard in Resources */,
 				FA26541321947030003514F9 /* Annotate.storyboard in Resources */,
 				FA3B1B9A21BEA7590092637E /* test-document.pdf in Resources */,
 				FA2654152194703F003514F9 /* ToolboxItem.storyboard in Resources */,
 				FA8B86212191A1690020E6CC /* Assets.xcassets in Resources */,
 				FA1BAA952195A59800B13AB0 /* Manifesto.pdf in Resources */,
 				FA3B1B9821BAB4430092637E /* test-image in Resources */,
-				FA26541121947018003514F9 /* PreviewContent.storyboard in Resources */,
 				FA8B861F2191A1660020E6CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

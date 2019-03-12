@@ -13,19 +13,21 @@ class ToolboxItemModel: NSObject {
     let image: UIImage?
     let type: ToolboxItemType
     private let imageNamePrefix: String = "toolbox-item-"
-    
+
     var containsOptions: Bool {
-        return type == ToolboxItemType.Arrow || type == ToolboxItemType.Color || type == ToolboxItemType.Shape || type == ToolboxItemType.Width
+        return type == ToolboxItemType.arrow || type == ToolboxItemType.color ||
+            type == ToolboxItemType.shape || type == ToolboxItemType.width
     }
-    
+
     var isTextRelated: Bool {
-        return type == ToolboxItemType.TextHighlight || type == ToolboxItemType.TextUnderline || type == ToolboxItemType.TextStrikeThrough
+        return type == ToolboxItemType.textHighlight || type == ToolboxItemType.textUnderline ||
+            type == ToolboxItemType.textStrikeThrough
     }
-    
+
     var isForDrawing: Bool {
-        return type == ToolboxItemType.Arrow || type == ToolboxItemType.Shape || type == ToolboxItemType.Pen
+        return type == ToolboxItemType.arrow || type == ToolboxItemType.shape || type == ToolboxItemType.pen
     }
-    
+
     init(fromType type: ToolboxItemType) {
         image = UIImage(named: imageNamePrefix + type.description)
         self.type = type

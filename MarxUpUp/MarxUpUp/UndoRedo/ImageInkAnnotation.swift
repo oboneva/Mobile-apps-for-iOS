@@ -13,7 +13,7 @@ class ImageInkAnnotation: NSObject {
     let lines: UIBezierPath
     var image: UIImage
     let fill: Bool
-    
+
     init(withLines lines: UIBezierPath, forImage image: UIImage, andFill fill: Bool) {
         self.lines = lines
         self.image = image
@@ -21,7 +21,7 @@ class ImageInkAnnotation: NSObject {
     }
 }
 
-//MARK: - Command Methods
+// MARK: Command Methods
 extension ImageInkAnnotation: Command {
     func execute() {
         image.draw(at: CGPoint.zero)
@@ -30,7 +30,7 @@ extension ImageInkAnnotation: Command {
         }
         lines.stroke()
     }
-    
+
     func unexecute() {
         image.draw(at: CGPoint.zero)
     }

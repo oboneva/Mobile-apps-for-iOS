@@ -20,12 +20,12 @@ class PDFInkAnnotation: NSObject {
     }
 }
 
-//MARK: - Command Methods
+// MARK: - Command Methods
 extension PDFInkAnnotation: Command {
     func execute() {
         page.addAnnotation(annotation)
     }
-    
+
     func unexecute() {
         page.removeAnnotation(annotation)
     }

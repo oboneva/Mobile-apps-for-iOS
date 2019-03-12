@@ -13,8 +13,8 @@ class ArrowModel: NSObject {
     let image: UIImage!
     let type: ArrowEndLineType!
     let imageNamePrefix: String = "toolbox-arrow-"
-    
-    init(withType type:ArrowEndLineType) {
+
+    init(withType type: ArrowEndLineType) {
         self.image = UIImage(named: imageNamePrefix + type.description)
         self.type = type
     }

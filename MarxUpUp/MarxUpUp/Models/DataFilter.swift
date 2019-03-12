@@ -12,7 +12,7 @@ class DataFilter: NSObject {
 
     let isDataLocal: Bool
     let sort: ImageSort
-    
+
     init(local: Bool, sort: ImageSort) {
         isDataLocal = local
         self.sort = sort

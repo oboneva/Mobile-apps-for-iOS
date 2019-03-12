@@ -34,7 +34,8 @@ extension UICollectionViewCell {
 }
 
 extension UICollectionView {
-    func dequeueReusableCell<T: UICollectionViewCell>(fromClass cellClass: T.Type, forIndexPath indexPath: IndexPath) -> T {
+    func dequeueReusableCell<T: UICollectionViewCell>(fromClass cellClass: T.Type,
+                                                      forIndexPath indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withReuseIdentifier: cellClass.identifier, for: indexPath) as? T else {
             print("Cell from class" + "\(cellClass)" + "cannot be dequeued")
             return UICollectionViewCell() as! T
