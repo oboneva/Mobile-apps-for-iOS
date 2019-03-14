@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C97CD9632237B76700889CC4 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD9622237B76700889CC4 /* XMLParser.swift */; };
+		C97CD9672238FE6C00889CC4 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD9662238FE6C00889CC4 /* ParserTests.swift */; };
+		C97CD96B223928F900889CC4 /* Stylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD96A223928F900889CC4 /* Stylist.swift */; };
+		C97CD96F2239298500889CC4 /* StyleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD96E2239298500889CC4 /* StyleModels.swift */; };
+		C97CD97122392F6B00889CC4 /* RichTextUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CD97022392F6B00889CC4 /* RichTextUtilities.swift */; };
 		FA1BAA9121958DD400B13AB0 /* SingleDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BAA9021958DD400B13AB0 /* SingleDocumentViewController.swift */; };
 		FA1BAA9321958E3700B13AB0 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BAA9221958E3700B13AB0 /* SingleImageViewController.swift */; };
 		FA1BAA952195A59800B13AB0 /* Manifesto.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FA1BAA942195A59800B13AB0 /* Manifesto.pdf */; };
@@ -118,6 +123,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C97CD9622237B76700889CC4 /* XMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParser.swift; sourceTree = "<group>"; };
+		C97CD9662238FE6C00889CC4 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
+		C97CD96A223928F900889CC4 /* Stylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylist.swift; sourceTree = "<group>"; };
+		C97CD96E2239298500889CC4 /* StyleModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleModels.swift; sourceTree = "<group>"; };
+		C97CD97022392F6B00889CC4 /* RichTextUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextUtilities.swift; sourceTree = "<group>"; };
 		FA1BAA9021958DD400B13AB0 /* SingleDocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDocumentViewController.swift; sourceTree = "<group>"; };
 		FA1BAA9221958E3700B13AB0 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		FA1BAA942195A59800B13AB0 /* Manifesto.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Manifesto.pdf; sourceTree = "<group>"; };
@@ -240,6 +250,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C97CD9612237B6E300889CC4 /* RichText */ = {
+			isa = PBXGroup;
+			children = (
+				C97CD96A223928F900889CC4 /* Stylist.swift */,
+				C97CD9622237B76700889CC4 /* XMLParser.swift */,
+				C97CD96E2239298500889CC4 /* StyleModels.swift */,
+				C97CD97022392F6B00889CC4 /* RichTextUtilities.swift */,
+			);
+			path = RichText;
+			sourceTree = "<group>";
+		};
 		FA2653FF21933016003514F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +400,7 @@
 		FA8B86182191A1660020E6CC /* MarxUpUp */ = {
 			isa = PBXGroup;
 			children = (
+				C97CD9612237B6E300889CC4 /* RichText */,
 				FAD6AE9221A464310029C301 /* ToolboxInitializer.swift */,
 				FADE88EB21B12D0A00D7970B /* Annotations */,
 				FA265428219482CF003514F9 /* Camera */,
@@ -417,6 +439,7 @@
 				FA4F0AF621B6C172009AB689 /* ArrowEndTests.swift */,
 				FA4F0AF421B6B2B8009AB689 /* AnnotatorUtilsTests.swift */,
 				FA8B86302191A1690020E6CC /* Info.plist */,
+				C97CD9662238FE6C00889CC4 /* ParserTests.swift */,
 			);
 			path = MarxUpUpTests;
 			sourceTree = "<group>";
@@ -705,6 +728,7 @@
 				FA26541C21947B0B003514F9 /* PDFTableViewCell.swift in Sources */,
 				FA1BAA9321958E3700B13AB0 /* SingleImageViewController.swift in Sources */,
 				FAD6AE89219DCB8B0029C301 /* Protocols.swift in Sources */,
+				C97CD96B223928F900889CC4 /* Stylist.swift in Sources */,
 				FAD6AE8D219DE1040029C301 /* DataFilter.swift in Sources */,
 				FA26540D21946E85003514F9 /* Storyboard.swift in Sources */,
 				FA1BAA9121958DD400B13AB0 /* SingleDocumentViewController.swift in Sources */,
@@ -725,6 +749,7 @@
 				FADE88EA21B12C7100D7970B /* Command.swift in Sources */,
 				FA265436219576E7003514F9 /* Utilities.swift in Sources */,
 				FA26540B219344F2003514F9 /* ToolboxDataSource.swift in Sources */,
+				C97CD9632237B76700889CC4 /* XMLParser.swift in Sources */,
 				FA26542521948235003514F9 /* Enumerations.swift in Sources */,
 				FA265434219569F0003514F9 /* Annotator.swift in Sources */,
 				FA90CDFA2199987F009D6DE9 /* ImageDataRequester.swift in Sources */,
@@ -743,10 +768,12 @@
 				FA2654052193306A003514F9 /* ShapeModel.swift in Sources */,
 				FA4F0AE321B56CDB009AB689 /* PDFInkAnnotation.swift in Sources */,
 				FAD6AE9321A464310029C301 /* ToolboxInitializer.swift in Sources */,
+				C97CD96F2239298500889CC4 /* StyleModels.swift in Sources */,
 				FAD6AE7D219AB8E30029C301 /* ToolboxStackController.swift in Sources */,
 				FAD6AE87219C3FA90029C301 /* ArrowsCollectionViewDataSource.swift in Sources */,
 				FAD6AE77219AB3F70029C301 /* LineWidthViewController.swift in Sources */,
 				FADE88DB21AD800A00D7970B /* DatabaseManager.swift in Sources */,
+				C97CD97122392F6B00889CC4 /* RichTextUtilities.swift in Sources */,
 				FA26541F21947CC5003514F9 /* DocsPreviewTableViewDataSource.swift in Sources */,
 				FA8B86482191A8900020E6CC /* PhotoCaptureViewController.swift in Sources */,
 			);
@@ -768,6 +795,7 @@
 				FA4F0B0321B80B81009AB689 /* ChangesManagerTests.swift in Sources */,
 				FA4F0B0B21B8429B009AB689 /* AnnotatorTests.swift in Sources */,
 				FA4F0B0521B82889009AB689 /* CameraInputTests.swift in Sources */,
+				C97CD9672238FE6C00889CC4 /* ParserTests.swift in Sources */,
 				FA92AA9B21CBD7B70094C64B /* ImagesPreviewViewControllerTests.swift in Sources */,
 				FA4F0B0921B83551009AB689 /* CellTests.swift in Sources */,
 				FA92AA9721CBBB9A0094C64B /* SingleImageViewControllerTests.swift in Sources */,
