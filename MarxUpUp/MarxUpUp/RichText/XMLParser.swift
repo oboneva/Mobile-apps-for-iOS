@@ -102,7 +102,8 @@ class Parser: NSObject {
         return element == StyleType.backgroundColor.rawValue ||
                 element == StyleType.foregroundColor.rawValue ||
                 element == StyleType.underlineColor.rawValue ||
-                element == StyleType.strikethroughColor.rawValue
+                element == StyleType.strikethroughColor.rawValue ||
+                element == StyleType.strokeColor.rawValue
     }
 }
 
