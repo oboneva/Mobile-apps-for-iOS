@@ -19,9 +19,6 @@
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="selected" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="nkH-EX-qj7" kind="relationship" relationship="rootViewController" id="NI9-ev-Eir"/>
                     </connections>
