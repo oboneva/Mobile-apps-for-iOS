@@ -74,7 +74,7 @@ class ParserTests: XCTestCase {
         let firstColor = UIColor(fromHEX: firstColorHEX)
         let secondColor = UIColor(fromHEX: secondColorHEX)
 
-        let text = "<f><backgroundColor value=\"\(firstColorHEX)\"><string>asdf1</string></backgroundColor><foregroundColor value=\"\(secondColorHEX)\"><string>asdf2</string></foregroundColor></f>"
+        let text = "<f><backgroundColor value=\"\(firstColorHEX)\"><string>asdf</string></backgroundColor><foregroundColor value=\"\(secondColorHEX)\"><string>asdf</string></foregroundColor></f>"
 
         let styleItems = parser.parseText(text)
         let extractedText = parser.extractedText
@@ -83,13 +83,13 @@ class ParserTests: XCTestCase {
         let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor)
 
         expectedStyleItem1.range = NSRange(location: 0, length: 4)
-        expectedStyleItem2.range = NSRange(location: 4, length: 8)
+        expectedStyleItem2.range = NSRange(location: 4, length: 4)
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
         XCTAssertEqual(firstColor, styleItems[0].value as! UIColor)
         XCTAssertEqual(secondColor, styleItems[1].value as! UIColor)
-        XCTAssertEqual(extractedText, "asdf1asdf2")
+        XCTAssertEqual(extractedText, "asdfasdf")
     }
 
     func testSingleCustomStyleItem() {
@@ -213,6 +213,25 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
+    func testLinkInsideCustomStyle() {
+        let linkValue = "https://www.google.com/"
+        let text = "<f><style link=\"\(linkValue)\" name=\"m\"><m><string>asdf</string></m></f>"
+
+        let link = NSString(string: linkValue)
+
+        let styleItems = parser.parseText(text)
+        let extractedText = parser.extractedText
+
+        let expectedExtractedText = "asdf"
+        let styleItem = StyleItem(StyleType.link, link)
+        styleItem.range = NSRange(location: 0, length: 4)
+        let expectedStyles = [styleItem]
+
+        XCTAssertEqual(expectedStyles, styleItems)
+        XCTAssertEqual(link, styleItems[0].value as! NSString)
+        XCTAssertEqual(expectedExtractedText, extractedText)
+    }
+
     func testStrokeColor() {
         let colorHEX = "#ffffff"
         let text = "<strokeColor value=\"\(colorHEX)\"><string>asdf</string></strokeColor>"
@@ -251,9 +270,43 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
+    func testStrokeWidth() {
+        let width: CGFloat = 4.1
+        let text = "<strokeWidth value=\"\(width)\"><string>asdf</string></strokeWidth>"
+
+        let styleItems = parser.parseText(text)
+        let extractedText = parser.extractedText
+
+        let expectedExtractedText = "asdf"
+        let styleItem = StyleItem(StyleType.strokeWidth, width)
+        styleItem.range = NSRange(location: 0, length: 4)
+        let expectedStyles = [styleItem]
+
+        XCTAssertEqual(expectedStyles, styleItems)
+        XCTAssertEqual(width, styleItems[0].value as! CGFloat)
+        XCTAssertEqual(expectedExtractedText, extractedText)
+    }
+
+    func testStrokeWidthInsideCustomStyle() {
+        let width: CGFloat = 4.1
+        let text = "<m><style strokeWidth=\"\(width)\" name=\"f\"><f><string>asdf</string></f></m>"
+
+        let styleItems = parser.parseText(text)
+        let extractedText = parser.extractedText
+
+        let expectedExtractedText = "asdf"
+        let styleItem = StyleItem(StyleType.strokeWidth, width)
+        styleItem.range = NSRange(location: 0, length: 4)
+        let expectedStyles = [styleItem]
+
+        XCTAssertEqual(expectedStyles, styleItems)
+        XCTAssertEqual(width, styleItems[0].value as! CGFloat)
+        XCTAssertEqual(expectedExtractedText, extractedText)
+    }
+
     func testShadow() {
         let colorHEX = "#ffffff"
-        let blurRadius: CGFloat = 2.2
+        let blurRadius: CGFloat = 2.0
         let offsetSize = CGSize(width: 3.0, height: 4.0)
 
         let text = "<shadow color=\"\(colorHEX)\" blur=\"\(blurRadius)\" offsetHeight=\"\(offsetSize.height)\" offsetWidth=\"\(offsetSize.width)\"><string>asdf</string></shadow>"
@@ -279,7 +332,7 @@ class ParserTests: XCTestCase {
 
     func testShadowInsideCustomStyle() {
         let colorHEX = "#ffffff"
-        let blurRadius: CGFloat = 2.2
+        let blurRadius: CGFloat = 2.0
         let offsetSize = CGSize(width: 3.0, height: 4.0)
 
         let text = "<m><style shadowColor=\"\(colorHEX)\" shadowBlur=\"\(blurRadius)\" shadowOffsetWidth=\"\(offsetSize.width)\" shadowOffsetHeight=\"\(offsetSize.height)\" name=\"f\"><f><string>asdf</string></f></m>"

@@ -43,6 +43,9 @@ class Parser: NSObject {
         } else if type == StyleType.link {
             let link = NSString(string: value)
             styleItems.append(StyleItem(type, link))
+        } else if type == StyleType.strokeWidth {
+            let width = NumberFormatter().number(from: value)
+            styleItems.append(StyleItem(type, width as Any))
         }
     }
 
@@ -165,6 +168,11 @@ extension Parser: XMLParserDelegate {
                 styleTag.name = name
             }
 
+            if let strokeWidth = attributeDict[StyleType.strokeWidth.rawValue],
+                let width = NumberFormatter().number(from: strokeWidth) {
+                styleTag.styleItems.append(StyleItem(.strokeWidth, width))
+            }
+
             let shadowAttributes = filterAttributes(attributeDict, forStyleType: .shadow)
             if shadowAttributes.count > 0 {
                 let shadow = shadowStyleElement(fromAttributeDict: shadowAttributes)
@@ -196,7 +204,7 @@ extension Parser: XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?) {
 
-        if isColorElement(elementName) {
+        if StyleType(rawValue: elementName) != nil {
             styleItems.last { (item) -> Bool in
                 item.name == StyleType(rawValue: elementName)!.attributedStringKey && item.range.length == 0
                 }?.range = NSRange(location: extractedText.count - currentStringLength, length: currentStringLength)

@@ -22,7 +22,7 @@ class StyleItem {
 extension StyleItem: Equatable {
     ///// cannot compare items' values
     static func == (left: StyleItem, right: StyleItem) -> Bool {
-        return left.name == right.name && left.name == right.name
+        return left.name == right.name && left.range == right.range
     }
 }
 
