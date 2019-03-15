@@ -105,16 +105,16 @@ class ParserTests: XCTestCase {
         let styleItems = parser.parseText(text)
         let extractedText = parser.extractedText
 
-        let expectedStyleItem2 = StyleItem(StyleType.backgroundColor, secondColor)
-        let expectedStyleItem1 = StyleItem(StyleType.foregroundColor, firstColor)
+        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
+        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor)
 
         expectedStyleItem1.range = NSRange(location: 0, length: 4)
         expectedStyleItem2.range = NSRange(location: 0, length: 4)
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(firstColor, styleItems[0].value as! UIColor)
-        XCTAssertEqual(secondColor, styleItems[1].value as! UIColor)
+        XCTAssertEqual(firstColor, styleItems[1].value as! UIColor)
+        XCTAssertEqual(secondColor, styleItems[0].value as! UIColor)
         XCTAssertEqual(extractedText, string)
     }
 
@@ -288,7 +288,7 @@ class ParserTests: XCTestCase {
     }
 
     func testStrokeWidthInsideCustomStyle() {
-        let width: CGFloat = 4.1
+        let width: CGFloat = 4.0
         let text = "<m><style strokeWidth=\"\(width)\" name=\"f\"><f><string>asdf</string></f></m>"
 
         let styleItems = parser.parseText(text)

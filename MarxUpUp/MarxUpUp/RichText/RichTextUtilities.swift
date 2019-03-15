@@ -22,7 +22,7 @@ enum StyleType: String {
         case .underlineColor:
             return NSAttributedString.Key.underlineColor
         case .underlineStyle:
-            return NSAttributedString.Key.underlineColor
+            return NSAttributedString.Key.underlineStyle
         case .strikethroughColor:
             return NSAttributedString.Key.strikethroughColor
         case .strikethroughStyle:
@@ -47,6 +47,14 @@ enum StyleType: String {
         default:
             return true
         }
+    }
+
+    static func colorElements() -> [StyleType] {
+        return [.backgroundColor, .foregroundColor, .underlineColor, .strikethroughColor, .strokeColor]
+    }
+
+    static func lineElements() -> [StyleType] {
+        return [.underlineStyle, .strikethroughStyle]
     }
 
     var isLine: Bool {
@@ -126,4 +134,15 @@ extension StringProtocol {
     var firstLowercased: String {
         return prefix(1).lowercased() + dropFirst()
     }
+}
+
+extension CGFloat {
+    init?(fromDict dict: [String: String], forKey key: String) {
+        guard let numberString = dict[key],
+            let numberFloat = NumberFormatter().number(from: numberString)?.floatValue else {
+                return nil
+        }
+        self.init(numberFloat)
+    }
+}
 }

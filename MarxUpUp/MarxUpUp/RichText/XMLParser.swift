@@ -20,6 +20,10 @@ class Parser: NSObject {
         return customStyleItems.map { $0.name }
     }
 
+    private var styleRange: NSRange {
+        return NSRange(location: extractedText.count - currentStringLength, length: currentStringLength)
+    }
+
     func parseText(_ text: String) -> [StyleItem] {
         let xmlData = text.data(using: String.Encoding.utf8)!
         let parser = XMLParser(data: xmlData)
@@ -27,6 +31,27 @@ class Parser: NSObject {
         parser.parse()
 
         return styleItems
+    }
+
+    func colorStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
+        return StyleType.colorElements()
+            .map { (colorElement) -> StyleItem? in
+                guard let colorHEX = dict[colorElement.rawValue] else {
+                    return nil
+                }
+                return StyleItem(colorElement, UIColor.init(fromHEX: colorHEX))}
+            .compactMap { $0 }
+    }
+
+    func lineStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
+        return StyleType.lineElements()
+            .map { (lineElement) -> StyleItem? in
+                guard let lineString = dict[lineElement.rawValue],
+                    let lineStyle = LineStyle(rawValue: lineString)?.key else {
+                        return nil
+                }
+                return StyleItem(lineElement, lineStyle as NSUnderlineStyle)}
+            .compactMap { $0 }
     }
 
     func parsePredefinedStyleElement(fromType type: StyleType, andAttributeDict dict: [String: String]) {
@@ -49,48 +74,6 @@ class Parser: NSObject {
         }
     }
 
-    func shadowStyleElement(fromAttributeDict dict: [String: String]) -> StyleItem {
-        let shadow = NSShadow.init()
-
-        if let colorString = dict[XMLElement.color.rawValue] {
-            shadow.shadowColor = UIColor(fromHEX: colorString)
-        }
-
-        if let offsetHString = dict[XMLElement.offsetHeight.rawValue],
-            let offsetH = NumberFormatter().number(from: offsetHString)?.floatValue,
-            let offsetWString = dict[XMLElement.offsetWidth.rawValue],
-            let offsetW = NumberFormatter().number(from: offsetWString)?.floatValue {
-            shadow.shadowOffset = CGSize(width: CGFloat(offsetW), height: CGFloat(offsetH))
-        }
-
-        if let blurString = dict[XMLElement.blur.rawValue],
-            let blur = NumberFormatter().number(from: blurString)?.floatValue {
-            shadow.shadowBlurRadius = CGFloat(blur)
-        }
-
-        return StyleItem(.shadow, shadow)
-    }
-
-    func fontStyleElement(fromAttributeDict dict: [String: String]) -> StyleItem {
-        if let fontName = dict[XMLElement.name.rawValue],
-            let sizeString = dict[XMLElement.size.rawValue],
-            let size = NumberFormatter().number(from: sizeString)?.floatValue {
-            return StyleItem(.font, UIFont(name: fontName, size: CGFloat(size)) as Any)
-        }
-
-        return StyleItem(.font, UIFont.systemFont(ofSize: UIFont.systemFontSize) as Any)
-    }
-
-    func parsePredefinedStyleElementShadow(withAttributeDict dict: [String: String]) {
-        let shadow = shadowStyleElement(fromAttributeDict: dict)
-        styleItems.append(shadow)
-    }
-
-    func parsePredefinedStyleElementFont(withAttributeDict dict: [String: String]) {
-        let font = fontStyleElement(fromAttributeDict: dict)
-        styleItems.append(font)
-    }
-
     func filterAttributes(_ attributeDict: [String: String], forStyleType type: StyleType) -> [String: String] {
         return Dictionary(uniqueKeysWithValues: attributeDict
             .filter { (key, _) -> Bool in
@@ -101,104 +84,63 @@ class Parser: NSObject {
                         arg.value) })
     }
 
-    func isColorElement(_ element: String) -> Bool {
-        return element == StyleType.backgroundColor.rawValue ||
-                element == StyleType.foregroundColor.rawValue ||
-                element == StyleType.underlineColor.rawValue ||
-                element == StyleType.strikethroughColor.rawValue ||
-                element == StyleType.strokeColor.rawValue
+    func parseCustomStyleElement(withAttributedDict dict: [String: String]) {
+        let styleTag = CustomStyle()
+
+        let colorStyleElements = colorStyleElementsFromAttributedDict(dict)
+        styleTag.styleItems.append(contentsOf: colorStyleElements)
+
+        let lineStyleElements = lineStyleElementsFromAttributedDict(dict)
+        styleTag.styleItems.append(contentsOf: lineStyleElements)
+
+        if let link = dict[StyleType.link.rawValue] {
+            let styleItem = StyleItem(.link, NSString(string: link))
+            styleTag.styleItems.append(styleItem)
+        }
+
+        if let name = dict[XMLElement.name.rawValue] {
+            styleTag.name = name
+        }
+
+        if let strokeWidth = CGFloat(fromDict: dict, forKey: StyleType.strokeWidth.rawValue) {
+            styleTag.styleItems.append(StyleItem(.strokeWidth, strokeWidth))
+        }
+
+        let shadowAttributes = filterAttributes(dict, forStyleType: .shadow)
+        if shadowAttributes.count > 0 {
+            styleTag.styleItems.append(StyleItem(shadowFromDict: shadowAttributes))
+        }
+
+        let fontAttributes = filterAttributes(dict, forStyleType: .font)
+        if fontAttributes.count > 0 {
+            styleTag.styleItems.append(StyleItem(fontFromDict: fontAttributes))
+        }
+
+        customStyleItems.append(styleTag)
+    }
+
+    func parsePredefinedStyleElement(fromType type: StyleType, withAttributedDict dict: [String: String]) {
+        if type.isAtomic {
+            parsePredefinedStyleElement(fromType: type, andAttributeDict: dict)
+        } else if type == .shadow {
+            styleItems.append(StyleItem(shadowFromDict: dict))
+        } else if type == .font {
+            styleItems.append(StyleItem(fontFromDict: dict))
+        }
     }
 }
 
+// MARK: - XMLParserDelegate methods
 extension Parser: XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?,
                 attributes attributeDict: [String: String] = [:]) {
         if elementName == XMLElement.style.rawValue {
-            let styleTag = CustomStyle()
-
-            if let foregroundColor = attributeDict[StyleType.foregroundColor.rawValue] {
-                let color = UIColor.init(fromHEX: foregroundColor)
-                let styleItem = StyleItem.init(.foregroundColor, color)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let backgroundColor = attributeDict[StyleType.backgroundColor.rawValue] {
-                let color = UIColor.init(fromHEX: backgroundColor)
-                let styleItem = StyleItem.init(.backgroundColor, color)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let underlineColor = attributeDict[StyleType.underlineColor.rawValue] {
-                let color = UIColor(fromHEX: underlineColor)
-                let styleItem = StyleItem(.underlineColor, color)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let strikethroughColor = attributeDict[StyleType.strikethroughColor.rawValue] {
-                let color = UIColor(fromHEX: strikethroughColor)
-                let styleItem = StyleItem(.strikethroughColor, color)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let strokeColor = attributeDict[StyleType.strokeColor.rawValue] {
-                let color = UIColor(fromHEX: strokeColor)
-                let styleItem = StyleItem(.strokeColor, color)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let underlineStyle = attributeDict[StyleType.underlineStyle.rawValue],
-                let lineStyle = LineStyle(rawValue: underlineStyle)?.key {
-                let styleItem = StyleItem(.underlineStyle, lineStyle as NSUnderlineStyle)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let strikethroughStyle = attributeDict[StyleType.strikethroughStyle.rawValue],
-                let lineStyle = LineStyle(rawValue: strikethroughStyle)?.key {
-                let styleItem = StyleItem(.strikethroughStyle, lineStyle as NSUnderlineStyle)
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let link = attributeDict[StyleType.link.rawValue] {
-                let styleItem = StyleItem(.link, NSString(string: link))
-                styleTag.styleItems.append(styleItem)
-            }
-
-            if let name = attributeDict[XMLElement.name.rawValue] {
-                styleTag.name = name
-            }
-
-            if let strokeWidth = attributeDict[StyleType.strokeWidth.rawValue],
-                let width = NumberFormatter().number(from: strokeWidth) {
-                styleTag.styleItems.append(StyleItem(.strokeWidth, width))
-            }
-
-            let shadowAttributes = filterAttributes(attributeDict, forStyleType: .shadow)
-            if shadowAttributes.count > 0 {
-                let shadow = shadowStyleElement(fromAttributeDict: shadowAttributes)
-                styleTag.styleItems.append(shadow)
-            }
-
-            let fontAttributes = filterAttributes(attributeDict, forStyleType: .font)
-            if fontAttributes.count > 0 {
-                let font = fontStyleElement(fromAttributeDict: fontAttributes)
-                styleTag.styleItems.append(font)
-            }
-
-            customStyleItems.append(styleTag)
+            parseCustomStyleElement(withAttributedDict: attributeDict)
         }
 
-        guard let type = StyleType(rawValue: elementName) else {
-            return
-        }
-
-        if type.isAtomic {
-            parsePredefinedStyleElement(fromType: type, andAttributeDict: attributeDict)
-        } else if type == .shadow {
-            parsePredefinedStyleElementShadow(withAttributeDict: attributeDict)
-        } else if type == .font {
-            parsePredefinedStyleElementFont(withAttributeDict: attributeDict)
-        }
+        guard let type = StyleType(rawValue: elementName) else { return }
+        parsePredefinedStyleElement(fromType: type, withAttributedDict: attributeDict)
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String,
@@ -207,23 +149,15 @@ extension Parser: XMLParserDelegate {
         if StyleType(rawValue: elementName) != nil {
             styleItems.last { (item) -> Bool in
                 item.name == StyleType(rawValue: elementName)!.attributedStringKey && item.range.length == 0
-                }?.range = NSRange(location: extractedText.count - currentStringLength, length: currentStringLength)
+                }?.range = styleRange
         } else if elementName == XMLElement.string.rawValue {
             extractedText += foundCharacters
             currentStringLength = foundCharacters.count
         } else if customStyleItemsNames.contains(elementName) {
-            let styleItems3 = customStyleItems.filter { (custom) -> Bool in
-                custom.name == elementName
-            }
-            if let last = styleItems3.last?.styleItems {
-                last.filter { (item) -> Bool in
-                    item.range.length == 0
-                    }.forEach { (item) in
-                        item.range = NSRange(location: extractedText.count - currentStringLength,
-                                             length: currentStringLength)
-                }
-                styleItems.append(contentsOf: last)
-            }
+            let currentCustomStyleElement = customStyleItems.last {
+                $0.name == elementName && $0.styleItems.first?.range.length == 0 }
+            currentCustomStyleElement?.styleItems.forEach { $0.range = styleRange }
+            styleItems.append(contentsOf: currentCustomStyleElement?.styleItems ?? [])
         }
 
         foundCharacters = ""
