@@ -24,16 +24,7 @@ class Parser: NSObject {
         return NSRange(location: extractedText.count - currentStringLength, length: currentStringLength)
     }
 
-    func parseText(_ text: String) -> [StyleItem] {
-        let xmlData = text.data(using: String.Encoding.utf8)!
-        let parser = XMLParser(data: xmlData)
-        parser.delegate = self
-        parser.parse()
-
-        return styleItems
-    }
-
-    func colorStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
+    private func colorStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
         return StyleType.colorElements()
             .map { (colorElement) -> StyleItem? in
                 guard let colorHEX = dict[colorElement.rawValue] else {
@@ -43,7 +34,7 @@ class Parser: NSObject {
             .compactMap { $0 }
     }
 
-    func lineStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
+    private func lineStyleElementsFromAttributedDict(_ dict: [String: String]) -> [StyleItem] {
         return StyleType.lineElements()
             .map { (lineElement) -> StyleItem? in
                 guard let lineString = dict[lineElement.rawValue],
@@ -54,7 +45,7 @@ class Parser: NSObject {
             .compactMap { $0 }
     }
 
-    func parsePredefinedStyleElement(fromType type: StyleType, andAttributeDict dict: [String: String]) {
+    private func parsePredefinedStyleElement(fromType type: StyleType, andAttributeDict dict: [String: String]) {
         guard let value = dict[XMLElement.value.rawValue] else {
             return
         }
@@ -74,7 +65,7 @@ class Parser: NSObject {
         }
     }
 
-    func filterAttributes(_ attributeDict: [String: String], forStyleType type: StyleType) -> [String: String] {
+    private func filterAttributes(_ attributeDict: [String: String], forStyleType type: StyleType) -> [String: String] {
         return Dictionary(uniqueKeysWithValues: attributeDict
             .filter { (key, _) -> Bool in
                 key.contains(type.rawValue) }
@@ -84,7 +75,7 @@ class Parser: NSObject {
                         arg.value) })
     }
 
-    func parseCustomStyleElement(withAttributedDict dict: [String: String]) {
+    private func parseCustomStyleElement(withAttributedDict dict: [String: String]) {
         let styleTag = CustomStyle()
 
         let colorStyleElements = colorStyleElementsFromAttributedDict(dict)
@@ -119,7 +110,7 @@ class Parser: NSObject {
         customStyleItems.append(styleTag)
     }
 
-    func parsePredefinedStyleElement(fromType type: StyleType, withAttributedDict dict: [String: String]) {
+    private func parsePredefinedStyleElement(fromType type: StyleType, withAttributedDict dict: [String: String]) {
         if type.isAtomic {
             parsePredefinedStyleElement(fromType: type, andAttributeDict: dict)
         } else if type == .shadow {
@@ -148,7 +139,7 @@ extension Parser: XMLParserDelegate {
 
         if StyleType(rawValue: elementName) != nil {
             styleItems.last { (item) -> Bool in
-                item.name == StyleType(rawValue: elementName)!.attributedStringKey && item.range.length == 0
+                item.type == StyleType(rawValue: elementName) && item.range.length == 0
                 }?.range = styleRange
         } else if elementName == XMLElement.string.rawValue {
             extractedText += foundCharacters
@@ -169,5 +160,35 @@ extension Parser: XMLParserDelegate {
 
     func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
         styleItems = []
+    }
+
+    func stringElement(withText text: String) -> String {
+        return "<\(XMLElement.string.rawValue)>\(text)</\(XMLElement.string.rawValue)>"
+    }
+
+    func xmlElement(fromStyleItem item: StyleItem, text: String) -> String {
+        guard let color = item.value as? UIColor else {
+            return ""
+        }
+        return "<\(item.type.rawValue) value=\"\(color.hex)\">\(text)</\(item.type.rawValue)>"
+    }
+}
+
+// MARK: - StyleParsing methods
+extension Parser: StyleParsing {
+    func styleItemsFromXML(_ text: String) -> [StyleItem] {
+        let xmlData = text.data(using: String.Encoding.utf8)!
+        let parser = XMLParser(data: xmlData)
+        parser.delegate = self
+        parser.parse()
+
+        return styleItems
+    }
+
+    func XMLForStyleItems(_ styleItems: [StyleItem], andText text: String) -> String {
+        let item = styleItems[0]
+        let string = stringElement(withText: text)
+
+        return xmlElement(fromStyleItem: item, text: string)
     }
 }

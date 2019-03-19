@@ -1,8 +1,8 @@
 //
-//  RichTextUtilities.swift
+//  RichTextEnumerations.swift
 //  MarxUpUp
 //
-//  Created by Ognyanka Boneva on 13.03.19.
+//  Created by Ognyanka Boneva on 19.03.19.
 //  Copyright © 2019 Ognyanka Boneva. All rights reserved.
 //
 
@@ -10,8 +10,8 @@ import UIKit
 
 enum StyleType: String {
     case backgroundColor, foregroundColor, underlineColor,
-        underlineStyle, strikethroughColor, strikethroughStyle,
-        link, font, strokeColor, strokeWidth, shadow
+    underlineStyle, strikethroughColor, strikethroughStyle,
+    link, font, strokeColor, strokeWidth, shadow
 
     var attributedStringKey: NSAttributedString.Key {
         switch self {
@@ -103,46 +103,4 @@ enum LineStyle: String {
             return NSUnderlineStyle.byWord
         }
     }
-}
-
-extension UIColor {
-    convenience init(fromHEX hex: String) {
-        let hex = hex.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
-        let scanner = Scanner(string: hex)
-
-        if hex.hasPrefix("#") {
-            scanner.scanLocation = 1
-        }
-
-        var color: UInt32 = 0
-        scanner.scanHexInt32(&color)
-
-        let mask = 0x000000FF
-        let r = Int(color >> 16) & mask
-        let g = Int(color >> 8) & mask
-        let b = Int(color) & mask
-
-        let red   = CGFloat(r) / 255.0
-        let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
-
-        self.init(red: red, green: green, blue: blue, alpha: 1)
-    }
-}
-
-extension StringProtocol {
-    var firstLowercased: String {
-        return prefix(1).lowercased() + dropFirst()
-    }
-}
-
-extension CGFloat {
-    init?(fromDict dict: [String: String], forKey key: String) {
-        guard let numberString = dict[key],
-            let numberFloat = NumberFormatter().number(from: numberString)?.floatValue else {
-                return nil
-        }
-        self.init(numberFloat)
-    }
-}
 }

@@ -23,13 +23,15 @@ class ParserTests: XCTestCase {
 
     //////////////must check style items' values manually, because their type is Any
 
+
+    // MARK: - XML to StyleElement objects tests
     func testSinglePredefinedStyleElement() {
         let colorHEX = "#ffffff"
         let text = "<foregroundColor value=\"\(colorHEX)\"><string>asdf</string></foregroundColor>"
 
         let color = UIColor(fromHEX: colorHEX)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -51,7 +53,7 @@ class ParserTests: XCTestCase {
 
         let text = "<backgroundColor value=\"\(firstColorHEX)\"><foregroundColor value=\"\(secondColorHEX)\"><string>asdf</string></foregroundColor></backgroundColor>"
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
@@ -76,7 +78,7 @@ class ParserTests: XCTestCase {
 
         let text = "<f><backgroundColor value=\"\(firstColorHEX)\"><string>asdf</string></backgroundColor><foregroundColor value=\"\(secondColorHEX)\"><string>asdf</string></foregroundColor></f>"
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
@@ -102,7 +104,7 @@ class ParserTests: XCTestCase {
 
         let text = "<f><style foregroundColor=\"\(firstColorHEX)\" backgroundColor=\"\(secondColorHEX)\" name=\"m\"><m><string>\(string)</string></m></f>"
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
@@ -124,7 +126,7 @@ class ParserTests: XCTestCase {
 
         let color = UIColor(fromHEX: colorHEX)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -143,7 +145,7 @@ class ParserTests: XCTestCase {
 
         let underlineStyle = NSUnderlineStyle.patternDot
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -162,7 +164,7 @@ class ParserTests: XCTestCase {
 
         let color = UIColor(fromHEX: colorHEX)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -181,7 +183,7 @@ class ParserTests: XCTestCase {
 
         let strikethroughStyle = NSUnderlineStyle.patternDot
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -200,7 +202,7 @@ class ParserTests: XCTestCase {
 
         let link = NSString(string: linkValue)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -219,7 +221,7 @@ class ParserTests: XCTestCase {
 
         let link = NSString(string: linkValue)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -238,7 +240,7 @@ class ParserTests: XCTestCase {
 
         let color = UIColor(fromHEX: colorHEX)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -257,7 +259,7 @@ class ParserTests: XCTestCase {
 
         let color = UIColor(fromHEX: colorHEX)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -274,7 +276,7 @@ class ParserTests: XCTestCase {
         let width: CGFloat = 4.1
         let text = "<strokeWidth value=\"\(width)\"><string>asdf</string></strokeWidth>"
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -291,7 +293,7 @@ class ParserTests: XCTestCase {
         let width: CGFloat = 4.0
         let text = "<m><style strokeWidth=\"\(width)\" name=\"f\"><f><string>asdf</string></f></m>"
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -317,7 +319,7 @@ class ParserTests: XCTestCase {
         shadow.shadowOffset = offsetSize
         shadow.shadowColor = color
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -343,7 +345,7 @@ class ParserTests: XCTestCase {
         shadow.shadowOffset = offsetSize
         shadow.shadowColor = color
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -364,7 +366,7 @@ class ParserTests: XCTestCase {
 
         let font = UIFont(name: fontName, size: size)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -385,7 +387,7 @@ class ParserTests: XCTestCase {
 
         let font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -406,7 +408,7 @@ class ParserTests: XCTestCase {
 
         let font = UIFont(name: fontName, size: size)
 
-        let styleItems = parser.parseText(text)
+        let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
@@ -417,5 +419,19 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(expectedStyles, styleItems)
         XCTAssertEqual(font, styleItems[0].value as? UIFont)
         XCTAssertEqual(expectedExtractedText, extractedText)
+    }
+
+    // MARK: - StyleElement objects to XMl tests
+    func testSinglePredefinedStyleItem() {
+        let colorHEX = "#FFFFFF"
+        let color = UIColor(fromHEX: colorHEX)
+
+        let styleItem = StyleItem(.strokeColor, color)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<strokeColor value=\"\(colorHEX)\"><string>\(text)</string></strokeColor>"
+
+        XCTAssertEqual(xml, expectedXML)
     }
 }

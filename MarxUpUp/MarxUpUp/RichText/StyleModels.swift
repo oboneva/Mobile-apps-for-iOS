@@ -9,13 +9,14 @@
 import UIKit
 
 class StyleItem {
-    let name: NSAttributedString.Key
+    let type: StyleType
     let value: Any
-    var range = NSRange()
+    var range: NSRange
 
-    init(_ name: StyleType, _ value: Any) {
-        self.name = name.attributedStringKey
+    init(_ type: StyleType, _ value: Any, _ range: NSRange = NSRange()) {
+        self.type = type
         self.value = value
+        self.range = range
     }
 
     convenience init(shadowFromDict dict: [String: String]) {
@@ -48,9 +49,30 @@ class StyleItem {
 }
 
 extension StyleItem: Equatable {
-    ///// cannot compare items' values
+    func valueIsEqualToValue(_ other: Any) -> Bool {
+        if self.type.isColor {
+            return self.value as! UIColor == other as! UIColor
+        } else if self.type.isLine {
+            return self.value as! NSUnderlineStyle == other as! NSUnderlineStyle
+        } else if self.type == .font {
+            return self.value as! UIFont == other as! UIFont
+        } else if self.type == .shadow {
+            return self.value as! NSShadow == other as! NSShadow
+        } else if self.type == .strokeWidth {
+            return self.value as! CGFloat == other as! CGFloat
+        } else if self.type == .link {
+            return self.value as! NSString == other as! NSString
+        }
+
+        return false
+    }
+
+    static func asdf(left: StyleItem, right: StyleItem) -> Bool {
+        return false
+    }
+
     static func == (left: StyleItem, right: StyleItem) -> Bool {
-        return left.name == right.name && left.range == right.range
+        return left.type == right.type && left.range == right.range && left.valueIsEqualToValue(right.value)
     }
 }
 
