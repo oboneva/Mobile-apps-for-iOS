@@ -42,7 +42,7 @@ enum StyleType: String {
 
     var isColor: Bool {
         switch self {
-        case .underlineStyle, .strikethroughStyle, .link, .font, .strokeWidth:
+        case .underlineStyle, .strikethroughStyle, .link, .font, .strokeWidth, .shadow:
             return false
         default:
             return true

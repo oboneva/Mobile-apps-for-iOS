@@ -40,8 +40,9 @@ class StyleItem {
 
     convenience init(fontFromDict dict: [String: String]) {
         if let fontName = dict[XMLElement.name.rawValue],
-            let size = CGFloat(fromDict: dict, forKey: XMLElement.size.rawValue) {
-            self.init(.font, UIFont(name: fontName, size: size) as Any)
+            let size = CGFloat(fromDict: dict, forKey: XMLElement.size.rawValue),
+            let font = UIFont(name: fontName, size: size) {
+            self.init(.font, font as Any)
         } else {
             self.init(.font, UIFont.systemFont(ofSize: UIFont.systemFontSize) as Any)
         }

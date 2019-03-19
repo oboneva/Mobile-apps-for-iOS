@@ -21,9 +21,6 @@ class ParserTests: XCTestCase {
         parser = nil
     }
 
-    //////////////must check style items' values manually, because their type is Any
-
-
     // MARK: - XML to StyleElement objects tests
     func testSinglePredefinedStyleElement() {
         let colorHEX = "#ffffff"
@@ -40,7 +37,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(color, styleItems[0].value as! UIColor)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -56,16 +52,14 @@ class ParserTests: XCTestCase {
         let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
-        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
-        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor)
+        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, firstColor)
+        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, secondColor)
 
         expectedStyleItem1.range = NSRange(location: 0, length: 4)
         expectedStyleItem2.range = NSRange(location: 0, length: 4)
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(firstColor, styleItems[0].value as! UIColor)
-        XCTAssertEqual(secondColor, styleItems[1].value as! UIColor)
         XCTAssertEqual(extractedText, "asdf")
     }
 
@@ -81,16 +75,14 @@ class ParserTests: XCTestCase {
         let styleItems = parser.styleItemsFromXML(text)
         let extractedText = parser.extractedText
 
-        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
-        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor)
+        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, firstColor)
+        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, secondColor)
 
         expectedStyleItem1.range = NSRange(location: 0, length: 4)
         expectedStyleItem2.range = NSRange(location: 4, length: 4)
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(firstColor, styleItems[0].value as! UIColor)
-        XCTAssertEqual(secondColor, styleItems[1].value as! UIColor)
         XCTAssertEqual(extractedText, "asdfasdf")
     }
 
@@ -115,8 +107,6 @@ class ParserTests: XCTestCase {
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(firstColor, styleItems[1].value as! UIColor)
-        XCTAssertEqual(secondColor, styleItems[0].value as! UIColor)
         XCTAssertEqual(extractedText, string)
     }
 
@@ -135,7 +125,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(color, styleItems[0].value as! UIColor)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -154,7 +143,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(underlineStyle, styleItems[0].value as! NSUnderlineStyle)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -173,7 +161,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(color, styleItems[0].value as! UIColor)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -192,7 +179,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(strikethroughStyle, styleItems[0].value as! NSUnderlineStyle)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -211,7 +197,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(link, styleItems[0].value as! NSString)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -230,7 +215,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(link, styleItems[0].value as! NSString)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -249,7 +233,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(color, styleItems[0].value as! UIColor)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -268,7 +251,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(color, styleItems[0].value as! UIColor)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -285,7 +267,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(width, styleItems[0].value as! CGFloat)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -302,7 +283,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(width, styleItems[0].value as! CGFloat)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -323,12 +303,10 @@ class ParserTests: XCTestCase {
         let extractedText = parser.extractedText
 
         let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.shadow, shadow)
-        styleItem.range = NSRange(location: 0, length: 4)
+        let styleItem = StyleItem(StyleType.shadow, shadow, NSRange(location: 0, length: 4))
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(shadow, styleItems[0].value as! NSShadow)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -354,7 +332,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(shadow, styleItems[0].value as! NSShadow)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -375,7 +352,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(font, styleItems[0].value as? UIFont)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -396,7 +372,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertNotEqual(font, styleItems[0].value as? UIFont)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
@@ -417,7 +392,6 @@ class ParserTests: XCTestCase {
         let expectedStyles = [styleItem]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(font, styleItems[0].value as? UIFont)
         XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
