@@ -56,20 +56,25 @@ class ImagesPreviewViewControllerTests: XCTestCase {
 
     func testDidSelectImage() {
         let window = UIWindow(frame: UIScreen.main.bounds)
+        controller = Storyboard.main.viewController(fromClass: ImagesPreviewViewController.self)
+        controller.setDependencies(dataSource)
         window.rootViewController = controller
         window.makeKeyAndVisible()
 
+        let nav = UINavigationController.init(rootViewController: controller)
+
         let index = IndexPath(item: 0, section: 0)
+        _ = controller.viewDidLoad()
         controller.tableView(controller.imagesTableView, didSelectRowAt: index)
 
-        guard let presentedController = controller.presentedViewController as? SingleImageViewController else {
+        guard let presentedController = nav.presentedViewController as? SingleImageViewController else {
             XCTFail()
             return
         }
 
         XCTAssertTrue(presentedController.updateDatabaseDelegate != nil)
         XCTAssertEqual(index.row, dataSource.selectedModelIndexForUpdate)
-        XCTAssertEqual(presentedController.image.pngData(), UIImage(named: "test-image")?.pngData())
+        XCTAssertEqual(presentedController.image?.pngData(), UIImage(named: "test-image")?.pngData())
     }
 
     func testRowActionsOnLocalContent() {

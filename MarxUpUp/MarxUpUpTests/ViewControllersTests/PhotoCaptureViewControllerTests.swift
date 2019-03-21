@@ -11,26 +11,32 @@ import XCTest
 
 class PhotoCaptureViewControllerTests: XCTestCase {
 
-    let controller = Storyboard.main.initialViewController() as? PhotoCaptureViewController
+    var controller: PhotoCaptureViewController!
     let camera = MockCamera()
 
     override func setUp() {
         super.setUp()
-        controller?.setCustomCamera(camera)
+        controller = Storyboard.main.viewController(fromClass: PhotoCaptureViewController.self)
+        controller.setCustomCamera(camera)
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        controller = nil
     }
 
     func testTakePhotoIsCalled() {
-        controller?.onTakePhotoTap(UIButton())
+        controller.onTakePhotoTap(UIButton())
         XCTAssertTrue(camera.takePhotoIsCalled)
     }
 
     func testStopIsCalled() {
-        controller?.viewWillDisappear(false)
+        controller.viewDidDisappear(false)
         XCTAssertTrue(camera.stopIsCalled)
     }
 
     func testSwitchPositionIsCalled() {
-        controller?.onSwitchCameraTap(UIButton())
+        controller.onSwitchCameraTap(UIButton())
         XCTAssertTrue(camera.switchPositionIsCalled)
     }
 
@@ -39,8 +45,7 @@ class PhotoCaptureViewControllerTests: XCTestCase {
         window.rootViewController = controller
         window.makeKeyAndVisible()
 
-       _ = controller?.view
-        controller?.viewDidAppear(false)
+        _ = controller?.viewDidLoad()
         let presented = controller?.presentedViewController
 
         XCTAssert(presented?.isMember(of: UIAlertController.self) ?? false)
@@ -86,7 +91,5 @@ class MockCamera: CameraInterface {
         startIsCalled = true
     }
 
-    func updateOrientation(forView view: UIView, withSize size: CGSize) {
-        
-    }
+    func updateOrientation(forView view: UIView, withSize size: CGSize) {}
 }

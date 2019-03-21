@@ -13,7 +13,7 @@ class ToolboxDataSourceTests: XCTestCase {
 
     func testCountOfToolboxItemsForAnnotatingPDF() {
         let dataSource = ToolboxDataSource.init(forItemsFromType: .pdf)
-        XCTAssertEqual(dataSource.itemsCount, 10)
+        XCTAssertEqual(dataSource.itemsCount, 9)
     }
 
     func testCountOfToolboxItemsForAnnotatingImages() {
@@ -27,8 +27,8 @@ class ToolboxDataSourceTests: XCTestCase {
         XCTAssertEqual(dataSource.type(atIndex: 5), ToolboxItemType.undo)
 
         dataSource = ToolboxDataSource(forItemsFromType: .pdf)
-        XCTAssertEqual(dataSource.type(atIndex: 9), ToolboxItemType.redo)
-        XCTAssertEqual(dataSource.type(atIndex: 8), ToolboxItemType.undo)
+        XCTAssertEqual(dataSource.type(atIndex: 8), ToolboxItemType.redo)
+        XCTAssertEqual(dataSource.type(atIndex: 7), ToolboxItemType.undo)
     }
 
     func testToolboxWithItemsForAnnotatingPDFContainsTextRelatedItems() {
