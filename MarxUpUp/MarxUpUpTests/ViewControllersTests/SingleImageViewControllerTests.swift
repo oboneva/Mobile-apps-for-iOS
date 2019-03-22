@@ -30,64 +30,24 @@ class SingleImageViewControllerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testAnnotateButton() {
-        XCTAssertFalse(controller.annotatedImageView.isUserInteractionEnabled)
-
-        controller.didSelectAnnotate()
-        XCTAssertTrue(controller.annotatedImageView.isUserInteractionEnabled)
-    }
-
     func testToolboxButton() {
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
-        controller.didSelectToolbox()
-        XCTAssertFalse(controller.toolboxView?.isHidden ?? true)
-        controller.didSelectToolbox()
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
+        controller.onToolboxTap(UIButton())
+        XCTAssertFalse(controller.toolboxStackView?.isHidden ?? true)
+        controller.onToolboxTap(UIButton())
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
     }
 
     func testResetButton() {
-        controller.didSelectReset()
+        controller.onResetTap(UIButton())
         XCTAssertTrue(annotator.resetIsCalled)
     }
 
     func testSaveButton() {
-        controller.didSelectSave()
+        controller.onSaveTap(UIButton())
 
         XCTAssertTrue(delegate.updateImageIsCalled)
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
-    }
-
-    func testNavigationGoBackWithoutUnsavedWork() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = controller
-        window.makeKeyAndVisible()
-
-        annotator.unsavedWork = false
-
-        controller.didSelectGoBack()
-
-        let presentedController = controller.presentedViewController
-        XCTAssertNil(presentedController)
-    }
-
-    func testNavigationGoBackWithUnsavedWork() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = controller
-        window.makeKeyAndVisible()
-
-        annotator.unsavedWork = true
-        controller.didSelectGoBack()
-
-        guard _ = controller.presentedViewController as? UIAlertController else {
-            XCTFail()
-            return
-        }
-    }
-
-    func testOnTapToolboxIsHidden() {
-        controller.handleTapWithGestureRecognizer(UITapGestureRecognizer())
-
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
     }
 }
 
@@ -105,9 +65,14 @@ class FakeUpdateDatabaseDelegate: UpdateDatabaseDelegate {
     }
 }
 
-class MockAnnotator: Annotating {
-
+class MockAnnotator: Annotating, EditedContentStateDelegate, ToolboxItemDelegate {
     var resetIsCalled = false
+    var saveIsCalled = false
+
+    var undoIsCalled = false
+    var redoIsCalled = false
+
+    var didChoosePenIsCalled = false
 
     var unsavedWork = false
     var isThereUnsavedWork: Bool {
@@ -121,4 +86,28 @@ class MockAnnotator: Annotating {
     func reset() {
         resetIsCalled = true
     }
+
+    func save() {
+        saveIsCalled = true
+    }
+
+    func didSelectUndo() {
+        undoIsCalled = true
+    }
+
+    func didSelectRedo() {
+        redoIsCalled = true
+    }
+
+    func didChoose(textAnnotationFromType type: ToolboxItemType) {}
+
+    func didChoosePen() {
+        didChoosePenIsCalled = true
+    }
+
+    func didChoose(_ option: Int, forToolboxItem type: ToolboxItemType) {}
+
+    func didChoose(lineWidth width: Float) {}
+
+    func didChooseColor(_ color: UIColor) {}
 }

@@ -11,127 +11,90 @@ import XCTest
 
 class ToolboxViewControllerTests: XCTestCase {
 
-    var controller: ToolboxViewController!
+    var imageController: SingleImageViewController!
+    var controller: ToolboxStackController!
     let toolboxItemDelegate = TextFakeDelegate()
-    let editedContentDelegate = FakeEditedContentDelegate()
-    let drawDelegate = FakeDrawDelegate()
+    let annotator = MockAnnotator()
 
     override func setUp() {
         super.setUp()
-
-        controller = Storyboard.toolbox.initialViewController() as? ToolboxViewController
-        controller.contentType = .PDF
-        _ = controller?.view
-
-        controller?.toolboxItemDelegate = toolboxItemDelegate
-        controller?.drawDelegate = drawDelegate
-        controller?.editedContentStateDelegate = editedContentDelegate
+        imageController = Storyboard.annotate.viewController(fromClass: SingleImageViewController.self)
+        imageController.setDependancies(annotator)
 
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = controller
+        window.rootViewController = imageController
         window.makeKeyAndVisible()
+
+        controller = imageController.toolboxDelegate
     }
 
     override func tearDown() {
-        controller = nil
+        imageController = nil
     }
 
     func testRedoIsCalledOnRedoButtonTap() {
-        guard let buttons = controller?.view.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
+        guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
             XCTFail()
             return
         }
 
         let redoButton = buttons.last as? UIButton
         redoButton?.sendActions(for: .allEvents)
-        XCTAssertTrue(editedContentDelegate.redoIsCalled)
+        XCTAssertTrue(annotator.redoIsCalled)
     }
 
     func testUndoIsCalledOnUndoButtonTap() {
-        guard let buttons = controller?.view.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
+        guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
             XCTFail()
             return
         }
 
         let undoButton = buttons[buttons.count - 2] as? UIButton
         undoButton?.sendActions(for: .allEvents)
-        XCTAssertTrue(editedContentDelegate.undoIsCalled)
+        XCTAssertTrue(annotator.undoIsCalled)
     }
 
     func testDidChoosePenIsCalledOnPenButtonTap() {
-        guard let buttons = controller?.view.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
+        guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
             XCTFail()
             return
         }
 
         let penButton = buttons.first as? UIButton
         penButton?.sendActions(for: .allEvents)
-        XCTAssertTrue(toolboxItemDelegate.didChoosePenIsCalled)
-    }
-
-    func testDrawDelegateIsCalledOnPenArrowAndShapeButtonTap() {
-        let arrowPenAndShapeButtonTags = [0, 2, 4]
-        guard let buttons = controller?.view.subviews
-            .filter({ $0.isMember(of: UIButton.self) })
-            .map({ $0 as? UIButton })
-            .filter({ arrowPenAndShapeButtonTags.contains($0?.tag ?? -1) }) else {
-            XCTFail()
-            return
-        }
-
-        buttons.forEach({
-            $0?.sendActions(for: .allEvents)
-        })
-
-        XCTAssertEqual(3, drawDelegate.timesCalled)
-    }
-
-    func testTextAnnotationIsCalledForPDFContentType() {
-        let textAnnotationButtonTags = [5, 6, 7]
-        guard let buttons = controller?.view.subviews
-            .filter({ $0.isMember(of: UIButton.self) })
-            .map({ $0 as? UIButton })
-            .filter({ textAnnotationButtonTags.contains($0?.tag ?? -1) }) else {
-            XCTFail()
-            return
-        }
-
-        buttons.forEach({
-            $0?.sendActions(for: .allEvents)
-        })
-
-        XCTAssertEqual(3, toolboxItemDelegate.timesTextAnnotationIsCalled)
+        XCTAssertTrue(annotator.didChoosePenIsCalled)
     }
 
     func testLineWidthControllerIsPresentedModalyOnWidthButtonTap() {
-        guard let buttons = controller?.view.subviews
+        guard let buttons = controller.view?.subviews
             .filter({ $0.isMember(of: UIButton.self) })
             .map({ $0 as? UIButton }) else {
-            XCTFail()
-            return
+                XCTFail("No buttons in the toolbox")
+                return
         }
 
         let widthButton = buttons[3]
         widthButton?.sendActions(for: .allEvents)
-        XCTAssertTrue(controller?.presentedViewController?.isMember(of: LineWidthViewController.self) ?? false)
-        XCTAssertEqual(controller?.presentedViewController?.modalPresentationStyle, UIModalPresentationStyle.popover)
+        XCTAssertTrue(imageController.presentedViewController?.isMember(of: LineWidthViewController.self) ?? false)
+        XCTAssertEqual(imageController.presentedViewController?.modalPresentationStyle,
+                       UIModalPresentationStyle.popover)
     }
 
     func testColorPickerControllerIsPresentedModalyOnColorButtonTap() {
-        guard let buttons = controller?.view.subviews
+        guard let buttons = controller.view?.subviews
             .filter({ $0.isMember(of: UIButton.self) })
             .map({ $0 as? UIButton }) else {
-            XCTFail()
-            return
+                XCTFail("No buttons in the toolbox")
+                return
         }
 
         let colorButton = buttons[1]
         colorButton?.sendActions(for: .allEvents)
 
-        XCTAssertTrue(controller?.presentedViewController?.isMember(of: ColorPickerViewController.self) ?? false)
-        XCTAssertEqual(controller?.presentedViewController?.modalPresentationStyle, UIModalPresentationStyle.popover)
+        XCTAssertTrue(imageController.presentedViewController?.isMember(of: ColorPickerViewController.self) ?? false)
+        XCTAssertEqual(imageController.presentedViewController?.modalPresentationStyle,
+                       UIModalPresentationStyle.popover)
     }
-
 }
 
 class FakeEditedContentDelegate: EditedContentStateDelegate {

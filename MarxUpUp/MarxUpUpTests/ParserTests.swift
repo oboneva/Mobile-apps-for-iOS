@@ -396,7 +396,7 @@ class ParserTests: XCTestCase {
     }
 
     // MARK: - StyleElement objects to XMl tests
-    func testSinglePredefinedStyleItem() {
+    func testToXMLSinglePredefinedStyleItemColor() {
         let colorHEX = "#FFFFFF"
         let color = UIColor(fromHEX: colorHEX)
 
@@ -408,4 +408,87 @@ class ParserTests: XCTestCase {
 
         XCTAssertEqual(xml, expectedXML)
     }
+
+    func testToXMLSinglePredefinedStyleItemUnderlineStyle() {
+        let underlineStyle = "patternDashDotDot"
+        let styleItem = StyleItem(.underlineStyle, NSUnderlineStyle.patternDashDotDot)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<underlineStyle value=\"\(underlineStyle)\"><string>\(text)</string></underlineStyle>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLSinglePredefinedStyleWidth() {
+        let width: CGFloat = 4.0
+        
+        let styleItem = StyleItem(.strokeWidth, width)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<strokeWidth value=\"\(width.stringValue)\"><string>\(text)</string></strokeWidth>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLSinglePredefinedStyleLink() {
+        let link = "asfadfgnbvdcx"
+
+        let styleItem = StyleItem(.link, link)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<link value=\"\(link)\"><string>\(text)</string></link>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLSinglePredefinedStyleFont() {
+        let size: CGFloat = 16.0
+        let fontName = "AvenirNext-BoldItalic"
+        let font = UIFont(name: fontName, size: size)
+
+        let styleItem = StyleItem(.font, font as Any)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<font fontName=\"\(fontName)\" fontSize=\"\(size.stringValue)\"><string>\(text)</string></font>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLSinglePredefinedStyleShadow() {
+        let colorHEX = "#FFFFFF"
+        let color = UIColor(fromHEX: colorHEX)
+        let blurRadius: CGFloat = 2.0
+        let offsetSize = CGSize(width: 3.0, height: 4.0)
+
+        let shadow = NSShadow()
+        shadow.shadowColor = color
+        shadow.shadowBlurRadius = blurRadius
+        shadow.shadowOffset = offsetSize
+
+        let styleItem = StyleItem(.shadow, shadow as Any)
+        let text = "asdf"
+
+        let xml = parser.XMLForStyleItems([styleItem], andText: text)
+        let expectedXML = "<shadow shadowColor=\"\(colorHEX)\" shadowBlur=\"\(blurRadius.stringValue)\" shadowOffsetH=\"\(offsetSize.height.stringValue)\" shadowOffsetW=\"\(offsetSize.width.stringValue)\"><string>\(text)</string></shadow>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLCustomStyle() {
+        let link = "asfadfgnbvdcx"
+        let colorHEX = "#FFFFFF"
+        let color = UIColor(fromHEX: colorHEX)
+        let linkStyleItem = StyleItem(.link, link)
+        let colorStyleItem = StyleItem(.strokeColor, color)
+
+        let xml = parser.customStyleTag([linkStyleItem, colorStyleItem])
+        let expectedXML = "<style link=\"\(link)\" strokeColor=\"\(colorHEX)\" name=\"a\">"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
 }

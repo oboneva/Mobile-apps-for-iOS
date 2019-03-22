@@ -29,42 +29,30 @@ class SingleDocViewControllerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testAnnotateButtton() {
-        controller.document = testDoc
-        _ = controller.view
-        controller.viewDidAppear(false)
-
-        XCTAssertFalse(controller.PDFDocumentView.documentView?.isUserInteractionEnabled ?? true)
-
-        controller.didSelectAnnotate()
-        XCTAssertTrue(controller.PDFDocumentView.documentView?.isUserInteractionEnabled ?? false)
-        XCTAssertFalse(controller.PDFDocumentView.isUserInteractionEnabled)
-    }
-
     func testToolboxButton() {
         _ = controller.view
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
-        controller.didSelectToolbox()
-        XCTAssertFalse(controller.toolboxView?.isHidden ?? true)
-        controller.didSelectToolbox()
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
+        controller.onToolboxTap(UIButton())
+        XCTAssertFalse(controller.toolboxStackView?.isHidden ?? true)
+        controller.onToolboxTap(UIButton())
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
     }
 
     func testSaveButton() {
         controller.document = testDoc
         controller.updateDatabaseDelegate = delegate
         _ = controller.view
-        controller.didSelectSave()
+        controller.onSaveTap(UIButton())
 
         XCTAssertTrue(delegate.updateDocIsCalled)
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
     }
 
     func testOnTapToolboxIsHidden() {
         _ = controller.view
         controller.handleTapGestureWithRecogniser(UITapGestureRecognizer())
 
-        XCTAssertTrue(controller.toolboxView?.isHidden ?? false)
+        XCTAssertTrue(controller.toolboxStackView?.isHidden ?? false)
     }
 
     func testsWillBeginDrawing() {
@@ -75,32 +63,4 @@ class SingleDocViewControllerTests: XCTestCase {
         XCTAssertTrue(controller.PDFDocumentView.documentView?.isUserInteractionEnabled ?? false)
         XCTAssertFalse(controller.PDFDocumentView.isUserInteractionEnabled)
     }
-
-    func testNavigationGoBackWithoutUnsavedWork() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = controller
-        window.makeKeyAndVisible()
-
-        annotator.unsavedWork = false
-
-        controller.didSelectGoBack()
-
-        let presentedController = controller.presentedViewController
-        XCTAssertNil(presentedController)
-    }
-
-    func testNavigationGoBackWithUnsavedWork() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = controller
-        window.makeKeyAndVisible()
-
-        annotator.unsavedWork = true
-        controller.didSelectGoBack()
-
-        guard _ = controller.presentedViewController as? UIAlertController else {
-            XCTFail()
-            return
-        }
-    }
-
 }
