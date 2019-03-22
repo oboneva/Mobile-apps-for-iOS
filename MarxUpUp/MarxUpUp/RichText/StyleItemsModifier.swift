@@ -69,7 +69,7 @@ class StyleItemsModifier: NSObject {
                 item.range.end == newItem.range.location)
         }
 
-        guard sameElementsNextToTheNew.count > 0 else {
+        guard !sameElementsNextToTheNew.isEmpty else {
             styleItems.append(newItem)
             return styleItems
         }

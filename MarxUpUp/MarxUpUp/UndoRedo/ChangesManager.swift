@@ -15,11 +15,11 @@ class ChangesManager: NSObject {
     private var redoCommands = [Command]()
 
     var unsavedWork: Bool {
-        return undoCommands.count > 0
+        return !undoCommands.isEmpty
     }
 
     func redo(withCompletionHandler handler: () -> Void) {
-        guard redoCommands.count > 0, let command = redoCommands.popLast() else {
+        guard !redoCommands.isEmpty, let command = redoCommands.popLast() else {
             return
         }
 
@@ -29,7 +29,7 @@ class ChangesManager: NSObject {
     }
 
     func undo(withCompletionHandler handler: () -> Void) {
-        guard undoCommands.count > 0, let command = undoCommands.popLast() else {
+        guard !undoCommands.isEmpty, let command = undoCommands.popLast() else {
             return
         }
 

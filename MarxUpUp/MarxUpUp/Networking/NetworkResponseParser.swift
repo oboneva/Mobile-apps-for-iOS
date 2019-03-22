@@ -36,7 +36,7 @@ class NetworkResponseParser: NSObject, Parsable {
             }
         }
 
-        if links.count > 0 {
+        if !links.isEmpty {
             handler(links)
         }
     }

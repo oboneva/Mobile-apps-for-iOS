@@ -81,7 +81,7 @@ class ChangesManagerTests: XCTestCase {
         page.addAnnotation(annotation)
 
         inkAnnotation.unexecute()
-        XCTAssert(page.annotations.count == 0)
+        XCTAssert(page.annotations.isEmpty)
     }
 
 }

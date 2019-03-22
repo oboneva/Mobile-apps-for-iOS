@@ -98,12 +98,12 @@ class Parser: NSObject {
         }
 
         let shadowAttributes = filterAttributes(dict, forStyleType: .shadow)
-        if shadowAttributes.count > 0 {
+        if !shadowAttributes.isEmpty {
             styleTag.styleItems.append(StyleItem(shadowFromDict: shadowAttributes))
         }
 
         let fontAttributes = filterAttributes(dict, forStyleType: .font)
-        if fontAttributes.count > 0 {
+        if !fontAttributes.isEmpty {
             styleTag.styleItems.append(StyleItem(fontFromDict: fontAttributes))
         }
 

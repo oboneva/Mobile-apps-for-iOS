@@ -44,7 +44,7 @@ class ImagesPreviewViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if tabsCollectionView.indexPathsForSelectedItems?.count == 0 {
+        if tabsCollectionView.indexPathsForSelectedItems?.isEmpty ?? true {
             collectionView(tabsCollectionView, didSelectItemAt: tabsDataSource.defaultSelectedTabIndex)
         }
     }
