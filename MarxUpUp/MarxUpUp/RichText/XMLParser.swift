@@ -167,10 +167,7 @@ extension Parser: XMLParserDelegate {
     }
 
     func xmlElement(fromStyleItem item: StyleItem, text: String) -> String {
-        guard let color = item.value as? UIColor else {
-            return ""
         }
-        return "<\(item.type.rawValue) value=\"\(color.hex)\">\(text)</\(item.type.rawValue)>"
     }
 }
 

@@ -11,7 +11,6 @@ import UIKit
 class SingleImageViewController: UIViewController {
 
     @IBOutlet weak var annotatedImageView: UIImageView!
-    var toolboxView: UIView?
     var image: UIImage?
     private var annotator: Annotating!
     weak var updateDatabaseDelegate: UpdateDatabaseDelegate?
@@ -31,10 +30,6 @@ class SingleImageViewController: UIViewController {
         }
 
         configureToolboxView()
-
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapWithGestureRecognizer(_:)))
-        tapRecognizer.delegate = self
-        annotatedImageView.addGestureRecognizer(tapRecognizer)
         navigationController?.isNavigationBarHidden = false
     }
 
@@ -142,13 +137,6 @@ extension SingleImageViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController,
                                    traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
-    }
-}
-
-// MARK: UIGestureRecognizerDelegate Methods
-extension SingleImageViewController: UIGestureRecognizerDelegate {
-    @objc func handleTapWithGestureRecognizer(_ recognizer: UITapGestureRecognizer) {
-        toolboxView?.isHidden = true
     }
 }
 

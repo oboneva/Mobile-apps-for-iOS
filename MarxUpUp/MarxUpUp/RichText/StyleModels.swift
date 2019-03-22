@@ -68,10 +68,6 @@ extension StyleItem: Equatable {
         return false
     }
 
-    static func asdf(left: StyleItem, right: StyleItem) -> Bool {
-        return false
-    }
-
     static func == (left: StyleItem, right: StyleItem) -> Bool {
         return left.type == right.type && left.range == right.range && left.valueIsEqualToValue(right.value)
     }
