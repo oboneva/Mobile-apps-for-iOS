@@ -77,7 +77,7 @@ enum StyleType: String {
 }
 
 enum XMLElement: String {
-    case string, value, style, size, color, blur, offsetHeight, offsetWidth, range
+    case string, name, value, style, size, color, blur, offsetHeight, offsetWidth, range
 }
 
 enum LineStyle: String {
