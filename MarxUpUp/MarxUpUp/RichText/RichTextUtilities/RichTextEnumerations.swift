@@ -77,7 +77,7 @@ enum StyleType: String {
 }
 
 enum XMLElement: String {
-    case string, name, value, style, size, color, blur, offsetHeight, offsetWidth
+    case string, value, style, size, color, blur, offsetHeight, offsetWidth, range
 }
 
 enum LineStyle: String {
@@ -101,6 +101,35 @@ enum LineStyle: String {
             return NSUnderlineStyle.patternDashDotDot
         case .byWord:
             return NSUnderlineStyle.byWord
+        }
+    }
+
+    init?(nsunderlineStyle style: NSUnderlineStyle) {
+        self.init(rawValue: style.stringValue)
+    }
+}
+
+extension NSUnderlineStyle {
+    var stringValue: String {
+        switch self {
+        case .single:
+            return "single"
+        case .thick:
+            return "thick"
+        case .double:
+            return "double"
+        case .patternDot:
+            return "patternDot"
+        case .patternDash:
+            return "patternDash"
+        case .patternDashDot:
+            return "patternDashDot"
+        case .patternDashDotDot:
+            return "patternDashDotDot"
+        case .byWord:
+            return "byWord"
+        default:
+            return "single"
         }
     }
 }

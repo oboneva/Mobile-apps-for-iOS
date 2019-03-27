@@ -15,5 +15,5 @@ protocol RichTextModifying {
 
 protocol StyleParsing {
     func styleItemsFromXML(_ text: String) -> [StyleItem]
-    func XMLForStyleItems(_ styleItems: [StyleItem], andText text: String) -> String
+    func XMLForStyleItems(_ styleItems: [StyleItem]) -> String
 }

@@ -56,13 +56,28 @@ extension NSRange {
         return self.location + self.length
     }
 
+    var stringValue: String {
+        return "\(self.location),\(self.end)"
+    }
+
     init(location start: Int, end endLocation: Int) {
         self.init(location: start, length: endLocation - start)
+    }
+
+    init?(fromString string: String) {
+        let range = string.split(separator: ",")
+
+        let rangePoints = range.map { (substring) -> Int? in
+            Int(substring.trimmingCharacters(in: CharacterSet.whitespaces))
+            }.compactMap{ $0 }
+
+        guard rangePoints.count == 2 else { return nil }
+        self.init(location: rangePoints[0], end: rangePoints[1])
     }
 }
 
 extension Array {
-    mutating func popAll(where predicate:(Element)->(Bool)) -> [Element] {
+    mutating func popAll(where predicate: (Element) -> (Bool)) -> [Element] {
         var popped = [Element]()
 
         self = self.compactMap({ (element: Element) -> Element? in
@@ -95,5 +110,9 @@ extension CGFloat {
                 return nil
         }
         self.init(numberFloat)
+    }
+
+    var stringValue: String {
+        return NumberFormatter().string(from: NSNumber(value: Float(self)))!
     }
 }

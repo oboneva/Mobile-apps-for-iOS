@@ -24,43 +24,14 @@ class ParserTests: XCTestCase {
     // MARK: - XML to StyleElement objects tests
     func testSinglePredefinedStyleElement() {
         let colorHEX = "#ffffff"
-        let text = "<foregroundColor value=\"\(colorHEX)\"><string>asdf</string></foregroundColor>"
+        let text = "<foregroundColor value=\"\(colorHEX)\" range=\"0,0\"/>"
 
         let color = UIColor(fromHEX: colorHEX)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.foregroundColor, color)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.foregroundColor, color, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
-    }
-
-    func testTwoNestedPredefinedStyleItems() {
-        let firstColorHEX = "#ffffff"
-        let secondColorHEX = "#000000"
-
-        let firstColor = UIColor(fromHEX: firstColorHEX)
-        let secondColor = UIColor(fromHEX: secondColorHEX)
-
-        let text = "<backgroundColor value=\"\(firstColorHEX)\"><foregroundColor value=\"\(secondColorHEX)\"><string>asdf</string></foregroundColor></backgroundColor>"
-
-        let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, firstColor)
-        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, secondColor)
-
-        expectedStyleItem1.range = NSRange(location: 0, length: 4)
-        expectedStyleItem2.range = NSRange(location: 0, length: 4)
-        let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
-
-        XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(extractedText, "asdf")
     }
 
     func testTwoPredefinedStyleItems() {
@@ -70,220 +41,141 @@ class ParserTests: XCTestCase {
         let firstColor = UIColor(fromHEX: firstColorHEX)
         let secondColor = UIColor(fromHEX: secondColorHEX)
 
-        let text = "<f><backgroundColor value=\"\(firstColorHEX)\"><string>asdf</string></backgroundColor><foregroundColor value=\"\(secondColorHEX)\"><string>asdf</string></foregroundColor></f>"
+        let text = "<backgroundColor value=\"\(firstColorHEX)\" range=\"0,0\"/><foregroundColor value=\"\(secondColorHEX)\" range=\"0,0\">"
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
 
-        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, firstColor)
-        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, secondColor)
-
-        expectedStyleItem1.range = NSRange(location: 0, length: 4)
-        expectedStyleItem2.range = NSRange(location: 4, length: 4)
+        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, firstColor, NSRange())
+        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, secondColor, NSRange())
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(extractedText, "asdfasdf")
     }
 
     func testSingleCustomStyleItem() {
         let firstColorHEX = "#ffffff"
         let secondColorHEX = "#000000"
-        let string = "Test"
 
         let firstColor = UIColor(fromHEX: firstColorHEX)
         let secondColor = UIColor(fromHEX: secondColorHEX)
 
-        let text = "<f><style foregroundColor=\"\(firstColorHEX)\" backgroundColor=\"\(secondColorHEX)\" name=\"m\"><m><string>\(string)</string></m></f>"
+        let text = "<style foregroundColor=\"\(firstColorHEX)\" backgroundColor=\"\(secondColorHEX)\" range=\"0,0\"/>"
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
 
-        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor)
-        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor)
-
-        expectedStyleItem1.range = NSRange(location: 0, length: 4)
-        expectedStyleItem2.range = NSRange(location: 0, length: 4)
+        let expectedStyleItem1 = StyleItem(StyleType.backgroundColor, secondColor, NSRange())
+        let expectedStyleItem2 = StyleItem(StyleType.foregroundColor, firstColor, NSRange())
         let expectedStyleItems = [expectedStyleItem1, expectedStyleItem2]
 
         XCTAssertEqual(styleItems, expectedStyleItems)
-        XCTAssertEqual(extractedText, string)
     }
 
     func testUnderlineColor() {
         let colorHEX = "#ffffff"
-        let text = "<underlineColor value=\"\(colorHEX)\"><string>asdf</string></underlineColor>"
-
+        let text = "<underlineColor value=\"\(colorHEX)\" range=\"0,0\"/>"
         let color = UIColor(fromHEX: colorHEX)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.underlineColor, color)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.underlineColor, color, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testUnderlineStyle() {
         let underlineStyleKey = "patternDot"
-        let text = "<underlineStyle value=\"\(underlineStyleKey)\"><string>asdf</string></underlineStyle>"
-
+        let text = "<underlineStyle value=\"\(underlineStyleKey)\" range=\"0,0\"/>"
         let underlineStyle = NSUnderlineStyle.patternDot
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.underlineStyle, underlineStyle)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.underlineStyle, underlineStyle, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStriketroughColor() {
         let colorHEX = "#ffffff"
-        let text = "<strikethroughColor value=\"\(colorHEX)\"><string>asdf</string></strikethroughColor>"
-
+        let text = "<strikethroughColor value=\"\(colorHEX)\" range=\"0,0\"/>"
         let color = UIColor(fromHEX: colorHEX)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strikethroughColor, color)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strikethroughColor, color, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStrikethroughStyle() {
         let strikethroughStyleKey = "patternDot"
-        let text = "<strikethroughStyle value=\"\(strikethroughStyleKey)\"><string>asdf</string></strikethroughStyle>"
-
+        let text = "<strikethroughStyle value=\"\(strikethroughStyleKey)\" range=\"0,0\"/>"
         let strikethroughStyle = NSUnderlineStyle.patternDot
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strikethroughStyle, strikethroughStyle)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strikethroughStyle, strikethroughStyle, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testLink() {
         let linkValue = "https://www.google.com/"
-        let text = "<link value=\"\(linkValue)\"><string>asdf</string></link>"
-
+        let text = "<link value=\"\(linkValue)\" range=\"0,0\"/>"
         let link = NSString(string: linkValue)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.link, link)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.link, link, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testLinkInsideCustomStyle() {
         let linkValue = "https://www.google.com/"
-        let text = "<f><style link=\"\(linkValue)\" name=\"m\"><m><string>asdf</string></m></f>"
-
+        let text = "<style link=\"\(linkValue)\" range=\"0,0\">"
         let link = NSString(string: linkValue)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.link, link)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.link, link, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStrokeColor() {
         let colorHEX = "#ffffff"
-        let text = "<strokeColor value=\"\(colorHEX)\"><string>asdf</string></strokeColor>"
-
+        let text = "<strokeColor value=\"\(colorHEX)\" range=\"0,0\"/>"
         let color = UIColor(fromHEX: colorHEX)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strokeColor, color)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strokeColor, color, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStrokeColorInsideCustomStyle() {
         let colorHEX = "#ffffff"
-        let text = "<m><style strokeColor=\"\(colorHEX)\" name=\"f\"><f><string>asdf</string></f></m>"
-
+        let text = "<style strokeColor=\"\(colorHEX)\" range=\"0,0\">"
         let color = UIColor(fromHEX: colorHEX)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strokeColor, color)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strokeColor, color, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStrokeWidth() {
         let width: CGFloat = 4.1
-        let text = "<strokeWidth value=\"\(width)\"><string>asdf</string></strokeWidth>"
+        let text = "<strokeWidth value=\"\(width)\" range=\"0,0\"/>"
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strokeWidth, width)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strokeWidth, width, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testStrokeWidthInsideCustomStyle() {
         let width: CGFloat = 4.0
-        let text = "<m><style strokeWidth=\"\(width)\" name=\"f\"><f><string>asdf</string></f></m>"
+        let text = "<style strokeWidth=\"\(width)\" range=\"0,0\">"
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.strokeWidth, width)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.strokeWidth, width, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testShadow() {
@@ -291,7 +183,7 @@ class ParserTests: XCTestCase {
         let blurRadius: CGFloat = 2.0
         let offsetSize = CGSize(width: 3.0, height: 4.0)
 
-        let text = "<shadow color=\"\(colorHEX)\" blur=\"\(blurRadius)\" offsetHeight=\"\(offsetSize.height)\" offsetWidth=\"\(offsetSize.width)\"><string>asdf</string></shadow>"
+        let text = "<shadow color=\"\(colorHEX)\" blur=\"\(blurRadius)\" offsetHeight=\"\(offsetSize.height)\" offsetWidth=\"\(offsetSize.width)\" range=\"0,0\"/>"
 
         let color = UIColor(fromHEX: colorHEX)
         let shadow = NSShadow()
@@ -300,14 +192,9 @@ class ParserTests: XCTestCase {
         shadow.shadowColor = color
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.shadow, shadow, NSRange(location: 0, length: 4))
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.shadow, shadow, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testShadowInsideCustomStyle() {
@@ -315,7 +202,7 @@ class ParserTests: XCTestCase {
         let blurRadius: CGFloat = 2.0
         let offsetSize = CGSize(width: 3.0, height: 4.0)
 
-        let text = "<m><style shadowColor=\"\(colorHEX)\" shadowBlur=\"\(blurRadius)\" shadowOffsetWidth=\"\(offsetSize.width)\" shadowOffsetHeight=\"\(offsetSize.height)\" name=\"f\"><f><string>asdf</string></f></m>"
+        let text = "<style shadowColor=\"\(colorHEX)\" shadowBlur=\"\(blurRadius)\" shadowOffsetWidth=\"\(offsetSize.width)\" shadowOffsetHeight=\"\(offsetSize.height)\" range=\"0,0\">"
 
         let color = UIColor(fromHEX: colorHEX)
         let shadow = NSShadow()
@@ -324,122 +211,87 @@ class ParserTests: XCTestCase {
         shadow.shadowColor = color
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.shadow, shadow)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.shadow, shadow, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testFont() {
         let size: CGFloat = 16.0
         let fontName = "AvenirNext-BoldItalic"
-
-        let text = "<font name=\"\(fontName)\" size=\"\(size)\"><string>asdf</string></font>"
-
+        let text = "<font name=\"\(fontName)\" size=\"\(size)\" range=\"0,0\"/>"
         let font = UIFont(name: fontName, size: size)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.font, font!)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.font, font!, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testUndefinedFont() {
         let size: CGFloat = 16.0
         let fontName = "AvenirNext-Boldalic"
-
-        let text = "<font name=\"\(fontName)\" size=\"\(size)\"><string>asdf</string></font>"
-
+        let text = "<font name=\"\(fontName)\" size=\"\(size)\" range=\"0,0\"/>"
         let font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.font, font)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.font, font, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     func testFontInsideCustomStyle() {
         let size: CGFloat = 16.0
         let fontName = "AvenirNext-BoldItalic"
 
-        let text = "<m><style fontName=\"\(fontName)\" fontSize=\"\(size)\" name=\"f\"><f><string>asdf</string></f></m>"
+        let text = "<style fontName=\"\(fontName)\" fontSize=\"\(size)\" range=\"0,0\">"
 
         let font = UIFont(name: fontName, size: size)
 
         let styleItems = parser.styleItemsFromXML(text)
-        let extractedText = parser.extractedText
-
-        let expectedExtractedText = "asdf"
-        let styleItem = StyleItem(StyleType.font, font!)
-        styleItem.range = NSRange(location: 0, length: 4)
-        let expectedStyles = [styleItem]
+        let expectedStyles = [StyleItem(StyleType.font, font!, NSRange())]
 
         XCTAssertEqual(expectedStyles, styleItems)
-        XCTAssertEqual(expectedExtractedText, extractedText)
     }
 
     // MARK: - StyleElement objects to XMl tests
     func testToXMLSinglePredefinedStyleItemColor() {
         let colorHEX = "#FFFFFF"
         let color = UIColor(fromHEX: colorHEX)
+        let styleItem = StyleItem(.strokeColor, color, NSRange())
 
-        let styleItem = StyleItem(.strokeColor, color)
-        let text = "asdf"
-
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<strokeColor value=\"\(colorHEX)\"><string>\(text)</string></strokeColor>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<strokeColor value=\"\(colorHEX)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
 
     func testToXMLSinglePredefinedStyleItemUnderlineStyle() {
         let underlineStyle = "patternDashDotDot"
-        let styleItem = StyleItem(.underlineStyle, NSUnderlineStyle.patternDashDotDot)
-        let text = "asdf"
+        let styleItem = StyleItem(.underlineStyle, NSUnderlineStyle.patternDashDotDot, NSRange())
 
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<underlineStyle value=\"\(underlineStyle)\"><string>\(text)</string></underlineStyle>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<underlineStyle value=\"\(underlineStyle)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
 
     func testToXMLSinglePredefinedStyleWidth() {
         let width: CGFloat = 4.0
-        
-        let styleItem = StyleItem(.strokeWidth, width)
-        let text = "asdf"
+        let styleItem = StyleItem(.strokeWidth, width, NSRange())
 
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<strokeWidth value=\"\(width.stringValue)\"><string>\(text)</string></strokeWidth>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<strokeWidth value=\"\(width.stringValue)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
 
     func testToXMLSinglePredefinedStyleLink() {
         let link = "asfadfgnbvdcx"
+        let styleItem = StyleItem(.link, link, NSRange())
 
-        let styleItem = StyleItem(.link, link)
-        let text = "asdf"
-
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<link value=\"\(link)\"><string>\(text)</string></link>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<link value=\"\(link)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
@@ -448,12 +300,10 @@ class ParserTests: XCTestCase {
         let size: CGFloat = 16.0
         let fontName = "AvenirNext-BoldItalic"
         let font = UIFont(name: fontName, size: size)
+        let styleItem = StyleItem(.font, font as Any, NSRange())
 
-        let styleItem = StyleItem(.font, font as Any)
-        let text = "asdf"
-
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<font fontName=\"\(fontName)\" fontSize=\"\(size.stringValue)\"><string>\(text)</string></font>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<font name=\"\(fontName)\" size=\"\(size.stringValue)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
@@ -469,11 +319,10 @@ class ParserTests: XCTestCase {
         shadow.shadowBlurRadius = blurRadius
         shadow.shadowOffset = offsetSize
 
-        let styleItem = StyleItem(.shadow, shadow as Any)
-        let text = "asdf"
+        let styleItem = StyleItem(.shadow, shadow as Any, NSRange())
 
-        let xml = parser.XMLForStyleItems([styleItem], andText: text)
-        let expectedXML = "<shadow shadowColor=\"\(colorHEX)\" shadowBlur=\"\(blurRadius.stringValue)\" shadowOffsetH=\"\(offsetSize.height.stringValue)\" shadowOffsetW=\"\(offsetSize.width.stringValue)\"><string>\(text)</string></shadow>"
+        let xml = parser.XMLForStyleItems([styleItem])
+        let expectedXML = "<shadow color=\"\(colorHEX)\" blur=\"\(blurRadius.stringValue)\" offsetHeight=\"\(offsetSize.height.stringValue)\" offsetWidth=\"\(offsetSize.width.stringValue)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
@@ -482,11 +331,25 @@ class ParserTests: XCTestCase {
         let link = "asfadfgnbvdcx"
         let colorHEX = "#FFFFFF"
         let color = UIColor(fromHEX: colorHEX)
-        let linkStyleItem = StyleItem(.link, link)
-        let colorStyleItem = StyleItem(.strokeColor, color)
+        let linkStyleItem = StyleItem(.link, link, NSRange())
+        let colorStyleItem = StyleItem(.strokeColor, color, NSRange())
 
-        let xml = parser.customStyleTag([linkStyleItem, colorStyleItem])
-        let expectedXML = "<style link=\"\(link)\" strokeColor=\"\(colorHEX)\" name=\"a\">"
+        let xml = parser.XMLForStyleItems([linkStyleItem, colorStyleItem])
+        let expectedXML = "<style link=\"\(link)\" strokeColor=\"\(colorHEX)\" range=\"0,0\"/>"
+
+        XCTAssertEqual(xml, expectedXML)
+    }
+
+    func testToXMLCustomAndPredefinedStyle() {
+        let link = "asfadfgnbvdcx"
+        let colorHEX = "#FFFFFF"
+        let color = UIColor(fromHEX: colorHEX)
+        let linkStyleItem = StyleItem(.link, link, NSRange())
+        let colorStyleItem = StyleItem(.strokeColor, color, NSRange())
+        let secondColorStyleItem = StyleItem(.strokeColor, color, NSRange(location: 1, end: 5))
+
+        let xml = parser.XMLForStyleItems([linkStyleItem, colorStyleItem, secondColorStyleItem])
+        let expectedXML = "<strokeColor value=\"\(colorHEX)\" range=\"1,5\"/><style link=\"\(link)\" strokeColor=\"\(colorHEX)\" range=\"0,0\"/>"
 
         XCTAssertEqual(xml, expectedXML)
     }
