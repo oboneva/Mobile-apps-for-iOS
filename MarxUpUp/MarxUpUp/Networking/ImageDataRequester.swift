@@ -87,9 +87,9 @@ class ImageDataRequester: NSObject {
 
         let task = session.dataTask(with: request!, completion: completion(
             onResult: { (result) in
-                guard let dataDict = try?
+                guard let dataDict = ((try?
                     JSONSerialization.jsonObject(with: result.data,
-                                                 options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject],
+                                                 options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:AnyObject]) as [String : AnyObject]??),
                     let unwrappedDict = dataDict else {
 
                     print("Error: Unwrapping failed")

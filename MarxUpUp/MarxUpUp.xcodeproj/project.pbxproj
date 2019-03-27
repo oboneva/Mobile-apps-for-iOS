@@ -656,13 +656,16 @@
 					};
 					FA8B86152191A1660020E6CC = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 					};
 					FA8B86292191A1690020E6CC = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = FA8B86152191A1660020E6CC;
 					};
 					FA8B86342191A1690020E6CC = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = FA8B86152191A1660020E6CC;
 					};
 				};
@@ -1055,7 +1058,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1073,7 +1076,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1093,7 +1096,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUpTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarxUpUp.app/MarxUpUp";
 			};
@@ -1114,7 +1117,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUpTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarxUpUp.app/MarxUpUp";
 			};
@@ -1134,7 +1137,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUpUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MarxUpUp;
 			};
@@ -1154,7 +1157,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = n.MarxUpUpUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MarxUpUp;
 			};
