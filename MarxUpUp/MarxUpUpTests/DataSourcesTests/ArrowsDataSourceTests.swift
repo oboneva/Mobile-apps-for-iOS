@@ -6,7 +6,6 @@
 //  Copyright © 2018 Ognyanka Boneva. All rights reserved.
 //
 
-
 import XCTest
 @testable import MarxUpUp
 
