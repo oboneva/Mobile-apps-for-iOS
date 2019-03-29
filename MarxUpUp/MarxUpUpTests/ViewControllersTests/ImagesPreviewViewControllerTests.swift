@@ -44,7 +44,7 @@ class ImagesPreviewViewControllerTests: XCTestCase {
     func testDidSelectDifferentContentSortTab() {
         let index = IndexPath(item: 1, section: 0)
         guard let tabsDataSource = controller.tabsCollectionView.dataSource as? TabsCollectionViewDataSource else {
-            XCTFail()
+            XCTFail("Instantiation of data source failed.")
             return
         }
 
@@ -68,7 +68,7 @@ class ImagesPreviewViewControllerTests: XCTestCase {
         controller.tableView(controller.imagesTableView, didSelectRowAt: index)
 
         guard let presentedController = nav.presentedViewController as? SingleImageViewController else {
-            XCTFail()
+            XCTFail("No presented UIViewController")
             return
         }
 

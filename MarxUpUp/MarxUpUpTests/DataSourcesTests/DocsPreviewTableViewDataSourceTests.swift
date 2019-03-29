@@ -35,7 +35,7 @@ class DocsPreviewTableViewDataSourceTests: XCTestCase {
         dataSource.updatePDF(withData: newData)
 
         guard let id = URL(string: "2") else {
-            XCTFail()
+            XCTFail("Creation of URL from string failed")
             return
         }
 

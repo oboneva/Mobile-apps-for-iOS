@@ -25,16 +25,16 @@ class ChangesManagerTests: XCTestCase {
     }
 
     func testCannotUndoWithoutChanges() {
-        changes.undo { XCTFail() }
+        changes.undo { XCTFail("Successful undo, but without changes ot be undone.") }
     }
 
     func testCannotRedoWithoutChanges() {
-        changes.redo { XCTFail() }
+        changes.redo { XCTFail("Successful redo, but without changes ot be redone.") }
     }
 
     func testCannotRedoAfterReset() {
         changes.reset()
-        changes.redo { XCTFail() }
+        changes.redo { XCTFail("Successful redo, but after reset.") }
     }
 
     func testCanUndoChange() {

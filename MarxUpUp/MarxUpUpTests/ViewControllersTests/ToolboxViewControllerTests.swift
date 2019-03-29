@@ -34,7 +34,7 @@ class ToolboxViewControllerTests: XCTestCase {
 
     func testRedoIsCalledOnRedoButtonTap() {
         guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
-            XCTFail()
+            XCTFail("No buttons in the toolbox")
             return
         }
 
@@ -45,7 +45,7 @@ class ToolboxViewControllerTests: XCTestCase {
 
     func testUndoIsCalledOnUndoButtonTap() {
         guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
-            XCTFail()
+            XCTFail("No buttons in the toolbox")
             return
         }
 
@@ -56,7 +56,7 @@ class ToolboxViewControllerTests: XCTestCase {
 
     func testDidChoosePenIsCalledOnPenButtonTap() {
         guard let buttons = controller.view?.subviews.filter({ $0.isMember(of: UIButton.self) }) else {
-            XCTFail()
+            XCTFail("No buttons in the toolbox")
             return
         }
 
